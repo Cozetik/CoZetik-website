@@ -27,7 +27,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ImageUpload } from '@/components/admin/image-upload'
 import { slugify } from '@/lib/slugify'
-import { deleteImage } from '@/lib/blob'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -145,15 +144,9 @@ export default function EditFormationForm({
     }
   }
 
-  const handleImageRemove = async () => {
-    if (previousImageUrl) {
-      try {
-        await deleteImage(previousImageUrl)
-        setPreviousImageUrl(null)
-      } catch (error) {
-        console.error('Error deleting image:', error)
-      }
-    }
+  const handleImageRemove = () => {
+    // La suppression de l'ancienne image sera gérée par l'API lors de la soumission
+    setPreviousImageUrl(null)
     form.setValue('imageUrl', '')
   }
 
