@@ -104,15 +104,33 @@ export async function POST(request: NextRequest) {
       : 'À définir';
 
     // 5. Envoyer email de confirmation à l'utilisateur
+    let emailSent = false;
+    let emailError = null;
     try {
-      await sendEmail(
+      const emailResult = await sendEmail(
         validatedData.email,
         `Confirmation inscription - ${formation.title}`,
         emailInscriptionUser(validatedData.name, formation.title, sessionDate)
       );
-      console.log('✅ Email utilisateur envoyé');
-    } catch (emailError) {
-      console.error('⚠️ Erreur envoi email utilisateur:', emailError);
+      
+      if (emailResult.success) {
+        console.log('✅ Email utilisateur envoyé à:', validatedData.email);
+        emailSent = true;
+      } else {
+        console.error('❌ Échec envoi email utilisateur:', emailResult.error);
+        console.error('❌ Détails:', emailResult.error instanceof Error ? emailResult.error.message : String(emailResult.error));
+        emailError = emailResult.error instanceof Error ? emailResult.error.message : String(emailResult.error);
+        // On continue même si l'email échoue pour ne pas bloquer l'inscription
+      }
+    } catch (emailErrorException) {
+      console.error('❌ Erreur exception envoi email utilisateur:', emailErrorException);
+      if (emailErrorException instanceof Error) {
+        console.error('❌ Message:', emailErrorException.message);
+        console.error('❌ Stack:', emailErrorException.stack);
+        emailError = emailErrorException.message;
+      } else {
+        emailError = String(emailErrorException);
+      }
       // On continue même si l'email échoue
     }
 
@@ -120,7 +138,7 @@ export async function POST(request: NextRequest) {
     const adminEmail = process.env.ADMIN_EMAIL;
     if (adminEmail) {
       try {
-        await sendEmail(
+        const adminEmailResult = await sendEmail(
           adminEmail,
           `Nouvelle inscription - ${formation.title}`,
           emailInscriptionAdmin(
@@ -131,9 +149,18 @@ export async function POST(request: NextRequest) {
             validatedData.message
           )
         );
-        console.log('✅ Email admin envoyé');
+        
+        if (adminEmailResult.success) {
+          console.log('✅ Email admin envoyé à:', adminEmail);
+        } else {
+          console.error('❌ Échec envoi email admin:', adminEmailResult.error);
+          console.error('❌ Détails:', adminEmailResult.error instanceof Error ? adminEmailResult.error.message : String(adminEmailResult.error));
+        }
       } catch (emailError) {
-        console.error('⚠️ Erreur envoi email admin:', emailError);
+        console.error('❌ Erreur exception envoi email admin:', emailError);
+        if (emailError instanceof Error) {
+          console.error('❌ Message:', emailError.message);
+        }
         // On continue même si l'email échoue
       }
     } else {
@@ -141,12 +168,22 @@ export async function POST(request: NextRequest) {
     }
 
     // 7. Retourner succès
-    return NextResponse.json({
+    const response: any = {
       success: true,
       message: 'Inscription enregistrée avec succès',
       id: inscription.id,
       formation: formation.title
-    }, { status: 201 });
+    };
+    
+    // Ajouter info email en mode développement ou si erreur
+    if (process.env.NODE_ENV === 'development' || emailError) {
+      response.emailSent = emailSent;
+      if (emailError) {
+        response.emailError = emailError;
+      }
+    }
+    
+    return NextResponse.json(response, { status: 201 });
 
   } catch (error) {
     // Erreur de validation Zod

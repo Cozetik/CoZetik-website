@@ -50,14 +50,25 @@ export async function POST(request: NextRequest) {
 
     // 3. Envoyer email de confirmation à l'utilisateur
     try {
-      await sendEmail(
+      const emailResult = await sendEmail(
         validatedData.email,
         'Confirmation de votre demande - Cozetik',
         emailContactUser(validatedData.name, validatedData.message)
       );
-      console.log('✅ Email utilisateur envoyé');
+      
+      if (emailResult.success) {
+        console.log('✅ Email utilisateur envoyé à:', validatedData.email);
+      } else {
+        console.error('❌ Échec envoi email utilisateur:', emailResult.error);
+        console.error('❌ Détails:', emailResult.error instanceof Error ? emailResult.error.message : String(emailResult.error));
+        // On continue même si l'email échoue pour ne pas bloquer la demande
+      }
     } catch (emailError) {
-      console.error('⚠️ Erreur envoi email utilisateur:', emailError);
+      console.error('❌ Erreur exception envoi email utilisateur:', emailError);
+      if (emailError instanceof Error) {
+        console.error('❌ Message:', emailError.message);
+        console.error('❌ Stack:', emailError.stack);
+      }
       // On continue même si l'email échoue
     }
 
@@ -65,14 +76,23 @@ export async function POST(request: NextRequest) {
     const adminEmail = process.env.ADMIN_EMAIL;
     if (adminEmail) {
       try {
-        await sendEmail(
+        const adminEmailResult = await sendEmail(
           adminEmail,
           `Nouvelle demande de contact - ${validatedData.name}`,
           emailContactAdmin(validatedData.name, validatedData.email, validatedData.message)
         );
-        console.log('✅ Email admin envoyé');
+        
+        if (adminEmailResult.success) {
+          console.log('✅ Email admin envoyé à:', adminEmail);
+        } else {
+          console.error('❌ Échec envoi email admin:', adminEmailResult.error);
+          console.error('❌ Détails:', adminEmailResult.error instanceof Error ? adminEmailResult.error.message : String(adminEmailResult.error));
+        }
       } catch (emailError) {
-        console.error('⚠️ Erreur envoi email admin:', emailError);
+        console.error('❌ Erreur exception envoi email admin:', emailError);
+        if (emailError instanceof Error) {
+          console.error('❌ Message:', emailError.message);
+        }
         // On continue même si l'email échoue
       }
     } else {
