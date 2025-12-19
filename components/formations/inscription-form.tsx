@@ -139,7 +139,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
   return (
     <Card className="sticky top-24">
       <CardHeader>
-        <CardTitle>S'inscrire à cette formation</CardTitle>
+        <CardTitle>S&apos;inscrire à cette formation</CardTitle>
         <CardDescription>
           Remplissez ce formulaire et nous vous recontacterons rapidement
         </CardDescription>
@@ -238,7 +238,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
             </Button>
 
             <p className="text-center text-xs text-muted-foreground">
-              En soumettant ce formulaire, vous acceptez d'être contacté par notre
+              En soumettant ce formulaire, vous acceptez d&apos;être contacté par notre
               équipe.
             </p>
           </form>
