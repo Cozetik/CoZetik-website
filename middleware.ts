@@ -4,6 +4,12 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth
   const isAdminRoute = req.nextUrl.pathname.startsWith('/admin')
   const isLoginPage = req.nextUrl.pathname === '/auth-admin'
+  const isAdminLogin = req.nextUrl.pathname === '/admin/login'
+
+  // Rediriger /admin/login vers /auth-admin (au cas où next.config rate)
+  if (isAdminLogin) {
+    return Response.redirect(new URL('/auth-admin', req.nextUrl.origin))
+  }
 
   // Ne pas rediriger si on est déjà sur la page de login
   if (isLoginPage) {
