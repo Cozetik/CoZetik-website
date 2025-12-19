@@ -15,7 +15,17 @@ const contactSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     // 1. Parser et valider les données
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      console.error('❌ Erreur parsing request body:', parseError);
+      return NextResponse.json(
+        { error: 'Format de données invalide. Veuillez vérifier les informations saisies.' },
+        { status: 400 }
+      );
+    }
+    
     const validatedData = contactSchema.parse(body);
 
     console.log('📝 Nouvelle demande de contact:', validatedData.email);
@@ -50,14 +60,25 @@ export async function POST(request: NextRequest) {
 
     // 3. Envoyer email de confirmation à l'utilisateur
     try {
-      await sendEmail(
+      const emailResult = await sendEmail(
         validatedData.email,
         'Confirmation de votre demande - Cozetik',
         emailContactUser(validatedData.name, validatedData.message)
       );
-      console.log('✅ Email utilisateur envoyé');
+      
+      if (emailResult.success) {
+        console.log('✅ Email utilisateur envoyé à:', validatedData.email);
+      } else {
+        console.error('❌ Échec envoi email utilisateur:', emailResult.error);
+        console.error('❌ Détails:', emailResult.error instanceof Error ? emailResult.error.message : String(emailResult.error));
+        // On continue même si l'email échoue pour ne pas bloquer la demande
+      }
     } catch (emailError) {
-      console.error('⚠️ Erreur envoi email utilisateur:', emailError);
+      console.error('❌ Erreur exception envoi email utilisateur:', emailError);
+      if (emailError instanceof Error) {
+        console.error('❌ Message:', emailError.message);
+        console.error('❌ Stack:', emailError.stack);
+      }
       // On continue même si l'email échoue
     }
 
@@ -65,14 +86,23 @@ export async function POST(request: NextRequest) {
     const adminEmail = process.env.ADMIN_EMAIL;
     if (adminEmail) {
       try {
-        await sendEmail(
+        const adminEmailResult = await sendEmail(
           adminEmail,
           `Nouvelle demande de contact - ${validatedData.name}`,
           emailContactAdmin(validatedData.name, validatedData.email, validatedData.message)
         );
-        console.log('✅ Email admin envoyé');
+        
+        if (adminEmailResult.success) {
+          console.log('✅ Email admin envoyé à:', adminEmail);
+        } else {
+          console.error('❌ Échec envoi email admin:', adminEmailResult.error);
+          console.error('❌ Détails:', adminEmailResult.error instanceof Error ? adminEmailResult.error.message : String(adminEmailResult.error));
+        }
       } catch (emailError) {
-        console.error('⚠️ Erreur envoi email admin:', emailError);
+        console.error('❌ Erreur exception envoi email admin:', emailError);
+        if (emailError instanceof Error) {
+          console.error('❌ Message:', emailError.message);
+        }
         // On continue même si l'email échoue
       }
     } else {
@@ -90,19 +120,37 @@ export async function POST(request: NextRequest) {
     // Erreur de validation Zod
     if (error instanceof z.ZodError) {
       console.error('❌ Erreur validation:', error.issues);
+      const firstError = error.issues[0];
       return NextResponse.json(
         { 
-          error: 'Données invalides',
+          error: firstError?.message || 'Données invalides',
           details: error.issues 
         },
         { status: 400 }
       );
     }
 
+    // Erreur de parsing JSON
+    if (error instanceof SyntaxError) {
+      console.error('❌ Erreur parsing JSON:', error);
+      return NextResponse.json(
+        { error: 'Format de données invalide' },
+        { status: 400 }
+      );
+    }
+
     // Autres erreurs
     console.error('❌ Erreur inattendue:', error);
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : 'Une erreur est survenue lors de l\'envoi de votre demande';
+    
     return NextResponse.json(
-      { error: 'Erreur serveur' },
+      { 
+        error: process.env.NODE_ENV === 'development' 
+          ? errorMessage 
+          : 'Une erreur est survenue lors de l\'envoi de votre demande'
+      },
       { status: 500 }
     );
   }

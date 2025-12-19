@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -27,6 +27,7 @@ interface InscriptionFormProps {
 export function InscriptionForm({ formationId, formationTitle }: InscriptionFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const form = useForm<InscriptionFormData>({
     resolver: zodResolver(inscriptionSchema),
@@ -38,6 +39,15 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
       formationId,
     },
   })
+
+  // Scroll vers le formulaire en cas d'erreur de validation après soumission
+  useEffect(() => {
+    if (form.formState.isSubmitted && Object.keys(form.formState.errors).length > 0) {
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
+  }, [form.formState.isSubmitted, form.formState.errors])
 
   async function onSubmit(data: InscriptionFormData) {
     setIsSubmitting(true)
@@ -51,25 +61,56 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
         body: JSON.stringify(data),
       })
 
-      const result = await response.json()
+      // Try to parse JSON response, but handle cases where response might not be JSON
+      let result;
+      try {
+        const text = await response.text();
+        result = text ? JSON.parse(text) : {};
+      } catch (parseError) {
+        console.error('Error parsing response:', parseError);
+        throw new Error('Une erreur est survenue lors de l\'envoi de votre demande');
+      }
 
       if (!response.ok) {
-        throw new Error(result.error || 'Une erreur est survenue')
+        // Si erreur de validation serveur, scroll vers le formulaire
+        if (response.status === 400 || response.status === 422) {
+          setTimeout(() => {
+            formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }, 100)
+        }
+        
+        // Extract error message from response
+        const errorMessage = result.error || 
+                           result.message || 
+                           `Une erreur est survenue (${response.status})`;
+        throw new Error(errorMessage);
       }
 
       setIsSuccess(true)
-      toast.success('Demande envoyée avec succès', {
-        description: 'Nous vous contacterons très prochainement.',
-      })
+      toast.success('Inscription envoyée ! Nous vous contacterons rapidement.')
       form.reset()
     } catch (error) {
       console.error('Error submitting inscription:', error)
-      toast.error('Erreur', {
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Une erreur est survenue lors de l\'envoi',
-      })
+      
+      // Distinguer erreurs réseau des erreurs serveur
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        toast.error('Erreur lors de l\'envoi. Réessayez.', {
+          description: 'Problème de connexion. Vérifiez votre connexion internet.',
+        })
+      } else {
+        const errorMessage = error instanceof Error 
+          ? error.message 
+          : 'Une erreur est survenue lors de l\'envoi de votre demande';
+        
+        toast.error('Erreur lors de l\'envoi. Réessayez.', {
+          description: errorMessage,
+        })
+      }
+      
+      // Scroll vers le formulaire en cas d'erreur
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
     } finally {
       setIsSubmitting(false)
     }
@@ -98,14 +139,14 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
   return (
     <Card className="sticky top-24">
       <CardHeader>
-        <CardTitle>S&apos;inscrire à cette formation</CardTitle>
+        <CardTitle>S'inscrire à cette formation</CardTitle>
         <CardDescription>
           Remplissez ce formulaire et nous vous recontacterons rapidement
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {/* Name Field */}
             <FormField
               control={form.control}
@@ -175,7 +216,11 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
             />
 
             {/* Hidden Formation ID */}
-            <input type="hidden" {...form.register('formationId')} />
+            <FormField
+              control={form.control}
+              name="formationId"
+              render={({ field }) => <input type="hidden" {...field} />}
+            />
 
             {/* Submit Button */}
             <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
@@ -193,7 +238,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
             </Button>
 
             <p className="text-center text-xs text-muted-foreground">
-              En soumettant ce formulaire, vous acceptez d&apos;être contacté par notre
+              En soumettant ce formulaire, vous acceptez d'être contacté par notre
               équipe.
             </p>
           </form>
