@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     }
 
     // Create inscription
-    const inscription = await prisma.formationInscription.create({
+    const inscription = await prisma.formation_inscriptions.create({
       data: {
         name,
         email,

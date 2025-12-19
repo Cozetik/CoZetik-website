@@ -10,7 +10,7 @@ export async function DELETE(
     const { id } = await params
 
     // Vérifier que l'inscription existe
-    const existingInscription = await prisma.formationInscription.findUnique({
+    const existingInscription = await prisma.formation_inscriptions.findUnique({
       where: { id },
     })
 
@@ -22,7 +22,7 @@ export async function DELETE(
     }
 
     // Supprimer l'inscription
-    await prisma.formationInscription.delete({
+    await prisma.formation_inscriptions.delete({
       where: { id },
     })
 

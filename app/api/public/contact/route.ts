@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     const { name, email, message } = validationResult.data
 
     // Create contact request
-    const contactRequest = await prisma.contactRequest.create({
+    const contactRequest = await prisma.contact_requests.create({
       data: {
         name,
         email,

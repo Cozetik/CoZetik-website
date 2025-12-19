@@ -13,9 +13,9 @@ const inscriptionSchema = z.object({
 // GET - Récupérer toutes les inscriptions formations
 export async function GET() {
   try {
-    const inscriptions = await prisma.formationInscription.findMany({
+    const inscriptions = await prisma.formation_inscriptions.findMany({
       include: {
-        formation: {
+        Formation: {
           select: {
             id: true,
             title: true,
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const inscription = await prisma.formationInscription.create({
+    const inscription = await prisma.formation_inscriptions.create({
       data: {
         name: validatedData.name,
         email: validatedData.email,
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
         status: 'NEW',
       },
       include: {
-        formation: {
+        Formation: {
           select: {
             id: true,
             title: true,

@@ -3,9 +3,9 @@ import InscriptionsTable from '@/components/admin/requests/inscriptions-table'
 
 export default async function InscriptionsPage() {
   // Récupérer les inscriptions avec leurs formations
-  const inscriptions = await prisma.formationInscription.findMany({
+  const inscriptions = await prisma.formation_inscriptions.findMany({
     include: {
-      formation: {
+      Formation: {
         select: {
           id: true,
           title: true,

@@ -10,7 +10,7 @@ export async function DELETE(
     const { id } = await params
 
     // Vérifier que la demande existe
-    const existingRequest = await prisma.contactRequest.findUnique({
+    const existingRequest = await prisma.contact_requests.findUnique({
       where: { id },
     })
 
@@ -22,7 +22,7 @@ export async function DELETE(
     }
 
     // Supprimer la demande
-    await prisma.contactRequest.delete({
+    await prisma.contact_requests.delete({
       where: { id },
     })
 

@@ -11,7 +11,7 @@ const contactRequestSchema = z.object({
 // GET - Récupérer toutes les demandes de contact
 export async function GET() {
   try {
-    const requests = await prisma.contactRequest.findMany({
+    const requests = await prisma.contact_requests.findMany({
       orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
     })
 
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const body = await request.json()
     const validatedData = contactRequestSchema.parse(body)
 
-    const contactRequest = await prisma.contactRequest.create({
+    const contactRequest = await prisma.contact_requests.create({
       data: {
         name: validatedData.name,
         email: validatedData.email,

@@ -17,7 +17,7 @@ export async function PATCH(
     const validatedData = statusSchema.parse(body)
 
     // Vérifier que la demande existe
-    const existingRequest = await prisma.contactRequest.findUnique({
+    const existingRequest = await prisma.contact_requests.findUnique({
       where: { id },
     })
 
@@ -29,7 +29,7 @@ export async function PATCH(
     }
 
     // Mettre à jour le statut
-    const updatedRequest = await prisma.contactRequest.update({
+    const updatedRequest = await prisma.contact_requests.update({
       where: { id },
       data: {
         status: validatedData.status,
