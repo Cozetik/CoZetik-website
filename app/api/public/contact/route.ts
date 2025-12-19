@@ -15,7 +15,17 @@ const contactSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     // 1. Parser et valider les données
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      console.error('❌ Erreur parsing request body:', parseError);
+      return NextResponse.json(
+        { error: 'Format de données invalide. Veuillez vérifier les informations saisies.' },
+        { status: 400 }
+      );
+    }
+    
     const validatedData = contactSchema.parse(body);
 
     console.log('📝 Nouvelle demande de contact:', validatedData.email);
@@ -110,19 +120,37 @@ export async function POST(request: NextRequest) {
     // Erreur de validation Zod
     if (error instanceof z.ZodError) {
       console.error('❌ Erreur validation:', error.issues);
+      const firstError = error.issues[0];
       return NextResponse.json(
         { 
-          error: 'Données invalides',
+          error: firstError?.message || 'Données invalides',
           details: error.issues 
         },
         { status: 400 }
       );
     }
 
+    // Erreur de parsing JSON
+    if (error instanceof SyntaxError) {
+      console.error('❌ Erreur parsing JSON:', error);
+      return NextResponse.json(
+        { error: 'Format de données invalide' },
+        { status: 400 }
+      );
+    }
+
     // Autres erreurs
     console.error('❌ Erreur inattendue:', error);
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : 'Une erreur est survenue lors de l\'envoi de votre demande';
+    
     return NextResponse.json(
-      { error: 'Erreur serveur' },
+      { 
+        error: process.env.NODE_ENV === 'development' 
+          ? errorMessage 
+          : 'Une erreur est survenue lors de l\'envoi de votre demande'
+      },
       { status: 500 }
     );
   }

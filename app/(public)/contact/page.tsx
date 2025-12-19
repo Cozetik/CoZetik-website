@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -52,23 +52,42 @@ export default function ContactPage() {
         }),
       })
 
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Une erreur est survenue')
+      // Try to parse JSON response, but handle cases where response might not be JSON
+      let result;
+      try {
+        const text = await response.text();
+        result = text ? JSON.parse(text) : {};
+      } catch (parseError) {
+        console.error('Error parsing response:', parseError);
+        throw new Error('Une erreur est survenue lors de l\'envoi de votre demande');
       }
 
-      toast.success('Message envoyé avec succès', {
-        description: 'Nous vous répondrons dans les plus brefs délais.',
+      if (!response.ok) {
+        const errorMessage = result.error || 
+                           result.message || 
+                           `Une erreur est survenue (${response.status})`;
+        throw new Error(errorMessage);
+      }
+
+      // Toast de validation avec icône et durée prolongée
+      toast.success('Message envoyé avec succès !', {
+        description: (
+          <span style={{ color: '#000000' }}>
+            Votre demande a bien été reçue. Nous vous répondrons dans les plus brefs délais.
+          </span>
+        ),
+        duration: 5000,
+        icon: <CheckCircle2 className="h-5 w-5" />,
       })
       form.reset()
     } catch (error) {
       console.error('Error submitting contact form:', error)
+      const errorMessage = error instanceof Error
+        ? error.message
+        : 'Une erreur est survenue lors de l\'envoi de votre demande';
+      
       toast.error('Erreur', {
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Une erreur est survenue lors de l\'envoi',
+        description: errorMessage,
       })
     } finally {
       setIsSubmitting(false)

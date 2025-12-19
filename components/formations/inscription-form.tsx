@@ -61,7 +61,15 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
         body: JSON.stringify(data),
       })
 
-      const result = await response.json()
+      // Try to parse JSON response, but handle cases where response might not be JSON
+      let result;
+      try {
+        const text = await response.text();
+        result = text ? JSON.parse(text) : {};
+      } catch (parseError) {
+        console.error('Error parsing response:', parseError);
+        throw new Error('Une erreur est survenue lors de l\'envoi de votre demande');
+      }
 
       if (!response.ok) {
         // Si erreur de validation serveur, scroll vers le formulaire
@@ -70,7 +78,12 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
             formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }, 100)
         }
-        throw new Error(result.error || 'Une erreur est survenue')
+        
+        // Extract error message from response
+        const errorMessage = result.error || 
+                           result.message || 
+                           `Une erreur est survenue (${response.status})`;
+        throw new Error(errorMessage);
       }
 
       setIsSuccess(true)
@@ -85,11 +98,12 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
           description: 'Problème de connexion. Vérifiez votre connexion internet.',
         })
       } else {
+        const errorMessage = error instanceof Error 
+          ? error.message 
+          : 'Une erreur est survenue lors de l\'envoi de votre demande';
+        
         toast.error('Erreur lors de l\'envoi. Réessayez.', {
-          description:
-            error instanceof Error
-              ? error.message
-              : 'Une erreur est survenue lors de l\'envoi',
+          description: errorMessage,
         })
       }
       
