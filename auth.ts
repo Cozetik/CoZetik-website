@@ -71,17 +71,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session
     },
-    authorized({ auth, request }) {
-      // Autoriser l'accès si l'utilisateur est connecté
-      const isLoggedIn = !!auth?.user
-      const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
-
-      if (isAdminRoute && !isLoggedIn) {
-        return false // Bloquer l'accès, middleware redirigera
-      }
-
-      return true // Autoriser dans tous les autres cas
-    },
   },
   pages: {
     signIn: "/auth-admin",
