@@ -1,4 +1,5 @@
-import { Metadata } from 'next/metadata'
+import { Metadata } from 'next'
+import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { BlogCard } from '@/components/blog/blog-card'
 import { BookOpen, Newspaper } from 'lucide-react'
@@ -74,7 +75,7 @@ export default async function BlogPage() {
             {/* Description */}
             <p className="text-lg text-muted-foreground md:text-xl">
               Actualités, conseils et tendances du monde de la formation
-              professionnelle. Restez informé avec nos articles d'experts.
+              professionnelle. Restez informé avec nos articles d&apos;experts.
             </p>
           </div>
         </div>
@@ -138,12 +139,12 @@ export default async function BlogPage() {
                 >
                   Nous contacter
                 </a>
-                <a
+                <Link
                   href="/formations"
                   className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   Découvrir nos formations
-                </a>
+                </Link>
               </div>
             </div>
           </div>

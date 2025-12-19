@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Target, Users, Award, TrendingUp, Heart, Lightbulb } from 'lucide-react'
 
@@ -106,7 +107,7 @@ export default function AProposPage() {
                 <CardContent className="p-6">
                   <h3 className="mb-3 text-xl font-semibold">Notre approche</h3>
                   <p className="leading-relaxed text-muted-foreground">
-                    Une pédagogie active basée sur la pratique, l'accompagnement
+                    Une pédagogie active basée sur la pratique, l&apos;accompagnement
                     personnalisé et la mise en situation réelle pour garantir une
                     montée en compétences efficace et durable.
                   </p>
@@ -197,12 +198,12 @@ export default function AProposPage() {
               >
                 Nous contacter
               </a>
-              <a
+              <Link
                 href="/formations"
                 className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 Découvrir nos formations
-              </a>
+              </Link>
             </div>
           </div>
         </div>

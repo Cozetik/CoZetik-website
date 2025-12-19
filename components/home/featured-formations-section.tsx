@@ -38,7 +38,7 @@ export function FeaturedFormationsSection({
             Nos formations phares
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Découvrez nos formations les plus populaires et commencez votre parcours d'apprentissage dès aujourd'hui
+            Découvrez nos formations les plus populaires et commencez votre parcours d&apos;apprentissage dès aujourd&apos;hui
           </p>
         </div>
 

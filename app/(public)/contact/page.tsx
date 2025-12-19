@@ -276,7 +276,7 @@ export default function ContactPage() {
                     <h3 className="mb-2 font-semibold">Temps de réponse</h3>
                     <p className="text-sm text-muted-foreground">
                       Nous nous engageons à répondre à votre demande sous 24h
-                      ouvrées. Pour les urgences, n'hésitez pas à nous appeler
+                      ouvrées. Pour les urgences, n&apos;hésitez pas à nous appeler
                       directement.
                     </p>
                   </CardContent>

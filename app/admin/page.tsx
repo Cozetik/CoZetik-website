@@ -69,7 +69,7 @@ export default async function AdminDashboardPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground mt-2">
-          Vue d'ensemble de votre plateforme
+          Vue d&apos;ensemble de votre plateforme
         </p>
       </div>
 

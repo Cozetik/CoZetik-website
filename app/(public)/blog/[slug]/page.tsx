@@ -274,7 +274,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="mb-8">
               <h2 className="text-2xl font-bold">Articles similaires</h2>
               <p className="mt-2 text-muted-foreground">
-                Découvrez d'autres articles qui pourraient vous intéresser
+                Découvrez d&apos;autres articles qui pourraient vous intéresser
               </p>
             </div>
 

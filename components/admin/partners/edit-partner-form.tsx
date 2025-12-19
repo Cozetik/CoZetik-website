@@ -28,8 +28,8 @@ const formSchema = z.object({
   description: z.string().optional(),
   logoUrl: z.string().optional(),
   websiteUrl: z.string().url('URL invalide').optional().or(z.literal('')),
-  visible: z.boolean().default(true),
-  order: z.coerce.number().int().min(0).default(0),
+  visible: z.boolean(),
+  order: z.number().int().min(0),
 })
 
 type FormValues = z.infer<typeof formSchema>

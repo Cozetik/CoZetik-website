@@ -22,7 +22,7 @@ export default function BlogLoading() {
             {/* Description */}
             <p className="text-lg text-muted-foreground md:text-xl">
               Actualités, conseils et tendances du monde de la formation
-              professionnelle. Restez informé avec nos articles d'experts.
+              professionnelle. Restez informé avec nos articles d&apos;experts.
             </p>
           </div>
         </div>

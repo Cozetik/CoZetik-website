@@ -44,15 +44,15 @@ const formSchema = z.object({
   program: z
     .string()
     .min(20, 'Le programme doit être détaillé (min 20 caractères)'),
-  price: z.coerce
-    .number({ invalid_type_error: 'Le prix doit être un nombre' })
+  price: z
+    .number()
     .positive('Le prix doit être positif')
     .optional()
     .nullable(),
   duration: z.string().optional().nullable(),
   imageUrl: z.string().optional(),
-  visible: z.boolean().default(true),
-  order: z.coerce.number().int().min(0).default(0),
+  visible: z.boolean(),
+  order: z.number().int().min(0),
 })
 
 type FormValues = z.infer<typeof formSchema>
