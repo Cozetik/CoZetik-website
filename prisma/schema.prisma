@@ -97,7 +97,7 @@ model ContactRequest {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
-  @@map("ContactRequest")
+  @@map("contact_requests")
 }
 
 model FormationInscription {
@@ -112,7 +112,7 @@ model FormationInscription {
   updatedAt   DateTime      @updatedAt
   formation   Formation     @relation(fields: [formationId], references: [id])
 
-  @@map("FormationInscription")
+  @@map("formation_inscriptions")
 }
 
 enum Role {
