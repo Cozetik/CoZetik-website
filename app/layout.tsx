@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
+import { Borel, Inter } from "next/font/google";
 import "./globals.css";
+
+const borel = Borel({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const inter = Inter({
+  weight: ["400", "600", "800"],
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.com"),
@@ -62,7 +77,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body>{children}</body>
+      <body className={`${inter.variable} ${borel.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }

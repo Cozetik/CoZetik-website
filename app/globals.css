@@ -77,4 +77,51 @@
       ),
       linear-gradient(to bottom, rgb(255 255 255 / 0.1) 1px, transparent 1px);
   }
+
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Signature drawing animation */
+  @keyframes draw-signature {
+    from {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+    }
+    to {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .animate-draw-signature {
+    animation: draw-signature 4s ease-in-out forwards;
+  }
+
+  /* SVG stroke drawing animation for values illustration */
+  @keyframes draw-illustration {
+    from {
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+    }
+    to {
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .animate-draw-illustration {
+    animation: draw-illustration 2s ease-out forwards;
+  }
+
+  /* GPU acceleration for smooth animations */
+  .will-change-transform {
+    will-change: transform;
+  }
 }

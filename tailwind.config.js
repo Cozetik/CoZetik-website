@@ -7,12 +7,24 @@ module.exports = {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			display: ['var(--font-display)', 'sans-serif'],
+  			sans: ['var(--font-sans)', 'sans-serif'],
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+  			cozetik: {
+  				white: '#FDFDFD',
+  				black: '#262626',
+  				beige: '#F2E7D8',
+  				violet: '#C792DF',
+  				'violet-signature': '#ADA6DB',
+  				green: '#5E985E',
+  			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
