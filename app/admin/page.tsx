@@ -15,8 +15,8 @@ export default async function AdminDashboardPage() {
     prisma.formation.count(),
     prisma.category.count({ where: { visible: true } }),
     prisma.blogPost.count({ where: { visible: true } }),
-    prisma.contact_requests.count({ where: { status: 'NEW' } }),
-    prisma.formation_inscriptions.count({ where: { status: 'NEW' } }),
+    prisma.contactRequest.count({ where: { status: 'NEW' } }),
+    prisma.formationInscription.count({ where: { status: 'NEW' } }),
   ])
 
   const stats = [

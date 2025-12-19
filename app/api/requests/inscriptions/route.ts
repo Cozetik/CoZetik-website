@@ -13,9 +13,9 @@ const inscriptionSchema = z.object({
 // GET - Récupérer toutes les inscriptions formations
 export async function GET() {
   try {
-    const inscriptions = await prisma.formation_inscriptions.findMany({
+    const inscriptions = await prisma.formationInscription.findMany({
       include: {
-        Formation: {
+        formation: {
           select: {
             id: true,
             title: true,
@@ -26,13 +26,7 @@ export async function GET() {
       orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
     })
 
-    // Normaliser Formation → formation pour le client
-    const normalizedInscriptions = inscriptions.map((inscription) => ({
-      ...inscription,
-      formation: inscription.Formation,
-    }))
-
-    return NextResponse.json(normalizedInscriptions)
+    return NextResponse.json(inscriptions)
   } catch (error) {
     console.error('Error fetching formation inscriptions:', error)
     return NextResponse.json(
@@ -60,7 +54,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const inscription = await prisma.formation_inscriptions.create({
+    const inscription = await prisma.formationInscription.create({
       data: {
         name: validatedData.name,
         email: validatedData.email,
@@ -70,7 +64,7 @@ export async function POST(request: Request) {
         status: 'NEW',
       },
       include: {
-        Formation: {
+        formation: {
           select: {
             id: true,
             title: true,
@@ -80,13 +74,7 @@ export async function POST(request: Request) {
       },
     })
 
-    // Normaliser Formation → formation pour le client
-    const normalizedInscription = {
-      ...inscription,
-      formation: inscription.Formation,
-    }
-
-    return NextResponse.json(normalizedInscription, { status: 201 })
+    return NextResponse.json(inscription, { status: 201 })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(

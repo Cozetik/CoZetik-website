@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     // 2. Créer l'entrée en base de données
     let contactRequest;
     try {
-      contactRequest = await prisma.contact_requests.create({
+      contactRequest = await prisma.contactRequest.create({
         data: {
           name: validatedData.name,
           email: validatedData.email,

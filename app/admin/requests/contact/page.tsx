@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma'
 import ContactRequestsTable from '@/components/admin/requests/contact-requests-table'
 
 export default async function ContactRequestsPage() {
-  const requests = await prisma.contact_requests.findMany({
+  const requests = await prisma.contactRequest.findMany({
     orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
   })
 

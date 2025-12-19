@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     // 3. Créer l'inscription en base de données
     let inscription;
     try {
-      inscription = await prisma.formation_inscriptions.create({
+      inscription = await prisma.formationInscription.create({
         data: {
           name: validatedData.name,
           email: validatedData.email,

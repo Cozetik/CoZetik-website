@@ -3,9 +3,9 @@ import InscriptionsTable from '@/components/admin/requests/inscriptions-table'
 
 export default async function InscriptionsPage() {
   // Récupérer les inscriptions avec leurs formations
-  const inscriptions = await prisma.formation_inscriptions.findMany({
+  const inscriptions = await prisma.formationInscription.findMany({
     include: {
-      Formation: {
+      formation: {
         select: {
           id: true,
           title: true,
@@ -26,10 +26,9 @@ export default async function InscriptionsPage() {
     orderBy: { title: 'asc' },
   })
 
-  // Sérialiser les dates et normaliser la relation Formation → formation pour le client
+  // Sérialiser les dates pour le client
   const serializedInscriptions = inscriptions.map((inscription) => ({
     ...inscription,
-    formation: inscription.Formation, // Normaliser: Formation (DB) → formation (component)
     createdAt: inscription.createdAt.toISOString(),
     updatedAt: inscription.updatedAt.toISOString(),
   }))

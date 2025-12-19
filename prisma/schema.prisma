@@ -44,8 +44,8 @@ model Formation {
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime                 @updatedAt
   category               Category                 @relation(fields: [categoryId], references: [id])
-  sessions               FormationSession[]
-  formation_inscriptions formation_inscriptions[]
+  sessions      FormationSession[]
+  inscriptions  FormationInscription[]
 }
 
 model FormationSession {
@@ -88,27 +88,31 @@ model BlogPost {
   updatedAt      DateTime  @updatedAt
 }
 
-model contact_requests {
-  id        String        @id
+model ContactRequest {
+  id        String        @id @default(cuid())
   name      String
   email     String
   message   String
   status    RequestStatus @default(NEW)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+
+  @@map("ContactRequest")
 }
 
-model formation_inscriptions {
-  id          String    @id
+model FormationInscription {
+  id          String        @id @default(cuid())
   name        String
   email       String
   phone       String
   message     String
   formationId String
-  status      String    @default("NEW")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  Formation   Formation @relation(fields: [formationId], references: [id])
+  status      RequestStatus @default(NEW)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  formation   Formation     @relation(fields: [formationId], references: [id])
+
+  @@map("FormationInscription")
 }
 
 enum Role {

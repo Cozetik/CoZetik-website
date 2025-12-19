@@ -17,7 +17,7 @@ export async function PATCH(
     const validatedData = statusSchema.parse(body)
 
     // Vérifier que l'inscription existe
-    const existingInscription = await prisma.formation_inscriptions.findUnique({
+    const existingInscription = await prisma.formationInscription.findUnique({
       where: { id },
     })
 
@@ -29,13 +29,13 @@ export async function PATCH(
     }
 
     // Mettre à jour le statut
-    const updatedInscription = await prisma.formation_inscriptions.update({
+    const updatedInscription = await prisma.formationInscription.update({
       where: { id },
       data: {
         status: validatedData.status,
       },
       include: {
-        Formation: {
+        formation: {
           select: {
             id: true,
             title: true,
@@ -45,13 +45,7 @@ export async function PATCH(
       },
     })
 
-    // Normaliser Formation → formation pour le client
-    const normalizedInscription = {
-      ...updatedInscription,
-      formation: updatedInscription.Formation,
-    }
-
-    return NextResponse.json(normalizedInscription)
+    return NextResponse.json(updatedInscription)
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
