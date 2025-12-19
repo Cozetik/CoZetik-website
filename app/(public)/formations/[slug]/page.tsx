@@ -69,11 +69,27 @@ export async function generateMetadata({
     }
   }
 
+  const title = formation.title.length > 60 ? formation.title.substring(0, 57) + '...' : formation.title
+  const description = formation.description?.length > 160
+    ? formation.description.substring(0, 157) + '...'
+    : formation.description || `Découvrez notre formation ${formation.title} et développez vos compétences professionnelles.`
+
   return {
-    title: `${formation.title} | Cozetik`,
-    description:
-      formation.description ||
-      `Découvrez notre formation ${formation.title} et développez vos compétences professionnelles.`,
+    title,
+    description,
+    openGraph: {
+      title: `${formation.title} | Cozetik`,
+      description,
+      images: formation.imageUrl ? [formation.imageUrl] : ['/og-image.jpg'],
+      url: `https://cozetik.com/formations/${formation.slug}`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${formation.title} | Cozetik`,
+      description,
+      images: formation.imageUrl ? [formation.imageUrl] : ['/og-image.jpg'],
+    },
   }
 }
 

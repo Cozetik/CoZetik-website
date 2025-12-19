@@ -3,9 +3,23 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Target, Users, Award, TrendingUp, Heart, Lightbulb } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'À propos | Cozetik',
+  title: 'À propos',
   description:
-    'Découvrez Cozetik, votre partenaire de confiance pour des formations professionnelles de qualité. Notre mission, nos valeurs et notre équipe.',
+    'Découvrez Cozetik, votre partenaire pour des formations professionnelles de qualité. Notre mission, nos valeurs et notre équipe d\'experts.',
+  openGraph: {
+    title: 'À propos de Cozetik - Notre mission et nos valeurs',
+    description:
+      'Cozetik, partenaire de confiance pour développer vos compétences. Formations de qualité avec des experts reconnus.',
+    images: ['/og-image.jpg'],
+    url: 'https://cozetik.com/a-propos',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'À propos de Cozetik - Notre mission',
+    description: 'Formations professionnelles de qualité avec des experts.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 const values = [

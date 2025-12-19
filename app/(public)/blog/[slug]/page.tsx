@@ -88,12 +88,29 @@ export async function generateMetadata({
     }
   }
 
+  const title = post.seoTitle || post.title
+  const truncatedTitle = title.length > 60 ? title.substring(0, 57) + '...' : title
+
+  const description = post.seoDescription || post.excerpt || `Découvrez notre article : ${post.title}`
+  const truncatedDescription = description.length > 160 ? description.substring(0, 157) + '...' : description
+
   return {
-    title: post.seoTitle || `${post.title} | Blog Cozetik`,
-    description:
-      post.seoDescription ||
-      post.excerpt ||
-      `Découvrez notre article : ${post.title}`,
+    title: truncatedTitle,
+    description: truncatedDescription,
+    openGraph: {
+      title: post.seoTitle || `${post.title} | Blog Cozetik`,
+      description: truncatedDescription,
+      images: post.imageUrl ? [post.imageUrl] : ['/og-image.jpg'],
+      url: `https://cozetik.com/blog/${post.slug}`,
+      type: 'article',
+      publishedTime: post.publishedAt?.toISOString(),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.seoTitle || `${post.title} | Blog Cozetik`,
+      description: truncatedDescription,
+      images: post.imageUrl ? [post.imageUrl] : ['/og-image.jpg'],
+    },
   }
 }
 

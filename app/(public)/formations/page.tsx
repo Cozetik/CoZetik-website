@@ -39,9 +39,22 @@ async function getFormationsData() {
 }
 
 export const metadata = {
-  title: 'Nos Formations | Cozetik',
+  title: 'Nos Formations',
   description:
-    'Découvrez toutes nos formations professionnelles et développez vos compétences avec Cozetik.',
+    'Découvrez toutes nos formations professionnelles et développez vos compétences avec Cozetik. Catalogue complet de formations certifiantes.',
+  openGraph: {
+    title: 'Nos Formations professionnelles | Cozetik',
+    description:
+      'Explorez notre catalogue complet de formations professionnelles certifiantes adaptées à vos objectifs de carrière.',
+    images: ['/og-image.jpg'],
+    url: 'https://cozetik.com/formations',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nos Formations professionnelles | Cozetik',
+    description: 'Catalogue complet de formations certifiantes.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 export default async function FormationsPage() {

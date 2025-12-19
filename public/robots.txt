@@ -1,0 +1,24 @@
+# robots.txt for Cozetik
+# https://cozetik.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Pages publiques
+Allow: /formations
+Allow: /formations/*
+Allow: /blog
+Allow: /blog/*
+Allow: /a-propos
+Allow: /contact
+Allow: /partners
+
+# Pages admin - Disallow
+Disallow: /admin
+Disallow: /admin/*
+
+# API routes - Disallow
+Disallow: /api/*
+
+# Sitemap
+Sitemap: https://cozetik.com/sitemap.xml

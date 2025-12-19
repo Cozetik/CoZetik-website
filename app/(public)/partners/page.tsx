@@ -19,9 +19,23 @@ async function getPartners() {
 }
 
 export const metadata: Metadata = {
-  title: 'Nos Partenaires | Cozetik',
+  title: 'Nos Partenaires',
   description:
-    'Découvrez les entreprises et organisations qui nous font confiance et avec qui nous collaborons pour vous offrir des formations de qualité.',
+    'Découvrez les entreprises et organisations qui nous font confiance et avec qui nous collaborons pour des formations de qualité.',
+  openGraph: {
+    title: 'Nos Partenaires de confiance | Cozetik',
+    description:
+      'Nous collaborons avec des entreprises et organisations de renom pour vous garantir des formations de qualité adaptées au marché.',
+    images: ['/og-image.jpg'],
+    url: 'https://cozetik.com/partners',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nos Partenaires de confiance | Cozetik',
+    description: 'Collaborations avec des entreprises de renom.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 export default async function PartnersPage() {

@@ -33,9 +33,23 @@ async function getBlogPosts() {
 }
 
 export const metadata: Metadata = {
-  title: 'Blog | Cozetik',
+  title: 'Blog',
   description:
     'Découvrez nos articles sur les formations professionnelles, les tendances du marché et les conseils pour développer vos compétences.',
+  openGraph: {
+    title: 'Blog Cozetik - Actualités et conseils formations',
+    description:
+      'Actualités, conseils et tendances du monde de la formation professionnelle. Articles d\'experts pour rester informé.',
+    images: ['/og-image.jpg'],
+    url: 'https://cozetik.com/blog',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog Cozetik - Actualités et conseils formations',
+    description: 'Actualités et tendances de la formation professionnelle.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 export default async function BlogPage() {
