@@ -124,18 +124,23 @@ model ContactRequest {
   status    RequestStatus @default(NEW)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+
+  @@map("contact_requests")
 }
 
 // FormationInscription model for formation registrations
 model FormationInscription {
-  id          String        @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   email       String
   phone       String
-  message     String        @db.Text
+  message     String   @db.Text
   formationId String
-  formation   Formation     @relation(fields: [formationId], references: [id])
-  status      RequestStatus @default(NEW)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  status      String   @default("NEW")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  formation   Formation @relation(fields: [formationId], references: [id])
+
+  @@map("formation_inscriptions")
 }
