@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs"
 import type { Role } from "@prisma/client"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true, // Requis pour Auth.js v5
   providers: [
     Credentials({
       name: "Credentials",
@@ -69,6 +70,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.role = token.role as Role
       }
       return session
+    },
+    authorized({ auth, request }) {
+      // Autoriser l'accès si l'utilisateur est connecté
+      const isLoggedIn = !!auth?.user
+      const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
+
+      if (isAdminRoute && !isLoggedIn) {
+        return false // Bloquer l'accès, middleware redirigera
+      }
+
+      return true // Autoriser dans tous les autres cas
     },
   },
   pages: {
