@@ -1,29 +1,17 @@
 import { withAuth } from 'next-auth/middleware'
-import { NextResponse } from 'next/server'
 
-export default withAuth(
-  function middleware(req) {
-    return NextResponse.next()
+export default withAuth({
+  callbacks: {
+    authorized: ({ token }) => !!token,
   },
-  {
-    callbacks: {
-      authorized: ({ token, req }) => {
-        // Permettre l'accès à la page de login sans authentification
-        if (req.nextUrl.pathname === '/admin/login') {
-          return true
-        }
+  pages: {
+    signIn: '/admin/login',
+  },
+})
 
-        // Pour toutes les autres routes /admin, vérifier le token
-        return !!token
-      },
-    },
-    pages: {
-      signIn: '/admin/login',
-    },
-  }
-)
-
-// Protéger toutes les routes /admin SAUF /admin/login
+// Protéger toutes les routes /admin SAUF /admin/login et /api/auth
 export const config = {
-  matcher: ['/admin/((?!login).*)'],
+  matcher: [
+    '/admin/((?!login).*)',
+  ],
 }
