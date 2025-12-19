@@ -95,7 +95,7 @@ model contact_requests {
   message   String
   status    RequestStatus @default(NEW)
   createdAt DateTime      @default(now())
-  updatedAt DateTime
+  updatedAt DateTime      @updatedAt
 }
 
 model formation_inscriptions {
@@ -107,7 +107,7 @@ model formation_inscriptions {
   formationId String
   status      String    @default("NEW")
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime  @updatedAt
   Formation   Formation @relation(fields: [formationId], references: [id])
 }
 
