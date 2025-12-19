@@ -30,22 +30,22 @@ model Category {
 }
 
 model Formation {
-  id           String                 @id @default(cuid())
-  title        String
-  slug         String                 @unique
-  description  String
-  program      String
-  price        Float?
-  duration     String?
-  imageUrl     String?
-  visible      Boolean                @default(true)
-  order        Int                    @default(0)
-  categoryId   String
-  createdAt    DateTime               @default(now())
-  updatedAt    DateTime               @updatedAt
-  category     Category               @relation(fields: [categoryId], references: [id])
-  inscriptions FormationInscription[]
-  sessions     FormationSession[]
+  id                     String                   @id @default(cuid())
+  title                  String
+  slug                   String                   @unique
+  description            String
+  program                String
+  price                  Float?
+  duration               String?
+  imageUrl               String?
+  visible                Boolean                  @default(true)
+  order                  Int                      @default(0)
+  categoryId             String
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  category               Category                 @relation(fields: [categoryId], references: [id])
+  sessions               FormationSession[]
+  formation_inscriptions formation_inscriptions[]
 }
 
 model FormationSession {
@@ -88,27 +88,27 @@ model BlogPost {
   updatedAt      DateTime  @updatedAt
 }
 
-model ContactRequest {
-  id        String        @id @default(cuid())
+model contact_requests {
+  id        String        @id
   name      String
   email     String
   message   String
   status    RequestStatus @default(NEW)
   createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  updatedAt DateTime
 }
 
-model FormationInscription {
-  id          String        @id @default(cuid())
+model formation_inscriptions {
+  id          String    @id
   name        String
   email       String
   phone       String
   message     String
   formationId String
-  status      RequestStatus @default(NEW)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  formation   Formation     @relation(fields: [formationId], references: [id])
+  status      String    @default("NEW")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  Formation   Formation @relation(fields: [formationId], references: [id])
 }
 
 enum Role {

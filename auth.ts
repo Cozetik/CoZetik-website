@@ -1,16 +1,16 @@
-import type { NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import { prisma } from '@/lib/prisma'
-import bcrypt from 'bcryptjs'
-import type { Role } from '@prisma/client'
+import NextAuth from "next-auth"
+import Credentials from "next-auth/providers/credentials"
+import { prisma } from "@/lib/prisma"
+import bcrypt from "bcryptjs"
+import type { Role } from "@prisma/client"
 
-export const authOptions: NextAuthOptions = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    CredentialsProvider({
-      name: 'Credentials',
+    Credentials({
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -21,7 +21,7 @@ export const authOptions: NextAuthOptions = {
           // Récupérer l'utilisateur depuis la base de données
           const user = await prisma.user.findUnique({
             where: {
-              email: credentials.email,
+              email: credentials.email as string,
             },
           })
 
@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
 
           // Comparer le mot de passe avec bcrypt
           const isPasswordValid = await bcrypt.compare(
-            credentials.password,
+            credentials.password as string,
             user.password
           )
 
@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
             role: user.role,
           }
         } catch (error) {
-          console.error('Auth error:', error)
+          console.error("Auth error:", error)
           return null
         }
       },
@@ -72,10 +72,9 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/admin/login',
+    signIn: "/login",
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
-}
+})

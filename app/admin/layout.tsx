@@ -1,6 +1,5 @@
-import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { authOptions } from '@/lib/auth'
+import { auth } from '@/auth'
 import AdminLayoutClient from './layout-client'
 
 export default async function AdminLayout({
@@ -8,10 +7,11 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession(authOptions)
+  // Vérifier la session pour toutes les pages /admin/*
+  const session = await auth()
 
   if (!session) {
-    redirect('/admin/login')
+    redirect('/login')
   }
 
   return (
