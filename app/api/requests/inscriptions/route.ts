@@ -26,7 +26,13 @@ export async function GET() {
       orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
     })
 
-    return NextResponse.json(inscriptions)
+    // Normaliser Formation → formation pour le client
+    const normalizedInscriptions = inscriptions.map((inscription) => ({
+      ...inscription,
+      formation: inscription.Formation,
+    }))
+
+    return NextResponse.json(normalizedInscriptions)
   } catch (error) {
     console.error('Error fetching formation inscriptions:', error)
     return NextResponse.json(
@@ -74,7 +80,13 @@ export async function POST(request: Request) {
       },
     })
 
-    return NextResponse.json(inscription, { status: 201 })
+    // Normaliser Formation → formation pour le client
+    const normalizedInscription = {
+      ...inscription,
+      formation: inscription.Formation,
+    }
+
+    return NextResponse.json(normalizedInscription, { status: 201 })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(

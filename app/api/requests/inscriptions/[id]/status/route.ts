@@ -45,7 +45,13 @@ export async function PATCH(
       },
     })
 
-    return NextResponse.json(updatedInscription)
+    // Normaliser Formation → formation pour le client
+    const normalizedInscription = {
+      ...updatedInscription,
+      formation: updatedInscription.Formation,
+    }
+
+    return NextResponse.json(normalizedInscription)
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
