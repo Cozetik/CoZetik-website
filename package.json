@@ -12,7 +12,11 @@
     "migrate": "prisma migrate deploy",
     "migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "create-issues": "node scripts/create-github-issues.js",
+    "create-issues:dry-run": "node scripts/create-github-issues.js --dry-run",
+    "create-issues:cleanup": "node scripts/create-github-issues.js --cleanup",
+    "upload:hero-video": "tsx scripts/upload-hero-video.ts"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -46,6 +50,7 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
+    "@radix-ui/react-visually-hidden": "^1.2.4",
     "@tailwindcss/typography": "^0.5.19",
     "@tiptap/extension-color": "^3.13.0",
     "@tiptap/extension-highlight": "^3.13.0",
@@ -61,9 +66,10 @@
     "cloudinary": "^2.8.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
     "next": "^15.4.10",
-    "next-auth": "^4.24.13",
+    "next-auth": "5.0.0-beta.25",
     "next-themes": "^0.4.6",
     "prisma": "^6.19.1",
     "react": "^19.2.3",
@@ -91,6 +97,7 @@
     "prettier": "^3.7.4",
     "tailwindcss": "^3.4.19",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

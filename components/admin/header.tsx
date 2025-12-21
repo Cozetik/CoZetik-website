@@ -20,7 +20,7 @@ interface HeaderProps {
 
 export default function Header({ userEmail, onMenuClick }: HeaderProps) {
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/admin/login' })
+    await signOut({ callbackUrl: '/auth-admin' })
   }
 
   // Récupérer les initiales de l'email

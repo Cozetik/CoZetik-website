@@ -56,6 +56,20 @@ export default function AdminLoginPage() {
     setError('')
 
     try {
+      // Vérifier le rate limit avant de tenter la connexion
+      const rateLimitCheck = await fetch('/api/auth/login-check', {
+        method: 'POST',
+      })
+
+      const rateLimitData = await rateLimitCheck.json()
+
+      if (rateLimitCheck.status === 429) {
+        setError(rateLimitData.message || 'Trop de tentatives. Veuillez réessayer plus tard.')
+        setIsLoading(false)
+        return
+      }
+
+      // Tenter la connexion
       const result = await signIn('credentials', {
         email: values.email,
         password: values.password,
@@ -69,6 +83,7 @@ export default function AdminLoginPage() {
         router.push('/admin')
       }
     } catch (err) {
+      console.error('Login error:', err)
       setError('Une erreur est survenue. Veuillez réessayer.')
       setIsLoading(false)
     }

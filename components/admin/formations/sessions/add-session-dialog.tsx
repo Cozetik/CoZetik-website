@@ -39,19 +39,19 @@ import { toast } from 'sonner'
 
 const sessionSchema = z
   .object({
-    startDate: z.date({ required_error: 'Date de début requise' }),
-    endDate: z.date({ required_error: 'Date de fin requise' }),
+    startDate: z.date(),
+    endDate: z.date(),
     location: z.string().optional(),
-    maxSeats: z.coerce
+    maxSeats: z
       .number()
       .int()
       .positive('Le nombre de places doit être positif')
       .optional()
       .nullable(),
-    available: z.boolean().default(true),
+    available: z.boolean(),
   })
   .refine((data) => data.endDate >= data.startDate, {
-    message: 'La date de fin doit être après ou égale à la date de début',
+    message: 'La date de fin doit être après ou égale à la de début',
     path: ['endDate'],
   })
 

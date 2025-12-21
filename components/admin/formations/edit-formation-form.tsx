@@ -27,7 +27,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ImageUpload } from '@/components/admin/image-upload'
 import { slugify } from '@/lib/slugify'
-import { deleteImage } from '@/lib/blob'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -45,15 +44,15 @@ const formSchema = z.object({
   program: z
     .string()
     .min(20, 'Le programme doit être détaillé (min 20 caractères)'),
-  price: z.coerce
-    .number({ invalid_type_error: 'Le prix doit être un nombre' })
+  price: z
+    .number()
     .positive('Le prix doit être positif')
     .optional()
     .nullable(),
   duration: z.string().optional().nullable(),
   imageUrl: z.string().optional(),
-  visible: z.boolean().default(true),
-  order: z.coerce.number().int().min(0).default(0),
+  visible: z.boolean(),
+  order: z.number().int().min(0),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -145,15 +144,9 @@ export default function EditFormationForm({
     }
   }
 
-  const handleImageRemove = async () => {
-    if (previousImageUrl) {
-      try {
-        await deleteImage(previousImageUrl)
-        setPreviousImageUrl(null)
-      } catch (error) {
-        console.error('Error deleting image:', error)
-      }
-    }
+  const handleImageRemove = () => {
+    // La suppression de l'ancienne image sera gérée par l'API lors de la soumission
+    setPreviousImageUrl(null)
     form.setValue('imageUrl', '')
   }
 

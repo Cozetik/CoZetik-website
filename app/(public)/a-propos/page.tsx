@@ -1,11 +1,26 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Target, Users, Award, TrendingUp, Heart, Lightbulb } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'À propos | Cozetik',
+  title: 'À propos',
   description:
-    'Découvrez Cozetik, votre partenaire de confiance pour des formations professionnelles de qualité. Notre mission, nos valeurs et notre équipe.',
+    'Découvrez Cozetik, votre partenaire pour des formations professionnelles de qualité. Notre mission, nos valeurs et notre équipe d\'experts.',
+  openGraph: {
+    title: 'À propos de Cozetik - Notre mission et nos valeurs',
+    description:
+      'Cozetik, partenaire de confiance pour développer vos compétences. Formations de qualité avec des experts reconnus.',
+    images: ['/og-image.jpg'],
+    url: 'https://cozetik.com/a-propos',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'À propos de Cozetik - Notre mission',
+    description: 'Formations professionnelles de qualité avec des experts.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 const values = [
@@ -92,7 +107,7 @@ export default function AProposPage() {
                 <CardContent className="p-6">
                   <h3 className="mb-3 text-xl font-semibold">Notre approche</h3>
                   <p className="leading-relaxed text-muted-foreground">
-                    Une pédagogie active basée sur la pratique, l'accompagnement
+                    Une pédagogie active basée sur la pratique, l&apos;accompagnement
                     personnalisé et la mise en situation réelle pour garantir une
                     montée en compétences efficace et durable.
                   </p>
@@ -183,12 +198,12 @@ export default function AProposPage() {
               >
                 Nous contacter
               </a>
-              <a
+              <Link
                 href="/formations"
                 className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 Découvrir nos formations
-              </a>
+              </Link>
             </div>
           </div>
         </div>

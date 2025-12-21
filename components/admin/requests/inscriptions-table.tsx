@@ -31,7 +31,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { CheckCircle2, Archive, Trash2 } from 'lucide-react'
+import { CheckCircle2, Archive, Trash2, Loader2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { ViewInscriptionDialog } from './view-inscription-dialog'
@@ -239,7 +239,11 @@ export default function InscriptionsTable({
                           title="Marquer comme traité"
                           disabled={loadingStates[inscription.id]}
                         >
-                          <CheckCircle2 className="h-4 w-4" />
+                          {loadingStates[inscription.id] ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <CheckCircle2 className="h-4 w-4" />
+                          )}
                         </Button>
                       )}
 
@@ -253,7 +257,11 @@ export default function InscriptionsTable({
                           title="Archiver"
                           disabled={loadingStates[inscription.id]}
                         >
-                          <Archive className="h-4 w-4" />
+                          {loadingStates[inscription.id] ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Archive className="h-4 w-4" />
+                          )}
                         </Button>
                       )}
 

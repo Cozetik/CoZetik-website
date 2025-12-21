@@ -17,7 +17,7 @@ export function CTASection() {
 
               {/* Subheading */}
               <p className="mb-8 text-lg opacity-90 md:text-xl">
-                Contactez-nous dès aujourd'hui pour discuter de vos besoins en formation et découvrir comment nous pouvons vous accompagner dans votre projet professionnel.
+                Contactez-nous dès aujourd&apos;hui pour discuter de vos besoins en formation et découvrir comment nous pouvons vous accompagner dans votre projet professionnel.
               </p>
 
               {/* CTA Buttons */}

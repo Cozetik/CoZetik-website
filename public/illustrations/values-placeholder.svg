@@ -1,0 +1,106 @@
+<svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Organic plant-like illustration with 5 branches representing 5 values -->
+  <!-- Main stem -->
+  <path
+    d="M200 350 Q200 200 200 100"
+    stroke="#5E985E"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="animate-draw-illustration"
+  />
+
+  <!-- Branch 1 - Humain (left, bottom) -->
+  <path
+    d="M200 280 Q150 260 120 240 Q100 230 85 215"
+    stroke="#5E985E"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 0.2s"
+  />
+  <circle cx="85" cy="215" r="8" stroke="#5E985E" stroke-width="3" fill="none" class="animate-draw-illustration" style="animation-delay: 0.3s" />
+
+  <!-- Branch 2 - Excellence (right, bottom) -->
+  <path
+    d="M200 260 Q250 250 280 235 Q300 225 315 210"
+    stroke="#5E985E"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 0.4s"
+  />
+  <circle cx="315" cy="210" r="8" stroke="#5E985E" stroke-width="3" fill="none" class="animate-draw-illustration" style="animation-delay: 0.5s" />
+
+  <!-- Branch 3 - Employabilité (left, middle) -->
+  <path
+    d="M200 200 Q160 190 130 175 Q110 165 95 150"
+    stroke="#5E985E"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 0.6s"
+  />
+  <circle cx="95" cy="150" r="8" stroke="#5E985E" stroke-width="3" fill="none" class="animate-draw-illustration" style="animation-delay: 0.7s" />
+
+  <!-- Branch 4 - Éthique (right, middle) -->
+  <path
+    d="M200 180 Q240 170 270 155 Q290 145 305 130"
+    stroke="#5E985E"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 0.8s"
+  />
+  <circle cx="305" cy="130" r="8" stroke="#5E985E" stroke-width="3" fill="none" class="animate-draw-illustration" style="animation-delay: 0.9s" />
+
+  <!-- Branch 5 - Innovation (top center) -->
+  <path
+    d="M200 120 Q210 100 220 80 Q225 65 230 50"
+    stroke="#5E985E"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 1s"
+  />
+  <circle cx="230" cy="50" r="10" stroke="#5E985E" stroke-width="3" fill="none" class="animate-draw-illustration" style="animation-delay: 1.1s" />
+
+  <!-- Decorative leaves -->
+  <path
+    d="M85 215 Q75 210 70 200"
+    stroke="#5E985E"
+    stroke-width="2"
+    stroke-linecap="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 1.2s"
+  />
+  <path
+    d="M315 210 Q325 205 330 195"
+    stroke="#5E985E"
+    stroke-width="2"
+    stroke-linecap="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 1.3s"
+  />
+  <path
+    d="M95 150 Q85 145 80 135"
+    stroke="#5E985E"
+    stroke-width="2"
+    stroke-linecap="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 1.4s"
+  />
+  <path
+    d="M305 130 Q315 125 320 115"
+    stroke="#5E985E"
+    stroke-width="2"
+    stroke-linecap="round"
+    class="animate-draw-illustration"
+    style="animation-delay: 1.5s"
+  />
+</svg>

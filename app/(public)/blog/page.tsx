@@ -1,4 +1,5 @@
-import { Metadata } from 'next/metadata'
+import { Metadata } from 'next'
+import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { BlogCard } from '@/components/blog/blog-card'
 import { BookOpen, Newspaper } from 'lucide-react'
@@ -33,9 +34,23 @@ async function getBlogPosts() {
 }
 
 export const metadata: Metadata = {
-  title: 'Blog | Cozetik',
+  title: 'Blog',
   description:
     'Découvrez nos articles sur les formations professionnelles, les tendances du marché et les conseils pour développer vos compétences.',
+  openGraph: {
+    title: 'Blog Cozetik - Actualités et conseils formations',
+    description:
+      'Actualités, conseils et tendances du monde de la formation professionnelle. Articles d\'experts pour rester informé.',
+    images: ['/og-image.jpg'],
+    url: 'https://cozetik.com/blog',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog Cozetik - Actualités et conseils formations',
+    description: 'Actualités et tendances de la formation professionnelle.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 export default async function BlogPage() {
@@ -60,7 +75,7 @@ export default async function BlogPage() {
             {/* Description */}
             <p className="text-lg text-muted-foreground md:text-xl">
               Actualités, conseils et tendances du monde de la formation
-              professionnelle. Restez informé avec nos articles d'experts.
+              professionnelle. Restez informé avec nos articles d&apos;experts.
             </p>
           </div>
         </div>
@@ -124,12 +139,12 @@ export default async function BlogPage() {
                 >
                   Nous contacter
                 </a>
-                <a
+                <Link
                   href="/formations"
                   className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   Découvrir nos formations
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -19,7 +19,6 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ImageUpload } from '@/components/admin/image-upload'
-import { deleteImage } from '@/lib/blob'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -29,8 +28,8 @@ const formSchema = z.object({
   description: z.string().optional(),
   logoUrl: z.string().optional(),
   websiteUrl: z.string().url('URL invalide').optional().or(z.literal('')),
-  visible: z.boolean().default(true),
-  order: z.coerce.number().int().min(0).default(0),
+  visible: z.boolean(),
+  order: z.number().int().min(0),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -96,15 +95,9 @@ export default function EditPartnerForm({ partner }: { partner: Partner }) {
     }
   }
 
-  const handleLogoRemove = async () => {
-    if (previousLogoUrl) {
-      try {
-        await deleteImage(previousLogoUrl)
-        setPreviousLogoUrl(null)
-      } catch (error) {
-        console.error('Error deleting logo:', error)
-      }
-    }
+  const handleLogoRemove = () => {
+    // La suppression de l'ancien logo sera gérée par l'API lors de la soumission
+    setPreviousLogoUrl(null)
     form.setValue('logoUrl', '')
   }
 

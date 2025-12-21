@@ -1,0 +1,92 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+
+export function AboutSection() {
+  return (
+    <section className="bg-cozetik-beige px-5 py-10 md:px-10 md:py-16 lg:px-[120px] lg:py-[100px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-12 lg:flex-row lg:gap-20">
+        {/* Left Column - Text Content */}
+        <motion.div
+          className="relative flex flex-1 flex-col lg:max-w-[60%]"
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
+          {/* Title - COZÉTIK broken on 2 lines */}
+          <h2 className="font-display text-[80px] font-normal leading-[100%] tracking-[0] text-cozetik-black md:text-[120px] lg:text-[160px]">
+            COZ
+            <br />
+            ÉTIK
+          </h2>
+
+          {/* Subtitle */}
+          <h3 className="mt-8 font-sans text-base font-extrabold uppercase tracking-[0] text-cozetik-black md:text-lg">
+            Passez à l&apos;étape suivante
+          </h3>
+
+          {/* Paragraph */}
+          <p className="mt-6 max-w-[600px] font-sans text-base leading-[150%] text-cozetik-black md:text-lg">
+            Avec nos parcours, vous développerez des compétences clés pour évoluer dans votre carrière professionnelle, améliorerez votre prise de décision et exploiterez pleinement le potentiel de l&apos;IA pour faire face aux défis futurs.
+          </p>
+
+          {/* CTA Button */}
+          <Link
+            href="/formations"
+            className="mt-8 inline-flex w-full items-center justify-center bg-cozetik-green px-7 py-3.5 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 ease-out hover:scale-[1.02] hover:bg-[#4A7A4A] active:scale-[0.98] focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-cozetik-beige md:w-auto md:text-base"
+          >
+            Explorer les formations
+          </Link>
+
+          {/* Autographe SVG Violet - Below button */}
+          <svg
+            className="absolute top-[100px] -left-[650px] z-20 w-[800px] md:top-[150px] md:-left-[750px] md:w-[1000px] lg:top-[200px] lg:-left-[850px] lg:w-[1200px]"
+            style={{
+              overflow: 'visible',
+            }}
+            viewBox="-220 0 510 418"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M-116.915 6.00049C-61.3342 42.6332 -5.75357 79.2659 54.7746 119.296C115.303 159.326 179.094 201.643 220.483 228.18C261.872 254.716 278.925 264.19 282.657 267.176C286.389 270.162 276.284 266.372 232.55 243.261C188.817 220.151 111.762 177.833 55.9612 149.718C0.160492 121.602 -32.051 108.97 -54.3292 101.2C-87.5535 89.611 -101.584 87.6681 -102.245 88.6059C-103.394 90.2386 -96.5889 93.9649 -58.626 117.391C-20.6631 140.818 50.7075 183.767 91.8954 210.313C133.083 236.859 141.926 245.702 149.323 254.362C163.189 270.595 170.156 283.483 168.922 287.961C168.07 291.05 157.582 286.124 140.72 279.77C123.858 273.415 98.5941 263.31 68.2104 254.946C37.8267 246.582 3.0888 240.266 -36.2808 237.328C-75.6504 234.39 -118.599 235.022 -146.409 237.874C-174.218 240.725 -185.587 245.778 -193.654 251.223C-201.721 256.668 -206.142 262.353 -208.736 268.755C-211.961 282.105 -211.98 297.474 -207.233 326.02C-203.118 346.355 -195.539 378.567 -187.73 411.755"
+              stroke="#ADA6DB"
+              strokeWidth="12"
+              strokeLinecap="round"
+            />
+          </svg>
+        </motion.div>
+
+        {/* Right Column - Image */}
+        <motion.div
+          className="flex flex-1 items-center justify-center lg:max-w-[40%]"
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
+          {/* Placeholder Image */}
+          <div className="flex h-[300px] w-full items-center justify-center bg-gray-300 md:h-[400px]">
+            <p className="font-sans text-base text-gray-600 md:text-lg">
+              Photo étudiants Cozetik
+            </p>
+          </div>
+          {/*
+          When image is provided, replace placeholder with:
+          <Image
+            src="/students-image.jpg"
+            alt="Étudiants souriants suivant une formation Cozetik"
+            width={600}
+            height={400}
+            className="h-auto w-full object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, 40vw"
+          />
+          */}
+        </motion.div>
+      </div>
+    </section>
+  )
+}

@@ -1,6 +1,4 @@
-import { getServerSession } from 'next-auth'
-import { redirect } from 'next/navigation'
-import { authOptions } from '@/lib/auth'
+import { auth } from '@/auth'
 import AdminLayoutClient from './layout-client'
 
 export default async function AdminLayout({
@@ -8,14 +6,11 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession(authOptions)
-
-  if (!session) {
-    redirect('/admin/login')
-  }
+  // Le middleware a déjà vérifié l'auth, donc session existe toujours ici
+  const session = await auth()
 
   return (
-    <AdminLayoutClient userEmail={session.user?.email || ''}>
+    <AdminLayoutClient userEmail={session?.user?.email || ''}>
       {children}
     </AdminLayoutClient>
   )

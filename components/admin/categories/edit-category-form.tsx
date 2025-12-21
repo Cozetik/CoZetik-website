@@ -28,8 +28,8 @@ const formSchema = z.object({
   name: z.string().min(1, 'Le nom est requis').max(100, 'Le nom est trop long'),
   description: z.string().optional(),
   imageUrl: z.string().optional(),
-  visible: z.boolean().default(true),
-  order: z.coerce.number().int().min(0).default(0),
+  visible: z.boolean(),
+  order: z.number().int().min(0),
 })
 
 type FormValues = z.infer<typeof formSchema>

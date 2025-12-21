@@ -1,29 +1,31 @@
-import { withAuth } from 'next-auth/middleware'
-import { NextResponse } from 'next/server'
+import { auth } from "@/auth"
 
-export default withAuth(
-  function middleware(req) {
-    return NextResponse.next()
-  },
-  {
-    callbacks: {
-      authorized: ({ token, req }) => {
-        // Permettre l'accès à la page de login sans authentification
-        if (req.nextUrl.pathname === '/admin/login') {
-          return true
-        }
+export default auth((req) => {
+  const isLoggedIn = !!req.auth
+  const isAdminRoute = req.nextUrl.pathname.startsWith('/admin')
+  const isLoginPage = req.nextUrl.pathname === '/auth-admin'
+  const isAdminLogin = req.nextUrl.pathname === '/admin/login'
 
-        // Pour toutes les autres routes /admin, vérifier le token
-        return !!token
-      },
-    },
-    pages: {
-      signIn: '/admin/login',
-    },
+  // Rediriger /admin/login vers /auth-admin (au cas où next.config rate)
+  if (isAdminLogin) {
+    return Response.redirect(new URL('/auth-admin', req.nextUrl.origin))
   }
-)
 
-// Protéger toutes les routes commençant par /admin
+  // Ne pas rediriger si on est déjà sur la page de login
+  if (isLoginPage) {
+    return undefined
+  }
+
+  // Protéger toutes les routes /admin/* sauf /auth-admin
+  if (isAdminRoute && !isLoggedIn) {
+    const loginUrl = new URL('/auth-admin', req.nextUrl.origin)
+    loginUrl.searchParams.set('callbackUrl', req.nextUrl.pathname)
+    return Response.redirect(loginUrl)
+  }
+
+  return undefined // Continue normalement si autorisé
+})
+
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/auth-admin']
 }
