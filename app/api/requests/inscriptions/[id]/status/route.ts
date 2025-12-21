@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendEmail } from '@/lib/resend'
+import { emailInscriptionAccepted } from '@/emails/email-inscription-accepted'
 import * as z from 'zod'
 
 const statusSchema = z.object({
@@ -16,9 +18,27 @@ export async function PATCH(
     const body = await request.json()
     const validatedData = statusSchema.parse(body)
 
-    // Vérifier que l'inscription existe
+    // Vérifier que l'inscription existe avec la formation et les sessions
     const existingInscription = await prisma.formationInscription.findUnique({
       where: { id },
+      include: {
+        formation: {
+          include: {
+            sessions: {
+              where: {
+                available: true,
+                startDate: {
+                  gte: new Date()
+                }
+              },
+              orderBy: {
+                startDate: 'asc'
+              },
+              take: 1
+            }
+          }
+        }
+      }
     })
 
     if (!existingInscription) {
@@ -44,6 +64,44 @@ export async function PATCH(
         },
       },
     })
+
+    // Envoyer un email à l'utilisateur si le statut passe à TREATED
+    if (validatedData.status === 'TREATED' && existingInscription.status !== 'TREATED') {
+      try {
+        // Formater la date de session (si disponible)
+        const nextSession = existingInscription.formation.sessions && existingInscription.formation.sessions.length > 0 
+          ? existingInscription.formation.sessions[0]
+          : null;
+        
+        const sessionDate = nextSession
+          ? new Date(nextSession.startDate).toLocaleDateString('fr-FR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })
+          : undefined;
+
+        const emailResult = await sendEmail(
+          existingInscription.email,
+          `Votre inscription a été acceptée - ${existingInscription.formation.title}`,
+          emailInscriptionAccepted(
+            existingInscription.name,
+            existingInscription.formation.title,
+            sessionDate
+          )
+        )
+        
+        if (emailResult.success) {
+          console.log('✅ Email d\'acceptation d\'inscription envoyé à:', existingInscription.email)
+        } else {
+          console.error('❌ Échec envoi email d\'acceptation:', emailResult.error)
+          // On continue même si l'email échoue pour ne pas bloquer la mise à jour
+        }
+      } catch (emailError) {
+        console.error('❌ Erreur exception envoi email d\'acceptation:', emailError)
+        // On continue même si l'email échoue
+      }
+    }
 
     return NextResponse.json(updatedInscription)
   } catch (error) {

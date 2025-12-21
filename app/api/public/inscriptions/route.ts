@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
           phone: validatedData.phone,
           message: validatedData.message,
           formationId: validatedData.formationId,
-          status: 'NEW'
+          status: 'NEW' as const
         }
       });
       console.log('✅ Inscription enregistrée en DB:', inscription.id);
@@ -91,10 +91,23 @@ export async function POST(request: NextRequest) {
         console.error('❌ Message:', dbError.message);
         console.error('❌ Stack:', dbError.stack);
       }
+      
+      // Extraire le message d'erreur plus détaillé
+      let errorMessage = 'Erreur lors de l\'enregistrement';
+      let errorDetails = undefined;
+      
+      if (dbError instanceof Error) {
+        errorMessage = dbError.message;
+        errorDetails = process.env.NODE_ENV === 'development' ? {
+          message: dbError.message,
+          stack: dbError.stack,
+        } : undefined;
+      }
+      
       return NextResponse.json(
         { 
-          error: 'Erreur lors de l\'enregistrement',
-          details: process.env.NODE_ENV === 'development' ? (dbError instanceof Error ? dbError.message : String(dbError)) : undefined
+          error: errorMessage,
+          details: errorDetails
         },
         { status: 500 }
       );
