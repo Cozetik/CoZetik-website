@@ -107,7 +107,7 @@ export function LiquidMorphTransition({
       }}
     >
       <svg
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 w-full h-full"
         viewBox="0 0 1000 1200"
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +115,9 @@ export function LiquidMorphTransition({
         <path
           ref={pathRef}
           d="M50,25 C50,11.2 38.8,0 25,0 C11.2,0 0,11.2 0,25 C0,38.8 11.2,50 25,50 C38.8,50 50,38.8 50,25 Z"
-          fill="#F2E7D8"
+          fill="#FFFFFF"
+          stroke="#000000"
+          strokeWidth="1"
           style={{
             transformOrigin: buttonPosition
               ? `${buttonPosition.x}px ${buttonPosition.y}px`
