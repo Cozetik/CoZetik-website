@@ -61,3 +61,4 @@ Après l'exécution des migrations, vous devriez voir :
 Ensuite, testez l'inscription sur Vercel - cela devrait fonctionner ! 🎉
 
 
+
