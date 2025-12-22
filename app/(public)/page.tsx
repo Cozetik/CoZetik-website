@@ -7,7 +7,8 @@ import { FeaturedFormationsSection } from '@/components/home/featured-formations
 import { WhyCozetikSection } from '@/components/home/why-cozetik-section'
 import { ValuesSection } from '@/components/home/values-section'
 import { PartnersSection } from '@/components/home/partners-section'
-import { CTASection } from '@/components/home/cta-section'
+import { JoinAdventureSection } from '@/components/home/join-adventure-section'
+import { FinalCTASection } from '@/components/home/final-cta-section'
 
 export const metadata: Metadata = {
   title: 'Accueil',
@@ -80,38 +81,20 @@ export default async function Home() {
       {/* About Section - Regular flow with top padding */}
       <AboutSection />
 
-      <section className="bg-cozetik-beige px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
+      <section className="relative z-0 bg-[#FDFDFD] px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
         <div className="container mx-auto max-w-[1440px]">
           <CategoriesSection categories={categories} />
-        </div>
-      </section>
-
-      <section className="bg-cozetik-beige px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
-        <div className="container mx-auto max-w-[1440px]">
-          <FeaturedFormationsSection formations={formations} />
-        </div>
-      </section>
-
-      <section className="bg-cozetik-beige px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
-        <div className="container mx-auto max-w-[1440px]">
-          <WhyCozetikSection />
         </div>
       </section>
 
       {/* Nos Valeurs Section - Fond noir */}
       <ValuesSection />
 
-      <section className="bg-cozetik-beige px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
-        <div className="container mx-auto max-w-[1440px]">
-          <PartnersSection partners={partners} />
-        </div>
-      </section>
+      {/* CTA Section 1 - Rejoins l'Aventure (Violet) */}
+      <JoinAdventureSection />
 
-      <section className="bg-cozetik-beige px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
-        <div className="container mx-auto max-w-[1440px]">
-          <CTASection />
-        </div>
-      </section>
+      {/* CTA Section 2 - Franchissez les Étapes (Vert) */}
+      <FinalCTASection />
     </div>
   )
 }

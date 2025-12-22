@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react'
+import { Play, Pause, Volume2, VolumeX, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 export function HeroSection() {
   const [isPlaying, setIsPlaying] = useState(true)
@@ -61,11 +62,11 @@ export function HeroSection() {
         Your browser does not support the video tag.
       </video>
 
-      {/* Overlay Layer - 20% opacity for readability */}
-      <div className="absolute inset-0 bg-black/[0.20]" />
+      {/* Overlay Layer - 20% opacity for readability - pointer-events-none */}
+      <div className="pointer-events-none absolute inset-0 bg-black/[0.20]" />
 
       {/* Content Layer */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center">
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center">
         <div className="relative">
           {/* Main Title */}
           <h1 className="font-display text-[80px] font-normal leading-[100%] tracking-[0] text-cozetik-white md:text-[140px] lg:text-[230px]">
@@ -74,7 +75,7 @@ export function HeroSection() {
 
           {/* Autographe SVG Vert - Animated */}
           <svg
-            className="absolute bottom-6 -right-8 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-18 lg:-right-16 lg:w-64"
+            className="pointer-events-none absolute bottom-6 -right-8 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-18 lg:-right-16 lg:w-64"
             style={{
               opacity: 0,
               animation: 'fadeIn 3s ease-in-out 0.5s forwards',
@@ -93,26 +94,30 @@ export function HeroSection() {
           </svg>
         </div>
 
-        {/* Subtitle */}
-        <p className="mt-8 font-sans text-lg font-semibold text-cozetik-white md:text-xl lg:text-2xl">
-          DÉCOUVREZ NOS FORMATIONS
-        </p>
+        {/* CTA Button avec effet soulignement - espace très réduit */}
+        <Link
+          href="/formations"
+          className="group relative z-30 mt-1 inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:mt-2 md:text-xl lg:text-2xl"
+        >
+          Découvrez nos formations
+          <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
+        </Link>
       </div>
 
-      {/* Video Controls */}
-      <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-3 rounded-lg bg-black/80 p-3 backdrop-blur-lg md:bottom-10 md:left-auto md:right-10 md:translate-x-0">
+      {/* Video Controls - Boutons séparés et carrés avec bordure verte */}
+      <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-3 md:bottom-10 md:left-auto md:right-10 md:translate-x-0 md:gap-4">
         {/* Play/Pause Button */}
         <button
           onClick={togglePlay}
           onKeyDown={(e) => handleKeyDown(e, togglePlay)}
           aria-label={isPlaying ? 'Mettre en pause' : 'Lire la vidéo'}
-          className="cursor-pointer text-cozetik-white transition-opacity duration-200 hover:opacity-70 active:scale-95"
+          className="cursor-pointer rounded-lg border-2 border-transparent bg-black/20 p-3 text-cozetik-white/90 backdrop-blur-sm transition-all duration-200 hover:border-cozetik-green hover:bg-black/30 hover:text-cozetik-white hover:scale-105 active:border-cozetik-green active:scale-95 md:p-4"
           tabIndex={0}
         >
           {isPlaying ? (
-            <Pause className="h-5 w-5" />
+            <Pause className="h-6 w-6 md:h-7 md:w-7" />
           ) : (
-            <Play className="h-5 w-5" />
+            <Play className="h-6 w-6 md:h-7 md:w-7" />
           )}
         </button>
 
@@ -121,13 +126,13 @@ export function HeroSection() {
           onClick={toggleMute}
           onKeyDown={(e) => handleKeyDown(e, toggleMute)}
           aria-label={isMuted ? 'Activer le son' : 'Désactiver le son'}
-          className="cursor-pointer text-cozetik-white transition-opacity duration-200 hover:opacity-70 active:scale-95"
+          className="cursor-pointer rounded-lg border-2 border-transparent bg-black/20 p-3 text-cozetik-white/90 backdrop-blur-sm transition-all duration-200 hover:border-cozetik-green hover:bg-black/30 hover:text-cozetik-white hover:scale-105 active:border-cozetik-green active:scale-95 md:p-4"
           tabIndex={0}
         >
           {isMuted ? (
-            <VolumeX className="h-5 w-5" />
+            <VolumeX className="h-6 w-6 md:h-7 md:w-7" />
           ) : (
-            <Volume2 className="h-5 w-5" />
+            <Volume2 className="h-6 w-6 md:h-7 md:w-7" />
           )}
         </button>
       </div>
