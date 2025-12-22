@@ -138,6 +138,8 @@ export default function NewCategoryPage() {
                       type="number"
                       placeholder="0"
                       {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      value={field.value}
                       disabled={isLoading}
                     />
                   </FormControl>

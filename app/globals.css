@@ -120,6 +120,22 @@
     animation: draw-illustration 2s ease-out forwards;
   }
 
+  /* Zigzag autographe drawing animation for Join Adventure CTA */
+  @keyframes draw-zigzag {
+    from {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+    }
+    to {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .animate-draw-zigzag {
+    animation: draw-zigzag 1.5s ease-out 0.5s forwards;
+  }
+
   /* GPU acceleration for smooth animations */
   .will-change-transform {
     will-change: transform;

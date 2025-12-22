@@ -20,16 +20,16 @@ export function CategoryCard({ name, slug, index }: CategoryCardProps) {
         delay: index * 0.1,
         ease: 'easeOut',
       }}
-      className="will-change-transform"
+      className="group/card will-change-transform"
     >
       <Link
         href={`/formations?category=${slug}`}
-        className="group block"
+        className="block"
         role="link"
         aria-label={`Catégorie ${name}`}
       >
-        <div className="flex h-48 items-center justify-center bg-cozetik-white px-8 transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:bg-cozetik-beige">
-          <h3 className="text-center font-sans text-xl font-bold uppercase leading-tight tracking-normal text-cozetik-black md:text-2xl">
+        <div className="flex h-48 items-center justify-center bg-[#FDFDFD] px-8 transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:bg-cozetik-beige/80 group-has-[.group\/card:hover]:bg-[#FDFDFD]">
+          <h3 className="text-center font-sans text-xl font-bold uppercase leading-tight tracking-normal text-cozetik-black transition-colors duration-300 group-has-[.group\/card:hover]:text-gray-400 group-hover/card:text-cozetik-black md:text-2xl">
             {name}
           </h3>
         </div>

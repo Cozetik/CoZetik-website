@@ -1,13 +1,23 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import { LiquidMorphTransition } from '@/components/animations/liquid-morph-transition'
+import Image from 'next/image'
 
 export function AboutSection() {
+  const [showTransition, setShowTransition] = useState(false)
+  const [buttonPosition, setButtonPosition] = useState<{
+    x: number
+    y: number
+  } | null>(null)
+
   return (
-    <section className="bg-cozetik-beige px-5 py-10 md:px-10 md:py-16 lg:px-[120px] lg:py-[100px]">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-12 lg:flex-row lg:gap-20">
-        {/* Left Column - Text Content */}
+    <>
+      <section className="relative bg-[#FDFDFD] px-5 py-10 md:px-10 md:py-16 lg:px-[120px] lg:py-[100px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-12 lg:flex-row lg:gap-20">
+        {/* Left Column - Text Content avec fond beige */}
         <motion.div
           className="relative flex flex-1 flex-col lg:max-w-[60%]"
           initial={{ opacity: 0, x: -50 }}
@@ -15,34 +25,48 @@ export function AboutSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          {/* Title - COZÉTIK broken on 2 lines */}
-          <h2 className="font-display text-[80px] font-normal leading-[100%] tracking-[0] text-cozetik-black md:text-[120px] lg:text-[160px]">
-            COZ
-            <br />
-            ÉTIK
-          </h2>
+          {/* Zone beige wrapper */}
+          <div className="bg-cozetik-beige p-8 md:p-12 lg:p-16">
+            {/* Title - COZÉTIK broken on 2 lines */}
+            <h2 className="font-display text-[80px] font-normal leading-[100%] tracking-[0] text-cozetik-black md:text-[120px] lg:text-[160px]">
+              COZ
+              <br />
+              ÉTIK
+            </h2>
 
-          {/* Subtitle */}
-          <h3 className="mt-8 font-sans text-base font-extrabold uppercase tracking-[0] text-cozetik-black md:text-lg">
-            Passez à l&apos;étape suivante
-          </h3>
+            {/* Subtitle */}
+            <h3 className="mt-4 font-sans text-base font-extrabold uppercase tracking-[0] text-cozetik-black md:text-lg">
+              Passez à l&apos;étape suivante
+            </h3>
 
-          {/* Paragraph */}
-          <p className="mt-6 max-w-[600px] font-sans text-base leading-[150%] text-cozetik-black md:text-lg">
-            Avec nos parcours, vous développerez des compétences clés pour évoluer dans votre carrière professionnelle, améliorerez votre prise de décision et exploiterez pleinement le potentiel de l&apos;IA pour faire face aux défis futurs.
-          </p>
+            {/* Paragraph - Texte exact Figma */}
+            <p className="mt-6 max-w-[600px] font-sans text-base leading-[150%] text-cozetik-black md:text-lg">
+              Avec nos parcours, vous développerez des compétences clés,
+              obtiendrez des certifications reconnues et construirez votre avenir
+              professionnel. Préparez-vous concrètement à votre future carrière
+              en nos parcours dès aujourd&apos;hui
+            </p>
 
-          {/* CTA Button */}
-          <Link
-            href="/formations"
-            className="mt-8 inline-flex w-full items-center justify-center bg-cozetik-green px-7 py-3.5 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 ease-out hover:scale-[1.02] hover:bg-[#4A7A4A] active:scale-[0.98] focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-cozetik-beige md:w-auto md:text-base"
-          >
-            Explorer les formations
-          </Link>
+            {/* CTA - Texte avec soulignement au hover */}
+            <button
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect()
+                setButtonPosition({
+                  x: rect.left + rect.width / 2,
+                  y: rect.top + rect.height / 2,
+                })
+                setShowTransition(true)
+              }}
+              className="group mt-8 inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-base font-normal text-cozetik-black transition-all duration-300 hover:border-cozetik-black hover:gap-3 md:text-lg"
+            >
+              Explorez les formations
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
 
           {/* Autographe SVG Violet - Below button */}
           <svg
-            className="absolute top-[100px] -left-[650px] z-20 w-[800px] md:top-[150px] md:-left-[750px] md:w-[1000px] lg:top-[200px] lg:-left-[850px] lg:w-[1200px]"
+            className="pointer-events-none absolute top-[100px] -left-[650px] z-20 w-[800px] md:top-[150px] md:-left-[750px] md:w-[1000px] lg:top-[200px] lg:-left-[850px] lg:w-[1200px]"
             style={{
               overflow: 'visible',
             }}
@@ -59,34 +83,34 @@ export function AboutSection() {
           </svg>
         </motion.div>
 
-        {/* Right Column - Image */}
+        {/* Right Column - Image étudiants qui déborde beaucoup */}
         <motion.div
-          className="flex flex-1 items-center justify-center lg:max-w-[40%]"
+          className="relative flex flex-1 items-center justify-center lg:max-w-[60%] lg:-ml-24"
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          {/* Placeholder Image */}
-          <div className="flex h-[300px] w-full items-center justify-center bg-gray-300 md:h-[400px]">
-            <p className="font-sans text-base text-gray-600 md:text-lg">
-              Photo étudiants Cozetik
-            </p>
-          </div>
-          {/*
-          When image is provided, replace placeholder with:
           <Image
-            src="/students-image.jpg"
+            src="/image-about.png"
             alt="Étudiants souriants suivant une formation Cozetik"
-            width={600}
-            height={400}
-            className="h-auto w-full object-cover"
+            width={1000}
+            height={750}
+            className="h-auto w-[150%] object-cover rounded-lg"
             priority
-            sizes="(max-width: 768px) 100vw, 40vw"
+            sizes="(max-width: 768px) 100vw, 75vw"
           />
-          */}
         </motion.div>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* Liquid Morph Transition - HORS de la section pour éviter overflow-hidden */}
+      <LiquidMorphTransition
+        isOpen={showTransition}
+        targetUrl="/formations"
+        onComplete={() => setShowTransition(false)}
+        buttonPosition={buttonPosition ?? undefined}
+      />
+    </>
   )
 }
