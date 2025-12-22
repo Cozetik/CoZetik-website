@@ -130,13 +130,13 @@ model ContactRequest {
 
 // FormationInscription model for formation registrations
 model FormationInscription {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
   email       String
   phone       String
-  message     String   @db.Text
+  message     String        @db.Text
   formationId String
-  status      String   @default("NEW")
+  status      RequestStatus @default(NEW)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
