@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,6 +19,7 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+// Category model for formation categories
 model Category {
   id          String      @id @default(cuid())
   name        String
@@ -24,11 +28,12 @@ model Category {
   imageUrl    String?
   visible     Boolean     @default(true)
   order       Int         @default(0)
+  formations  Formation[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  formations  Formation[]
 }
 
+// Formation model
 model Formation {
   id           String                 @id @default(cuid())
   title        String
@@ -62,6 +67,7 @@ model Formation {
   faqs         FormationFAQ[]
 }
 
+// FormationSession model for formation calendar
 model FormationSession {
   id          String    @id @default(cuid())
   formationId String
@@ -75,6 +81,7 @@ model FormationSession {
   formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
 }
 
+// Partner model for companies/partners
 model Partner {
   id          String   @id @default(cuid())
   name        String
@@ -87,6 +94,7 @@ model Partner {
   updatedAt   DateTime @updatedAt
 }
 
+// BlogPost model for blog articles
 model BlogPost {
   id             String    @id @default(cuid())
   title          String
@@ -110,6 +118,7 @@ model Theme {
   posts BlogPost[]
 }
 
+// ContactRequest model for contact form submissions
 model ContactRequest {
   id        String        @id @default(cuid())
   name      String
@@ -122,17 +131,19 @@ model ContactRequest {
   @@map("contact_requests")
 }
 
+// FormationInscription model for formation registrations
 model FormationInscription {
-  id          String        @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   email       String
   phone       String
   message     String        @db.Text
   formationId String
-  status      RequestStatus @default(NEW)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  formation   Formation     @relation(fields: [formationId], references: [id])
+  status      String   @default("NEW")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  formation   Formation @relation(fields: [formationId], references: [id])
 
   @@map("formation_inscriptions")
 }
