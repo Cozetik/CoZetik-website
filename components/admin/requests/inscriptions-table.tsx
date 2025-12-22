@@ -122,11 +122,18 @@ export default function InscriptionsTable({
         )
       )
 
-      toast.success(
-        newStatus === 'TREATED'
-          ? 'Inscription marquée comme traitée'
-          : 'Inscription archivée'
-      )
+      // Afficher un message selon le résultat
+      if (newStatus === 'TREATED') {
+        if (data.emailSent) {
+          toast.success('Inscription marquée comme traitée et email envoyé avec succès')
+        } else if (data.emailError) {
+          toast.warning(`Inscription marquée comme traitée, mais l'email n'a pas pu être envoyé: ${data.emailError}`)
+        } else {
+          toast.success('Inscription marquée comme traitée')
+        }
+      } else {
+        toast.success('Inscription archivée')
+      }
       router.refresh()
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Erreur inconnue')

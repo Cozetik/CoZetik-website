@@ -39,7 +39,11 @@ export async function PATCH(
     })
 
     // Envoyer un email à l'utilisateur si le statut passe à TREATED
+    let emailSent = false
+    let emailError = null
+    
     if (validatedData.status === 'TREATED' && existingRequest.status !== 'TREATED') {
+      console.log('📧 Tentative d\'envoi email d\'acceptation à:', existingRequest.email)
       try {
         const emailResult = await sendEmail(
           existingRequest.email,
@@ -48,18 +52,31 @@ export async function PATCH(
         )
         
         if (emailResult.success) {
-          console.log('✅ Email d\'acceptation envoyé à:', existingRequest.email)
+          console.log('✅ Email d\'acceptation envoyé avec succès à:', existingRequest.email)
+          emailSent = true
         } else {
           console.error('❌ Échec envoi email d\'acceptation:', emailResult.error)
+          emailError = emailResult.error instanceof Error ? emailResult.error.message : String(emailResult.error)
           // On continue même si l'email échoue pour ne pas bloquer la mise à jour
         }
-      } catch (emailError) {
-        console.error('❌ Erreur exception envoi email d\'acceptation:', emailError)
+      } catch (emailErrorException) {
+        console.error('❌ Erreur exception envoi email d\'acceptation:', emailErrorException)
+        if (emailErrorException instanceof Error) {
+          emailError = emailErrorException.message
+          console.error('❌ Message:', emailErrorException.message)
+          console.error('❌ Stack:', emailErrorException.stack)
+        } else {
+          emailError = String(emailErrorException)
+        }
         // On continue même si l'email échoue
       }
     }
 
-    return NextResponse.json(updatedRequest)
+    return NextResponse.json({
+      ...updatedRequest,
+      emailSent,
+      emailError: emailError || undefined,
+    })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
