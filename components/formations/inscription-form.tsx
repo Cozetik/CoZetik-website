@@ -137,16 +137,15 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
   }
 
   return (
-    <Card className="sticky top-24">
-      <CardHeader>
-        <CardTitle>S&apos;inscrire à cette formation</CardTitle>
-        <CardDescription>
+    <Card className="border-none shadow-lg">
+      <CardHeader className="text-center">
+        <CardDescription className="text-lg text-muted-foreground">
           Remplissez ce formulaire et nous vous recontacterons rapidement
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Name Field */}
             <FormField
               control={form.control}
@@ -196,12 +195,12 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
               )}
             />
 
-            {/* Message Field */}
+            {/* Message Field - Full Width */}
             <FormField
               control={form.control}
               name="message"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="md:col-span-2">
                   <FormLabel>Message / Motivation *</FormLabel>
                   <FormControl>
                     <Textarea
@@ -222,25 +221,32 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
               render={({ field }) => <input type="hidden" {...field} />}
             />
 
-            {/* Submit Button */}
-            <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Envoi en cours...
-                </>
-              ) : (
-                <>
-                  <Send className="h-4 w-4" />
-                  Envoyer ma demande
-                </>
-              )}
-            </Button>
+            {/* Submit Button - Full Width */}
+            <div className="md:col-span-2 space-y-4">
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full gap-2 bg-cozetik-green hover:bg-[#4A7A4A] text-white rounded-none py-6"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Envoi en cours...
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-5 w-5" />
+                    Envoyer ma demande
+                  </>
+                )}
+              </Button>
 
-            <p className="text-center text-xs text-muted-foreground">
-              En soumettant ce formulaire, vous acceptez d&apos;être contacté par notre
-              équipe.
-            </p>
+              <p className="text-center text-sm text-muted-foreground">
+                En soumettant ce formulaire, vous acceptez d&apos;être contacté par notre
+                équipe.
+              </p>
+            </div>
           </form>
         </Form>
       </CardContent>
