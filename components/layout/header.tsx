@@ -48,12 +48,13 @@ export function Header() {
     >
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-10">
         <Link href="/" className="flex h-full items-center py-2" aria-label="Accueil Cozetik">
+          {/* Logo footer (blanc) quand scroll UP, logo normal quand en haut ou scroll DOWN */}
           <Image
-            src="/logo-cozetik_Logo-transparent.png"
+            src={scrollDirection === 'up' && isScrolled ? "/logo footer.png" : "/logo-cozetik_Logo-transparent.png"}
             alt="Cozetik"
             width={280}
             height={80}
-            className="h-full w-auto object-contain"
+            className="h-full w-auto object-contain transition-opacity duration-300"
             priority
           />
         </Link>

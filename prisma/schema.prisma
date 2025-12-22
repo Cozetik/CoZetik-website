@@ -61,6 +61,20 @@ model Formation {
   inscriptions FormationInscription[]
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
+
+  // New fields for immersive page
+  level          String?   // "Débutant", "Intermédiaire", "Expert"
+  maxStudents    Int?      // Ex: 24
+  prerequisites  String?   // "Aucun prérequis" ou détails
+  objectives     String[]  // Array : ["Automatiser tâches", "Créer workflows"]
+  isCertified    Boolean   @default(false)
+  rating         Float?    @default(0) // 4.8
+  reviewsCount   Int       @default(0) // 124
+  studentsCount  Int       @default(0) // 500
+  isFlexible     Boolean   @default(true) // Rythme flexible ?
+
+  steps        FormationStep[]
+  faqs         FormationFAQ[]
 }
 
 // FormationSession model for formation calendar
@@ -121,17 +135,53 @@ model ContactRequest {
 
 // FormationInscription model for formation registrations
 model FormationInscription {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
   email       String
   phone       String
   message     String        @db.Text
   formationId String
-  status      String   @default("NEW")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status      RequestStatus @default(NEW)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   formation   Formation @relation(fields: [formationId], references: [id])
 
   @@map("formation_inscriptions")
+}
+
+// FormationStep model for pedagogical steps carousel
+model FormationStep {
+  id          String @id @default(cuid())
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+
+  order       Int      // 1, 2, 3...
+  title       String   // "Fondamentaux de l'IA"
+  description String   // Description détaillée
+  duration    String?  // "2 heures"
+  keyPoints   String[] // ["Comprendre IA", "Cas d'usage", "Outils"]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([formationId, order])
+  @@index([formationId])
+}
+
+// FormationFAQ model for frequently asked questions
+model FormationFAQ {
+  id          String @id @default(cuid())
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+
+  order    Int
+  question String   // FAQ question
+  answer   String   // FAQ answer
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([formationId, order])
+  @@index([formationId])
 }
