@@ -14,20 +14,20 @@ const values = [
 
 export function ValuesSection() {
   return (
-    <section className="relative w-full overflow-hidden py-28 md:py-40 lg:py-56">
+    <section className="overflow-hidden relative py-28 w-full md:py-40 lg:py-56">
       {/* Split Background: Noir gauche / Beige droite */}
       <div className="absolute inset-0">
-        <div className="relative h-full w-full bg-cozetik-black lg:w-1/2">
+        <div className="relative w-full h-full bg-cozetik-black lg:w-1/2">
           {/* Signature violette - Décalée vers la gauche */}
           <Image
-            src="/signature violette.png"
-            alt="Signature violette"
+            src="/signature verte.png"
+            alt="Signature verte"
             width={300}
             height={1000}
             className="absolute bottom-0 -left-12 h-52 w-auto md:-left-16 md:h-[400px] lg:-left-20 lg:h-[1000px]"
           />
         </div>
-        <div className="absolute right-0 top-0 h-full w-full bg-cozetik-beige lg:w-1/2" />
+        <div className="absolute top-0 right-0 w-full h-full bg-cozetik-beige lg:w-1/2" />
       </div>
 
       {/* Content */}
@@ -39,7 +39,7 @@ export function ValuesSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="relative flex flex-col justify-center"
+            className="flex relative flex-col justify-center"
           >
             {/* Personnage violet - Haut gauche */}
             <Image

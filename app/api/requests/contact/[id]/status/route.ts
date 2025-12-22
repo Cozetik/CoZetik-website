@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendEmail } from '@/lib/resend'
+import { emailContactAccepted } from '@/emails/email-contact-accepted'
 import * as z from 'zod'
 
 const statusSchema = z.object({
@@ -35,6 +37,27 @@ export async function PATCH(
         status: validatedData.status,
       },
     })
+
+    // Envoyer un email à l'utilisateur si le statut passe à TREATED
+    if (validatedData.status === 'TREATED' && existingRequest.status !== 'TREATED') {
+      try {
+        const emailResult = await sendEmail(
+          existingRequest.email,
+          'Votre demande a été acceptée - Cozetik',
+          emailContactAccepted(existingRequest.name)
+        )
+        
+        if (emailResult.success) {
+          console.log('✅ Email d\'acceptation envoyé à:', existingRequest.email)
+        } else {
+          console.error('❌ Échec envoi email d\'acceptation:', emailResult.error)
+          // On continue même si l'email échoue pour ne pas bloquer la mise à jour
+        }
+      } catch (emailError) {
+        console.error('❌ Erreur exception envoi email d\'acceptation:', emailError)
+        // On continue même si l'email échoue
+      }
+    }
 
     return NextResponse.json(updatedRequest)
   } catch (error) {
