@@ -12,12 +12,16 @@ const blogPostSchema = z.object({
   seoDescription: z.string().max(160).nullable().optional(),
   visible: z.boolean(),
   publishedAt: z.string().nullable().optional(), // ISO string
+  themes: z.array(z.string()), // Tableau d'IDs de thèmes
 });
 
 export async function GET() {
   try {
     const posts = await prisma.blogPost.findMany({
       orderBy: { createdAt: "desc" },
+      include: {
+        themes: true, // Inclure les thèmes dans la réponse
+      },
     });
 
     return NextResponse.json(posts);
@@ -61,6 +65,14 @@ export async function POST(request: Request) {
         publishedAt: validatedData.publishedAt
           ? new Date(validatedData.publishedAt)
           : null,
+        themes: validatedData.themes
+          ? {
+              connect: validatedData.themes.map((id) => ({ id })),
+            }
+          : undefined,
+      },
+      include: {
+        themes: true,
       },
     });
 
