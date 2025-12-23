@@ -17,27 +17,27 @@ export const InscriptionAccepted = ({
   return (
     <CozetikLayout previewText={`Félicitations ${name}, votre inscription a été confirmée`}>
       {/* Titre principal */}
-      <Text style={titleStyle}>Inscription confirmée</Text>
+      <Text style={titleStyle} className="title">Inscription confirmée</Text>
 
       {/* Ligne séparatrice */}
       <Hr style={dividerStyle} />
 
       {/* Greeting */}
-      <Text style={greetingStyle}>Félicitations {name},</Text>
+      <Text style={greetingStyle} className="text">Félicitations {name},</Text>
 
       {/* Message principal */}
-      <Text style={paragraphStyle}>
+      <Text style={paragraphStyle} className="text">
         Votre inscription a été validée avec succès. Nous sommes ravis de vous accueillir.
       </Text>
 
       {/* Table Formation Info */}
-      <Section style={tableContainerStyle}>
+      <Section style={tableContainerStyle} className="card">
         <Row style={tableRowStyle}>
           <Column style={tableLabelColumnStyle}>
-            <Text style={tableLabelStyle}>Formation</Text>
+            <Text style={tableLabelStyle} className="text">Formation</Text>
           </Column>
           <Column style={tableValueColumnStyle}>
-            <Text style={tableValueStyle}>{formationTitle}</Text>
+            <Text style={tableValueStyle} className="text">{formationTitle}</Text>
           </Column>
         </Row>
 
@@ -46,10 +46,10 @@ export const InscriptionAccepted = ({
             <Hr style={tableRowDividerStyle} />
             <Row style={tableRowStyle}>
               <Column style={tableLabelColumnStyle}>
-                <Text style={tableLabelStyle}>Date de session</Text>
+                <Text style={tableLabelStyle} className="text">Date de session</Text>
               </Column>
               <Column style={tableValueColumnStyle}>
-                <Text style={tableValueStyle}>{sessionDate}</Text>
+                <Text style={tableValueStyle} className="text">{sessionDate}</Text>
               </Column>
             </Row>
           </>
@@ -59,15 +59,15 @@ export const InscriptionAccepted = ({
       <Hr style={sectionDividerStyle} />
 
       {/* Prochaines étapes */}
-      <Text style={sectionTitleStyle}>Prochaines étapes :</Text>
+      <Text style={sectionTitleStyle} className="text">Prochaines étapes :</Text>
 
-      <Text style={listItemStyle}>
+      <Text style={listItemStyle} className="text">
         • Vous recevrez un email détaillé dans les prochaines 48h
       </Text>
-      <Text style={listItemStyle}>
+      <Text style={listItemStyle} className="text">
         • Accès immédiat à votre espace personnel de formation
       </Text>
-      <Text style={listItemStyle}>
+      <Text style={listItemStyle} className="text">
         • Support disponible 7j/7 pour toute question
       </Text>
 
@@ -79,7 +79,7 @@ export const InscriptionAccepted = ({
       </Section>
 
       {/* Closing */}
-      <Text style={closingStyle}>
+      <Text style={closingStyle} className="text">
         Cordialement,<br />
         L'équipe Cozetik
       </Text>
