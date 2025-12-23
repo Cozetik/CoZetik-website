@@ -4,7 +4,6 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-// Définition des types basés sur ce que Prisma renvoie dans page.tsx
 type Category = {
   id: string;
   name: string;
@@ -15,8 +14,8 @@ type Formation = {
   id: string;
   title: string;
   slug: string;
-  description: string | null; // Correction : accepte null
-  category: Category | null; // Correction : accepte null
+  description: string | null;
+  category: Category | null;
 };
 
 function Hero() {
@@ -49,7 +48,6 @@ function Filters({
   return (
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <div className="flex flex-wrap gap-3">
-        {/* Bouton "Tous" */}
         <button
           onClick={() => onCategoryChange("all")}
           className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
@@ -61,7 +59,6 @@ function Filters({
           Tous
         </button>
 
-        {/* Boutons dynamiques des catégories */}
         {categories.map((category) => (
           <button
             key={category.id}
@@ -117,13 +114,10 @@ export default function FormationsClientPage({
   formations,
   categories,
 }: FormationsClientPageProps) {
-  // État pour le filtre de catégorie
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  // État pour l'animation du rideau (Transition Curtain)
   const [showTransitionCurtain, setShowTransitionCurtain] = useState(true);
 
-  // Effet pour gérer la disparition du rideau après le chargement
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowTransitionCurtain(false);
@@ -133,13 +127,11 @@ export default function FormationsClientPage({
 
   const filteredFormations = useMemo(() => {
     if (selectedCategory === "all") return formations;
-    // Correction : ajout du ?. pour éviter le crash si category est null
     return formations.filter((f) => f.category?.id === selectedCategory);
   }, [selectedCategory, formations]);
 
   return (
     <div className="bg-[#FDFDFD] font-sans relative">
-      {/* RIDEAU D'ARRIVÉE (Transition Effect) */}
       {showTransitionCurtain && (
         <div className="fixed inset-0 z-[9999] pointer-events-none">
           <div className="absolute inset-y-0 right-0 w-full bg-gradient-to-br from-[#ada6db] to-[#262626] overlay-slide-out" />
