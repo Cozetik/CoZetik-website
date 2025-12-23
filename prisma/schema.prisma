@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,35 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ========================================
-// ENUMS
-// ========================================
-
-enum Role {
-  SUPER_ADMIN
-}
-
-enum RequestStatus {
-  NEW
-  TREATED
-  ARCHIVED
-}
-
-// ========================================
-// MODELS
-// ========================================
-
-// User model for admin authentication
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String   // hashed password
+  password  String
   role      Role     @default(SUPER_ADMIN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-// Category model for formation categories
 model Category {
   id          String      @id @default(cuid())
   name        String
@@ -47,36 +24,47 @@ model Category {
   imageUrl    String?
   visible     Boolean     @default(true)
   order       Int         @default(0)
-  formations  Formation[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  formations  Formation[]
 }
 
-// Formation model
 model Formation {
-  id            String                 @id @default(cuid())
-  title         String
-  slug          String                 @unique
-  description   String
-  program       String                 @db.Text
-  price         Float?
-  duration      String?
-  imageUrl      String?
-  visible       Boolean                @default(true)
-  order         Int                    @default(0)
-  categoryId    String
-  category      Category               @relation(fields: [categoryId], references: [id])
-  sessions      FormationSession[]
-  inscriptions  FormationInscription[]
-  createdAt     DateTime               @default(now())
-  updatedAt     DateTime               @updatedAt
+  id           String                 @id @default(cuid())
+  title        String
+  slug         String                 @unique
+  description  String
+  program      String
+  price        Float?
+  duration     String?
+  imageUrl     String?
+  visible      Boolean                @default(true)
+  order        Int                    @default(0)
+  categoryId   String
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  // New fields for immersive page
+  level          String?   // "Débutant", "Intermédiaire", "Expert"
+  maxStudents    Int?      // Ex: 24
+  prerequisites  String?   // "Aucun prérequis" ou détails
+  objectives     String[]  // Array : ["Automatiser tâches", "Créer workflows"]
+  isCertified    Boolean   @default(false)
+  rating         Float?    @default(0) // 4.8
+  reviewsCount   Int       @default(0) // 124
+  studentsCount  Int       @default(0) // 500
+  isFlexible     Boolean   @default(true) // Rythme flexible ?
+
+  category     Category               @relation(fields: [categoryId], references: [id])
+  sessions     FormationSession[]
+  inscriptions FormationInscription[]
+  steps        FormationStep[]
+  faqs         FormationFAQ[]
 }
 
-// FormationSession model for formation calendar
 model FormationSession {
   id          String    @id @default(cuid())
   formationId String
-  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
   startDate   DateTime
   endDate     DateTime
   location    String?
@@ -84,9 +72,9 @@ model FormationSession {
   available   Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
 }
 
-// Partner model for companies/partners
 model Partner {
   id          String   @id @default(cuid())
   name        String
@@ -99,12 +87,11 @@ model Partner {
   updatedAt   DateTime @updatedAt
 }
 
-// BlogPost model for blog articles
 model BlogPost {
   id             String    @id @default(cuid())
   title          String
   slug           String    @unique
-  content        String    @db.Text
+  content        String
   excerpt        String?
   imageUrl       String?
   visible        Boolean   @default(false)
@@ -123,12 +110,11 @@ model Theme {
   posts BlogPost[]
 }
 
-// ContactRequest model for contact form submissions
 model ContactRequest {
   id        String        @id @default(cuid())
   name      String
   email     String
-  message   String        @db.Text
+  message   String
   status    RequestStatus @default(NEW)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
@@ -136,7 +122,6 @@ model ContactRequest {
   @@map("contact_requests")
 }
 
-// FormationInscription model for formation registrations
 model FormationInscription {
   id          String        @id @default(cuid())
   name        String
@@ -145,10 +130,55 @@ model FormationInscription {
   message     String        @db.Text
   formationId String
   status      RequestStatus @default(NEW)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  formation   Formation @relation(fields: [formationId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  formation   Formation     @relation(fields: [formationId], references: [id])
 
   @@map("formation_inscriptions")
+}
+
+enum Role {
+  SUPER_ADMIN
+}
+
+enum RequestStatus {
+  NEW
+  TREATED
+  ARCHIVED
+}
+
+// FormationStep model for pedagogical steps carousel
+model FormationStep {
+  id          String @id @default(cuid())
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+
+  order       Int      // 1, 2, 3...
+  title       String   // "Fondamentaux de l'IA"
+  description String   // Description détaillée
+  duration    String?  // "2 heures"
+  keyPoints   String[] // ["Comprendre IA", "Cas d'usage", "Outils"]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([formationId, order])
+  @@index([formationId])
+}
+
+// FormationFAQ model for frequently asked questions
+model FormationFAQ {
+  id          String @id @default(cuid())
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+
+  order    Int
+  question String   // FAQ question
+  answer   String   // FAQ answer
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([formationId, order])
+  @@index([formationId])
 }
