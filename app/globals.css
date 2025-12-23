@@ -144,6 +144,34 @@
   .will-change-transform {
     will-change: transform;
   }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(-100%);
+      opacity: 0.3;
+    }
+  }
+
+  .overlay-slide-in {
+    animation: slideIn 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+  }
+
+  .overlay-slide-out {
+    animation: slideOut 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+  }
 }
 
 .shadow-blog-green {

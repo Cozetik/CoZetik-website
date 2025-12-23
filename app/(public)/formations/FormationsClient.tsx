@@ -1,32 +1,23 @@
-'use client'
+"use client";
 
-import { useMemo, useState } from 'react'
-import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+
+// Définition des types basés sur ce que Prisma renvoie dans page.tsx
+type Category = {
+  id: string;
+  name: string;
+  slug: string;
+};
 
 type Formation = {
-  id: string
-  title: string
-  slug: string
-  description: string
-  imageUrl: string | null
-  category: {
-    id: string
-    name: string
-    slug: string
-  }
-}
-
-type Category = {
-  id: string
-  name: string
-  slug: string
-}
-
-type Props = {
-  formations: Formation[]
-  categories: Category[]
-}
+  id: string;
+  title: string;
+  slug: string;
+  description: string | null; // Correction : accepte null
+  category: Category | null; // Correction : accepte null
+};
 
 function Hero() {
   return (
@@ -43,7 +34,7 @@ function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function Filters({
@@ -51,31 +42,34 @@ function Filters({
   onCategoryChange,
   categories,
 }: {
-  selectedCategory: string
-  onCategoryChange: (categoryId: string) => void
-  categories: Category[]
+  selectedCategory: string;
+  onCategoryChange: (id: string) => void;
+  categories: Category[];
 }) {
   return (
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <div className="flex flex-wrap gap-3">
+        {/* Bouton "Tous" */}
         <button
-          onClick={() => onCategoryChange('all')}
+          onClick={() => onCategoryChange("all")}
           className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
-            selectedCategory === 'all'
-              ? 'bg-[#262626] text-white'
-              : 'bg-white text-[#262626] hover:bg-[#f3f0fa]'
+            selectedCategory === "all"
+              ? "bg-[#262626] text-white"
+              : "bg-white text-[#262626] hover:bg-[#f3f0fa]"
           }`}
         >
           Tous
         </button>
-        {categories.map(category => (
+
+        {/* Boutons dynamiques des catégories */}
+        {categories.map((category) => (
           <button
             key={category.id}
             onClick={() => onCategoryChange(category.id)}
             className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
               selectedCategory === category.id
-                ? 'bg-[#262626] text-white'
-                : 'bg-white text-[#262626] hover:bg-[#f3f0fa]'
+                ? "bg-[#262626] text-white"
+                : "bg-white text-[#262626] hover:bg-[#f3f0fa]"
             }`}
           >
             {category.name}
@@ -83,24 +77,24 @@ function Filters({
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 function FormationCard({ formation }: { formation: Formation }) {
   return (
     <div className="flex h-full flex-col bg-[#262626] px-8 py-10 text-white">
       <div className="text-xs font-semibold uppercase tracking-[0.35em] text-[#ADA6DB]">
-        {formation.category.name}
+        {formation.category?.name || "Formation"}
       </div>
       <h3 className="mt-4 font-['Bricolage_Grotesque'] text-2xl font-extrabold md:text-3xl">
         {formation.title}
       </h3>
       <p className="mt-4 text-base leading-relaxed text-white/80">
-        {formation.description}
+        {formation.description || ""}
       </p>
       <div className="mt-auto flex items-center justify-between pt-8">
         <div className="text-sm uppercase tracking-wide text-white/60">
-          Formation
+          En savoir plus
         </div>
         <Link
           href={`/formations/${formation.slug}`}
@@ -111,21 +105,47 @@ function FormationCard({ formation }: { formation: Formation }) {
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
-export default function FormationsClientPage({ formations, categories }: Props) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all')
+interface FormationsClientPageProps {
+  formations: Formation[];
+  categories: Category[];
+}
+
+export default function FormationsClientPage({
+  formations,
+  categories,
+}: FormationsClientPageProps) {
+  // État pour le filtre de catégorie
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+
+  // État pour l'animation du rideau (Transition Curtain)
+  const [showTransitionCurtain, setShowTransitionCurtain] = useState(true);
+
+  // Effet pour gérer la disparition du rideau après le chargement
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTransitionCurtain(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filteredFormations = useMemo(() => {
-    if (selectedCategory === 'all') {
-      return formations
-    }
-    return formations.filter(formation => formation.category.id === selectedCategory)
-  }, [formations, selectedCategory])
+    if (selectedCategory === "all") return formations;
+    // Correction : ajout du ?. pour éviter le crash si category est null
+    return formations.filter((f) => f.category?.id === selectedCategory);
+  }, [selectedCategory, formations]);
 
   return (
-    <div className="bg-[#FDFDFD] font-sans">
+    <div className="bg-[#FDFDFD] font-sans relative">
+      {/* RIDEAU D'ARRIVÉE (Transition Effect) */}
+      {showTransitionCurtain && (
+        <div className="fixed inset-0 z-[9999] pointer-events-none">
+          <div className="absolute inset-y-0 right-0 w-full bg-gradient-to-br from-[#ada6db] to-[#262626] overlay-slide-out" />
+        </div>
+      )}
+
       <Hero />
 
       <section className="pb-16 pt-32 md:pb-24 md:pt-40">
@@ -138,20 +158,19 @@ export default function FormationsClientPage({ formations, categories }: Props) 
             />
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {filteredFormations.length === 0 ? (
-                <div className="col-span-2 py-16 text-center text-gray-500">
-                  Aucune formation disponible pour cette catégorie
-                </div>
-              ) : (
-                filteredFormations.map(formation => (
-                  <FormationCard key={formation.id} formation={formation} />
-                ))
+              {filteredFormations.map((formation) => (
+                <FormationCard key={formation.id} formation={formation} />
+              ))}
+
+              {filteredFormations.length === 0 && (
+                <p className="text-gray-500 col-span-full text-center py-10">
+                  Aucune formation trouvée dans cette catégorie.
+                </p>
               )}
             </div>
           </div>
         </div>
       </section>
     </div>
-  )
+  );
 }
-
