@@ -1,26 +1,27 @@
-import { BlogPostCardSkeleton } from '@/components/skeletons/blog-post-card-skeleton'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Newspaper } from 'lucide-react'
+import { BlogPostCardSkeleton } from "@/components/skeletons/blog-post-card-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
+import Line from "./../../../public/line.svg";
 
 export default function BlogLoading() {
   return (
     <div className="flex flex-col">
       {/* Page Header */}
-      <section className="border-b bg-gradient-to-br from-primary/5 via-background to-primary/5 py-16 md:py-24">
+      <section className="border-b bg-[#C792DF] py-16 pt-36 text-center">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            {/* Icon */}
-            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-              <Newspaper className="h-8 w-8 text-primary" />
-            </div>
-
+          <div className="mx-auto max-w-5xl ">
             {/* Title */}
-            <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
-              Notre blog
+            <h1 className="text-4xl font-bold tracking-tight text-center text-cozetik-white font-display uppercase md:text-7xl">
+              Explorez des contenus inspirants{" "}
             </h1>
-
+            <Image
+              src={Line}
+              alt="Decorative line"
+              width={500}
+              className="justify-self-center mb-4 -translate-y-5"
+            />
             {/* Description */}
-            <p className="text-lg text-muted-foreground md:text-xl">
+            <p className="text-lg text-cozetik-white font-sans md:text-xl">
               Actualités, conseils et tendances du monde de la formation
               professionnelle. Restez informé avec nos articles d&apos;experts.
             </p>
@@ -45,5 +46,5 @@ export default function BlogLoading() {
         </div>
       </section>
     </div>
-  )
+  );
 }

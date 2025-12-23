@@ -1,8 +1,10 @@
-import { Metadata } from 'next'
-import Link from 'next/link'
-import { prisma } from '@/lib/prisma'
-import { BlogCard } from '@/components/blog/blog-card'
-import { BookOpen, Newspaper } from 'lucide-react'
+import { BlogCard } from "@/components/blog/blog-card";
+import { prisma } from "@/lib/prisma";
+import { ArrowRight, BookOpen } from "lucide-react";
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import Line from "./../../../public/line.svg";
 
 async function getBlogPosts() {
   try {
@@ -14,66 +16,67 @@ async function getBlogPosts() {
         },
       },
       orderBy: {
-        publishedAt: 'desc',
+        publishedAt: "desc",
       },
       select: {
         id: true,
         slug: true,
         title: true,
         excerpt: true,
+        content: true,
         imageUrl: true,
         publishedAt: true,
       },
-    })
+    });
 
-    return posts
+    return posts;
   } catch (error) {
-    console.error('Error fetching blog posts:', error)
-    return []
+    console.error("Error fetching blog posts:", error);
+    return [];
   }
 }
 
 export const metadata: Metadata = {
-  title: 'Blog',
+  title: "Blog",
   description:
-    'Découvrez nos articles sur les formations professionnelles, les tendances du marché et les conseils pour développer vos compétences.',
+    "Découvrez nos articles sur les formations professionnelles, les tendances du marché et les conseils pour développer vos compétences.",
   openGraph: {
-    title: 'Blog Cozetik - Actualités et conseils formations',
+    title: "Blog Cozetik - Actualités et conseils formations",
     description:
-      'Actualités, conseils et tendances du monde de la formation professionnelle. Articles d\'experts pour rester informé.',
-    images: ['/og-image.jpg'],
-    url: 'https://cozetik.com/blog',
-    type: 'website',
+      "Actualités, conseils et tendances du monde de la formation professionnelle. Articles d'experts pour rester informé.",
+    images: ["/og-image.jpg"],
+    url: "https://cozetik.com/blog",
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Blog Cozetik - Actualités et conseils formations',
-    description: 'Actualités et tendances de la formation professionnelle.',
-    images: ['/og-image.jpg'],
+    card: "summary_large_image",
+    title: "Blog Cozetik - Actualités et conseils formations",
+    description: "Actualités et tendances de la formation professionnelle.",
+    images: ["/og-image.jpg"],
   },
-}
+};
 
 export default async function BlogPage() {
-  const posts = await getBlogPosts()
+  const posts = await getBlogPosts();
 
   return (
     <div className="flex flex-col">
       {/* Page Header */}
-      <section className="border-b bg-gradient-to-br from-primary/5 via-background to-primary/5 py-16 md:py-24">
+      <section className="border-b bg-[#C792DF] py-16 pt-36 text-center">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            {/* Icon */}
-            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-              <Newspaper className="h-8 w-8 text-primary" />
-            </div>
-
+          <div className="mx-auto max-w-5xl ">
             {/* Title */}
-            <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
-              Notre blog
+            <h1 className="text-4xl font-bold tracking-tight text-center text-cozetik-white font-display uppercase md:text-7xl">
+              Explorez des contenus inspirants{" "}
             </h1>
-
+            <Image
+              src={Line}
+              alt="Decorative line"
+              width={500}
+              className="justify-self-center mb-4 -translate-y-5"
+            />
             {/* Description */}
-            <p className="text-lg text-muted-foreground md:text-xl">
+            <p className="text-lg text-cozetik-white font-sans md:text-xl">
               Actualités, conseils et tendances du monde de la formation
               professionnelle. Restez informé avec nos articles d&apos;experts.
             </p>
@@ -89,15 +92,15 @@ export default async function BlogPage() {
               {/* Posts Count */}
               <div className="mb-8">
                 <p className="text-sm text-muted-foreground">
-                  {posts.length} article{posts.length > 1 ? 's' : ''} publié
-                  {posts.length > 1 ? 's' : ''}
+                  {posts.length} article{posts.length > 1 ? "s" : ""} publié
+                  {posts.length > 1 ? "s" : ""}
                 </p>
               </div>
 
               {/* Blog Posts Grid */}
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post) => (
-                  <BlogCard key={post.id} post={post} />
+              <div className="grid grid-cols-1 gap-8  md:grid-cols-2 lg:grid-cols-3">
+                {posts.map((post, index) => (
+                  <BlogCard key={post.id} post={post} index={index} />
                 ))}
               </div>
             </>
@@ -111,9 +114,9 @@ export default async function BlogPage() {
                 Aucun article publié pour le moment
               </h2>
               <p className="mt-3 max-w-md text-muted-foreground">
-                Nous préparons actuellement de nouveaux articles passionnants sur
-                les formations et le développement professionnel. Revenez bientôt
-                pour découvrir nos publications !
+                Nous préparons actuellement de nouveaux articles passionnants
+                sur les formations et le développement professionnel. Revenez
+                bientôt pour découvrir nos publications !
               </p>
             </div>
           )}
@@ -122,28 +125,29 @@ export default async function BlogPage() {
 
       {/* Newsletter CTA (Optional) */}
       {posts.length > 0 && (
-        <section className="border-t bg-muted/30 py-16">
+        <section className="border-t bg-[#F2E7D8] py-16">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl text-center">
-              <h2 className="mb-4 text-2xl font-bold sm:text-3xl">
+              <h2 className="mb-4 text-2xl font-sans font-semibold sm:text-3xl">
                 Restez informé
               </h2>
-              <p className="mb-8 text-muted-foreground">
+              <p className="mb-8 text-muted-foreground font-sans">
                 Ne manquez aucun de nos articles ! Suivez-nous sur les réseaux
-                sociaux ou contactez-nous pour en savoir plus sur nos formations.
+                sociaux ou contactez-nous pour en savoir plus sur nos
+                formations.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                 <a
                   href="/contact"
-                  className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="inline-flex h-10 items-center font-sans justify-center rounded-md bg-primary px-8 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-all duration-300 ease-in-out hover:scale-105  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   Nous contacter
                 </a>
                 <Link
                   href="/formations"
-                  className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="inline-flex h-10 items-center gap-2 font-sans justify-center rounded-md border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-all duration-300 ease-in-out hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
-                  Découvrir nos formations
+                  Découvrir nos formations <ArrowRight width={20} />
                 </Link>
               </div>
             </div>
@@ -151,5 +155,5 @@ export default async function BlogPage() {
         </section>
       )}
     </div>
-  )
+  );
 }
