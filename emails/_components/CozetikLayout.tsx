@@ -7,7 +7,6 @@ import {
   Section,
   Row,
   Column,
-  Img,
   Text,
   Link,
   Hr,
@@ -23,7 +22,13 @@ export const CozetikLayout = ({ children, previewText }: CozetikLayoutProps) => 
 
   return (
     <Html>
-      <Head />
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
       {previewText && (
         <Text style={{ display: 'none', overflow: 'hidden', lineHeight: '1px', opacity: 0 }}>
           {previewText}
@@ -31,13 +36,12 @@ export const CozetikLayout = ({ children, previewText }: CozetikLayoutProps) => 
       )}
       <Body style={bodyStyle}>
         <Container style={containerStyle}>
-          {/* Header Noir Cozetik */}
+          {/* Ligne vert subtile top */}
+          <Section style={topBorderStyle} />
+
+          {/* Header blanc minimaliste */}
           <Section style={headerStyle}>
-            <Row>
-              <Column>
-                <Text style={logoTextStyle}>Cozetik</Text>
-              </Column>
-            </Row>
+            <Text style={logoTextStyle}>Cozetik</Text>
           </Section>
 
           {/* Contenu principal */}
@@ -45,12 +49,12 @@ export const CozetikLayout = ({ children, previewText }: CozetikLayoutProps) => 
             {children}
           </Section>
 
-          {/* Footer Noir Cozetik */}
+          {/* Footer blanc minimaliste */}
+          <Hr style={footerDividerStyle} />
           <Section style={footerStyle}>
             <Text style={footerTextStyle}>
-              © {currentYear} Cozetik. Tous droits réservés.
+              © {currentYear} Cozetik
             </Text>
-            <Hr style={footerDividerStyle} />
             <Row style={socialLinksStyle}>
               <Column align="center">
                 <Link href="https://cozetik.fr" style={footerLinkStyle}>
@@ -74,82 +78,92 @@ export const CozetikLayout = ({ children, previewText }: CozetikLayoutProps) => 
 };
 
 // ============================================
-// STYLES - Charte Cozetik 2025
+// STYLES - Design Épuré 2025 (Bricolage Grotesque)
 // ============================================
 
 const bodyStyle: React.CSSProperties = {
   margin: '0',
   padding: '0',
-  backgroundColor: '#FDFDFD', // Blanc cassé Cozetik
-  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  backgroundColor: '#FFFFFF',
+  fontFamily: '"Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 };
 
 const containerStyle: React.CSSProperties = {
   maxWidth: '600px',
   margin: '0 auto',
   backgroundColor: '#FFFFFF',
-  borderRadius: '0', // Carré Cozetik signature
+  borderRadius: '0',
   overflow: 'hidden',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
 };
 
-// Header Noir
+// Ligne vert subtile top
+const topBorderStyle: React.CSSProperties = {
+  height: '2px',
+  backgroundColor: '#5E985E',
+  margin: '0',
+};
+
+// Header blanc minimaliste
 const headerStyle: React.CSSProperties = {
-  backgroundColor: '#262626', // Noir Cozetik
-  padding: '40px 30px',
+  backgroundColor: '#FFFFFF',
+  padding: '40px 30px 20px',
   textAlign: 'center' as const,
 };
 
 const logoTextStyle: React.CSSProperties = {
   margin: '0',
-  color: '#FFFFFF',
-  fontSize: '32px',
-  fontWeight: 'bold',
-  fontFamily: 'Borel, cursive',
-  letterSpacing: '1px',
+  color: '#262626',
+  fontSize: '28px',
+  fontWeight: '400',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
+  letterSpacing: '0.5px',
 };
 
 // Contenu
 const contentStyle: React.CSSProperties = {
-  padding: '40px 30px',
+  padding: '30px 40px 50px',
   backgroundColor: '#FFFFFF',
 };
 
-// Footer Noir
+// Footer blanc minimaliste
 const footerStyle: React.CSSProperties = {
-  backgroundColor: '#262626', // Noir Cozetik
-  padding: '30px 30px 20px',
+  backgroundColor: '#FFFFFF',
+  padding: '20px 30px 40px',
   textAlign: 'center' as const,
 };
 
 const footerTextStyle: React.CSSProperties = {
-  margin: '0 0 15px 0',
+  margin: '0 0 12px 0',
   color: '#999999',
-  fontSize: '12px',
+  fontSize: '14px',
   lineHeight: '1.5',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
+  fontWeight: '400',
 };
 
 const footerDividerStyle: React.CSSProperties = {
-  borderColor: '#404040',
-  margin: '15px 0',
+  borderColor: '#E5E7EB',
+  borderWidth: '1px',
+  margin: '32px 0 20px',
 };
 
 const socialLinksStyle: React.CSSProperties = {
-  marginTop: '10px',
+  marginTop: '8px',
 };
 
 const footerLinkStyle: React.CSSProperties = {
-  color: '#FFFFFF',
+  color: '#666666',
   textDecoration: 'none',
-  fontSize: '13px',
-  fontWeight: '500',
+  fontSize: '14px',
+  fontWeight: '400',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
 };
 
 const footerSeparatorStyle: React.CSSProperties = {
   display: 'inline-block',
-  margin: '0 10px',
-  color: '#666666',
-  fontSize: '13px',
+  margin: '0 12px',
+  color: '#999999',
+  fontSize: '14px',
 };
 
 export default CozetikLayout;
