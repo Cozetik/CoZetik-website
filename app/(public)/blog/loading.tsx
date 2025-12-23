@@ -1,30 +1,26 @@
 import { BlogPostCardSkeleton } from "@/components/skeletons/blog-post-card-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
-import Image from "next/image";
-import Line from "./../../../public/line.svg";
 
 export default function BlogLoading() {
   return (
     <div className="flex flex-col">
-      {/* Page Header */}
+      {/* Page Header Skeleton */}
       <section className="border-b bg-[#C792DF] py-16 pt-36 text-center">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-5xl ">
-            {/* Title */}
-            <h1 className="text-4xl font-bold tracking-tight text-center text-cozetik-white font-display uppercase md:text-7xl">
-              Explorez des contenus inspirants{" "}
-            </h1>
-            <Image
-              src={Line}
-              alt="Decorative line"
-              width={500}
-              className="justify-self-center mb-4 -translate-y-5"
-            />
-            {/* Description */}
-            <p className="text-lg text-cozetik-white font-sans md:text-xl">
-              Actualités, conseils et tendances du monde de la formation
-              professionnelle. Restez informé avec nos articles d&apos;experts.
-            </p>
+          <div className="mx-auto flex max-w-5xl flex-col items-center">
+            {/* Title Skeleton */}
+            <Skeleton className="h-12 w-3/4 md:h-20 md:w-2/3 bg-white/20" />
+
+            {/* Line Skeleton */}
+            <div className="my-6 -translate-y-2">
+              <Skeleton className="h-4 w-64 md:w-96 bg-white/20" />
+            </div>
+
+            {/* Description Skeleton */}
+            <div className="flex flex-col items-center gap-2 w-full">
+              <Skeleton className="h-6 w-full max-w-2xl bg-white/20" />
+              <Skeleton className="h-6 w-2/3 max-w-xl bg-white/20" />
+            </div>
           </div>
         </div>
       </section>
@@ -32,9 +28,14 @@ export default function BlogLoading() {
       {/* Blog Posts Section */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
+          {/* Filter Skeleton */}
+          <div className="flex justify-center mb-10">
+            <Skeleton className="h-10 w-[280px] rounded-md" />
+          </div>
+
           {/* Posts Count Skeleton */}
           <div className="mb-8">
-            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-5 w-48" />
           </div>
 
           {/* Blog Posts Grid Skeleton */}

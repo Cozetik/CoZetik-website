@@ -1,3 +1,4 @@
+import { BlogPostAnimator } from "@/components/animations/blog-post-animator"; // Import de l'animateur
 import { BlogCard } from "@/components/blog/blog-card";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
@@ -132,38 +133,58 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const relatedPosts = await getRelatedPosts(post.id);
 
-  // Calculate reading time (rough estimate: 200 words per minute)
   const wordCount = post.content.split(" ").length;
   const readingTime = Math.ceil(wordCount / 200);
 
-  // Share URLs
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
   const shareText = post.title;
 
   return (
-    <div className="flex flex-col">
+    // 1. Envelopper le contenu avec l'animateur
+    <BlogPostAnimator>
       {post.imageUrl && (
-        <div className="relative mb-12 overflow-hidden rounded-lg">
-          <div className="relative w-full">
-            <Image
-              src={post.imageUrl}
-              alt={post.title}
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-full h-[40vh] md:h-[70vh] filter brightness-50"
-              priority
-            />
-            <div className="absolute inset-0 flex justify-center items-center p-2">
-              <h1 className="text-4xl text-center text-white uppercase font-display md:text-7xl ">
+        <div className="relative h-[60vh] min-h-[500px] w-full overflow-hidden">
+          <Image
+            src={post.imageUrl}
+            alt={post.title}
+            fill
+            className="object-cover transition-transform duration-700 hover:scale-105"
+            priority
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
+
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
+            {/* 2. Ajout de la classe anim-hero-content et suppression des animations Tailwind */}
+            <div className="anim-hero-content max-w-4xl space-y-6">
+              <h1 className="font-display text-4xl font-bold uppercase tracking-tight text-white md:text-6xl lg:text-7xl">
                 {post.title}
               </h1>
+
+              <div className="flex flex-wrap items-center justify-center gap-6 text-sm font-medium text-white/90 md:text-base">
+                {post.publishedAt && (
+                  <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+                    <Calendar className="h-4 w-4" />
+                    <time dateTime={post.publishedAt.toISOString()}>
+                      {format(new Date(post.publishedAt), "d MMMM yyyy", {
+                        locale: fr,
+                      })}
+                    </time>
+                  </div>
+                )}
+                <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+                  <Clock className="h-4 w-4" />
+                  <span>{readingTime} min de lecture</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       )}
+
       {/* Breadcrumb */}
-      <section className="border-b pb-2 ">
+      {/* 3. Ajout de la classe anim-breadcrumb */}
+      <section className="anim-breadcrumb border-b p-5">
         <div className="container mx-auto px-4">
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
             <Link
@@ -186,11 +207,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </nav>
         </div>
       </section>
-      {/* Article Header */}
+
+      {/* Article Header & Content */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
-          <article className="mx-auto max-w-4xl">
-            {/* Title */}
+          {/* 4. Ajout de la classe anim-article-body */}
+          <article className="anim-article-body mx-auto max-w-4xl">
+            {/* Title (Répété pour le SEO/Accessibilité mais visuellement secondaire si Hero présent) */}
             <h1 className="mb-6 text-4xl font-sans font-bold tracking-tight sm:text-5xl">
               {post.title}
             </h1>
@@ -271,9 +294,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </article>
         </div>
       </section>
+
       {/* Related Articles */}
       {relatedPosts.length > 0 && (
-        <section className="border-t bg-muted/30 py-12 md:py-16">
+        // 5. Ajout de la classe anim-footer-section
+        <section className="anim-footer-section border-t bg-muted/30 py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="mb-8">
               <h2 className="text-2xl font-bold font-sans">
@@ -285,21 +310,31 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {relatedPosts.map((relatedPost) => (
-                <BlogCard key={relatedPost.id} post={relatedPost} />
+              {relatedPosts.map((relatedPost, index) => (
+                <BlogCard
+                  key={relatedPost.id}
+                  post={relatedPost}
+                  index={index}
+                />
               ))}
             </div>
 
             <div className="mt-8 text-center font-sans">
-              <Button asChild variant="outline">
+              <Button
+                asChild
+                variant="outline"
+                className="transition-all duration-300 ease-in-out hover:scale-105"
+              >
                 <Link href="/blog">Voir tous les articles</Link>
               </Button>
             </div>
           </div>
         </section>
       )}
+
       {/* CTA Section */}
-      <section>
+      {/* 6. Ajout de la classe anim-footer-section */}
+      <section className="anim-footer-section">
         <div className="w-full mx-auto">
           <div className=" bg-[#F2E7D8]">
             <CardContent className="p-8 text-center md:p-12 font-sans">
@@ -334,6 +369,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </div>
       </section>
-    </div>
+    </BlogPostAnimator>
   );
 }
