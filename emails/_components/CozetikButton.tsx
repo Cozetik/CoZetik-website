@@ -15,24 +15,23 @@ export const CozetikButton = ({ href, children }: CozetikButtonProps) => {
 };
 
 // ============================================
-// STYLES - CTA Vert Cozetik 2025
+// STYLES - Bouton Outline Élégant (Bricolage Grotesque)
 // ============================================
 
 const buttonStyle: React.CSSProperties = {
   display: 'inline-block',
-  padding: '16px 32px',
-  backgroundColor: '#5E985E', // Vert Cozetik
-  color: '#FFFFFF',
+  padding: '14px 36px',
+  backgroundColor: 'transparent',
+  color: '#5E985E',
   fontSize: '16px',
-  fontWeight: '600',
+  fontWeight: '500',
   textDecoration: 'none',
   textAlign: 'center' as const,
-  borderRadius: '0', // Carré Cozetik signature
-  border: 'none',
+  borderRadius: '6px',
+  border: '2px solid #5E985E',
   cursor: 'pointer',
-  boxShadow: '0 2px 8px rgba(94, 152, 94, 0.25)',
   transition: 'all 0.2s ease',
-  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: '"Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 };
 
 export default CozetikButton;
