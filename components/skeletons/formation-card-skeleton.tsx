@@ -1,42 +1,29 @@
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function FormationCardSkeleton() {
   return (
-    <Card className="flex h-full flex-col overflow-hidden">
-      <CardHeader className="p-0">
-        {/* Image Skeleton */}
-        <div className="relative aspect-video w-full">
-          <Skeleton className="h-full w-full rounded-b-none" />
-          {/* Category Badge Skeleton */}
-          <div className="absolute left-3 top-3">
-            <Skeleton className="h-6 w-20" />
-          </div>
-        </div>
-      </CardHeader>
+    <div className="flex h-full flex-col bg-[#262626] px-8 py-10">
+      {/* Accroche */}
+      <Skeleton className="h-4 w-32 bg-white/20" />
 
-      <CardContent className="flex-1 p-6">
-        {/* Title Skeleton */}
-        <Skeleton className="mb-3 h-7 w-3/4" />
+      {/* Titre */}
+      <Skeleton className="mt-6 h-8 w-3/4 bg-white/20" />
 
-        {/* Description Skeletons */}
-        <div className="mb-4 space-y-2">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-2/3" />
-        </div>
+      {/* Description */}
+      <div className="mt-6 space-y-2">
+        <Skeleton className="h-4 w-full bg-white/10" />
+        <Skeleton className="h-4 w-full bg-white/10" />
+        <Skeleton className="h-4 w-2/3 bg-white/10" />
+      </div>
 
-        {/* Meta Info Skeletons */}
-        <div className="flex gap-3">
-          <Skeleton className="h-5 w-20" />
-          <Skeleton className="h-5 w-24" />
-        </div>
-      </CardContent>
+      {/* Footer */}
+      <div className="mt-auto flex items-center justify-between pt-8">
+        {/* Category Label */}
+        <Skeleton className="h-4 w-40 bg-white/10" />
 
-      <CardFooter className="p-6 pt-0">
-        {/* Button Skeleton */}
-        <Skeleton className="h-10 w-full" />
-      </CardFooter>
-    </Card>
-  )
+        {/* Button */}
+        <Skeleton className="h-12 w-36 bg-[#ADA6DB]/50" />
+      </div>
+    </div>
+  );
 }

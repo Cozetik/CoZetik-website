@@ -1,74 +1,86 @@
-'use client'
+"use client";
 
-import { useMemo, useState } from 'react'
-import { ArrowRight, BookOpen } from 'lucide-react'
+import { ArrowRight } from "lucide-react";
+import { useLayoutEffect, useMemo, useState } from "react";
 
-type PrimaryFilter = 'all' | 'pro' | 'perso'
-type SecondaryFilter = 'all' | 'tech' | 'expression' | 'alignement' | 'harmonie'
+type PrimaryFilter = "all" | "pro" | "perso";
+type SecondaryFilter =
+  | "all"
+  | "tech"
+  | "expression"
+  | "alignement"
+  | "harmonie";
 
 type Formation = {
-  id: string
-  titre: string
-  description: string
-  accroche: string
-  category: PrimaryFilter
-  subCategory: SecondaryFilter
-}
+  id: string;
+  titre: string;
+  description: string;
+  accroche: string;
+  category: PrimaryFilter;
+  subCategory: SecondaryFilter;
+};
 
 const FORMATIONS: Formation[] = [
   {
-    id: 'ia-productivite',
-    titre: 'IA & productivité',
-    description: 'S’adresse à celles et ceux qui veulent travailler mieux, pas plus, tout en restant maîtres de leurs outils',
-    accroche: 'Tech & outils',
-    category: 'pro',
-    subCategory: 'tech',
+    id: "ia-productivite",
+    titre: "IA & productivité",
+    description:
+      "S’adresse à celles et ceux qui veulent travailler mieux, pas plus, tout en restant maîtres de leurs outils",
+    accroche: "Tech & outils",
+    category: "pro",
+    subCategory: "tech",
   },
   {
-    id: 'prise-de-parole',
-    titre: 'Prise de parole',
-    description: 'Transformer la prise de parole en un véritable levier de confiance et d’influence.',
-    accroche: 'Expression & impact',
-    category: 'pro',
-    subCategory: 'expression',
+    id: "prise-de-parole",
+    titre: "Prise de parole",
+    description:
+      "Transformer la prise de parole en un véritable levier de confiance et d’influence.",
+    accroche: "Expression & impact",
+    category: "pro",
+    subCategory: "expression",
   },
   {
-    id: 'intelligence-emotionnelle',
-    titre: 'Intelligence émotionnelle',
-    description: 'Développer une intelligence émotionnelle solide pour mieux vivre, mieux décider et mieux interagir',
-    accroche: 'Alignement personnel',
-    category: 'perso',
-    subCategory: 'alignement',
+    id: "intelligence-emotionnelle",
+    titre: "Intelligence émotionnelle",
+    description:
+      "Développer une intelligence émotionnelle solide pour mieux vivre, mieux décider et mieux interagir",
+    accroche: "Alignement personnel",
+    category: "perso",
+    subCategory: "alignement",
   },
   {
-    id: 'kizomba-bien-etre',
-    titre: 'Kizomba bien-être et connexion',
-    description: 'Une expérience immersive où la kizomba devient un outil de transformation personnelle',
-    accroche: 'Harmonie & présence',
-    category: 'perso',
-    subCategory: 'harmonie',
+    id: "kizomba-bien-etre",
+    titre: "Kizomba bien-être et connexion",
+    description:
+      "Une expérience immersive où la kizomba devient un outil de transformation personnelle",
+    accroche: "Harmonie & présence",
+    category: "perso",
+    subCategory: "harmonie",
   },
-]
+];
 
 const PRIMARY_FILTERS: { value: PrimaryFilter; label: string }[] = [
-  { value: 'all', label: 'Tous' },
-  { value: 'pro', label: 'Développement professionnel' },
-  { value: 'perso', label: 'Développement personnel' },
-]
+  { value: "all", label: "Tous" },
+  { value: "pro", label: "Développement professionnel" },
+  { value: "perso", label: "Développement personnel" },
+];
 
-const SECONDARY_FILTERS: Record<PrimaryFilter, { value: SecondaryFilter; label: string }[]> = {
+const SECONDARY_FILTERS: Record<
+  PrimaryFilter,
+  { value: SecondaryFilter; label: string }[]
+> = {
   all: [],
   pro: [
-    { value: 'all', label: 'Tous' },
-    { value: 'tech', label: 'Tech et outils' },
-    { value: 'expression', label: 'Expression et impact' },
+    { value: "all", label: "Tous" },
+    { value: "tech", label: "Tech et outils" },
+    { value: "expression", label: "Expression et impact" },
   ],
   perso: [
-    { value: 'all', label: 'Tous' },
-    { value: 'alignement', label: 'Alignement personnel' },
-    { value: 'harmonie', label: 'Harmonie & présence' },
+    { value: "all", label: "Tous" },
+    { value: "alignement", label: "Alignement personnel" },
+    { value: "harmonie", label: "Harmonie & présence" },
   ],
-}
+};
 
 function Hero() {
   return (
@@ -85,7 +97,7 @@ function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function Filters({
@@ -94,27 +106,27 @@ function Filters({
   onPrimaryChange,
   onSecondaryChange,
 }: {
-  primary: PrimaryFilter
-  secondary: SecondaryFilter
-  onPrimaryChange: (value: PrimaryFilter) => void
-  onSecondaryChange: (value: SecondaryFilter) => void
+  primary: PrimaryFilter;
+  secondary: SecondaryFilter;
+  onPrimaryChange: (value: PrimaryFilter) => void;
+  onSecondaryChange: (value: SecondaryFilter) => void;
 }) {
-  const secondaryOptions = SECONDARY_FILTERS[primary]
+  const secondaryOptions = SECONDARY_FILTERS[primary];
 
   return (
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <div className="flex flex-wrap gap-3">
-        {PRIMARY_FILTERS.map(option => (
+        {PRIMARY_FILTERS.map((option) => (
           <button
             key={option.value}
             onClick={() => {
-              onPrimaryChange(option.value)
-              onSecondaryChange('all')
+              onPrimaryChange(option.value);
+              onSecondaryChange("all");
             }}
             className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
               primary === option.value
-                ? 'bg-[#262626] text-white'
-                : 'bg-white text-[#262626] hover:bg-[#f3f0fa]'
+                ? "bg-[#262626] text-white"
+                : "bg-white text-[#262626] hover:bg-[#f3f0fa]"
             }`}
           >
             {option.label}
@@ -124,14 +136,14 @@ function Filters({
 
       {secondaryOptions.length > 0 && (
         <div className="flex flex-wrap gap-3">
-          {secondaryOptions.map(option => (
+          {secondaryOptions.map((option) => (
             <button
               key={option.value}
               onClick={() => onSecondaryChange(option.value)}
               className={`rounded-none border border-[#ADA6DB] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
                 secondary === option.value
-                  ? 'bg-[#ADA6DB] text-[#262626]'
-                  : 'bg-white text-[#262626] hover:bg-[#f3f0fa]'
+                  ? "bg-[#ADA6DB] text-[#262626]"
+                  : "bg-white text-[#262626] hover:bg-[#f3f0fa]"
               }`}
             >
               {option.label}
@@ -140,7 +152,7 @@ function Filters({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function FormationCard({ formation }: { formation: Formation }) {
@@ -157,7 +169,8 @@ function FormationCard({ formation }: { formation: Formation }) {
       </p>
       <div className="mt-auto flex items-center justify-between pt-8">
         <div className="text-sm uppercase tracking-wide text-white/60">
-          Parcours {formation.category === 'pro' ? 'professionnel' : 'personnel'}
+          Parcours{" "}
+          {formation.category === "pro" ? "professionnel" : "personnel"}
         </div>
         <button className="flex items-center gap-2 bg-[#ADA6DB] px-4 py-3 text-base font-semibold uppercase text-white transition-colors hover:bg-[#bdb7e3]">
           Découvrir
@@ -165,33 +178,64 @@ function FormationCard({ formation }: { formation: Formation }) {
         </button>
       </div>
     </div>
-  )
+  );
 }
 
 export default function FormationsClientPage() {
-  const [primaryFilter, setPrimaryFilter] = useState<PrimaryFilter>('all')
-  const [secondaryFilter, setSecondaryFilter] = useState<SecondaryFilter>('all')
+  const [primaryFilter, setPrimaryFilter] = useState<PrimaryFilter>("all");
+  const [secondaryFilter, setSecondaryFilter] =
+    useState<SecondaryFilter>("all");
+
+  // État pour gérer l'affichage du rideau d'arrivée
+  const [showTransitionCurtain, setShowTransitionCurtain] = useState(false);
 
   const filteredFormations = useMemo(() => {
-    return FORMATIONS.filter(formation => {
-      if (primaryFilter !== 'all' && formation.category !== primaryFilter) {
-        return false
+    return FORMATIONS.filter((formation) => {
+      if (primaryFilter !== "all" && formation.category !== primaryFilter) {
+        return false;
       }
-
-      if (primaryFilter === 'pro' && secondaryFilter !== 'all') {
-        return formation.subCategory === secondaryFilter
+      if (primaryFilter === "pro" && secondaryFilter !== "all") {
+        return formation.subCategory === secondaryFilter;
       }
-
-      if (primaryFilter === 'perso' && secondaryFilter !== 'all') {
-        return formation.subCategory === secondaryFilter
+      if (primaryFilter === "perso" && secondaryFilter !== "all") {
+        return formation.subCategory === secondaryFilter;
       }
+      return true;
+    });
+  }, [primaryFilter, secondaryFilter]);
 
-      return true
-    })
-  }, [primaryFilter, secondaryFilter])
+  // Utilisation de useLayoutEffect pour éviter le flash blanc
+  useLayoutEffect(() => {
+    const isFromHomeExplore = sessionStorage.getItem("from-home-explore");
+
+    if (isFromHomeExplore) {
+      // 1. On active le rideau immédiatement
+      setShowTransitionCurtain(true);
+
+      // 2. On nettoie le storage
+      sessionStorage.removeItem("from-home-explore");
+
+      // 3. Le rideau va jouer son animation CSS "overlay-slide-out" automatiquement
+      // On le retire du DOM après l'animation pour nettoyer
+      const timer = setTimeout(() => {
+        setShowTransitionCurtain(false);
+      }, 800); // Durée de l'animation
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
-    <div className="bg-[#FDFDFD] font-sans">
+    <div className="bg-[#FDFDFD] font-sans relative">
+      {/* RIDEAU D'ARRIVÉE (Local) */}
+      {/* Il s'affiche par dessus tout le reste si showTransitionCurtain est true */}
+      {showTransitionCurtain && (
+        <div className="fixed inset-0 z-[9999] pointer-events-none">
+          {/* Notez l'utilisation de overlay-slide-out ici */}
+          <div className="absolute inset-y-0 right-0 w-full bg-gradient-to-br from-[#ada6db] to-[#262626] overlay-slide-out" />
+        </div>
+      )}
+
       <Hero />
 
       <section className="pb-16 pt-32 md:pb-24 md:pt-40">
@@ -205,7 +249,7 @@ export default function FormationsClientPage() {
             />
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {filteredFormations.map(formation => (
+              {filteredFormations.map((formation) => (
                 <FormationCard key={formation.id} formation={formation} />
               ))}
             </div>
@@ -213,6 +257,5 @@ export default function FormationsClientPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-

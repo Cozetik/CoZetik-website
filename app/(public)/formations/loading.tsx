@@ -1,59 +1,41 @@
-import { FormationCardSkeleton } from '@/components/skeletons/formation-card-skeleton'
-import { Skeleton } from '@/components/ui/skeleton'
-import { BookOpen } from 'lucide-react'
+import { FormationCardSkeleton } from "@/components/skeletons/formation-card-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function FormationsLoading() {
   return (
-    <div className="flex flex-col">
-      {/* Page Header */}
-      <section className="border-b bg-gradient-to-br from-primary/5 via-background to-primary/5 py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            {/* Icon */}
-            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-              <BookOpen className="h-8 w-8 text-primary" />
+    <div className="bg-[#FDFDFD] font-sans">
+      {/* Hero Section Skeleton */}
+      <section className="relative bg-[#ADA6DB] pb-10">
+        <div className="container mx-auto px-6 md:px-12 lg:px-20">
+          <div className="relative">
+            <div className="absolute -right-16 top-2 h-64 w-64 rounded-full bg-[#ADA6DB] opacity-30 blur-3xl" />
+            <div className="relative max-w-5xl translate-y-24 overflow-hidden bg-[#262626] px-8 py-14 md:px-16 md:py-20 lg:px-20 lg:py-24">
+              <Skeleton className="h-12 w-3/4 bg-white/20 md:h-20 md:w-2/3" />
             </div>
-
-            {/* Title */}
-            <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
-              Nos formations
-            </h1>
-
-            {/* Description */}
-            <p className="text-lg text-muted-foreground md:text-xl">
-              Explorez notre catalogue complet de formations professionnelles et
-              trouvez celle qui correspond parfaitement à vos objectifs de carrière.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Formations List Section */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <div className="space-y-8">
-            {/* Filters Section Skeleton */}
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-4 w-4" />
-                <Skeleton className="h-4 w-32" />
+      {/* Main Content Skeleton */}
+      <section className="pb-16 pt-32 md:pb-24 md:pt-40">
+        <div className="container mx-auto px-6 md:px-12 lg:px-20">
+          <div className="flex flex-col gap-10">
+            {/* Filters Skeleton */}
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="flex flex-wrap gap-3">
+                <Skeleton className="h-[46px] w-24 rounded-none bg-gray-200" />
+                <Skeleton className="h-[46px] w-64 rounded-none bg-gray-200" />
+                <Skeleton className="h-[46px] w-64 rounded-none bg-gray-200" />
               </div>
-
-              {/* Category Tabs Skeleton */}
-              <div className="flex flex-wrap gap-2">
-                <Skeleton className="h-9 w-48" />
-                <Skeleton className="h-9 w-32" />
-                <Skeleton className="h-9 w-36" />
-                <Skeleton className="h-9 w-28" />
+              <div className="flex flex-wrap gap-3">
+                <Skeleton className="h-[46px] w-20 rounded-none bg-gray-200" />
+                <Skeleton className="h-[46px] w-32 rounded-none bg-gray-200" />
               </div>
             </div>
 
-            {/* Results Count Skeleton */}
-            <Skeleton className="h-5 w-40" />
-
-            {/* Formations Grid Skeleton */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
+            {/* Grid Skeleton */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {Array.from({ length: 4 }).map((_, i) => (
                 <FormationCardSkeleton key={i} />
               ))}
             </div>
@@ -61,5 +43,5 @@ export default function FormationsLoading() {
         </div>
       </section>
     </div>
-  )
+  );
 }
