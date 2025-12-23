@@ -2,7 +2,11 @@
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+
+// Hook pour éviter les warnings SSR avec useLayoutEffect
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 type Category = {
   id: string;
@@ -116,13 +120,26 @@ export default function FormationsClientPage({
 }: FormationsClientPageProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  const [showTransitionCurtain, setShowTransitionCurtain] = useState(true);
+  // Initialisé à false pour ne pas afficher le rideau par défaut
+  const [showTransitionCurtain, setShowTransitionCurtain] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowTransitionCurtain(false);
-    }, 800);
-    return () => clearTimeout(timer);
+  // Utilisation de useLayoutEffect pour vérifier le flag AVANT le rendu visuel
+  useIsomorphicLayoutEffect(() => {
+    // Vérifie si le flag posé par la page d'accueil est présent
+    const shouldShow = sessionStorage.getItem("from-home-explore") === "true";
+
+    if (shouldShow) {
+      // Si oui, on active le rideau immédiatement
+      setShowTransitionCurtain(true);
+      // On nettoie le flag pour les futurs rechargements
+      sessionStorage.removeItem("from-home-explore");
+
+      // On lance le timer pour retirer le rideau (animation de sortie)
+      const timer = setTimeout(() => {
+        setShowTransitionCurtain(false);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   const filteredFormations = useMemo(() => {
