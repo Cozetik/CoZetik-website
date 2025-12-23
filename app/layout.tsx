@@ -24,7 +24,9 @@ const bricolageGrotesque = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.com"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.com"
+  ),
   title: {
     default: "Cozetik - Formations professionnelles certifiantes",
     template: "%s | Cozetik",

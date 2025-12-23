@@ -28,7 +28,7 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -54,7 +54,7 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -70,12 +70,16 @@
 @layer utilities {
   /* Background grid pattern */
   .bg-grid-white\/10 {
-    background-image: linear-gradient(
-        to right,
-        rgb(255 255 255 / 0.1) 1px,
-        transparent 1px
-      ),
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.1) 1px, transparent 1px),
       linear-gradient(to bottom, rgb(255 255 255 / 0.1) 1px, transparent 1px);
+  }
+
+  .bg-blog-img {
+    background-image: url("./../public/hero-blog.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: brightness(90%);
   }
 
   /* Fade in animation */
@@ -140,4 +144,12 @@
   .will-change-transform {
     will-change: transform;
   }
+}
+
+.shadow-blog-green {
+  box-shadow: 10px -7px 0px 1px #479b57;
+}
+
+.shadow-blog-blue {
+  box-shadow: 10px -7px 0px 1px #ada6db;
 }

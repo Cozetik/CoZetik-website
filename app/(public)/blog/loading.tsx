@@ -1,29 +1,26 @@
-import { BlogPostCardSkeleton } from '@/components/skeletons/blog-post-card-skeleton'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Newspaper } from 'lucide-react'
+import { BlogPostCardSkeleton } from "@/components/skeletons/blog-post-card-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function BlogLoading() {
   return (
     <div className="flex flex-col">
-      {/* Page Header */}
-      <section className="border-b bg-gradient-to-br from-primary/5 via-background to-primary/5 py-16 md:py-24">
+      {/* Page Header Skeleton */}
+      <section className="border-b bg-[#C792DF] py-16 pt-36 text-center">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            {/* Icon */}
-            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-              <Newspaper className="h-8 w-8 text-primary" />
+          <div className="mx-auto flex max-w-5xl flex-col items-center">
+            {/* Title Skeleton */}
+            <Skeleton className="h-12 w-3/4 md:h-20 md:w-2/3 bg-white/20" />
+
+            {/* Line Skeleton */}
+            <div className="my-6 -translate-y-2">
+              <Skeleton className="h-4 w-64 md:w-96 bg-white/20" />
             </div>
 
-            {/* Title */}
-            <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
-              Notre blog
-            </h1>
-
-            {/* Description */}
-            <p className="text-lg text-muted-foreground md:text-xl">
-              Actualités, conseils et tendances du monde de la formation
-              professionnelle. Restez informé avec nos articles d&apos;experts.
-            </p>
+            {/* Description Skeleton */}
+            <div className="flex flex-col items-center gap-2 w-full">
+              <Skeleton className="h-6 w-full max-w-2xl bg-white/20" />
+              <Skeleton className="h-6 w-2/3 max-w-xl bg-white/20" />
+            </div>
           </div>
         </div>
       </section>
@@ -31,9 +28,14 @@ export default function BlogLoading() {
       {/* Blog Posts Section */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
+          {/* Filter Skeleton */}
+          <div className="flex justify-center mb-10">
+            <Skeleton className="h-10 w-[280px] rounded-md" />
+          </div>
+
           {/* Posts Count Skeleton */}
           <div className="mb-8">
-            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-5 w-48" />
           </div>
 
           {/* Blog Posts Grid Skeleton */}
@@ -45,5 +47,5 @@ export default function BlogLoading() {
         </div>
       </section>
     </div>
-  )
+  );
 }

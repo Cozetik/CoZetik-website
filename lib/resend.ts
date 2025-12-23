@@ -29,18 +29,22 @@ export async function sendEmail(
     console.warn('⚠️ RESEND_FROM_EMAIL non configuré, utilisation de l\'email par défaut:', fromEmail);
   }
 
+  const replyToEmail = process.env.RESEND_REPLY_TO || 'nicoleoproject@gmail.com';
+
   try {
     console.log('📧 Tentative d\'envoi email à:', to);
     console.log('📧 Depuis:', fromEmail);
+    console.log('📧 Reply-To:', replyToEmail);
     console.log('📧 Sujet:', subject);
-    
+
     const data = await resend.emails.send({
       from: fromEmail,
       to,
       subject,
       html,
+      replyTo: replyToEmail,
     });
-    
+
     console.log('✅ Email envoyé avec succès:', data);
     if (data.error) {
       console.error('❌ Erreur dans la réponse Resend:', data.error);
