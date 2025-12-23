@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Bricolage_Grotesque } from 'next/font/google'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -19,6 +20,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+
+const bricolageGrotesque = Bricolage_Grotesque({
+  weight: '800',
+  subsets: ['latin'],
+  variable: '--font-bricolage',
+  display: 'swap',
+})
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -95,7 +103,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white font-sans">
       {/* Hero Section */}
       <section className="relative bg-[#9A80B8] pb-10">
         <div className="container mx-auto px-20">
@@ -114,13 +122,13 @@ export default function ContactPage() {
                 </svg>
               </div>
 
-              <h1 className="mb-6 text-5xl font-bold text-white md:text-6xl lg:text-8xl">
+              <h1 className={`${bricolageGrotesque.className} mb-6 text-5xl font-extrabold text-white md:text-6xl lg:text-8xl`}>
                 CONTACT
               </h1>
 
-              <p className="max-w-4xl text-lg leading-relaxed text-white md:text-xl">
-                <span className="font-medium">Des questions sur nos formations ou les financements ?<br /></span>
-                <span className='font-thin'>
+              <p className="font-sans max-w-4xl text-lg leading-relaxed text-white md:text-xl">
+                <span className="font-sans font-medium">Des questions sur nos formations ou les financements ?<br /></span>
+                <span className='font-sans font-thin'>
                   Pour obtenir une réponse rapide et personnalisée,<br />
                   utilisez les coordonnées ci-dessous ou remplissez notre formulaire.
                 </span>
@@ -143,13 +151,13 @@ export default function ContactPage() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                        <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                           Nom
                         </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Entrez votre nom"
-                            className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                             {...field}
                           />
                         </FormControl>
@@ -162,13 +170,13 @@ export default function ContactPage() {
                     name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                        <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                           Prénom
                         </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Entrez votre prénom"
-                            className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                             {...field}
                           />
                         </FormControl>
@@ -184,14 +192,14 @@ export default function ContactPage() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                         Email
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="email"
                           placeholder="Entrez votre email"
-                          className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                          className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                           {...field}
                         />
                       </FormControl>
@@ -207,13 +215,13 @@ export default function ContactPage() {
                     name="postalCode"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                        <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                           Code postal
                         </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Entrez votre code postal"
-                            className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                             {...field}
                           />
                         </FormControl>
@@ -226,14 +234,14 @@ export default function ContactPage() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                        <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                           Numéro de téléphone
                         </FormLabel>
                         <FormControl>
                           <Input
                             type="tel"
                             placeholder="saisissez le numéro de téléphone"
-                            className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                             {...field}
                           />
                         </FormControl>
@@ -249,13 +257,13 @@ export default function ContactPage() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                         Informations complémentaires
                       </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Des questions ? N'hésitez pas !"
-                          className="min-h-[150px] border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8] resize-none"
+                          className="font-sans min-h-[150px] border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8] resize-none"
                           {...field}
                         />
                       </FormControl>
@@ -278,7 +286,7 @@ export default function ContactPage() {
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel className="text-sm text-gray-600 cursor-pointer">
+                        <FormLabel className="font-sans text-sm text-gray-600 cursor-pointer">
                           En soumettant ce formulaire, vous acceptez la politique de confidentialité de Cozetik
                         </FormLabel>
                       </div>
@@ -287,23 +295,25 @@ export default function ContactPage() {
                 />
 
                 {/* Submit Button */}
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="h-14 w-full bg-[#2C2C2C] text-base font-bold uppercase text-white hover:bg-[#3C3C3C] disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Envoi en cours...
-                    </>
-                  ) : (
-                    <>
-                      SOUMETTRE
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </>
-                  )}
-                </Button>
+                <div className="flex justify-start">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="font-sans h-14 w-auto min-w-[279px] bg-[#03120E] px-8 text-base font-bold uppercase text-white hover:bg-[#0a1f18] disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Envoi en cours...
+                      </>
+                    ) : (
+                      <>
+                        SOUMETTRE
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </>
+                    )}
+                  </Button>
+                </div>
               </form>
             </Form>
           </div>
