@@ -1,27 +1,27 @@
-import { notFound } from 'next/navigation'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Metadata } from 'next'
-import { prisma } from '@/lib/prisma'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { BlogCard } from '@/components/blog/blog-card'
+import { BlogCard } from "@/components/blog/blog-card";
+import { Button } from "@/components/ui/button";
+import { CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { prisma } from "@/lib/prisma";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 import {
+  ArrowRight,
   Calendar,
-  Clock,
   ChevronRight,
-  Home,
-  Share2,
+  Clock,
   Facebook,
-  Twitter,
+  Home,
   Linkedin,
-} from 'lucide-react'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
+  Twitter,
+} from "lucide-react";
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface BlogPostPageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string }>;
 }
 
 async function getBlogPost(slug: string) {
@@ -34,12 +34,12 @@ async function getBlogPost(slug: string) {
           lte: new Date(),
         },
       },
-    })
+    });
 
-    return post
+    return post;
   } catch (error) {
-    console.error('Error fetching blog post:', error)
-    return null
+    console.error("Error fetching blog post:", error);
+    return null;
   }
 }
 
@@ -56,7 +56,7 @@ async function getRelatedPosts(currentPostId: string, limit = 3) {
         },
       },
       orderBy: {
-        publishedAt: 'desc',
+        publishedAt: "desc",
       },
       take: limit,
       select: {
@@ -64,35 +64,43 @@ async function getRelatedPosts(currentPostId: string, limit = 3) {
         slug: true,
         title: true,
         excerpt: true,
+        content: true,
         imageUrl: true,
         publishedAt: true,
       },
-    })
+    });
 
-    return posts
+    return posts;
   } catch (error) {
-    console.error('Error fetching related posts:', error)
-    return []
+    console.error("Error fetching related posts:", error);
+    return [];
   }
 }
 
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = await params
-  const post = await getBlogPost(slug)
+  const { slug } = await params;
+  const post = await getBlogPost(slug);
 
   if (!post) {
     return {
-      title: 'Article non trouvé | Cozetik',
-    }
+      title: "Article non trouvé | Cozetik",
+    };
   }
 
-  const title = post.seoTitle || post.title
-  const truncatedTitle = title.length > 60 ? title.substring(0, 57) + '...' : title
+  const title = post.seoTitle || post.title;
+  const truncatedTitle =
+    title.length > 60 ? title.substring(0, 57) + "..." : title;
 
-  const description = post.seoDescription || post.excerpt || `Découvrez notre article : ${post.title}`
-  const truncatedDescription = description.length > 160 ? description.substring(0, 157) + '...' : description
+  const description =
+    post.seoDescription ||
+    post.excerpt ||
+    `Découvrez notre article : ${post.title}`;
+  const truncatedDescription =
+    description.length > 160
+      ? description.substring(0, 157) + "..."
+      : description;
 
   return {
     title: truncatedTitle,
@@ -100,42 +108,62 @@ export async function generateMetadata({
     openGraph: {
       title: post.seoTitle || `${post.title} | Blog Cozetik`,
       description: truncatedDescription,
-      images: post.imageUrl ? [post.imageUrl] : ['/og-image.jpg'],
+      images: post.imageUrl ? [post.imageUrl] : ["/og-image.jpg"],
       url: `https://cozetik.com/blog/${post.slug}`,
-      type: 'article',
+      type: "article",
       publishedTime: post.publishedAt?.toISOString(),
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: post.seoTitle || `${post.title} | Blog Cozetik`,
       description: truncatedDescription,
-      images: post.imageUrl ? [post.imageUrl] : ['/og-image.jpg'],
+      images: post.imageUrl ? [post.imageUrl] : ["/og-image.jpg"],
     },
-  }
+  };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params
-  const post = await getBlogPost(slug)
+  const { slug } = await params;
+  const post = await getBlogPost(slug);
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
-  const relatedPosts = await getRelatedPosts(post.id)
+  const relatedPosts = await getRelatedPosts(post.id);
 
   // Calculate reading time (rough estimate: 200 words per minute)
-  const wordCount = post.content.split(' ').length
-  const readingTime = Math.ceil(wordCount / 200)
+  const wordCount = post.content.split(" ").length;
+  const readingTime = Math.ceil(wordCount / 200);
 
   // Share URLs
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
-  const shareText = post.title
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareText = post.title;
 
   return (
     <div className="flex flex-col">
+      {post.imageUrl && (
+        <div className="relative mb-12 overflow-hidden rounded-lg">
+          <div className="relative w-full">
+            <Image
+              src={post.imageUrl}
+              alt={post.title}
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-[40vh] md:h-[70vh] filter brightness-50"
+              priority
+            />
+            <div className="absolute inset-0 flex justify-center items-center p-2">
+              <h1 className="text-4xl text-center text-white uppercase font-display md:text-7xl ">
+                {post.title}
+              </h1>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Breadcrumb */}
-      <section className="border-b bg-muted/30 py-4">
+      <section className="border-b pb-2 ">
         <div className="container mx-auto px-4">
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
             <Link
@@ -147,34 +175,33 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <ChevronRight className="h-4 w-4" />
             <Link
               href="/blog"
-              className="transition-colors hover:text-foreground"
+              className="transition-colors font-sans hover:text-foreground"
             >
               Blog
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <span className="line-clamp-1 font-medium text-foreground">
+            <span className="line-clamp-1 font-medium font-sans text-foreground">
               {post.title}
             </span>
           </nav>
         </div>
       </section>
-
       {/* Article Header */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <article className="mx-auto max-w-4xl">
             {/* Title */}
-            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
+            <h1 className="mb-6 text-4xl font-sans font-bold tracking-tight sm:text-5xl">
               {post.title}
             </h1>
 
             {/* Meta Info */}
-            <div className="mb-8 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <div className="mb-8 flex flex-wrap font-sans items-center gap-4 text-sm text-muted-foreground">
               {post.publishedAt && (
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
                   <time dateTime={post.publishedAt.toISOString()}>
-                    {format(new Date(post.publishedAt), 'PPP', { locale: fr })}
+                    {format(new Date(post.publishedAt), "PPP", { locale: fr })}
                   </time>
                 </div>
               )}
@@ -184,40 +211,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
             </div>
 
-            {/* Featured Image */}
-            {post.imageUrl && (
-              <div className="mb-12 overflow-hidden rounded-lg">
-                <div className="relative aspect-video w-full">
-                  <Image
-                    src={post.imageUrl}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Excerpt */}
-            {post.excerpt && (
-              <div className="mb-8 rounded-lg border-l-4 border-primary bg-primary/5 p-6">
-                <p className="text-lg leading-relaxed text-muted-foreground">
-                  {post.excerpt}
-                </p>
-              </div>
-            )}
-
             {/* Article Content */}
             <div
-              className="prose prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:leading-relaxed prose-p:text-muted-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-img:rounded-lg prose-ul:text-muted-foreground prose-ol:text-muted-foreground"
+              className="prose font-sans prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:leading-relaxed prose-p:text-muted-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-img:rounded-lg prose-ul:text-muted-foreground prose-ol:text-muted-foreground"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
             {/* Share Section */}
             <Separator className="my-12" />
             <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-              <h3 className="text-lg font-semibold">Partager cet article</h3>
+              <h3 className="text-lg font-semibold font-sans">
+                Partager cet article
+              </h3>
               <div className="flex gap-2">
                 <Button
                   variant="outline"
@@ -266,14 +271,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </article>
         </div>
       </section>
-
       {/* Related Articles */}
       {relatedPosts.length > 0 && (
         <section className="border-t bg-muted/30 py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="mb-8">
-              <h2 className="text-2xl font-bold">Articles similaires</h2>
-              <p className="mt-2 text-muted-foreground">
+              <h2 className="text-2xl font-bold font-sans">
+                Articles similaires
+              </h2>
+              <p className="mt-2 text-muted-foreground font-sans">
                 Découvrez d&apos;autres articles qui pourraient vous intéresser
               </p>
             </div>
@@ -284,7 +290,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               ))}
             </div>
 
-            <div className="mt-8 text-center">
+            <div className="mt-8 text-center font-sans">
               <Button asChild variant="outline">
                 <Link href="/blog">Voir tous les articles</Link>
               </Button>
@@ -292,31 +298,42 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </section>
       )}
-
       {/* CTA Section */}
-      <section className="border-t py-16">
-        <div className="container mx-auto px-4">
-          <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
-            <CardContent className="p-8 text-center md:p-12">
-              <h2 className="mb-4 text-2xl font-bold sm:text-3xl">
+      <section>
+        <div className="w-full mx-auto">
+          <div className=" bg-[#F2E7D8]">
+            <CardContent className="p-8 text-center md:p-12 font-sans">
+              <h2 className="mb-4 text-2xl font-semibold sm:text-3xl">
                 Intéressé par nos formations ?
               </h2>
               <p className="mb-8 text-muted-foreground">
                 Découvrez notre catalogue complet et trouvez la formation qui
                 correspond à vos objectifs professionnels.
               </p>
-              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-                <Button asChild size="lg">
-                  <Link href="/formations">Découvrir nos formations</Link>
+              <div className="flex flex-col font-sans gap-4 sm:flex-row sm:justify-center">
+                <Button
+                  asChild
+                  size="lg"
+                  className="transition-all duration-300 ease-in-out hover:scale-105"
+                >
+                  <Link href="/formations">
+                    Découvrir nos formations{" "}
+                    <ArrowRight className="text-white" />
+                  </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline">
+                <Button
+                  asChild
+                  size="lg"
+                  className="transition-all duration-300 ease-in-out hover:scale-105"
+                  variant="outline"
+                >
                   <Link href="/contact">Nous contacter</Link>
                 </Button>
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
       </section>
     </div>
-  )
+  );
 }
