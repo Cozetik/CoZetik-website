@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sendEmail } from '@/lib/resend'
-import { emailInscriptionAccepted } from '@/emails/email-inscription-accepted'
+import { render } from '@react-email/render'
+import InscriptionAccepted from '@/emails/inscription-accepted'
 import * as z from 'zod'
 
 const statusSchema = z.object({
@@ -73,10 +74,10 @@ export async function PATCH(
       console.log('📧 Tentative d\'envoi email d\'acceptation d\'inscription à:', existingInscription.email)
       try {
         // Formater la date de session (si disponible)
-        const nextSession = existingInscription.formation.sessions && existingInscription.formation.sessions.length > 0 
+        const nextSession = existingInscription.formation.sessions && existingInscription.formation.sessions.length > 0
           ? existingInscription.formation.sessions[0]
           : null;
-        
+
         const sessionDate = nextSession
           ? new Date(nextSession.startDate).toLocaleDateString('fr-FR', {
               year: 'numeric',
@@ -85,14 +86,18 @@ export async function PATCH(
             })
           : undefined;
 
+        const emailHtml = await render(
+          InscriptionAccepted({
+            name: existingInscription.name,
+            formationTitle: existingInscription.formation.title,
+            sessionDate,
+          })
+        )
+
         const emailResult = await sendEmail(
           existingInscription.email,
           `Votre inscription a été acceptée - ${existingInscription.formation.title}`,
-          emailInscriptionAccepted(
-            existingInscription.name,
-            existingInscription.formation.title,
-            sessionDate
-          )
+          emailHtml
         )
         
         if (emailResult.success) {

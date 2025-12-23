@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sendEmail } from '@/lib/resend'
-import { emailContactAccepted } from '@/emails/email-contact-accepted'
+import { render } from '@react-email/render'
+import ContactAccepted from '@/emails/contact-accepted'
 import * as z from 'zod'
 
 const statusSchema = z.object({
@@ -45,10 +46,12 @@ export async function PATCH(
     if (validatedData.status === 'TREATED' && existingRequest.status !== 'TREATED') {
       console.log('📧 Tentative d\'envoi email d\'acceptation à:', existingRequest.email)
       try {
+        const emailHtml = await render(ContactAccepted({ name: existingRequest.name }))
+
         const emailResult = await sendEmail(
           existingRequest.email,
           'Votre demande a été acceptée - Cozetik',
-          emailContactAccepted(existingRequest.name)
+          emailHtml
         )
         
         if (emailResult.success) {
