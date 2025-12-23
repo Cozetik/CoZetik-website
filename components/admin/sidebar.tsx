@@ -32,7 +32,7 @@ const navItems: (NavItem | NavItemWithSub)[] = [
   { name: "Formations", href: "/admin/formations", icon: GraduationCap },
   { name: "Catégories", href: "/admin/categories", icon: Tags },
   { name: "Blog", href: "/admin/blog", icon: FileText },
-  { name: "Thèmes", href: "/admin/themes", icon: Tags },
+  { name: "Thèmes", href: "/admin/theme", icon: Tags },
   { name: "Partenaires", href: "/admin/partners", icon: Handshake },
   {
     name: "Demandes",
