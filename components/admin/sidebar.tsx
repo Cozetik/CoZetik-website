@@ -1,71 +1,73 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 import {
-  LayoutDashboard,
-  GraduationCap,
-  Tags,
+  ChevronDown,
   FileText,
+  GraduationCap,
   Handshake,
   Inbox,
-  ChevronDown,
-} from 'lucide-react'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
-import { useState } from 'react'
+  LayoutDashboard,
+  Tags,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 interface NavItem {
-  name: string
-  href: string
-  icon: React.ComponentType<{ className?: string }>
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 interface NavItemWithSub {
-  name: string
-  icon: React.ComponentType<{ className?: string }>
-  subItems: { name: string; href: string }[]
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  subItems: { name: string; href: string }[];
 }
 
 const navItems: (NavItem | NavItemWithSub)[] = [
-  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { name: 'Formations', href: '/admin/formations', icon: GraduationCap },
-  { name: 'Catégories', href: '/admin/categories', icon: Tags },
-  { name: 'Blog', href: '/admin/blog', icon: FileText },
-  { name: 'Partenaires', href: '/admin/partners', icon: Handshake },
+  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { name: "Formations", href: "/admin/formations", icon: GraduationCap },
+  { name: "Catégories", href: "/admin/categories", icon: Tags },
+  { name: "Blog", href: "/admin/blog", icon: FileText },
+  { name: "Thèmes", href: "/admin/themes", icon: Tags },
+  { name: "Partenaires", href: "/admin/partners", icon: Handshake },
   {
-    name: 'Demandes',
+    name: "Demandes",
     icon: Inbox,
     subItems: [
-      { name: 'Contacts', href: '/admin/requests/contact' },
-      { name: 'Inscriptions', href: '/admin/requests/inscriptions' },
+      { name: "Contacts", href: "/admin/requests/contact" },
+      { name: "Inscriptions", href: "/admin/requests/inscriptions" },
     ],
   },
-]
+];
 
 function isNavItemWithSub(
   item: NavItem | NavItemWithSub
 ): item is NavItemWithSub {
-  return 'subItems' in item
+  return "subItems" in item;
 }
 
 export default function Sidebar() {
-  const pathname = usePathname()
-  const [expandedItems, setExpandedItems] = useState<string[]>(['Demandes'])
+  const pathname = usePathname();
+  const [expandedItems, setExpandedItems] = useState<string[]>(["Demandes"]);
 
   const toggleExpanded = (name: string) => {
     setExpandedItems((prev) =>
-      prev.includes(name) ? prev.filter((item) => item !== name) : [...prev, name]
-    )
-  }
+      prev.includes(name)
+        ? prev.filter((item) => item !== name)
+        : [...prev, name]
+    );
+  };
 
   const isActive = (href: string) => {
-    if (href === '/admin') {
-      return pathname === '/admin'
+    if (href === "/admin") {
+      return pathname === "/admin";
     }
-    return pathname.startsWith(href)
-  }
+    return pathname.startsWith(href);
+  };
 
   return (
     <div className="flex h-full flex-col border-r bg-muted/40">
@@ -79,26 +81,26 @@ export default function Sidebar() {
         <nav className="space-y-1">
           {navItems.map((item) => {
             if (isNavItemWithSub(item)) {
-              const isExpanded = expandedItems.includes(item.name)
+              const isExpanded = expandedItems.includes(item.name);
               const hasActiveChild = item.subItems.some((subItem) =>
                 isActive(subItem.href)
-              )
+              );
 
               return (
                 <div key={item.name}>
                   <button
                     onClick={() => toggleExpanded(item.name)}
                     className={cn(
-                      'flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                      hasActiveChild && 'bg-accent text-accent-foreground'
+                      "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                      hasActiveChild && "bg-accent text-accent-foreground"
                     )}
                   >
                     <item.icon className="h-4 w-4" />
                     <span className="flex-1 text-left">{item.name}</span>
                     <ChevronDown
                       className={cn(
-                        'h-4 w-4 transition-transform',
-                        isExpanded && 'rotate-180'
+                        "h-4 w-4 transition-transform",
+                        isExpanded && "rotate-180"
                       )}
                     />
                   </button>
@@ -110,9 +112,9 @@ export default function Sidebar() {
                           key={subItem.href}
                           href={subItem.href}
                           className={cn(
-                            'block rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+                            "block rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
                             isActive(subItem.href) &&
-                              'bg-accent font-medium text-accent-foreground'
+                              "bg-accent font-medium text-accent-foreground"
                           )}
                         >
                           {subItem.name}
@@ -121,7 +123,7 @@ export default function Sidebar() {
                     </div>
                   )}
                 </div>
-              )
+              );
             }
 
             return (
@@ -129,14 +131,14 @@ export default function Sidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                  isActive(item.href) && 'bg-accent text-accent-foreground'
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                  isActive(item.href) && "bg-accent text-accent-foreground"
                 )}
               >
                 <item.icon className="h-4 w-4" />
                 {item.name}
               </Link>
-            )
+            );
           })}
         </nav>
       </ScrollArea>
@@ -148,5 +150,5 @@ export default function Sidebar() {
         </p>
       </div>
     </div>
-  )
+  );
 }
