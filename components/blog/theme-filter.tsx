@@ -1,6 +1,13 @@
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+"use client";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 interface Theme {
   id: string;
@@ -14,36 +21,39 @@ interface ThemeFilterProps {
 }
 
 export function ThemeFilter({ themes, activeTheme }: ThemeFilterProps) {
-  return (
-    <div className="flex flex-wrap gap-2 mb-8">
-      <Link href="/blog">
-        <Badge
-          variant={!activeTheme ? "default" : "outline"}
-          className={cn(
-            "cursor-pointer text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground transition-colors",
-            !activeTheme && "bg-primary text-primary-foreground"
-          )}
-        >
-          Tous
-        </Badge>
-      </Link>
+  const router = useRouter();
 
-      {themes.map((theme) => {
-        const isActive = activeTheme === theme.slug;
-        return (
-          <Link key={theme.id} href={`/blog?theme=${theme.slug}`}>
-            <Badge
-              variant={isActive ? "default" : "outline"}
-              className={cn(
-                "cursor-pointer text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground transition-colors",
-                isActive && "bg-primary text-primary-foreground"
-              )}
-            >
-              {theme.name}
-            </Badge>
-          </Link>
-        );
-      })}
+  const handleValueChange = (value: string) => {
+    if (value === "all") {
+      router.push("/blog");
+    } else {
+      router.push(`/blog?theme=${value}`);
+    }
+  };
+
+  return (
+    <div className="flex justify-center mb-8">
+      <div className="w-full max-w-xs font-sans">
+        <Select value={activeTheme || "all"} onValueChange={handleValueChange}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Filtrer par thème" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all" className="font-sans">
+              Tous les articles
+            </SelectItem>
+            {themes.map((theme) => (
+              <SelectItem
+                key={theme.id}
+                value={theme.slug}
+                className="font-sans"
+              >
+                {theme.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 }

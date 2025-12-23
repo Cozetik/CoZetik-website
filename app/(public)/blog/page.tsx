@@ -1,3 +1,4 @@
+import { BlogPageAnimator } from "@/components/animations/blog-page-animator";
 import { BlogCard } from "@/components/blog/blog-card";
 import { ThemeFilter } from "@/components/blog/theme-filter";
 import { prisma } from "@/lib/prisma";
@@ -72,23 +73,20 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   });
 
   return (
-    <div className="flex flex-col">
+    <BlogPageAnimator>
       {/* Page Header */}
       <section className="border-b bg-[#C792DF] py-16 pt-36 text-center">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl ">
             {/* Title */}
-            <h1 className="text-4xl font-bold tracking-tight text-center text-cozetik-white font-display uppercase md:text-7xl">
+            <h1 className="anim-header text-4xl font-bold tracking-tight text-center text-cozetik-white font-display uppercase md:text-7xl">
               Explorez des contenus inspirants{" "}
             </h1>
-            <Image
-              src={Line}
-              alt="Decorative line"
-              width={500}
-              className="justify-self-center mb-4 -translate-y-5"
-            />
+            <div className="anim-header flex justify-center mb-4 -translate-y-5">
+              <Image src={Line} alt="Decorative line" width={500} />
+            </div>
             {/* Description */}
-            <p className="text-lg text-cozetik-white font-sans md:text-xl">
+            <p className="anim-header text-lg text-cozetik-white font-sans md:text-xl">
               Actualités, conseils et tendances du monde de la formation
               professionnelle. Restez informé avec nos articles d&apos;experts.
             </p>
@@ -100,12 +98,14 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           {/* AJOUT : Le filtre par thème */}
-          <ThemeFilter themes={themes} activeTheme={activeThemeSlug} />
+          <div className="anim-filter">
+            <ThemeFilter themes={themes} activeTheme={activeThemeSlug} />
+          </div>
 
           {posts.length > 0 ? (
             <>
               {/* Posts Count */}
-              <div className="mb-8">
+              <div className="anim-filter mb-8">
                 <p className="text-sm text-muted-foreground">
                   {posts.length} article{posts.length > 1 ? "s" : ""} publié
                   {posts.length > 1 ? "s" : ""}
@@ -114,15 +114,17 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
               </div>
 
               {/* Blog Posts Grid */}
-              <div className="grid grid-cols-1 gap-8  md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {posts.map((post, index) => (
-                  <BlogCard key={post.id} post={post} index={index} />
+                  <div key={post.id} className="anim-card h-full">
+                    <BlogCard post={post} index={index} />
+                  </div>
                 ))}
               </div>
             </>
           ) : (
             // Empty State
-            <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
+            <div className="anim-filter flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
               <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-muted">
                 <BookOpen className="h-12 w-12 text-muted-foreground" />
               </div>
@@ -176,6 +178,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           </div>
         </div>
       </section>
-    </div>
+    </BlogPageAnimator>
   );
 }
