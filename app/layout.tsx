@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Borel, Inter } from "next/font/google";
+import { Borel, Inter, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 
 const borel = Borel({
@@ -13,6 +13,13 @@ const inter = Inter({
   weight: ["400", "600", "800"],
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const bricolageGrotesque = Bricolage_Grotesque({
+  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-bricolage",
   display: "swap",
 });
 
@@ -77,7 +84,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`${inter.variable} ${borel.variable}`}>
+      <body className={`${inter.variable} ${borel.variable} ${bricolageGrotesque.variable}`}>
         {children}
       </body>
     </html>
