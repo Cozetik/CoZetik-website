@@ -1,12 +1,11 @@
+import { AnimatedLine } from "@/components/animations/animated-line"; // 1. Import
 import { BlogPageAnimator } from "@/components/animations/blog-page-animator";
 import { BlogCard } from "@/components/blog/blog-card";
 import { ThemeFilter } from "@/components/blog/theme-filter";
 import { prisma } from "@/lib/prisma";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import Line from "./../../../public/line.svg";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -88,9 +87,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             <h1 className="anim-header text-4xl font-bold tracking-tight text-center text-cozetik-white font-display uppercase md:text-7xl">
               Explorez des contenus inspirants{" "}
             </h1>
-            <div className="anim-header flex justify-center mb-4 -translate-y-5">
-              <Image src={Line} alt="Decorative line" width={500} />
+
+            {/* 2. Remplacement de l'Image par AnimatedLine */}
+            <div className="anim-header mb-4 -translate-y-5">
+              <AnimatedLine />
             </div>
+
             {/* Description */}
             <p className="anim-header text-lg text-cozetik-white font-sans md:text-xl">
               Actualités, conseils et tendances du monde de la formation
