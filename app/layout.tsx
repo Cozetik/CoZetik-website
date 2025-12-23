@@ -77,6 +77,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: "/logo-cozetik_Logo-transparent.png",
+  },
 };
 
 export default function RootLayout({
