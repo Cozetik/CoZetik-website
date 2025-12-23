@@ -69,6 +69,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       content: true,
       imageUrl: true,
       publishedAt: true,
+      themes: {
+        select: {
+          name: true,
+          slug: true,
+        },
+      },
     },
   });
 

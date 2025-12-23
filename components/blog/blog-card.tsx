@@ -13,9 +13,13 @@ interface BlogCardProps {
     content: string | null;
     imageUrl: string | null;
     publishedAt: Date | null;
+    themes?: {
+      name: string;
+      slug: string;
+    }[];
   };
   className?: string;
-  index?: number; // Ajout de la prop index
+  index?: number;
 }
 
 export function BlogCard({ post, className, index = 0 }: BlogCardProps) {
@@ -34,12 +38,25 @@ export function BlogCard({ post, className, index = 0 }: BlogCardProps) {
       href={`/blog/${post.slug}`}
       className={cn(
         "group flex h-full flex-col overflow-hidden rounded-3xl border transition-all  duration-300 hover:-translate-y-1 hover:shadow-xl",
-        index % 2 === 0 ? "shadow-blog-blue" : "shadow-blog-green", // Alternance : blanc pour les pairs, gris clair pour les impairs
+        index % 2 === 0 ? "shadow-blog-blue" : "shadow-blog-green",
         className
       )}
     >
       {/* Image Container */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+      <div className="relative aspect-[16/10] w-full overflow-hidden">
+        {post.themes && post.themes.length > 0 && (
+          <div className="absolute right-4 top-4 z-20 flex flex-wrap gap-2">
+            {post.themes.slice(0, 2).map((theme) => (
+              <span
+                key={theme.slug}
+                className="rounded-full bg-white/90 shadow-md border-[#0000004f] border px-3 py-1 text-xs font-sans font-semibold "
+              >
+                {theme.name}
+              </span>
+            ))}
+          </div>
+        )}
+
         {post.imageUrl ? (
           <Image
             src={post.imageUrl}
@@ -56,7 +73,7 @@ export function BlogCard({ post, className, index = 0 }: BlogCardProps) {
           </div>
         )}
 
-        {/* Overlay gradient on hover (optional, adds depth) */}
+        {/* Overlay gradient on hover */}
         <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/5" />
       </div>
 
