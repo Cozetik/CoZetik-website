@@ -1,73 +1,31 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { ArrowRight, BookOpen } from 'lucide-react'
-
-type PrimaryFilter = 'all' | 'pro' | 'perso'
-type SecondaryFilter = 'all' | 'tech' | 'expression' | 'alignement' | 'harmonie'
+import { ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 type Formation = {
   id: string
-  titre: string
+  title: string
+  slug: string
   description: string
-  accroche: string
-  category: PrimaryFilter
-  subCategory: SecondaryFilter
+  imageUrl: string | null
+  category: {
+    id: string
+    name: string
+    slug: string
+  }
 }
 
-const FORMATIONS: Formation[] = [
-  {
-    id: 'ia-productivite',
-    titre: 'IA & productivité',
-    description: 'S’adresse à celles et ceux qui veulent travailler mieux, pas plus, tout en restant maîtres de leurs outils',
-    accroche: 'Tech & outils',
-    category: 'pro',
-    subCategory: 'tech',
-  },
-  {
-    id: 'prise-de-parole',
-    titre: 'Prise de parole',
-    description: 'Transformer la prise de parole en un véritable levier de confiance et d’influence.',
-    accroche: 'Expression & impact',
-    category: 'pro',
-    subCategory: 'expression',
-  },
-  {
-    id: 'intelligence-emotionnelle',
-    titre: 'Intelligence émotionnelle',
-    description: 'Développer une intelligence émotionnelle solide pour mieux vivre, mieux décider et mieux interagir',
-    accroche: 'Alignement personnel',
-    category: 'perso',
-    subCategory: 'alignement',
-  },
-  {
-    id: 'kizomba-bien-etre',
-    titre: 'Kizomba bien-être et connexion',
-    description: 'Une expérience immersive où la kizomba devient un outil de transformation personnelle',
-    accroche: 'Harmonie & présence',
-    category: 'perso',
-    subCategory: 'harmonie',
-  },
-]
+type Category = {
+  id: string
+  name: string
+  slug: string
+}
 
-const PRIMARY_FILTERS: { value: PrimaryFilter; label: string }[] = [
-  { value: 'all', label: 'Tous' },
-  { value: 'pro', label: 'Développement professionnel' },
-  { value: 'perso', label: 'Développement personnel' },
-]
-
-const SECONDARY_FILTERS: Record<PrimaryFilter, { value: SecondaryFilter; label: string }[]> = {
-  all: [],
-  pro: [
-    { value: 'all', label: 'Tous' },
-    { value: 'tech', label: 'Tech et outils' },
-    { value: 'expression', label: 'Expression et impact' },
-  ],
-  perso: [
-    { value: 'all', label: 'Tous' },
-    { value: 'alignement', label: 'Alignement personnel' },
-    { value: 'harmonie', label: 'Harmonie & présence' },
-  ],
+type Props = {
+  formations: Formation[]
+  categories: Category[]
 }
 
 function Hero() {
@@ -89,56 +47,41 @@ function Hero() {
 }
 
 function Filters({
-  primary,
-  secondary,
-  onPrimaryChange,
-  onSecondaryChange,
+  selectedCategory,
+  onCategoryChange,
+  categories,
 }: {
-  primary: PrimaryFilter
-  secondary: SecondaryFilter
-  onPrimaryChange: (value: PrimaryFilter) => void
-  onSecondaryChange: (value: SecondaryFilter) => void
+  selectedCategory: string
+  onCategoryChange: (categoryId: string) => void
+  categories: Category[]
 }) {
-  const secondaryOptions = SECONDARY_FILTERS[primary]
-
   return (
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <div className="flex flex-wrap gap-3">
-        {PRIMARY_FILTERS.map(option => (
+        <button
+          onClick={() => onCategoryChange('all')}
+          className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
+            selectedCategory === 'all'
+              ? 'bg-[#262626] text-white'
+              : 'bg-white text-[#262626] hover:bg-[#f3f0fa]'
+          }`}
+        >
+          Tous
+        </button>
+        {categories.map(category => (
           <button
-            key={option.value}
-            onClick={() => {
-              onPrimaryChange(option.value)
-              onSecondaryChange('all')
-            }}
+            key={category.id}
+            onClick={() => onCategoryChange(category.id)}
             className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
-              primary === option.value
+              selectedCategory === category.id
                 ? 'bg-[#262626] text-white'
                 : 'bg-white text-[#262626] hover:bg-[#f3f0fa]'
             }`}
           >
-            {option.label}
+            {category.name}
           </button>
         ))}
       </div>
-
-      {secondaryOptions.length > 0 && (
-        <div className="flex flex-wrap gap-3">
-          {secondaryOptions.map(option => (
-            <button
-              key={option.value}
-              onClick={() => onSecondaryChange(option.value)}
-              className={`rounded-none border border-[#ADA6DB] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
-                secondary === option.value
-                  ? 'bg-[#ADA6DB] text-[#262626]'
-                  : 'bg-white text-[#262626] hover:bg-[#f3f0fa]'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   )
 }
@@ -147,48 +90,39 @@ function FormationCard({ formation }: { formation: Formation }) {
   return (
     <div className="flex h-full flex-col bg-[#262626] px-8 py-10 text-white">
       <div className="text-xs font-semibold uppercase tracking-[0.35em] text-[#ADA6DB]">
-        {formation.accroche}
+        {formation.category.name}
       </div>
       <h3 className="mt-4 font-['Bricolage_Grotesque'] text-2xl font-extrabold md:text-3xl">
-        {formation.titre}
+        {formation.title}
       </h3>
       <p className="mt-4 text-base leading-relaxed text-white/80">
         {formation.description}
       </p>
       <div className="mt-auto flex items-center justify-between pt-8">
         <div className="text-sm uppercase tracking-wide text-white/60">
-          Parcours {formation.category === 'pro' ? 'professionnel' : 'personnel'}
+          Formation
         </div>
-        <button className="flex items-center gap-2 bg-[#ADA6DB] px-4 py-3 text-base font-semibold uppercase text-white transition-colors hover:bg-[#bdb7e3]">
+        <Link
+          href={`/formations/${formation.slug}`}
+          className="flex items-center gap-2 bg-[#ADA6DB] px-4 py-3 text-base font-semibold uppercase text-white transition-colors hover:bg-[#bdb7e3]"
+        >
           Découvrir
           <ArrowRight className="h-4 w-4" />
-        </button>
+        </Link>
       </div>
     </div>
   )
 }
 
-export default function FormationsClientPage() {
-  const [primaryFilter, setPrimaryFilter] = useState<PrimaryFilter>('all')
-  const [secondaryFilter, setSecondaryFilter] = useState<SecondaryFilter>('all')
+export default function FormationsClientPage({ formations, categories }: Props) {
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
   const filteredFormations = useMemo(() => {
-    return FORMATIONS.filter(formation => {
-      if (primaryFilter !== 'all' && formation.category !== primaryFilter) {
-        return false
-      }
-
-      if (primaryFilter === 'pro' && secondaryFilter !== 'all') {
-        return formation.subCategory === secondaryFilter
-      }
-
-      if (primaryFilter === 'perso' && secondaryFilter !== 'all') {
-        return formation.subCategory === secondaryFilter
-      }
-
-      return true
-    })
-  }, [primaryFilter, secondaryFilter])
+    if (selectedCategory === 'all') {
+      return formations
+    }
+    return formations.filter(formation => formation.category.id === selectedCategory)
+  }, [formations, selectedCategory])
 
   return (
     <div className="bg-[#FDFDFD] font-sans">
@@ -198,16 +132,21 @@ export default function FormationsClientPage() {
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
           <div className="flex flex-col gap-10">
             <Filters
-              primary={primaryFilter}
-              secondary={secondaryFilter}
-              onPrimaryChange={setPrimaryFilter}
-              onSecondaryChange={setSecondaryFilter}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              categories={categories}
             />
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {filteredFormations.map(formation => (
-                <FormationCard key={formation.id} formation={formation} />
-              ))}
+              {filteredFormations.length === 0 ? (
+                <div className="col-span-2 py-16 text-center text-gray-500">
+                  Aucune formation disponible pour cette catégorie
+                </div>
+              ) : (
+                filteredFormations.map(formation => (
+                  <FormationCard key={formation.id} formation={formation} />
+                ))
+              )}
             </div>
           </div>
         </div>
