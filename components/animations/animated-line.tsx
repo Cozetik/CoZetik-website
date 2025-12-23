@@ -1,0 +1,55 @@
+"use client";
+
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
+
+export function AnimatedLine() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+
+  useGSAP(
+    () => {
+      const path = pathRef.current;
+      if (!path) return;
+
+      const length = path.getTotalLength();
+
+      gsap.set(path, {
+        strokeDasharray: length,
+        strokeDashoffset: length,
+        opacity: 1,
+      });
+
+      gsap.to(path, {
+        strokeDashoffset: 0,
+        duration: 2.5, // Un peu plus lent car le tracé est plus long
+        ease: "power2.out",
+        delay: 0.5,
+      });
+    },
+    { scope: containerRef }
+  );
+
+  return (
+    <div ref={containerRef} className="flex justify-center w-full">
+      <svg
+        width="1043"
+        height="96"
+        viewBox="0 0 1043 96"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-[300px] md:w-[500px] h-auto" // h-auto garde les proportions
+      >
+        <path
+          ref={pathRef}
+          d="M6.00146 72.5126C22.9622 65.3713 39.9229 58.23 110.254 46.0707C180.586 33.9115 303.774 16.9508 366.788 9.99879C429.803 3.04679 428.91 6.61747 426.665 9.79591C416.622 24.0136 382.221 36.319 332.596 62.0441C309.757 73.8838 295.497 86.0109 294.076 88.2831C291.979 91.6384 311.402 84.3067 368.736 75.3259C426.07 66.3451 526.941 52.0624 580.691 44.7047C634.44 37.3469 638.011 37.3469 613.963 45.3809C589.915 53.415 538.14 69.483 519.502 75.5288C516.632 76.46 556.697 68.0493 596.326 59.9477C621.918 54.7157 645.152 49.9795 659.651 51.305C675.561 52.7594 624.621 67.9682 618.278 74.2709C612.862 79.6517 638.011 80.6278 708.64 73.9328C772.195 67.9084 891.745 53.8478 956.491 46.9499C1021.24 40.052 1027.49 40.052 1031.15 41.391C1034.82 42.73 1035.71 45.408 1036.63 48.1671"
+          stroke="#5E985E"
+          strokeWidth="12"
+          strokeLinecap="round"
+          style={{ opacity: 0 }}
+        />
+      </svg>
+    </div>
+  );
+}
