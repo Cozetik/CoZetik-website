@@ -9,128 +9,123 @@ interface ContactAcceptedProps {
 
 export const ContactAccepted = ({ name = 'Utilisateur' }: ContactAcceptedProps) => {
   return (
-    <CozetikLayout previewText={`Bonjour ${name}, votre demande a été acceptée !`}>
-      {/* Hero Title */}
-      <Section style={heroSectionStyle}>
-        <Text style={titleStyle}>✅ Demande Acceptée</Text>
-      </Section>
+    <CozetikLayout previewText={`Bonjour ${name}, votre demande a été acceptée`}>
+      {/* Titre principal */}
+      <Text style={titleStyle}>Votre demande a été acceptée</Text>
+
+      {/* Ligne séparatrice */}
+      <Hr style={dividerStyle} />
 
       {/* Greeting */}
-      <Text style={greetingStyle}>Bonjour {name} ! 🎉</Text>
+      <Text style={greetingStyle}>Bonjour {name},</Text>
 
-      {/* Message */}
+      {/* Message principal */}
       <Text style={paragraphStyle}>
-        Excellente nouvelle ! Votre demande de contact a été acceptée par notre équipe.
+        Nous sommes ravis de vous informer que votre demande de contact a été acceptée par notre équipe.
       </Text>
 
-      {/* Info Box Beige */}
-      <Section style={infoBoxStyle}>
-        <Text style={infoTitleStyle}>📧 Prochaines étapes</Text>
-        <Text style={infoTextStyle}>
-          Nous allons vous contacter dans les plus brefs délais pour discuter de votre demande en détail.
+      {/* Card Prochaines étapes */}
+      <Section style={cardStyle}>
+        <Text style={cardTitleStyle}>Prochaines étapes</Text>
+        <Text style={listItemStyle}>
+          • Nous vous recontacterons sous 48 heures
+        </Text>
+        <Text style={listItemStyle}>
+          • Un conseiller dédié vous sera assigné prochainement
         </Text>
       </Section>
-
-      <Hr style={dividerStyle} />
 
       {/* CTA Button */}
       <Section style={ctaSectionStyle}>
         <CozetikButton href="https://cozetik.fr/contact">
-          Consulter ma demande
+          → Consulter ma demande
         </CozetikButton>
       </Section>
 
-      <Hr style={dividerStyle} />
-
       {/* Closing */}
-      <Text style={paragraphStyle}>
-        Nous avons hâte de vous accompagner dans votre projet !
-      </Text>
-
-      <Text style={signatureStyle}>
-        <strong style={{ color: '#5E985E' }}>L'équipe Cozetik</strong>
+      <Text style={closingStyle}>
+        Cordialement,<br />
+        L'équipe Cozetik
       </Text>
     </CozetikLayout>
   );
 };
 
 // ============================================
-// STYLES - Charte Cozetik 2025
+// STYLES - Design Épuré (Bricolage Grotesque)
 // ============================================
 
-const heroSectionStyle: React.CSSProperties = {
-  backgroundColor: '#F2E7D8', // Beige Cozetik
-  padding: '30px 20px',
-  textAlign: 'center' as const,
-  marginBottom: '30px',
-  borderRadius: '0', // Carré Cozetik
-};
-
 const titleStyle: React.CSSProperties = {
-  margin: '0',
-  fontSize: '28px',
-  fontWeight: 'bold',
-  color: '#262626', // Noir Cozetik
-  fontFamily: 'Borel, cursive',
-};
-
-const greetingStyle: React.CSSProperties = {
   margin: '0 0 20px 0',
-  fontSize: '24px',
-  fontWeight: '600',
+  fontSize: '32px',
+  fontWeight: '500',
   color: '#262626',
-  fontFamily: 'Borel, cursive',
-};
-
-const paragraphStyle: React.CSSProperties = {
-  margin: '0 0 20px 0',
-  fontSize: '16px',
-  lineHeight: '1.6',
-  color: '#666666',
-  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-};
-
-const infoBoxStyle: React.CSSProperties = {
-  backgroundColor: '#F2E7D8', // Beige Cozetik
-  borderLeft: '4px solid #5E985E', // Vert Cozetik
-  padding: '20px',
-  marginTop: '20px',
-  marginBottom: '20px',
-  borderRadius: '0', // Carré
-};
-
-const infoTitleStyle: React.CSSProperties = {
-  margin: '0 0 10px 0',
-  fontSize: '16px',
-  fontWeight: '600',
-  color: '#262626',
-  fontFamily: 'Inter, sans-serif',
-};
-
-const infoTextStyle: React.CSSProperties = {
-  margin: '0',
-  fontSize: '14px',
-  lineHeight: '1.6',
-  color: '#333333',
-  fontFamily: 'Inter, sans-serif',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
+  lineHeight: '1.2',
 };
 
 const dividerStyle: React.CSSProperties = {
-  borderColor: '#E5E5E5',
-  margin: '30px 0',
+  borderColor: '#E5E7EB',
+  borderWidth: '1px',
+  margin: '0 0 32px 0',
+};
+
+const greetingStyle: React.CSSProperties = {
+  margin: '0 0 24px 0',
+  fontSize: '17px',
+  fontWeight: '400',
+  color: '#262626',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
+  lineHeight: '1.7',
+};
+
+const paragraphStyle: React.CSSProperties = {
+  margin: '0 0 32px 0',
+  fontSize: '17px',
+  fontWeight: '400',
+  color: '#666666',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
+  lineHeight: '1.7',
+};
+
+const cardStyle: React.CSSProperties = {
+  backgroundColor: '#F8F9FA',
+  borderLeft: '2px solid #5E985E',
+  padding: '24px',
+  marginBottom: '32px',
+  borderRadius: '0',
+};
+
+const cardTitleStyle: React.CSSProperties = {
+  margin: '0 0 16px 0',
+  fontSize: '17px',
+  fontWeight: '500',
+  color: '#262626',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
+};
+
+const listItemStyle: React.CSSProperties = {
+  margin: '0 0 10px 0',
+  fontSize: '16px',
+  fontWeight: '400',
+  color: '#666666',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
+  lineHeight: '1.7',
+  paddingLeft: '0',
 };
 
 const ctaSectionStyle: React.CSSProperties = {
   textAlign: 'center' as const,
-  margin: '30px 0',
+  margin: '32px 0',
 };
 
-const signatureStyle: React.CSSProperties = {
-  margin: '20px 0 0 0',
-  fontSize: '16px',
-  lineHeight: '1.6',
+const closingStyle: React.CSSProperties = {
+  margin: '32px 0 0 0',
+  fontSize: '17px',
+  fontWeight: '400',
   color: '#666666',
-  fontFamily: 'Inter, sans-serif',
+  fontFamily: '"Bricolage Grotesque", sans-serif',
+  lineHeight: '1.7',
 };
 
 export default ContactAccepted;
