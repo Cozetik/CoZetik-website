@@ -113,6 +113,14 @@ model BlogPost {
   seoDescription String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  themes Theme[]
+}
+
+model Theme {
+  id    String     @id @default(cuid())
+  name  String     @unique
+  slug  String     @unique
+  posts BlogPost[]
 }
 
 // ContactRequest model for contact form submissions
