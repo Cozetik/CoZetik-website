@@ -93,7 +93,7 @@ export function BlogCard({ post, className, index = 0 }: BlogCardProps) {
         {/* "Footer" Action */}
         <div className="mt-auto flex items-center text-sm font-bold text-primary">
           <span className="relative font-sans after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 group-hover:after:w-full">
-            Lire l'article
+            Lire l&apos;article
           </span>
           <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </div>
