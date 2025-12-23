@@ -157,7 +157,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
             {/* 2. Ajout de la classe anim-hero-content et suppression des animations Tailwind */}
             <div className="anim-hero-content max-w-4xl space-y-6">
-              <h1 className="font-display text-4xl font-bold uppercase tracking-tight text-white md:text-6xl lg:text-7xl">
+              <h1 className="font-bricolage text-4xl font-bold uppercase tracking-tight text-white md:text-6xl lg:text-7xl">
                 {post.title}
               </h1>
 
