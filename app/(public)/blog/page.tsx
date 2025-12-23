@@ -84,12 +84,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl ">
             {/* Title */}
-            <h1 className="anim-header text-4xl font-bold tracking-tight text-center text-cozetik-white font-display uppercase md:text-7xl">
+            <h1 className="anim-header text-4xl font-bold tracking-tight text-center text-cozetik-white font-bricolage uppercase md:text-7xl">
               Explorez des contenus inspirants{" "}
             </h1>
 
             {/* 2. Remplacement de l'Image par AnimatedLine */}
-            <div className="anim-header mb-4 -translate-y-5">
+            <div className="anim-header mb-4">
               <AnimatedLine />
             </div>
 
@@ -104,15 +104,18 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
       {/* Blog Posts Section */}
       <section className="py-12 md:py-16">
+        <div className="anim-header relative justify-self-center border bg-[#262626] -translate-y-20">
+          <p className="font-bricolage uppercase text-cozetik-white p-5 font-semibold text-6xl text-center">
+            Notre BlogETIK
+          </p>
+        </div>
         <div className="container mx-auto px-4">
-          {/* AJOUT : Le filtre par thème */}
-          <div className="anim-filter">
+          <div className="anim-filter justify-self-start">
             <ThemeFilter themes={themes} activeTheme={activeThemeSlug} />
           </div>
 
           {posts.length > 0 ? (
             <>
-              {/* Posts Count */}
               <div className="anim-filter mb-8">
                 <p className="text-sm text-muted-foreground">
                   {posts.length} article{posts.length > 1 ? "s" : ""} publié
