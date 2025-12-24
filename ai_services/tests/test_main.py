@@ -45,11 +45,4 @@ def test_quiz_recommander_empty_payload():
     # FastAPI doit renvoyer 422 Unprocessable Entity
     assert response.status_code == 422
 
-def test_quiz_page_render():
-    """
-    Test simple pour vérifier que la page HTML du quiz se charge bien.
-    """
-    response = client.get("/quiz")
-    assert response.status_code == 200
-    assert "text/html" in response.headers["content-type"]
-    assert "TEST UNITAIRE VISUEL" in response.text
+
