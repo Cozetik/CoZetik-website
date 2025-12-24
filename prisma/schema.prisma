@@ -193,3 +193,16 @@ model FormationFAQ {
   @@unique([formationId, order])
   @@index([formationId])
 }
+
+// Candidature model for job applications
+model Candidature {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String?       @db.Text
+  cvUrl     String?
+  status    RequestStatus @default(NEW)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
