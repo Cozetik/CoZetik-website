@@ -149,6 +149,9 @@ export async function Footer() {
             <p className="font-sans text-sm font-normal text-[#888888]" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
               © {new Date().getFullYear()} Cozetik - Centre de Formation d&apos;Apprentis. Tous droits réservés.
             </p>
+            <p className="font-sans text-sm font-normal text-[#888888]" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine
+            </p>
           </div>
         </div>
       </div>

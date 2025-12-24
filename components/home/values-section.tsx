@@ -49,11 +49,20 @@ export function ValuesSection() {
               className="absolute left-0 -top-12 h-18 w-auto md:-top-16 md:h-24 lg:-top-20 lg:h-[123px]"
             />
 
-            {/* Title CE QUI FAIT LA DIFFÉRENCE COZETIK */}
-            <div className="relative z-10">
-              <h2 className="font-display text-5xl font-extrabold uppercase leading-none tracking-[0] text-cozetik-white md:text-7xl lg:text-[105px]" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                CE QUI FAIT LA DIFFÉRENCE COZETIK
-              </h2>
+            {/* Title NOS VALEURS */}
+            <div className="relative z-10 font-display text-5xl font-extrabold uppercase leading-none tracking-[0] text-cozetik-white md:text-7xl lg:text-[105px]">
+              <div className="flex items-start">
+                <span>NOS</span>
+                <Image
+                  alt="Bonhomme vert"
+                  src="/Bonhomme vert .png"
+                  width={135}
+                  height={158}
+                  className="-mt-[25px] ml-3 h-13 w-auto md:-mt-[45px] md:ml-5 md:h-20 lg:-mt-[65px] lg:ml-8 lg:h-32"
+                  loading="lazy"
+                />
+              </div>
+              <div className="ml-10 md:ml-16 lg:ml-20">VALEURS</div>
               <p className="mt-4 font-sans text-base text-cozetik-white/80 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                 Une approche unique de la formation
               </p>

@@ -69,6 +69,19 @@ export default function CandidaterPage() {
     resolver: zodResolver(candidatureSchema),
     defaultValues: {
       civility: 'M',
+      firstName: '',
+      lastName: '',
+      birthDate: '',
+      email: '',
+      phone: '',
+      address: '',
+      postalCode: '',
+      city: '',
+      formation: '',
+      educationLevel: '',
+      currentSituation: '',
+      startDate: '',
+      motivation: '',
       acceptPrivacy: false,
       acceptNewsletter: false,
     },
@@ -95,12 +108,27 @@ export default function CandidaterPage() {
       })
 
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Une erreur est survenue')
+        let errorMessage = 'Une erreur est survenue';
+        try {
+          const error = await response.json();
+          errorMessage = error.error || errorMessage;
+        } catch (parseError) {
+          // Si la réponse n'est pas du JSON (ex: page d'erreur HTML)
+          const text = await response.text();
+          console.error('Erreur non-JSON:', text.substring(0, 100));
+          errorMessage = `Erreur ${response.status}: ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
+      const result = await response.json();
+
       toast.success('Candidature envoyée !', {
-        description: 'Votre candidature a bien été enregistrée. Notre équipe pédagogique l\'étudiera attentivement et vous contactera sous 48 heures.',
+        description: (
+          <span style={{ color: '#000000' }}>
+            Votre candidature a bien été enregistrée. Notre équipe pédagogique l&apos;étudiera attentivement et vous contactera sous 48 heures.
+          </span>
+        ),
         duration: 5000,
         icon: <CheckCircle2 className="h-5 w-5" />,
       })
@@ -399,7 +427,7 @@ export default function CandidaterPage() {
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
                         Formation souhaitée *
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || ''}>
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                             <SelectValue placeholder="Sélectionnez une formation" />
@@ -426,7 +454,7 @@ export default function CandidaterPage() {
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
                         Niveau d&apos;études actuel *
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || ''}>
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                             <SelectValue placeholder="Sélectionnez votre niveau" />
@@ -453,7 +481,7 @@ export default function CandidaterPage() {
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
                         Situation actuelle *
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || ''}>
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                             <SelectValue placeholder="Sélectionnez votre situation" />
@@ -480,7 +508,7 @@ export default function CandidaterPage() {
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
                         Date de début souhaitée
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || ''}>
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                             <SelectValue placeholder="Sélectionnez une date" />
