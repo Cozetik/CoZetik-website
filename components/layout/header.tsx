@@ -12,9 +12,21 @@ import { MobileNav } from "./mobile-nav";
 
 const navItems = [
   { href: "/", label: "Accueil" },
-  { href: "/formations", label: "Formations" },
-  { href: "/a-propos", label: "À propos" },
+  { 
+    href: "/formations", 
+    label: "Nos formations",
+    submenu: [
+      { href: "/formations/informatique", label: "Informatique" },
+      { href: "/formations/prise-de-parole", label: "Prise de Parole" },
+      { href: "/formations/intelligence-emotionnelle", label: "Intelligence Émotionnelle" },
+      { href: "/formations/business", label: "Business" },
+      { href: "/formations/kizomba-bien-etre-connexion", label: "Kizomba Bien-Être & Connexion" },
+      { href: "/formations", label: "Voir toutes les formations" },
+    ]
+  },
+  { href: "/entreprises", label: "Entreprises" },
   { href: "/blog", label: "Blog" },
+  { href: "/a-propos", label: "À propos" },
   { href: "/contact", label: "Contact" },
 ];
 

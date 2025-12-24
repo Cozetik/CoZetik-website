@@ -161,6 +161,171 @@ export default function AProposPage() {
           </div>
         </div>
       </section>
+
+      {/* SECTION 5 - NOTRE HISTOIRE */}
+      <section id="histoire" className="w-full bg-white py-16 md:py-20">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
+          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Qui sommes-nous ?
+          </h2>
+          <p className="text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Fondé en [année], Cozetik est bien plus qu&apos;un centre de formation : c&apos;est un laboratoire d&apos;innovation pédagogique où convergent excellence technique, développement personnel et bien-être.
+          </p>
+          <p className="mt-4 text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Notre conviction ? Dans un monde professionnel en perpétuelle mutation, la réussite ne se résume pas à l&apos;acquisition de compétences techniques. Elle repose sur un équilibre entre savoir-faire, savoir-être et bien-être.
+          </p>
+          <p className="mt-4 text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            C&apos;est pourquoi nous avons créé une offre unique qui allie informatique, business, communication, intelligence émotionnelle et connexion corporelle. Chaque année, nous accompagnons des centaines d&apos;apprenants vers la réussite professionnelle et l&apos;épanouissement personnel.
+          </p>
+        </div>
+      </section>
+
+      {/* SECTION 6 - NOTRE MISSION */}
+      <section className="w-full bg-[#F5EDE4] py-16 md:py-20">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
+          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Notre mission
+          </h2>
+          <p className="text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Rendre accessible une formation d&apos;excellence qui prépare aux métiers de demain tout en cultivant l&apos;humain. Nous croyons que chaque personne possède un potentiel unique qui mérite d&apos;être révélé et accompagné.
+          </p>
+        </div>
+      </section>
+
+      {/* SECTION 7 - NOS VALEURS */}
+      <section id="valeurs" className="w-full bg-white py-16 md:py-20">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
+          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Nos valeurs
+          </h2>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <h3 className="mb-3 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                1. Excellence
+              </h3>
+              <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                Des formations de qualité, certifiantes et reconnues qui répondent aux standards les plus exigeants
+              </p>
+            </div>
+            <div>
+              <h3 className="mb-3 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                2. Innovation
+              </h3>
+              <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                Des méthodes pédagogiques modernes, interactives et efficaces qui favorisent l&apos;apprentissage par la pratique
+              </p>
+            </div>
+            <div>
+              <h3 className="mb-3 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                3. Accompagnement
+              </h3>
+              <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                Un suivi personnalisé de chaque apprenant parce que nous croyons aux parcours individualisés
+              </p>
+            </div>
+            <div>
+              <h3 className="mb-3 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                4. Ouverture
+              </h3>
+              <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                Des formations accessibles, inclusives et bienveillantes qui accueillent tous les profils
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 8 - L'ÉQUIPE */}
+      <section id="equipe" className="w-full bg-[#F5EDE4] py-16 md:py-20">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
+          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Notre équipe
+          </h2>
+          <p className="text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Cozetik, ce sont des formateurs experts, passionnés par la transmission et engagés dans votre réussite. [À développer avec photos et présentation si souhaité]
+          </p>
+        </div>
+      </section>
+
+      {/* SECTION 9 - CHIFFRES CLÉS */}
+      <section className="w-full bg-white py-16 md:py-20">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
+          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Cozetik en chiffres
+          </h2>
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            <div className="text-center">
+              <p className="text-4xl font-bold text-[#ADA6DB] md:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                [X]
+              </p>
+              <p className="mt-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                apprenants formés depuis [année]
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="text-4xl font-bold text-[#ADA6DB] md:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                [X]%
+              </p>
+              <p className="mt-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                de taux de réussite
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="text-4xl font-bold text-[#ADA6DB] md:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                [X]%
+              </p>
+              <p className="mt-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                d&apos;insertion professionnelle
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="text-4xl font-bold text-[#ADA6DB] md:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                [X]
+              </p>
+              <p className="mt-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                entreprises partenaires
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 10 - PARTENAIRES */}
+      <section id="partenaires" className="w-full bg-[#F5EDE4] py-16 md:py-20">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
+          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Nos partenaires
+          </h2>
+          <p className="text-base text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            [Logos entreprises, organismes, institutions...]
+          </p>
+        </div>
+      </section>
+
+      {/* SECTION 11 - CTA FINAL */}
+      <section className="w-full bg-[#ADA6DB] py-16 md:py-20">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px] text-center">
+          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Envie de nous rejoindre ?
+          </h2>
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="/formations"
+              className="inline-flex items-center justify-center bg-black px-8 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-gray-800"
+              style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+            >
+              Découvrir nos formations
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center border-2 border-white bg-transparent px-8 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-white hover:text-[#ADA6DB]"
+              style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+            >
+              Nous contacter
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
