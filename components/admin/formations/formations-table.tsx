@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Pencil, Calendar } from 'lucide-react'
+import { Pencil, Calendar, ListOrdered } from 'lucide-react'
 import DeleteFormationDialog from './delete-formation-dialog'
 
 interface Formation {
@@ -33,6 +33,7 @@ interface Formation {
   _count?: {
     sessions: number
     inscriptions: number
+    steps: number
   }
 }
 
@@ -137,6 +138,18 @@ export default function FormationsTable({
               <TableCell>{formation.order}</TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-1">
+                  {formation._count && formation._count.steps > 0 && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      asChild
+                      title={`${formation._count.steps} step(s)`}
+                    >
+                      <Link href={`/admin/formations/${formation.id}/steps`}>
+                        <ListOrdered className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  )}
                   {formation._count && formation._count.sessions > 0 && (
                     <Button
                       variant="ghost"

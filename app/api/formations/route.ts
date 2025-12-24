@@ -13,6 +13,16 @@ const formationSchema = z.object({
   imageUrl: z.string().optional(),
   visible: z.boolean(),
   order: z.number().int().min(0),
+  // Nouveaux champs
+  level: z.string().nullable(),
+  maxStudents: z.number().int().positive().nullable(),
+  prerequisites: z.string().nullable(),
+  objectives: z.array(z.string()),
+  isCertified: z.boolean(),
+  isFlexible: z.boolean(),
+  rating: z.number().min(0).max(5).nullable(),
+  reviewsCount: z.number().int().min(0),
+  studentsCount: z.number().int().min(0),
 })
 
 export async function GET() {
@@ -81,6 +91,15 @@ export async function POST(request: Request) {
         imageUrl: validatedData.imageUrl || null,
         visible: validatedData.visible,
         order: validatedData.order,
+        level: validatedData.level,
+        maxStudents: validatedData.maxStudents,
+        prerequisites: validatedData.prerequisites,
+        objectives: validatedData.objectives,
+        isCertified: validatedData.isCertified,
+        isFlexible: validatedData.isFlexible,
+        rating: validatedData.rating,
+        reviewsCount: validatedData.reviewsCount,
+        studentsCount: validatedData.studentsCount,
       },
       include: {
         category: true,

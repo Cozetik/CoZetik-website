@@ -53,6 +53,16 @@ const formSchema = z.object({
   imageUrl: z.string().optional(),
   visible: z.boolean(),
   order: z.number().int().min(0),
+  // Nouveaux champs pour page immersive
+  level: z.string().optional().nullable(),
+  maxStudents: z.number().int().positive().optional().nullable(),
+  prerequisites: z.string().optional().nullable(),
+  objectives: z.string().optional().nullable(), // Sera converti en array
+  isCertified: z.boolean(),
+  isFlexible: z.boolean(),
+  rating: z.number().min(0).max(5).optional().nullable(),
+  reviewsCount: z.number().int().min(0),
+  studentsCount: z.number().int().min(0),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -73,6 +83,15 @@ interface Formation {
   imageUrl: string | null
   visible: boolean
   order: number
+  level: string | null
+  maxStudents: number | null
+  prerequisites: string | null
+  objectives: string[] | null
+  isCertified: boolean
+  isFlexible: boolean
+  rating: number | null
+  reviewsCount: number
+  studentsCount: number
 }
 
 export default function EditFormationForm({
@@ -98,6 +117,15 @@ export default function EditFormationForm({
       imageUrl: formation.imageUrl || '',
       visible: formation.visible,
       order: formation.order,
+      level: formation.level || '',
+      maxStudents: formation.maxStudents,
+      prerequisites: formation.prerequisites || '',
+      objectives: formation.objectives ? formation.objectives.join('\n') : '',
+      isCertified: formation.isCertified || false,
+      isFlexible: formation.isFlexible ?? true,
+      rating: formation.rating,
+      reviewsCount: formation.reviewsCount || 0,
+      studentsCount: formation.studentsCount || 0,
     },
   })
 
@@ -114,6 +142,11 @@ export default function EditFormationForm({
     }
 
     try {
+      // Convertir objectives (string avec retours à la ligne) en array
+      const objectivesArray = values.objectives
+        ? values.objectives.split('\n').filter(line => line.trim() !== '')
+        : []
+
       const response = await fetch(`/api/formations/${formation.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -122,6 +155,11 @@ export default function EditFormationForm({
           slug,
           price: values.price || null,
           duration: values.duration || null,
+          level: values.level || null,
+          maxStudents: values.maxStudents || null,
+          prerequisites: values.prerequisites || null,
+          objectives: objectivesArray,
+          rating: values.rating || null,
           previousImageUrl,
         }),
       })
@@ -391,6 +429,228 @@ export default function EditFormationForm({
                         le site public
                       </FormDescription>
                     </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          {/* Section: Paramètres de formation */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Paramètres de formation</h2>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="level"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Niveau requis</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || ''}
+                      disabled={isLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sélectionnez un niveau" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Débutant">Débutant</SelectItem>
+                        <SelectItem value="Intermédiaire">Intermédiaire</SelectItem>
+                        <SelectItem value="Avancé">Avancé</SelectItem>
+                        <SelectItem value="Expert">Expert</SelectItem>
+                        <SelectItem value="Tous niveaux">Tous niveaux</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="maxStudents"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombre max d&apos;étudiants par session</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Ex: 24"
+                        {...field}
+                        value={field.value ?? ''}
+                        onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormDescription>Laisser vide pour illimité</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="prerequisites"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Prérequis</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Ex: Aucun prérequis nécessaire"
+                      className="min-h-[80px] resize-none"
+                      {...field}
+                      value={field.value ?? ''}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="objectives"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Objectifs pédagogiques</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Un objectif par ligne&#10;Ex:&#10;Automatiser vos tâches répétitives&#10;Créer des workflows intelligents&#10;Gagner 10h par semaine"
+                      className="min-h-[120px] resize-none"
+                      {...field}
+                      value={field.value ?? ''}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Saisissez un objectif par ligne
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="isCertified"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Formation certifiante</FormLabel>
+                      <FormDescription>
+                        La formation délivre un certificat
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="isFlexible"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Rythme flexible</FormLabel>
+                      <FormDescription>
+                        L&apos;apprenant peut suivre à son rythme
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          {/* Section: Social Proof */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Social Proof (optionnel)</h2>
+            <p className="text-sm text-muted-foreground">
+              Ces informations seront affichées pour rassurer les visiteurs
+            </p>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              <FormField
+                control={form.control}
+                name="rating"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Note moyenne</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        max="5"
+                        placeholder="Ex: 4.8"
+                        {...field}
+                        value={field.value ?? ''}
+                        onChange={e => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormDescription>Sur 5</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="reviewsCount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombre d&apos;avis</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Ex: 124"
+                        {...field}
+                        onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="studentsCount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombre d&apos;étudiants formés</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Ex: 500"
+                        {...field}
+                        onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
