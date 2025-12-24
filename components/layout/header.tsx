@@ -50,7 +50,7 @@ export function Header() {
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-10">
         <Link
           href="/"
-          className="flex h-full items-center py-2"
+          className="flex h-full items-center py-2 focus-visible:outline-none"
           aria-label="Accueil Cozetik"
         >
           {/* Logo footer (blanc) quand scroll UP, logo normal quand en haut ou scroll DOWN */}
@@ -84,6 +84,12 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          <Link
+            href="/candidater"
+            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-gray-300 bg-gray-700/60 rounded-lg transition-all duration-200 hover:bg-[#9A80B8] hover:text-white"
+          >
+            Candidater
+          </Link>
         </nav>
 
         <Button

@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,15 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  SUPER_ADMIN
+}
+
+enum RequestStatus {
+  NEW
+  TREATED
+  ARCHIVED
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String
+  password  String // hashed password
   role      Role     @default(SUPER_ADMIN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+// Category model for formation categories
 model Category {
   id          String      @id @default(cuid())
   name        String
@@ -24,23 +38,27 @@ model Category {
   imageUrl    String?
   visible     Boolean     @default(true)
   order       Int         @default(0)
+  formations  Formation[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  formations  Formation[]
 }
 
+// Formation model
 model Formation {
   id           String                 @id @default(cuid())
   title        String
   slug         String                 @unique
   description  String
-  program      String
+  program      String                 @db.Text
   price        Float?
   duration     String?
   imageUrl     String?
   visible      Boolean                @default(true)
   order        Int                    @default(0)
   categoryId   String
+  category     Category               @relation(fields: [categoryId], references: [id])
+  sessions     FormationSession[]
+  inscriptions FormationInscription[]
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
 
@@ -55,16 +73,15 @@ model Formation {
   studentsCount  Int       @default(0) // 500
   isFlexible     Boolean   @default(true) // Rythme flexible ?
 
-  category     Category               @relation(fields: [categoryId], references: [id])
-  sessions     FormationSession[]
-  inscriptions FormationInscription[]
   steps        FormationStep[]
   faqs         FormationFAQ[]
 }
 
+// FormationSession model for formation calendar
 model FormationSession {
   id          String    @id @default(cuid())
   formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
   startDate   DateTime
   endDate     DateTime
   location    String?
@@ -72,9 +89,9 @@ model FormationSession {
   available   Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
 }
 
+// Partner model for companies/partners
 model Partner {
   id          String   @id @default(cuid())
   name        String
@@ -87,11 +104,12 @@ model Partner {
   updatedAt   DateTime @updatedAt
 }
 
+// BlogPost model for blog articles
 model BlogPost {
   id             String    @id @default(cuid())
   title          String
   slug           String    @unique
-  content        String
+  content        String    @db.Text
   excerpt        String?
   imageUrl       String?
   visible        Boolean   @default(false)
@@ -100,21 +118,14 @@ model BlogPost {
   seoDescription String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  themes Theme[]
 }
 
-model Theme {
-  id    String     @id @default(cuid())
-  name  String     @unique
-  slug  String     @unique
-  posts BlogPost[]
-}
-
+// ContactRequest model for contact form submissions
 model ContactRequest {
   id        String        @id @default(cuid())
   name      String
   email     String
-  message   String
+  message   String        @db.Text
   status    RequestStatus @default(NEW)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
@@ -122,6 +133,7 @@ model ContactRequest {
   @@map("contact_requests")
 }
 
+// FormationInscription model for formation registrations
 model FormationInscription {
   id          String        @id @default(cuid())
   name        String
@@ -132,19 +144,10 @@ model FormationInscription {
   status      RequestStatus @default(NEW)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  formation   Formation     @relation(fields: [formationId], references: [id])
+
+  formation   Formation @relation(fields: [formationId], references: [id])
 
   @@map("formation_inscriptions")
-}
-
-enum Role {
-  SUPER_ADMIN
-}
-
-enum RequestStatus {
-  NEW
-  TREATED
-  ARCHIVED
 }
 
 // FormationStep model for pedagogical steps carousel

@@ -9,6 +9,11 @@ const borel = Borel({
   display: "swap",
 });
 
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+});
+
 const inter = Inter({
   weight: ["400", "600", "800"],
   subsets: ["latin"],

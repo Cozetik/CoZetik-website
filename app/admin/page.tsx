@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { GraduationCap, Tags, FileText, Mail, UserPlus } from 'lucide-react'
+import { GraduationCap, Tags, FileText, Mail, UserPlus, Briefcase } from 'lucide-react'
 
 export default async function AdminDashboardPage() {
   // Récupérer toutes les statistiques en parallèle pour optimiser les performances
@@ -11,12 +11,14 @@ export default async function AdminDashboardPage() {
     publishedBlogPosts,
     newContactRequests,
     newInscriptions,
+    newCandidatures,
   ] = await Promise.all([
     prisma.formation.count(),
     prisma.category.count({ where: { visible: true } }),
     prisma.blogPost.count({ where: { visible: true } }),
     prisma.contactRequest.count({ where: { status: 'NEW' } }),
     prisma.formationInscription.count({ where: { status: 'NEW' } }),
+    prisma.candidature.count({ where: { status: 'NEW' } }),
   ])
 
   const stats = [
@@ -57,6 +59,14 @@ export default async function AdminDashboardPage() {
       color: 'text-red-600',
       badge: newInscriptions > 0 ? 'Nouveau' : undefined,
     },
+    {
+      title: 'Candidatures',
+      value: newCandidatures,
+      icon: Briefcase,
+      description: 'Non traitées',
+      color: 'text-indigo-600',
+      badge: newCandidatures > 0 ? 'Nouveau' : undefined,
+    },
   ]
 
   // Formater les nombres avec séparateurs de milliers
@@ -73,7 +83,7 @@ export default async function AdminDashboardPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
