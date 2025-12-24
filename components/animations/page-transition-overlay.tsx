@@ -24,7 +24,7 @@ export function PageTransitionOverlay(): React.ReactNode {
   useEffect(() => {
     setIsMounted(true);
     lastPathRef.current = pathname;
-  }, []);
+  }, [pathname]);
 
   // Listen to manual transition start events (pre-navigation) with target href
   useEffect(() => {
@@ -83,7 +83,7 @@ export function PageTransitionOverlay(): React.ReactNode {
         "page-transition-navigate",
         handler as EventListener
       );
-  }, []);
+  }, [pathname, router]);
 
   // When the pathname changes (navigation happened), wait for ready signal
   useEffect(() => {
