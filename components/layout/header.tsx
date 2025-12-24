@@ -86,7 +86,7 @@ export function Header() {
           ))}
           <Link
             href="/candidater"
-            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-gray-300 bg-gray-700/60 rounded-lg transition-all duration-200 hover:bg-[#9A80B8] hover:text-white"
+            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-gray-300 bg-gray-700/60 rounded-lg transition-all duration-200 hover:bg-[#9A80B8] hover:text-white border-2 border-transparent hover:border-[#11111141] hover:border-dashed"
           >
             Candidater
           </Link>
