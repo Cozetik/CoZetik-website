@@ -1,3 +1,6 @@
+import { prisma } from '@/lib/prisma'
+import FormationsClientPage from './FormationsClient'
+
 export const metadata = {
   title: 'Nos formations',
   description: 'Des parcours post-bac adaptés à vos ambitions professionnelles',
@@ -15,8 +18,26 @@ export const metadata = {
   },
 }
 
-import FormationsClientPage from './FormationsClient'
+export default async function FormationsPage() {
+  const [formations, categories] = await Promise.all([
+    prisma.formation.findMany({
+      where: { visible: true },
+      orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
+      include: {
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+      },
+    }),
+    prisma.category.findMany({
+      where: { visible: true },
+      orderBy: { order: 'asc' },
+    }),
+  ])
 
-export default function FormationsPage() {
-  return <FormationsClientPage />
+  return <FormationsClientPage formations={formations} categories={categories} />
 }
