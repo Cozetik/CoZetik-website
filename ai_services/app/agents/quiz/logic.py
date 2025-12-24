@@ -13,7 +13,7 @@ def get_quiz_chain():
         system_context_path = "./context.txt"
 
     model = ChatMistralAI(
-        model = "mistral-large-2512",
+        model = "labs-mistral-small-creative",
         api_key=os.getenv("MISTRAL_API_KEY"),
         temperature=0
     )
