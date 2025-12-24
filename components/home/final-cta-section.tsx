@@ -18,13 +18,13 @@ export function FinalCTASection() {
           {/* Left - Text Content (70%) */}
           <div className="flex flex-1 flex-col text-center lg:max-w-[70%] lg:text-left">
             {/* Main Title */}
-            <h2 className="mb-3 font-display text-4xl font-extrabold leading-[110%] text-cozetik-white md:text-5xl lg:text-[60px]">
-              FRANCHISSEZ LES ÉTAPES
+            <h2 className="mb-3 font-display text-4xl font-extrabold leading-[110%] text-cozetik-white md:text-5xl lg:text-[60px]" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              Prêt à transformer votre avenir ?
             </h2>
 
             {/* Subtitle */}
-            <p className="font-sans text-base text-cozetik-white md:text-lg">
-              DROIT VERS VOTRE FUTUR CARRIÈRE
+            <p className="font-sans text-base text-cozetik-white md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              Rejoignez Cozetik et passez à l&apos;étape suivante de votre carrière
             </p>
           </div>
 
@@ -37,11 +37,11 @@ export function FinalCTASection() {
             className="flex w-full justify-center lg:w-auto lg:max-w-[30%] lg:justify-end"
           >
             <Link
-              href="/contact"
+              href="/candidater"
               className="group inline-flex items-center gap-3 rounded-lg bg-cozetik-black px-8 py-4 font-sans text-lg font-semibold text-cozetik-white shadow-none transition-all duration-300 ease-out hover:scale-105 hover:bg-[#363636] hover:shadow-[0_4px_12px_rgba(0,0,0,0.3)] active:scale-98 focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-cozetik-white md:w-auto lg:px-8"
               tabIndex={0}
             >
-              <span>S&apos;INSCRIRE</span>
+              <span>Je candidate</span>
               <ArrowRight
                 className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden="true"

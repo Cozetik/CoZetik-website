@@ -4,11 +4,10 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 const values = [
-  'Humain au cœur du recrutement',
-  'Excellence et expertise métier RPO',
-  'Employabilité durable et concrète',
-  'Recrutement éthique et responsable',
-  'Innovation et agilité terrain',
+  'Approche sur-mesure — Parce que votre réussite mérite un accompagnement personnalisé',
+  'Formations certifiantes — Des diplômes reconnus qui ouvrent des portes',
+  'Pédagogie active — Apprendre par la pratique et les projets concrets',
+  'Réseau professionnel — Des partenaires entreprises engagés à vos côtés',
 ]
 
 
@@ -50,21 +49,14 @@ export function ValuesSection() {
               className="absolute left-0 -top-12 h-18 w-auto md:-top-16 md:h-24 lg:-top-20 lg:h-[123px]"
             />
 
-            {/* Title NOS VALEURS avec bonhomme vert intégré */}
-            <div className="relative z-10 font-display text-5xl font-extrabold uppercase leading-none tracking-[0] text-cozetik-white md:text-7xl lg:text-[105px]">
-              {/* Ligne 1: NOS + Bonhomme vert inline */}
-              <div className="flex items-start">
-                <span>NOS</span>
-                <Image
-                  src="/Bonhomme vert .png"
-                  alt="Bonhomme vert"
-                  width={135}
-                  height={158}
-                  className="-mt-[25px] ml-3 h-13 w-auto md:-mt-[45px] md:ml-5 md:h-20 lg:-mt-[65px] lg:ml-8 lg:h-32"
-                />
-              </div>
-              {/* Ligne 2: VALEURS collé en dessous, décalé à droite */}
-              <div className="ml-10 md:ml-16 lg:ml-20">VALEURS</div>
+            {/* Title CE QUI FAIT LA DIFFÉRENCE COZETIK */}
+            <div className="relative z-10">
+              <h2 className="font-display text-5xl font-extrabold uppercase leading-none tracking-[0] text-cozetik-white md:text-7xl lg:text-[105px]" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                CE QUI FAIT LA DIFFÉRENCE COZETIK
+              </h2>
+              <p className="mt-4 font-sans text-base text-cozetik-white/80 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                Une approche unique de la formation
+              </p>
             </div>
           </motion.div>
 
@@ -88,7 +80,8 @@ export function ValuesSection() {
                     delay: 0.1 + index * 0.08,
                     ease: 'easeOut',
                   }}
-                  className="font-sans font-normal text-xl leading-relaxed tracking-[-0.02em] text-cozetik-black whitespace-nowrap md:text-2xl lg:text-[28px]"
+                  className="font-sans font-normal text-xl leading-relaxed tracking-[-0.02em] text-cozetik-black md:text-2xl lg:text-[28px]"
+                  style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
                 >
                   - {value}
                 </motion.li>

@@ -80,7 +80,27 @@ export default async function Home() {
 
       <section className="relative z-0 bg-[#FDFDFD] px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
         <div className="container mx-auto max-w-[1440px]">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 font-display text-4xl font-bold text-cozetik-black md:text-5xl lg:text-6xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              Nos domaines d&apos;expertise
+            </h2>
+            <p className="font-sans text-lg text-cozetik-black/80 md:text-xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              5 parcours pour révéler votre potentiel
+            </p>
+          </div>
           <CategoriesSection categories={categories} />
+        </div>
+      </section>
+      
+      {/* Section Vision/Philosophie */}
+      <section className="relative bg-white px-4 py-16 md:px-6 md:py-20 lg:px-[120px] lg:py-24">
+        <div className="container mx-auto max-w-[1200px] text-center">
+          <h2 className="mb-6 font-display text-4xl font-bold text-cozetik-black md:text-5xl lg:text-6xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Notre vision
+          </h2>
+          <p className="mx-auto max-w-4xl font-sans text-base leading-relaxed text-cozetik-black md:text-lg lg:text-xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            Chez Cozetik, nous croyons que l&apos;excellence professionnelle naît de l&apos;équilibre entre compétences techniques, intelligence émotionnelle et bien-être. C&apos;est pourquoi nos formations cultivent autant votre savoir-faire que votre savoir-être.
+          </p>
         </div>
       </section>
 

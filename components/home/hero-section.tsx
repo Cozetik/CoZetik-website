@@ -70,8 +70,13 @@ export function HeroSection() {
         <div className="relative">
           {/* Main Title */}
           <h1 className="font-display text-[80px] font-normal leading-[100%] tracking-[0] text-cozetik-white md:text-[140px] lg:text-[230px]">
-            COZÉTIK
+            Formez-vous aux métiers de demain
           </h1>
+          
+          {/* Subtitle */}
+          <p className="mt-4 font-sans text-lg text-cozetik-white md:text-xl lg:text-2xl">
+            Des parcours certifiants qui transforment votre carrière
+          </p>
 
           {/* Autographe SVG Vert - Animated */}
           <svg
@@ -94,14 +99,23 @@ export function HeroSection() {
           </svg>
         </div>
 
-        {/* CTA Button avec effet soulignement - espace très réduit */}
-        <Link
-          href="/formations"
-          className="group relative z-30 mt-1 inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:mt-2 md:text-xl lg:text-2xl"
-        >
-          Découvrez nos formations
-          <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
-        </Link>
+        {/* CTA Buttons */}
+        <div className="relative z-30 mt-6 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+          <Link
+            href="/formations"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
+          >
+            Découvrir nos formations
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
+          </Link>
+          <Link
+            href="/candidater"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
+          >
+            Candidater
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
+          </Link>
+        </div>
       </div>
 
       {/* Video Controls - Boutons séparés et carrés avec bordure verte */}
