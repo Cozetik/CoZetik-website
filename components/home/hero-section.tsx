@@ -70,7 +70,7 @@ export function HeroSection() {
         <div className="relative">
           {/* Main Title */}
           <h1 className="font-display text-[80px] font-normal leading-[100%] tracking-[0] text-cozetik-white md:text-[140px] lg:text-[230px]">
-            Formez-vous aux métiers de demain
+            COZÉTIK
           </h1>
           
           {/* Subtitle */}

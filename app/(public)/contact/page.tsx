@@ -346,9 +346,9 @@ export default function ContactPage() {
                       📍 Adresse
                     </p>
                     <p className="text-base text-gray-600" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                      [Votre adresse complète]
+                      4 Rue Sarah Bernhardt
                       <br />
-                      [Code postal] [Ville]
+                      92600 Asnières-sur-Seine
                     </p>
                   </div>
                   <div>
@@ -393,11 +393,20 @@ export default function ContactPage() {
                 <h2 className="mb-4 text-2xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                   Comment nous trouver ?
                 </h2>
-                <p className="text-base text-gray-600 mb-4" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  [Carte Google Maps intégrée]
-                </p>
+                <div className="mb-4 overflow-hidden rounded-lg" style={{ height: '400px' }}>
+                  <iframe
+                    src="https://www.google.com/maps?q=4+Rue+Sarah+Bernhardt,+92600+Asnières-sur-Seine&output=embed&zoom=15"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Localisation Cozetik - 4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine"
+                  />
+                </div>
                 <p className="text-sm text-gray-600" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Transports en commun : [À compléter - métro, bus, parking...]
+                  Transports en commun : Métro ligne 13 (station Asnières-Gennevilliers), Bus 175, 238, 378. Parking disponible à proximité.
                 </p>
               </div>
             </div>

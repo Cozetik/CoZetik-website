@@ -40,6 +40,7 @@ const navItems: (NavItem | NavItemWithSub)[] = [
     subItems: [
       { name: "Contacts", href: "/admin/requests/contact" },
       { name: "Inscriptions", href: "/admin/requests/inscriptions" },
+      { name: "Candidatures", href: "/admin/requests/candidatures" },
     ],
   },
 ];

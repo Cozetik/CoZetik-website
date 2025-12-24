@@ -310,6 +310,9 @@ export default function EntreprisesPage() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <p className="mb-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                📍 <strong>Adresse :</strong> 4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine
+              </p>
+              <p className="mb-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                 📞 <strong>Téléphone :</strong> [numéro]
               </p>
               <p className="mb-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
