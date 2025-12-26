@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Borel, Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
+import { SmoothScroll } from "@/components/smooth-scroll";
 
 const borel = Borel({
   weight: "400",
@@ -97,7 +98,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${borel.variable} ${bricolageGrotesque.variable}`}
       >
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );

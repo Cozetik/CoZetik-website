@@ -62,8 +62,17 @@
   * {
     @apply border-border;
   }
+  html {
+    height: 100%;
+  }
   body {
     @apply bg-background text-foreground;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  #__next,
+  [data-lenis-root] {
+    height: 100%;
   }
 }
 
