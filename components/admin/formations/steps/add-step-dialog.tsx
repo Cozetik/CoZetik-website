@@ -1,10 +1,6 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -23,60 +18,65 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Plus, Loader2 } from 'lucide-react'
-import { toast } from 'sonner'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
 const stepSchema = z.object({
   order: z
-    .number({ invalid_type_error: "L'ordre doit être un nombre" })
+    .number({ error: "L'ordre doit être un nombre" })
     .int("L'ordre doit être un nombre entier")
     .positive("L'ordre doit être positif"),
-  title: z.string().min(1, 'Le titre est requis'),
-  description: z.string().min(1, 'La description est requise'),
+  title: z.string().min(1, "Le titre est requis"),
+  description: z.string().min(1, "La description est requise"),
   duration: z.string().optional(),
   keyPoints: z.string().optional(),
-})
+});
 
-type FormValues = z.infer<typeof stepSchema>
+type FormValues = z.infer<typeof stepSchema>;
 
 export default function AddStepDialog({
   formationId,
 }: {
-  formationId: string
+  formationId: string;
 }) {
-  const router = useRouter()
-  const [open, setOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(stepSchema),
     defaultValues: {
       order: 1,
-      title: '',
-      description: '',
-      duration: '',
-      keyPoints: '',
+      title: "",
+      description: "",
+      duration: "",
+      keyPoints: "",
     },
-  })
+  });
 
   const onSubmit = async (values: FormValues) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       // Convertir keyPoints de string à array (une ligne = un point)
       const keyPointsArray = values.keyPoints
         ? values.keyPoints
-            .split('\n')
+            .split("\n")
             .map((point) => point.trim())
             .filter((point) => point.length > 0)
-        : []
+        : [];
 
       const response = await fetch(`/api/formations/${formationId}/steps`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           order: values.order,
           title: values.title,
@@ -84,26 +84,26 @@ export default function AddStepDialog({
           duration: values.duration || null,
           keyPoints: keyPointsArray,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la création')
+        throw new Error(data.error || "Erreur lors de la création");
       }
 
-      toast.success('Step ajouté avec succès')
-      setOpen(false)
-      form.reset()
-      router.refresh()
+      toast.success("Step ajouté avec succès");
+      setOpen(false);
+      form.reset();
+      router.refresh();
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Une erreur est survenue'
-      toast.error(message)
+        error instanceof Error ? error.message : "Une erreur est survenue";
+      toast.error(message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -196,7 +196,9 @@ export default function AddStepDialog({
                       disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription>Durée estimée de cette étape</FormDescription>
+                  <FormDescription>
+                    Durée estimée de cette étape
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -241,7 +243,7 @@ export default function AddStepDialog({
                     Ajout...
                   </>
                 ) : (
-                  'Ajouter'
+                  "Ajouter"
                 )}
               </Button>
             </DialogFooter>
@@ -249,5 +251,5 @@ export default function AddStepDialog({
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
