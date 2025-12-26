@@ -282,4 +282,6 @@ model Candidature {
   status           RequestStatus @default(NEW)
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+
+    @@map("candidatures")
 }

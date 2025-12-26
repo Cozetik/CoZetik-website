@@ -1,10 +1,6 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -23,44 +18,49 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Pencil, Loader2 } from 'lucide-react'
-import { toast } from 'sonner'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, Pencil } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
 const stepSchema = z.object({
   order: z
-    .number({ invalid_type_error: "L'ordre doit être un nombre" })
+    .number({ error: "L'ordre doit être un nombre" })
     .int("L'ordre doit être un nombre entier")
     .positive("L'ordre doit être positif"),
-  title: z.string().min(1, 'Le titre est requis'),
-  description: z.string().min(1, 'La description est requise'),
+  title: z.string().min(1, "Le titre est requis"),
+  description: z.string().min(1, "La description est requise"),
   duration: z.string().optional(),
   keyPoints: z.string().optional(),
-})
+});
 
-type FormValues = z.infer<typeof stepSchema>
+type FormValues = z.infer<typeof stepSchema>;
 
 interface Step {
-  id: string
-  order: number
-  title: string
-  description: string
-  duration: string | null
-  keyPoints: string[]
+  id: string;
+  order: number;
+  title: string;
+  description: string;
+  duration: string | null;
+  keyPoints: string[];
 }
 
 export default function EditStepDialog({
   formationId,
   step,
 }: {
-  formationId: string
-  step: Step
+  formationId: string;
+  step: Step;
 }) {
-  const router = useRouter()
-  const [open, setOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(stepSchema),
@@ -68,28 +68,28 @@ export default function EditStepDialog({
       order: step.order,
       title: step.title,
       description: step.description,
-      duration: step.duration || '',
-      keyPoints: step.keyPoints.join('\n'),
+      duration: step.duration || "",
+      keyPoints: step.keyPoints.join("\n"),
     },
-  })
+  });
 
   const onSubmit = async (values: FormValues) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       // Convertir keyPoints de string à array (une ligne = un point)
       const keyPointsArray = values.keyPoints
         ? values.keyPoints
-            .split('\n')
+            .split("\n")
             .map((point) => point.trim())
             .filter((point) => point.length > 0)
-        : []
+        : [];
 
       const response = await fetch(
         `/api/formations/${formationId}/steps/${step.id}`,
         {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             order: values.order,
             title: values.title,
@@ -98,25 +98,25 @@ export default function EditStepDialog({
             keyPoints: keyPointsArray,
           }),
         }
-      )
+      );
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la modification')
+        throw new Error(data.error || "Erreur lors de la modification");
       }
 
-      toast.success('Step modifié avec succès')
-      setOpen(false)
-      router.refresh()
+      toast.success("Step modifié avec succès");
+      setOpen(false);
+      router.refresh();
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Une erreur est survenue'
-      toast.error(message)
+        error instanceof Error ? error.message : "Une erreur est survenue";
+      toast.error(message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -208,7 +208,9 @@ export default function EditStepDialog({
                       disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription>Durée estimée de cette étape</FormDescription>
+                  <FormDescription>
+                    Durée estimée de cette étape
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -253,7 +255,7 @@ export default function EditStepDialog({
                     Modification...
                   </>
                 ) : (
-                  'Modifier'
+                  "Modifier"
                 )}
               </Button>
             </DialogFooter>
@@ -261,5 +263,5 @@ export default function EditStepDialog({
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
