@@ -10,7 +10,7 @@ export default async function FormationsPage() {
     include: {
       category: true,
       _count: {
-        select: { sessions: true, inscriptions: true },
+        select: { sessions: true, inscriptions: true, steps: true },
       },
     },
   })

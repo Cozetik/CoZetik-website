@@ -1,47 +1,55 @@
-'use client'
+"use client";
 
-import { useState, useRef, useEffect } from 'react'
-import { Play, Pause, Volume2, VolumeX, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import {
+  ArrowDown,
+  ArrowRight,
+  Pause,
+  Play,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { TextReveal } from "../animations/text-reveal";
 
 export function HeroSection() {
-  const [isPlaying, setIsPlaying] = useState(true)
-  const [isMuted, setIsMuted] = useState(true)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     // Ensure video plays on mount
     if (videoRef.current) {
-      videoRef.current.play().catch(err => {
-        console.log('Autoplay prevented:', err)
-      })
+      videoRef.current.play().catch((err) => {
+        console.log("Autoplay prevented:", err);
+      });
     }
-  }, [])
+  }, []);
 
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
-        videoRef.current.pause()
+        videoRef.current.pause();
       } else {
-        videoRef.current.play()
+        videoRef.current.play();
       }
-      setIsPlaying(!isPlaying)
+      setIsPlaying(!isPlaying);
     }
-  }
+  };
 
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted
-      setIsMuted(!isMuted)
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
     }
-  }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent, action: () => void) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault()
-      action()
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      action();
     }
-  }
+  };
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
@@ -69,16 +77,23 @@ export function HeroSection() {
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center">
         <div className="relative">
           {/* Main Title */}
-          <h1 className="font-display text-[80px] font-normal leading-[100%] tracking-[0] text-cozetik-white md:text-[140px] lg:text-[230px]">
-            COZÉTIK
-          </h1>
+          <TextReveal
+            as={"h1"}
+            text="COZÉTIK"
+            delay={0.2}
+            className="font-display text-[80px] w-[7ch] font-normal leading-[100%] tracking-[0] text-cozetik-white md:text-[140px lg:w-full lg:text-[230px]"
+          />
+          {/* Subtitle */}
+          <p className="mt-4 font-sans text-lg text-cozetik-white md:text-xl lg:text-2xl">
+            Des parcours certifiants qui transforment votre carrière
+          </p>
 
           {/* Autographe SVG Vert - Animated */}
           <svg
-            className="pointer-events-none absolute bottom-6 -right-8 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-18 lg:-right-16 lg:w-64"
+            className="pointer-events-none absolute bottom-40 right-12 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-44 lg:-right-16 lg:w-64"
             style={{
               opacity: 0,
-              animation: 'fadeIn 3s ease-in-out 0.5s forwards',
+              animation: "fadeIn 3s ease-in-out 0.5s forwards",
             }}
             viewBox="0 0 241 102"
             fill="none"
@@ -94,14 +109,23 @@ export function HeroSection() {
           </svg>
         </div>
 
-        {/* CTA Button avec effet soulignement - espace très réduit */}
-        <Link
-          href="/formations"
-          className="group relative z-30 mt-1 inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:mt-2 md:text-xl lg:text-2xl"
-        >
-          Découvrez nos formations
-          <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
-        </Link>
+        {/* CTA Buttons */}
+        <div className="relative z-30 mt-6 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+          <Link
+            href="/formations"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
+          >
+            Découvrir nos formations
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
+          </Link>
+          <Link
+            href="/candidater"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
+          >
+            Candidater
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
+          </Link>
+        </div>
       </div>
 
       {/* Video Controls - Boutons séparés et carrés avec bordure verte */}
@@ -110,7 +134,7 @@ export function HeroSection() {
         <button
           onClick={togglePlay}
           onKeyDown={(e) => handleKeyDown(e, togglePlay)}
-          aria-label={isPlaying ? 'Mettre en pause' : 'Lire la vidéo'}
+          aria-label={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
           className="cursor-pointer rounded-lg border-2 border-transparent bg-black/20 p-3 text-cozetik-white/90 backdrop-blur-sm transition-all duration-200 hover:border-cozetik-green hover:bg-black/30 hover:text-cozetik-white hover:scale-105 active:border-cozetik-green active:scale-95 md:p-4"
           tabIndex={0}
         >
@@ -125,7 +149,7 @@ export function HeroSection() {
         <button
           onClick={toggleMute}
           onKeyDown={(e) => handleKeyDown(e, toggleMute)}
-          aria-label={isMuted ? 'Activer le son' : 'Désactiver le son'}
+          aria-label={isMuted ? "Activer le son" : "Désactiver le son"}
           className="cursor-pointer rounded-lg border-2 border-transparent bg-black/20 p-3 text-cozetik-white/90 backdrop-blur-sm transition-all duration-200 hover:border-cozetik-green hover:bg-black/30 hover:text-cozetik-white hover:scale-105 active:border-cozetik-green active:scale-95 md:p-4"
           tabIndex={0}
         >
@@ -136,6 +160,7 @@ export function HeroSection() {
           )}
         </button>
       </div>
+      <ArrowDown className="absolute bottom-3 left-1/2 z-20 h-10 w-10 -translate-x-1/2 text-cozetik-white/70 animate-bounce md:bottom-6 md:h-20 md:w-20" />
     </section>
-  )
+  );
 }

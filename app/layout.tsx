@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Borel, Inter } from "next/font/google";
+import { Borel, Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 
 const borel = Borel({
@@ -9,6 +9,11 @@ const borel = Borel({
   display: "swap",
 });
 
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+});
+
 const inter = Inter({
   weight: ["400", "600", "800"],
   subsets: ["latin"],
@@ -16,8 +21,17 @@ const inter = Inter({
   display: "swap",
 });
 
+const bricolageGrotesque = Bricolage_Grotesque({
+  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.com"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.com"
+  ),
   title: {
     default: "Cozetik - Formations professionnelles certifiantes",
     template: "%s | Cozetik",
@@ -68,6 +82,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: "/logo-cozetik_Logo-transparent.png",
+  },
 };
 
 export default function RootLayout({
@@ -77,7 +94,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`${inter.variable} ${borel.variable}`}>
+      <body
+        className={`${inter.variable} ${borel.variable} ${bricolageGrotesque.variable}`}
+      >
         {children}
       </body>
     </html>

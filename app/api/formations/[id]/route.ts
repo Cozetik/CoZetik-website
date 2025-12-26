@@ -15,6 +15,16 @@ const updateFormationSchema = z.object({
   visible: z.boolean(),
   order: z.number().int().min(0),
   previousImageUrl: z.string().optional(),
+  // Nouveaux champs
+  level: z.string().nullable(),
+  maxStudents: z.number().int().positive().nullable(),
+  prerequisites: z.string().nullable(),
+  objectives: z.array(z.string()),
+  isCertified: z.boolean(),
+  isFlexible: z.boolean(),
+  rating: z.number().min(0).max(5).nullable(),
+  reviewsCount: z.number().int().min(0),
+  studentsCount: z.number().int().min(0),
 })
 
 export async function GET(
@@ -127,6 +137,15 @@ export async function PUT(
         imageUrl: dataToUpdate.imageUrl || null,
         visible: dataToUpdate.visible,
         order: dataToUpdate.order,
+        level: dataToUpdate.level,
+        maxStudents: dataToUpdate.maxStudents,
+        prerequisites: dataToUpdate.prerequisites,
+        objectives: dataToUpdate.objectives,
+        isCertified: dataToUpdate.isCertified,
+        isFlexible: dataToUpdate.isFlexible,
+        rating: dataToUpdate.rating,
+        reviewsCount: dataToUpdate.reviewsCount,
+        studentsCount: dataToUpdate.studentsCount,
       },
       include: {
         category: true,

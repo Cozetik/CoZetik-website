@@ -1,22 +1,12 @@
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import { Metadata } from 'next'
 import { prisma } from '@/lib/prisma'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { InscriptionForm } from '@/components/formations/inscription-form'
-import {
-  Clock,
-  Euro,
-  Calendar,
-  MapPin,
-  Users,
-  BookOpen,
-  CheckCircle2,
-} from 'lucide-react'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
+import FormationHeroEffortel from '@/components/formations/formation-hero-effortel'
+import FormationKeyInfos from '@/components/formations/formation-key-infos'
+import FormationObjectives from '@/components/formations/formation-objectives'
+import FormationCTAMid from '@/components/formations/formation-cta-mid'
+import FormationFormWrapper from '@/components/formations/formation-form-wrapper'
+import FormationFAQ from '@/components/formations/formation-faq'
 
 interface FormationPageProps {
   params: Promise<{ slug: string }>
@@ -32,19 +22,19 @@ async function getFormation(slug: string) {
       include: {
         category: {
           select: {
+            id: true,
             name: true,
             slug: true,
           },
         },
-        sessions: {
-          where: {
-            available: true,
-            startDate: {
-              gte: new Date(),
-            },
-          },
+        steps: {
           orderBy: {
-            startDate: 'asc',
+            order: 'asc',
+          },
+        },
+        faqs: {
+          orderBy: {
+            order: 'asc',
           },
         },
       },
@@ -102,194 +92,36 @@ export default async function FormationPage({ params }: FormationPageProps) {
   }
 
   return (
-    <div className="flex flex-col">
-      {/* Hero Section with Image */}
-      <section className="relative h-[400px] w-full bg-muted">
-        {formation.imageUrl ? (
-          <Image
-            src={formation.imageUrl}
-            alt={formation.title}
-            fill
-            className="object-cover"
-            priority
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-            <BookOpen className="h-24 w-24 text-primary/40" />
-          </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+    <main className="bg-cozetik-beige">
+      {/* 1. Hero avec Carousel Horizontal Effortel style - Fond Noir */}
+      <FormationHeroEffortel
+        formation={formation}
+        steps={formation.steps}
+      />
 
-        {/* Title Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-          <div className="container mx-auto">
-            <Badge variant="secondary" className="mb-4">
-              {formation.category.name}
-            </Badge>
-            <h1 className="text-4xl font-bold md:text-5xl">{formation.title}</h1>
-          </div>
-        </div>
-      </section>
+      {/* 2. Infos Clés - Beige (Prix, Durée, Niveau, etc.) */}
+      <FormationKeyInfos formation={formation} />
 
-      {/* Main Content */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-8 lg:grid-cols-3">
-            {/* Left Column - Content */}
-            <div className="lg:col-span-2">
-              {/* Quick Info */}
-              <div className="mb-8 flex flex-wrap gap-6">
-                {formation.duration && (
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Clock className="h-5 w-5" />
-                    <span className="text-sm font-medium">{formation.duration}</span>
-                  </div>
-                )}
-                {formation.price !== null && (
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Euro className="h-5 w-5" />
-                    <span className="text-sm font-medium">
-                      {formation.price.toFixed(2)} €
-                    </span>
-                  </div>
-                )}
-                {formation.sessions.length > 0 && (
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Calendar className="h-5 w-5" />
-                    <span className="text-sm font-medium">
-                      {formation.sessions.length} session
-                      {formation.sessions.length > 1 ? 's' : ''} disponible
-                      {formation.sessions.length > 1 ? 's' : ''}
-                    </span>
-                  </div>
-                )}
-              </div>
+      {/* 3. Objectifs - Beige */}
+      {formation.objectives.length > 0 && (
+        <FormationObjectives objectives={formation.objectives} />
+      )}
 
-              {/* Description */}
-              <div className="mb-8">
-                <h2 className="mb-4 text-2xl font-bold">Description</h2>
-                <p className="leading-relaxed text-muted-foreground">
-                  {formation.description}
-                </p>
-              </div>
+      {/* 4. CTA Milieu - Vert */}
+      <FormationCTAMid
+        rating={formation.rating}
+        reviewsCount={formation.reviewsCount}
+        studentsCount={formation.studentsCount}
+      />
 
-              <Separator className="my-8" />
+      {/* 5. Formulaire - Beige */}
+      <FormationFormWrapper
+        formationId={formation.id}
+        formationTitle={formation.title}
+      />
 
-              {/* Program */}
-              <div className="mb-8">
-                <h2 className="mb-4 text-2xl font-bold">Programme de la formation</h2>
-                <div
-                  className="prose prose-neutral max-w-none dark:prose-invert prose-headings:font-semibold prose-p:text-muted-foreground prose-ul:text-muted-foreground prose-ol:text-muted-foreground"
-                  dangerouslySetInnerHTML={{ __html: formation.program }}
-                />
-              </div>
-
-              {/* Sessions */}
-              {formation.sessions.length > 0 && (
-                <>
-                  <Separator className="my-8" />
-                  <div className="mb-8">
-                    <h2 className="mb-6 text-2xl font-bold">
-                      Prochaines sessions disponibles
-                    </h2>
-                    <div className="space-y-4">
-                      {formation.sessions.map((session) => (
-                        <Card key={session.id}>
-                          <CardContent className="p-6">
-                            <div className="grid gap-4 sm:grid-cols-2">
-                              {/* Date Range */}
-                              <div className="flex items-start gap-3">
-                                <Calendar className="mt-1 h-5 w-5 flex-shrink-0 text-primary" />
-                                <div>
-                                  <div className="mb-1 text-sm font-medium text-muted-foreground">
-                                    Dates
-                                  </div>
-                                  <div className="font-semibold">
-                                    {format(new Date(session.startDate), 'PPP', {
-                                      locale: fr,
-                                    })}
-                                  </div>
-                                  <div className="text-sm text-muted-foreground">
-                                    au{' '}
-                                    {format(new Date(session.endDate), 'PPP', {
-                                      locale: fr,
-                                    })}
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Location */}
-                              {session.location && (
-                                <div className="flex items-start gap-3">
-                                  <MapPin className="mt-1 h-5 w-5 flex-shrink-0 text-primary" />
-                                  <div>
-                                    <div className="mb-1 text-sm font-medium text-muted-foreground">
-                                      Lieu
-                                    </div>
-                                    <div className="font-semibold">
-                                      {session.location}
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-
-                              {/* Max Seats */}
-                              {session.maxSeats && (
-                                <div className="flex items-start gap-3">
-                                  <Users className="mt-1 h-5 w-5 flex-shrink-0 text-primary" />
-                                  <div>
-                                    <div className="mb-1 text-sm font-medium text-muted-foreground">
-                                      Places disponibles
-                                    </div>
-                                    <div className="font-semibold">
-                                      {session.maxSeats} places
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {/* Benefits */}
-              <Separator className="my-8" />
-              <div>
-                <h2 className="mb-6 text-2xl font-bold">
-                  Ce que vous allez apprendre
-                </h2>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {[
-                    'Expertise reconnue et certifiée',
-                    'Accompagnement personnalisé',
-                    'Supports de cours complets',
-                    'Accès à vie aux ressources',
-                    'Certificat de fin de formation',
-                    'Réseau professionnel',
-                  ].map((benefit, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
-                      <span className="text-sm text-muted-foreground">{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column - Inscription Form */}
-            <div className="lg:col-span-1">
-              <InscriptionForm
-                formationId={formation.id}
-                formationTitle={formation.title}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+      {/* 6. FAQ - Blanc */}
+      {formation.faqs.length > 0 && <FormationFAQ faqs={formation.faqs} />}
+    </main>
   )
 }

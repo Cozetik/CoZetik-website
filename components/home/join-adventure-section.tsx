@@ -33,7 +33,7 @@ export function JoinAdventureSection() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="relative mb-20 text-center"
         >
-          <h2 className="font-display text-5xl font-black leading-[110%] text-cozetik-black md:text-7xl lg:text-[100px]" style={{ fontWeight: 950 }}>
+          <h2 className="font-display text-5xl font-black leading-[110%] text-cozetik-black md:text-7xl lg:text-[100px]" style={{ fontWeight: 950, fontFamily: 'var(--font-bricolage), sans-serif' }}>
             REJOINS L&apos;AVENTURE !
           </h2>
 

@@ -3,12 +3,21 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Bricolage_Grotesque } from 'next/font/google'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { toast } from 'sonner'
+import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
 import { contactSchema, type ContactFormData } from '@/lib/validations/contact'
 import {
@@ -20,17 +29,24 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
+const bricolageGrotesque = Bricolage_Grotesque({
+  weight: '800',
+  subsets: ['latin'],
+  variable: '--font-bricolage',
+  display: 'swap',
+})
+
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
-    defaultValues: {
+      defaultValues: {
       name: '',
       firstName: '',
       email: '',
-      postalCode: '',
       phone: '',
+      subject: '',
       message: '',
       acceptPrivacy: false,
     },
@@ -45,9 +61,11 @@ export default function ContactPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
+          body: JSON.stringify({
           name: `${data.firstName} ${data.name}`,
           email: data.email,
+          phone: data.phone,
+          subject: data.subject,
           message: data.message,
         }),
       })
@@ -95,7 +113,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white font-sans">
       {/* Hero Section */}
       <section className="relative bg-[#9A80B8] pb-10">
         <div className="container mx-auto px-20">
@@ -114,16 +132,12 @@ export default function ContactPage() {
                 </svg>
               </div>
 
-              <h1 className="mb-6 text-5xl font-bold text-white md:text-6xl lg:text-8xl">
-                CONTACT
+              <h1 className={`${bricolageGrotesque.className} mb-6 text-5xl font-extrabold text-white md:text-6xl lg:text-8xl`}>
+                Contactez-nous
               </h1>
 
-              <p className="max-w-4xl text-lg leading-relaxed text-white md:text-xl">
-                <span className="font-medium">Des questions sur nos formations ou les financements ?<br /></span>
-                <span className='font-thin'>
-                  Pour obtenir une réponse rapide et personnalisée,<br />
-                  utilisez les coordonnées ci-dessous ou remplissez notre formulaire.
-                </span>
+              <p className="font-sans max-w-4xl text-lg leading-relaxed text-white md:text-xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                Une question ? Besoin d&apos;informations ? Notre équipe vous répond rapidement
               </p>
             </div>
           </div>
@@ -133,7 +147,9 @@ export default function ContactPage() {
       {/* Contact Form Section */}
       <section className="pb-16 pt-50 md:pt-60">
         <div className="container mx-auto px-20">
-          <div className="mx-auto ">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+            {/* Colonne gauche : Formulaire */}
+            <div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 {/* Nom et Prénom */}
@@ -143,13 +159,13 @@ export default function ContactPage() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                        <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                           Nom
                         </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Entrez votre nom"
-                            className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                             {...field}
                           />
                         </FormControl>
@@ -162,13 +178,13 @@ export default function ContactPage() {
                     name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                        <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                           Prénom
                         </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Entrez votre prénom"
-                            className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                             {...field}
                           />
                         </FormControl>
@@ -184,14 +200,14 @@ export default function ContactPage() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
                         Email
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="email"
                           placeholder="Entrez votre email"
-                          className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                          className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                           {...field}
                         />
                       </FormControl>
@@ -200,62 +216,70 @@ export default function ContactPage() {
                   )}
                 />
 
-                {/* Code postal et Téléphone */}
-                <div className="grid gap-6 md:grid-cols-2">
-                  <FormField
-                    control={form.control}
-                    name="postalCode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
-                          Code postal
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Entrez votre code postal"
-                            className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
-                          Numéro de téléphone
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="tel"
-                            placeholder="saisissez le numéro de téléphone"
-                            className="h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                {/* Téléphone */}
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
+                        Téléphone
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          placeholder="Entrez votre numéro de téléphone"
+                          className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                {/* Informations complémentaires */}
+                {/* Objet de votre demande */}
+                <FormField
+                  control={form.control}
+                  name="subject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
+                        Objet de votre demande *
+                      </FormLabel>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
+                            <SelectValue placeholder="Sélectionnez un objet" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="info-formation">Demande d&apos;information sur une formation</SelectItem>
+                            <SelectItem value="candidature">Question sur le processus de candidature</SelectItem>
+                            <SelectItem value="devis-entreprise">Devis entreprise</SelectItem>
+                            <SelectItem value="partenariat">Partenariat</SelectItem>
+                            <SelectItem value="administratif">Question administrative</SelectItem>
+                            <SelectItem value="autre">Autre</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Votre message */}
                 <FormField
                   control={form.control}
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-bold text-[#2C2C2C] pl-5">
-                        Informations complémentaires
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
+                        Votre message *
                       </FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Des questions ? N'hésitez pas !"
-                          className="min-h-[150px] border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8] resize-none"
+                          placeholder="Décrivez votre demande..."
+                          className="font-sans min-h-[150px] border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8] resize-none"
                           {...field}
                         />
                       </FormControl>
@@ -278,7 +302,7 @@ export default function ContactPage() {
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel className="text-sm text-gray-600 cursor-pointer">
+                        <FormLabel className="font-sans text-sm text-gray-600 cursor-pointer">
                           En soumettant ce formulaire, vous acceptez la politique de confidentialité de Cozetik
                         </FormLabel>
                       </div>
@@ -287,25 +311,105 @@ export default function ContactPage() {
                 />
 
                 {/* Submit Button */}
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="h-14 w-full bg-[#2C2C2C] text-base font-bold uppercase text-white hover:bg-[#3C3C3C] disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Envoi en cours...
-                    </>
-                  ) : (
-                    <>
-                      SOUMETTRE
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </>
-                  )}
-                </Button>
+                <div className="flex justify-start">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="font-sans h-14 w-auto min-w-[279px] bg-[#03120E] px-8 text-base font-bold uppercase text-white hover:bg-[#0a1f18] disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Envoi en cours...
+                      </>
+                    ) : (
+                      <>
+                        SOUMETTRE
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </>
+                    )}
+                  </Button>
+                </div>
               </form>
             </Form>
+            </div>
+
+            {/* Colonne droite : Informations de contact */}
+            <div className="space-y-8">
+              <div>
+                <h2 className="mb-4 text-2xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                  Nos coordonnées
+                </h2>
+                <div className="space-y-4">
+                  <div>
+                    <p className="mb-2 text-base font-semibold text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                      📍 Adresse
+                    </p>
+                    <p className="text-base text-gray-600" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                      4 Rue Sarah Bernhardt
+                      <br />
+                      92600 Asnières-sur-Seine
+                    </p>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-base font-semibold text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                      📞 Téléphone
+                    </p>
+                    <p className="text-base text-gray-600" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                      [Numéro de téléphone]
+                      <br />
+                      <span className="text-sm">Du lundi au vendredi, 9h - 18h</span>
+                    </p>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-base font-semibold text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                      📧 Email
+                    </p>
+                    <p className="text-base text-gray-600" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                      <Link href="mailto:contact@cozetik.fr" className="underline hover:text-[#9A80B8]">
+                        contact@cozetik.fr
+                      </Link>
+                      <br />
+                      <Link href="mailto:entreprises@cozetik.fr" className="underline hover:text-[#9A80B8]">
+                        entreprises@cozetik.fr
+                      </Link>
+                      <span className="text-sm block mt-1">(pour les demandes professionnelles)</span>
+                    </p>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-base font-semibold text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                      🕐 Horaires d&apos;ouverture
+                    </p>
+                    <p className="text-base text-gray-600" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                      Lundi - Vendredi : 9h00 - 18h00
+                      <br />
+                      Samedi - Dimanche : Fermé
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="mb-4 text-2xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                  Comment nous trouver ?
+                </h2>
+                <div className="mb-4 overflow-hidden rounded-lg" style={{ height: '400px' }}>
+                  <iframe
+                    src="https://www.google.com/maps?q=4+Rue+Sarah+Bernhardt,+92600+Asnières-sur-Seine&output=embed&zoom=15"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Localisation Cozetik - 4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine"
+                  />
+                </div>
+                <p className="text-sm text-gray-600" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                  Transports en commun : Métro ligne 13 (station Asnières-Gennevilliers), Bus 175, 238, 378. Parking disponible à proximité.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

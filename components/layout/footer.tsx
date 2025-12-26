@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { prisma } from '@/lib/prisma'
 
 const menuLinks = [
@@ -11,121 +10,149 @@ const menuLinks = [
   { href: '/contact', label: 'Contact' },
 ]
 
-const contactLinks = [
-  { href: 'mailto:contact@cozetik.com', label: 'Email' },
-  { href: 'tel:+33123456789', label: 'Téléphone' },
-  { href: '/mentions-legales', label: 'Mentions légales' },
-  { href: '/politique-confidentialite', label: 'Confidentialité' },
+const formationLinks = [
+  { href: '/formations/informatique', label: 'Informatique' },
+  { href: '/formations/prise-de-parole', label: 'Prise de Parole' },
+  { href: '/formations/intelligence-emotionnelle', label: 'Intelligence Émotionnelle' },
+  { href: '/formations/business', label: 'Business' },
+  { href: '/formations/kizomba-bien-etre-connexion', label: 'Kizomba Bien-Être & Connexion' },
+  { href: '/formations', label: 'Formation entreprise' },
 ]
 
-async function getFooterCategories() {
+const aboutLinks = [
+  { href: '/a-propos#histoire', label: 'Notre histoire' },
+  { href: '/a-propos#valeurs', label: 'Nos valeurs' },
+  { href: '/a-propos#equipe', label: "L'équipe" },
+  { href: '/a-propos#partenaires', label: 'Partenaires' },
+  { href: '/blog', label: 'Actualités (Blog)' },
+  { href: '/candidater', label: 'Nous rejoindre' },
+]
+
+const infoLinks = [
+  { href: '/faq', label: 'FAQ' },
+  { href: '/candidater', label: 'Candidater' },
+  { href: '/contact', label: 'Contact' },
+  { href: '/sitemap', label: 'Plan du site' },
+  { href: '/accessibilite', label: 'Accessibilité' },
+  { href: '/mentions-legales', label: 'Mentions légales' },
+  { href: '/politique-confidentialite', label: 'Politique de confidentialité' },
+  { href: '/cgv', label: 'CGV' },
+  { href: '/cookies', label: 'Gestion des cookies' },
+]
+
+async function getFooterFormations() {
   try {
-    const categories = await prisma.category.findMany({
+    // Évite les erreurs Prisma en environnement sans base configurée
+    if (!process.env.DATABASE_URL) {
+      return []
+    }
+
+    const formations = await prisma.formation.findMany({
       where: { visible: true },
       orderBy: { order: 'asc' },
       take: 5,
-      select: { name: true, slug: true },
+      select: { title: true, slug: true },
     })
-    return categories
+    return formations
   } catch (error) {
-    console.error('Error fetching footer categories:', error)
+    console.error('Error fetching footer formations:', error)
     return []
   }
 }
 
 export async function Footer() {
-  const categories = await getFooterCategories()
+  const formations = await getFooterFormations()
 
   return (
     <footer className="w-full bg-cozetik-black">
-      <div className="mx-auto w-full max-w-[1800px] px-4 py-12 md:px-8 lg:px-12">
-        {/* Logo à gauche + Grid 3 colonnes collées à droite */}
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          {/* Logo à gauche - isolé */}
-          <div className="flex-shrink-0">
+      <div className="container mx-auto max-w-[1440px] px-4 py-12 md:px-6 lg:px-[120px]">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {/* Colonne 1 : Cozetik */}
+          <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <Image
-                src="/logo footer.png"
-                alt="CoZétik Logo"
-                width={300}
-                height={120}
-                className="h-auto w-[250px] md:w-[280px] lg:w-[320px]"
-              />
+              <span className="font-display text-[32px] text-cozetik-white" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                COZETIK
+              </span>
             </Link>
+            <p className="font-sans text-sm text-cozetik-white/80" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              Formez-vous aux métiers de demain
+            </p>
+            <p className="font-sans text-xs leading-relaxed text-cozetik-white/70" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              Centre de formation d&apos;apprentis innovant, Cozetik forme les talents de demain avec des parcours uniques.
+            </p>
+            {/* Réseaux sociaux - à ajouter plus tard */}
           </div>
 
-          {/* Grid 3 colonnes compactes collées à droite */}
-          <div className="grid w-full grid-cols-1 gap-12 md:w-auto md:grid-cols-3 md:gap-6 lg:gap-8">
-            {/* Colonne 1 : Menu */}
-            <div>
-              <h3 className="mb-4 font-sans text-base font-bold text-cozetik-white">
-                MENU
-              </h3>
-              <ul className="space-y-3">
-                {menuLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="font-sans text-sm font-normal leading-[1.8] text-cozetik-white transition-colors duration-200 hover:text-cozetik-green"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Colonne 2 : Formations */}
+          <div>
+            <h3 className="mb-4 font-sans text-base font-bold text-cozetik-white" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              FORMATIONS
+            </h3>
+            <ul className="space-y-3">
+              {formationLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="font-sans text-sm font-normal leading-[1.8] text-cozetik-white transition-colors duration-200 hover:text-cozetik-beige"
+                    style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Colonne 2 : Formation (Catégories) */}
-            <div>
-              <h3 className="mb-4 font-sans text-base font-bold text-cozetik-white">
-                FORMATION
-              </h3>
-              <ul className="space-y-3">
-                {categories.length > 0 ? (
-                  categories.map((category) => (
-                    <li key={category.slug}>
-                      <Link
-                        href={`/formations?category=${category.slug}`}
-                        className="font-sans text-sm font-normal leading-[1.8] text-cozetik-white transition-colors duration-200 hover:text-cozetik-green"
-                      >
-                        {category.name}
-                      </Link>
-                    </li>
-                  ))
-                ) : (
-                  <li className="font-sans text-sm text-gray-400">
-                    Aucune catégorie disponible
-                  </li>
-                )}
-              </ul>
-            </div>
+          {/* Colonne 3 : À propos */}
+          <div>
+            <h3 className="mb-4 font-sans text-base font-bold text-cozetik-white" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              À PROPOS
+            </h3>
+            <ul className="space-y-3">
+              {aboutLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="font-sans text-sm font-normal leading-[1.8] text-cozetik-white transition-colors duration-200 hover:text-cozetik-beige"
+                    style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Colonne 3 : Contact */}
-            <div>
-              <h3 className="mb-4 font-sans text-base font-bold text-cozetik-white">
-                CONTACT
-              </h3>
-              <ul className="space-y-3">
-                {contactLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="font-sans text-sm font-normal leading-[1.8] text-cozetik-white transition-colors duration-200 hover:text-cozetik-green"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Colonne 4 : Informations */}
+          <div>
+            <h3 className="mb-4 font-sans text-base font-bold text-cozetik-white" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              INFORMATIONS
+            </h3>
+            <ul className="space-y-3">
+              {infoLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="font-sans text-sm font-normal leading-[1.8] text-cozetik-white transition-colors duration-200 hover:text-cozetik-beige"
+                    style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Footer Bottom - Une ligne centrée */}
         <div className="mt-10 border-t border-white/10 pt-10">
-          <p className="text-center font-sans text-sm font-normal text-[#888888]">
-            ©Cozétik {new Date().getFullYear()} All rights reserved. - 4 Rue Sarah Bernhart, 92600 Asnières-sur-Seine
-          </p>
+          <div className="flex flex-col items-center justify-center gap-2 text-center">
+            <p className="font-sans text-sm font-normal text-[#888888]" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              © {new Date().getFullYear()} Cozetik - Centre de Formation d&apos;Apprentis. Tous droits réservés.
+            </p>
+            <p className="font-sans text-sm font-normal text-[#888888]" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine
+            </p>
+          </div>
         </div>
       </div>
     </footer>
