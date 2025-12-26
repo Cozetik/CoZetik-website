@@ -109,7 +109,7 @@ model BlogPost {
   id             String    @id @default(cuid())
   title          String
   slug           String    @unique
-  content        String    @db.Text
+  content        String
   excerpt        String?
   imageUrl       String?
   visible        Boolean   @default(false)
@@ -118,6 +118,14 @@ model BlogPost {
   seoDescription String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  themes Theme[]
+}
+
+model Theme {
+  id    String     @id @default(cuid())
+  name  String     @unique
+  slug  String     @unique
+  posts BlogPost[]
 }
 
 // ContactRequest model for contact form submissions
@@ -184,4 +192,31 @@ model FormationFAQ {
 
   @@unique([formationId, order])
   @@index([formationId])
+}
+
+// Candidature model for job applications
+model Candidature {
+  id               String        @id @default(cuid())
+  civility         String
+  firstName        String
+  lastName         String
+  birthDate        String
+  email            String
+  phone            String
+  address          String?
+  postalCode       String?
+  city             String?
+  formation        String
+  educationLevel   String
+  currentSituation String
+  startDate        String?
+  motivation       String        @db.Text
+  cvUrl            String?
+  coverLetterUrl   String?
+  otherDocumentUrl String?
+  acceptPrivacy    Boolean       @default(false)
+  acceptNewsletter Boolean       @default(false)
+  status           RequestStatus @default(NEW)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 }
