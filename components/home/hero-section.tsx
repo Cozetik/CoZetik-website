@@ -81,7 +81,7 @@ export function HeroSection() {
             as={"h1"}
             text="COZÉTIK"
             delay={0.2}
-            className="font-display text-[80px] w-[7ch] font-normal leading-[100%] tracking-[0] text-cozetik-white md:text-[140px lg:w-full lg:text-[230px]"
+            className="font-display text-[100px] sm:text-[125px] md:text-[150px] lg:text-[180px] xl:text-[200px] 2xl:text-[230px] font-normal leading-[100%] tracking-[0] text-cozetik-white mx-auto w-auto max-w-full px-4 break-words"
           />
           {/* Subtitle */}
           <p className="mt-4 font-sans text-lg text-cozetik-white md:text-xl lg:text-2xl">
@@ -90,7 +90,7 @@ export function HeroSection() {
 
           {/* Autographe SVG Vert - Animated */}
           <svg
-            className="pointer-events-none absolute bottom-40 right-12 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-44 lg:-right-16 lg:w-64"
+            className="pointer-events-none absolute bottom-20 right-12 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-100 lg:-right-16 lg:w-64"
             style={{
               opacity: 0,
               animation: "fadeIn 3s ease-in-out 0.5s forwards",

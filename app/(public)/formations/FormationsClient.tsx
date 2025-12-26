@@ -31,7 +31,7 @@ function Hero() {
 
           <div className="relative max-w-5xl translate-y-24 overflow-hidden bg-[#262626] px-8 py-14 md:px-16 md:py-20 lg:px-20 lg:py-24">
             <h1
-              className="mb-4 font-['Bricolage_Grotesque'] text-4xl font-extrabold text-white md:text-6xl lg:text-8xl"
+              className="mb-4 font-bricolage text-4xl font-extrabold text-white md:text-6xl lg:text-8xl"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
               Nos formations
@@ -96,7 +96,7 @@ function FormationCard({ formation }: { formation: Formation }) {
       <div className="text-xs font-semibold uppercase tracking-[0.35em] text-[#ADA6DB]">
         {formation.category?.name || "Formation"}
       </div>
-      <h3 className="mt-4 font-['Bricolage_Grotesque'] text-2xl font-extrabold md:text-3xl">
+      <h3 className="mt-4 font-bricolage text-2xl font-extrabold md:text-3xl">
         {formation.title}
       </h3>
       <p className="mt-4 text-base leading-relaxed text-white/80">

@@ -38,7 +38,7 @@ export default function AProposPage() {
 
         {/* Rectangle violet en bas à gauche avec 50px d'écart */}
         <div className="absolute -bottom-[30px] left-[50px] z-10 h-[219px] w-[1052px] bg-[#B4A5D5] flex flex-col items-start justify-center pl-[70px]">
-          <h1 className="text-[80px] font-bold uppercase tracking-wide text-white leading-none text-left" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h1 className="text-[80px] font-bold uppercase tracking-wide text-white leading-none text-left font-display">
             QUI SOMMES NOUS ?
           </h1>
           <p className="text-base text-white md:text-lg lg:text-xl mt-2 text-left" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
@@ -53,7 +53,7 @@ export default function AProposPage() {
           {/* GAUCHE : Texte */}
           <div className="flex flex-col justify-center bg-[#F5EDE4] h-[450px] px-12 py-16 md:px-16 lg:h-full lg:min-h-[500px] lg:px-20 lg:py-20">
             <div>
-              <h2 className="mb-6 text-2xl font-bold text-black md:text-3xl lg:text-4xl leading-tight" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              <h2 className="mb-6 text-2xl font-bold text-black md:text-3xl lg:text-4xl leading-tight font-display">
                 Développer vos compétences Clés du monde numérique et humain
               </h2>
               <p className="mb-4 text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
@@ -130,7 +130,7 @@ export default function AProposPage() {
 
             {/* DROITE : Texte */}
             <div className="flex flex-col justify-center space-y-5 lg:col-span-3">
-              <h2 className="text-2xl font-bold text-black md:text-3xl lg:text-4xl leading-tight" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              <h2 className="text-2xl font-bold text-black md:text-3xl lg:text-4xl leading-tight font-display">
                 Former pour un monde technologique, humain en constante évolution
               </h2>
               <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
@@ -165,7 +165,7 @@ export default function AProposPage() {
       {/* SECTION 5 - NOTRE HISTOIRE */}
       <section id="histoire" className="w-full bg-white py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
-          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl font-display">
             Qui sommes-nous ?
           </h2>
           <p className="text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
@@ -183,7 +183,7 @@ export default function AProposPage() {
       {/* SECTION 6 - NOTRE MISSION */}
       <section className="w-full bg-[#F5EDE4] py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
-          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl font-display">
             Notre mission
           </h2>
           <p className="text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
@@ -195,7 +195,7 @@ export default function AProposPage() {
       {/* SECTION 7 - NOS VALEURS */}
       <section id="valeurs" className="w-full bg-white py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
-          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl font-display">
             Nos valeurs
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -238,7 +238,7 @@ export default function AProposPage() {
       {/* SECTION 8 - L'ÉQUIPE */}
       <section id="equipe" className="w-full bg-[#F5EDE4] py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
-          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl font-display">
             Notre équipe
           </h2>
           <p className="text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
@@ -250,7 +250,7 @@ export default function AProposPage() {
       {/* SECTION 9 - CHIFFRES CLÉS */}
       <section className="w-full bg-white py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
-          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl font-display">
             Cozetik en chiffres
           </h2>
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
@@ -293,7 +293,7 @@ export default function AProposPage() {
       {/* SECTION 10 - PARTENAIRES */}
       <section id="partenaires" className="w-full bg-[#F5EDE4] py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
-          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h2 className="mb-8 text-3xl font-bold text-black md:text-4xl lg:text-5xl font-display">
             Nos partenaires
           </h2>
           <p className="text-base text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
@@ -305,7 +305,7 @@ export default function AProposPage() {
       {/* SECTION 11 - CTA FINAL */}
       <section className="w-full bg-[#ADA6DB] py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px] text-center">
-          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl lg:text-5xl font-display">
             Envie de nous rejoindre ?
           </h2>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">

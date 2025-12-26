@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Bricolage_Grotesque } from 'next/font/google'
+import { League_Spartan } from 'next/font/google'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -29,7 +29,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
-const bricolageGrotesque = Bricolage_Grotesque({
+const leagueSpartan = League_Spartan({
   weight: '800',
   subsets: ['latin'],
   variable: '--font-bricolage',
@@ -132,7 +132,7 @@ export default function ContactPage() {
                 </svg>
               </div>
 
-              <h1 className={`${bricolageGrotesque.className} mb-6 text-5xl font-extrabold text-white md:text-6xl lg:text-8xl`}>
+              <h1 className={`${leagueSpartan.className} mb-6 text-5xl font-extrabold text-white md:text-6xl lg:text-8xl`}>
                 Contactez-nous
               </h1>
 
