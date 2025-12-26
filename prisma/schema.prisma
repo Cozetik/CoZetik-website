@@ -194,6 +194,69 @@ model FormationFAQ {
   @@index([formationId])
 }
 
+// Quiz Question model
+model QuizQuestion {
+  id        String       @id @default(cuid())
+  order     Int          // 1, 2, 3...10
+  question  String       @db.Text // "Aujourd'hui, ton problème numéro 1, c'est…"
+  visible   Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  options   QuizOption[]
+
+  @@unique([order])
+  @@index([order, visible])
+}
+
+// Quiz Option model (A-H options for each question)
+model QuizOption {
+  id         String       @id @default(cuid())
+  questionId String
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  letter    String // "A", "B", "C"...
+  text      String @db.Text // "Je sais des choses, mais..."
+  order     Int    // Position dans la liste
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([questionId, letter])
+  @@index([questionId])
+}
+
+// Quiz Profile model (A-H profiles)
+model QuizProfile {
+  id                       String   @id @default(cuid())
+  letter                   String   @unique // "A", "B", "C"...
+  name                     String   // "Le Communicateur Invisible"
+  emoji                    String   // "🟦"
+  color                    String   // "#3B82F6" (couleur hex)
+  blocageRacine            String   @db.Text // "l'exposition (regard, trac, sur-contrôle)"
+  desir                    String   @db.Text // "être écouté(e), respecté(e), crédible"
+  phraseMiroir             String   @db.Text // "Tu ne manques pas de talent..."
+  programmeSignature       String   // "FAIS-TOI ENTENDRE"
+  modulesComplementaires   String[] // ["Parler juste", "Habite ton corps"]
+  visible                  Boolean  @default(true)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@index([letter])
+}
+
+// Quiz Response model (tracking responses - optional)
+model QuizResponse {
+  id             String   @id @default(cuid())
+  email          String?  // Optionnel
+  answers        Json     // Stockage des réponses
+  profileLetter  String   // Profil identifié
+  recommendation Json     // Résultat IA
+  createdAt      DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([profileLetter])
+}
+
 // Candidature model for job applications
 model Candidature {
   id               String        @id @default(cuid())

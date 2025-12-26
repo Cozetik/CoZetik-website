@@ -119,6 +119,13 @@ export function HeroSection() {
             <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
           </Link>
           <Link
+            href="/quiz"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
+          >
+            Trouvez votre formation idéale
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
+          </Link>
+          <Link
             href="/candidater"
             className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
           >

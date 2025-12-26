@@ -96,6 +96,7 @@ INSTRUCTIONS DE SORTIE (JSON STRICT):
 Tu ne dois répondre QUE en JSON. Pas de blabla avant ou après.
 Format attendu :
 {
+  "profil_letter": "Lettre du profil identifié (A, B, C, D, E, F, G ou H) - compte les réponses et identifie la lettre dominante",
   "profil_analysis": "Une analyse psychologique bienveillante et percutante du profil basée sur les réponses (Ton: Expert, chaleureux, coach).",
   "principal_program": {
      "name": "Nom exact du programme signature choisi",

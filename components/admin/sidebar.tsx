@@ -7,6 +7,7 @@ import {
   FileText,
   GraduationCap,
   Handshake,
+  HelpCircle,
   Inbox,
   LayoutDashboard,
   Tags,
@@ -35,6 +36,14 @@ const navItems: (NavItem | NavItemWithSub)[] = [
   { name: "Thèmes Blog", href: "/admin/theme", icon: Tags },
   { name: "Partenaires", href: "/admin/partners", icon: Handshake },
   {
+    name: "Quiz",
+    icon: HelpCircle,
+    subItems: [
+      { name: "Questions", href: "/admin/quiz/questions" },
+      { name: "Profils", href: "/admin/quiz/profiles" },
+    ],
+  },
+  {
     name: "Demandes",
     icon: Inbox,
     subItems: [
@@ -53,7 +62,7 @@ function isNavItemWithSub(
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [expandedItems, setExpandedItems] = useState<string[]>(["Demandes"]);
+  const [expandedItems, setExpandedItems] = useState<string[]>(["Quiz", "Demandes"]);
 
   const toggleExpanded = (name: string) => {
     setExpandedItems((prev) =>
