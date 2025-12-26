@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendEmail } from '@/lib/resend'
+import { render } from '@react-email/render'
+import ContactAccepted from '@/emails/contact-accepted'
+import InscriptionAccepted from '@/emails/inscription-accepted'
 import { emailInscriptionUser } from '@/emails/email-inscription-user'
-import { emailContactAccepted } from '@/emails/email-contact-accepted'
-import { emailInscriptionAccepted } from '@/emails/email-inscription-accepted'
 import { emailContactUser } from '@/emails/email-contact-user'
 
 export async function GET(request: NextRequest) {
@@ -26,11 +27,15 @@ export async function GET(request: NextRequest) {
     switch (emailType) {
       case 'contact-accepted':
         subject = 'Votre demande a été acceptée - Cozetik'
-        html = emailContactAccepted('Test User')
+        html = await render(ContactAccepted({ name: 'Test User' }))
         break
       case 'inscription-accepted':
         subject = 'Votre inscription a été acceptée - Formation Test'
-        html = emailInscriptionAccepted('Test User', 'Formation Test', '15 février 2025')
+        html = await render(InscriptionAccepted({
+          name: 'Test User',
+          formationTitle: 'Formation Test',
+          sessionDate: '15 février 2025'
+        }))
         break
       case 'contact-user':
         subject = 'Confirmation de votre demande - Cozetik'

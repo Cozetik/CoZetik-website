@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -26,6 +29,7 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+// Category model for formation categories
 model Category {
   id          String      @id @default(cuid())
   name        String
@@ -34,11 +38,12 @@ model Category {
   imageUrl    String?
   visible     Boolean     @default(true)
   order       Int         @default(0)
+  formations  Formation[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  formations  Formation[]
 }
 
+// Formation model
 model Formation {
   id           String                 @id @default(cuid())
   title        String
@@ -56,8 +61,23 @@ model Formation {
   inscriptions FormationInscription[]
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
+
+  // New fields for immersive page
+  level          String?   // "Débutant", "Intermédiaire", "Expert"
+  maxStudents    Int?      // Ex: 24
+  prerequisites  String?   // "Aucun prérequis" ou détails
+  objectives     String[]  // Array : ["Automatiser tâches", "Créer workflows"]
+  isCertified    Boolean   @default(false)
+  rating         Float?    @default(0) // 4.8
+  reviewsCount   Int       @default(0) // 124
+  studentsCount  Int       @default(0) // 500
+  isFlexible     Boolean   @default(true) // Rythme flexible ?
+
+  steps        FormationStep[]
+  faqs         FormationFAQ[]
 }
 
+// FormationSession model for formation calendar
 model FormationSession {
   id          String    @id @default(cuid())
   formationId String
@@ -71,6 +91,7 @@ model FormationSession {
   updatedAt   DateTime  @updatedAt
 }
 
+// Partner model for companies/partners
 model Partner {
   id          String   @id @default(cuid())
   name        String
@@ -83,6 +104,7 @@ model Partner {
   updatedAt   DateTime @updatedAt
 }
 
+// BlogPost model for blog articles
 model BlogPost {
   id             String    @id @default(cuid())
   title          String
@@ -98,6 +120,7 @@ model BlogPost {
   updatedAt      DateTime  @updatedAt
 }
 
+// ContactRequest model for contact form submissions
 model ContactRequest {
   id        String        @id @default(cuid())
   name      String
@@ -110,6 +133,7 @@ model ContactRequest {
   @@map("contact_requests")
 }
 
+// FormationInscription model for formation registrations
 model FormationInscription {
   id          String        @id @default(cuid())
   name        String
@@ -120,7 +144,44 @@ model FormationInscription {
   status      RequestStatus @default(NEW)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  formation   Formation     @relation(fields: [formationId], references: [id])
+
+  formation   Formation @relation(fields: [formationId], references: [id])
 
   @@map("formation_inscriptions")
+}
+
+// FormationStep model for pedagogical steps carousel
+model FormationStep {
+  id          String @id @default(cuid())
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+
+  order       Int      // 1, 2, 3...
+  title       String   // "Fondamentaux de l'IA"
+  description String   // Description détaillée
+  duration    String?  // "2 heures"
+  keyPoints   String[] // ["Comprendre IA", "Cas d'usage", "Outils"]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([formationId, order])
+  @@index([formationId])
+}
+
+// FormationFAQ model for frequently asked questions
+model FormationFAQ {
+  id          String @id @default(cuid())
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+
+  order    Int
+  question String   // FAQ question
+  answer   String   // FAQ answer
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([formationId, order])
+  @@index([formationId])
 }

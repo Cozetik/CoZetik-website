@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { CheckCircle2, Archive, Trash2, Loader2 } from 'lucide-react'
+import { CheckCircle2, Archive, Trash2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { ViewContactRequestDialog } from './view-contact-request-dialog'
@@ -104,11 +104,18 @@ export default function ContactRequestsTable({
         )
       )
 
-      toast.success(
-        newStatus === 'TREATED'
-          ? 'Demande marquée comme traitée'
-          : 'Demande archivée'
-      )
+      // Afficher un message selon le résultat
+      if (newStatus === 'TREATED') {
+        if (data.emailSent) {
+          toast.success('Demande marquée comme traitée et email envoyé avec succès')
+        } else if (data.emailError) {
+          toast.warning(`Demande marquée comme traitée, mais l'email n'a pas pu être envoyé: ${data.emailError}`)
+        } else {
+          toast.success('Demande marquée comme traitée')
+        }
+      } else {
+        toast.success('Demande archivée')
+      }
       router.refresh()
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
@@ -191,11 +198,7 @@ export default function ContactRequestsTable({
                         title="Marquer comme traité"
                         disabled={loadingStates[request.id]}
                       >
-                        {loadingStates[request.id] ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <CheckCircle2 className="h-4 w-4" />
-                        )}
+                        <CheckCircle2 className="h-4 w-4" />
                       </Button>
                     )}
 
@@ -207,11 +210,7 @@ export default function ContactRequestsTable({
                         title="Archiver"
                         disabled={loadingStates[request.id]}
                       >
-                        {loadingStates[request.id] ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Archive className="h-4 w-4" />
-                        )}
+                        <Archive className="h-4 w-4" />
                       </Button>
                     )}
 

@@ -4,30 +4,29 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 const values = [
-  'Humain au cœur du recrutement',
-  'Excellence et expertise métier RPO',
-  'Employabilité durable et concrète',
-  'Recrutement éthique et responsable',
-  'Innovation et agilité terrain',
+  'Approche sur-mesure — Parce que votre réussite mérite un accompagnement personnalisé',
+  'Formations certifiantes — Des diplômes reconnus qui ouvrent des portes',
+  'Pédagogie active — Apprendre par la pratique et les projets concrets',
+  'Réseau professionnel — Des partenaires entreprises engagés à vos côtés',
 ]
 
 
 export function ValuesSection() {
   return (
-    <section className="relative w-full overflow-hidden py-28 md:py-40 lg:py-56">
+    <section className="overflow-hidden relative py-28 w-full md:py-40 lg:py-56">
       {/* Split Background: Noir gauche / Beige droite */}
       <div className="absolute inset-0">
-        <div className="relative h-full w-full bg-cozetik-black lg:w-1/2">
+        <div className="relative w-full h-full bg-cozetik-black lg:w-1/2">
           {/* Signature violette - Décalée vers la gauche */}
           <Image
-            src="/signature violette.png"
-            alt="Signature violette"
+            src="/signature verte.png"
+            alt="Signature verte"
             width={300}
             height={1000}
             className="absolute bottom-0 -left-12 h-52 w-auto md:-left-16 md:h-[400px] lg:-left-20 lg:h-[1000px]"
           />
         </div>
-        <div className="absolute right-0 top-0 h-full w-full bg-cozetik-beige lg:w-1/2" />
+        <div className="absolute top-0 right-0 w-full h-full bg-cozetik-beige lg:w-1/2" />
       </div>
 
       {/* Content */}
@@ -39,7 +38,7 @@ export function ValuesSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="relative flex flex-col justify-center"
+            className="flex relative flex-col justify-center"
           >
             {/* Personnage violet - Haut gauche */}
             <Image
@@ -50,21 +49,23 @@ export function ValuesSection() {
               className="absolute left-0 -top-12 h-18 w-auto md:-top-16 md:h-24 lg:-top-20 lg:h-[123px]"
             />
 
-            {/* Title NOS VALEURS avec bonhomme vert intégré */}
+            {/* Title NOS VALEURS */}
             <div className="relative z-10 font-display text-5xl font-extrabold uppercase leading-none tracking-[0] text-cozetik-white md:text-7xl lg:text-[105px]">
-              {/* Ligne 1: NOS + Bonhomme vert inline */}
               <div className="flex items-start">
                 <span>NOS</span>
                 <Image
-                  src="/Bonhomme vert .png"
                   alt="Bonhomme vert"
+                  src="/Bonhomme vert .png"
                   width={135}
                   height={158}
                   className="-mt-[25px] ml-3 h-13 w-auto md:-mt-[45px] md:ml-5 md:h-20 lg:-mt-[65px] lg:ml-8 lg:h-32"
+                  loading="lazy"
                 />
               </div>
-              {/* Ligne 2: VALEURS collé en dessous, décalé à droite */}
               <div className="ml-10 md:ml-16 lg:ml-20">VALEURS</div>
+              <p className="mt-4 font-sans text-base text-cozetik-white/80 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                Une approche unique de la formation
+              </p>
             </div>
           </motion.div>
 
@@ -88,7 +89,8 @@ export function ValuesSection() {
                     delay: 0.1 + index * 0.08,
                     ease: 'easeOut',
                   }}
-                  className="font-sans font-normal text-xl leading-relaxed tracking-[-0.02em] text-cozetik-black whitespace-nowrap md:text-2xl lg:text-[28px]"
+                  className="font-sans font-normal text-xl leading-relaxed tracking-[-0.02em] text-cozetik-black md:text-2xl lg:text-[28px]"
+                  style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
                 >
                   - {value}
                 </motion.li>

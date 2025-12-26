@@ -39,12 +39,9 @@ export function AboutSection() {
               Passez à l&apos;étape suivante
             </h3>
 
-            {/* Paragraph - Texte exact Figma */}
-            <p className="mt-6 max-w-[600px] font-sans text-base leading-[150%] text-cozetik-black md:text-lg">
-              Avec nos parcours, vous développerez des compétences clés,
-              obtiendrez des certifications reconnues et construirez votre avenir
-              professionnel. Préparez-vous concrètement à votre future carrière
-              en nos parcours dès aujourd&apos;hui
+            {/* Paragraph - Nouveau wording */}
+            <p className="mt-6 max-w-[600px] font-sans text-base leading-[150%] text-cozetik-black md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              Chez Cozetik, nous croyons que chaque parcours est unique. C&apos;est pourquoi nos formations post-bac allient excellence académique, accompagnement personnalisé et innovation pédagogique. Du numérique au développement personnel, nous vous donnons les clés pour réussir dans un monde professionnel en constante évolution.
             </p>
 
             {/* CTA - Texte avec soulignement au hover */}
@@ -59,7 +56,7 @@ export function AboutSection() {
               }}
               className="group mt-8 inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-base font-normal text-cozetik-black transition-all duration-300 hover:border-cozetik-black hover:gap-3 md:text-lg"
             >
-              Explorez les formations
+              Découvrir nos formations
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </button>
           </div>

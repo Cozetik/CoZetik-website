@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sendEmail } from '@/lib/resend'
-import { emailInscriptionAccepted } from '@/emails/email-inscription-accepted'
+import { render } from '@react-email/render'
+import InscriptionAccepted from '@/emails/inscription-accepted'
 import * as z from 'zod'
 
 const statusSchema = z.object({
@@ -66,13 +67,17 @@ export async function PATCH(
     })
 
     // Envoyer un email à l'utilisateur si le statut passe à TREATED
+    let emailSent = false
+    let emailError = null
+    
     if (validatedData.status === 'TREATED' && existingInscription.status !== 'TREATED') {
+      console.log('📧 Tentative d\'envoi email d\'acceptation d\'inscription à:', existingInscription.email)
       try {
         // Formater la date de session (si disponible)
-        const nextSession = existingInscription.formation.sessions && existingInscription.formation.sessions.length > 0 
+        const nextSession = existingInscription.formation.sessions && existingInscription.formation.sessions.length > 0
           ? existingInscription.formation.sessions[0]
           : null;
-        
+
         const sessionDate = nextSession
           ? new Date(nextSession.startDate).toLocaleDateString('fr-FR', {
               year: 'numeric',
@@ -81,29 +86,46 @@ export async function PATCH(
             })
           : undefined;
 
+        const emailHtml = await render(
+          InscriptionAccepted({
+            name: existingInscription.name,
+            formationTitle: existingInscription.formation.title,
+            sessionDate,
+          })
+        )
+
         const emailResult = await sendEmail(
           existingInscription.email,
           `Votre inscription a été acceptée - ${existingInscription.formation.title}`,
-          emailInscriptionAccepted(
-            existingInscription.name,
-            existingInscription.formation.title,
-            sessionDate
-          )
+          emailHtml
         )
         
         if (emailResult.success) {
-          console.log('✅ Email d\'acceptation d\'inscription envoyé à:', existingInscription.email)
+          console.log('✅ Email d\'acceptation d\'inscription envoyé avec succès à:', existingInscription.email)
+          emailSent = true
         } else {
           console.error('❌ Échec envoi email d\'acceptation:', emailResult.error)
+          emailError = emailResult.error instanceof Error ? emailResult.error.message : String(emailResult.error)
           // On continue même si l'email échoue pour ne pas bloquer la mise à jour
         }
-      } catch (emailError) {
-        console.error('❌ Erreur exception envoi email d\'acceptation:', emailError)
+      } catch (emailErrorException) {
+        console.error('❌ Erreur exception envoi email d\'acceptation:', emailErrorException)
+        if (emailErrorException instanceof Error) {
+          emailError = emailErrorException.message
+          console.error('❌ Message:', emailErrorException.message)
+          console.error('❌ Stack:', emailErrorException.stack)
+        } else {
+          emailError = String(emailErrorException)
+        }
         // On continue même si l'email échoue
       }
     }
 
-    return NextResponse.json(updatedInscription)
+    return NextResponse.json({
+      ...updatedInscription,
+      emailSent,
+      emailError: emailError || undefined,
+    })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(

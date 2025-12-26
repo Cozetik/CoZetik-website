@@ -1,50 +1,54 @@
-import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import * as z from 'zod'
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
+import * as z from "zod";
 
 const blogPostSchema = z.object({
-  title: z.string().min(1, 'Le titre est requis').max(200),
-  slug: z.string().min(1, 'Le slug est requis').max(200),
+  title: z.string().min(1, "Le titre est requis").max(200),
+  slug: z.string().min(1, "Le slug est requis").max(200),
   excerpt: z.string().max(500).nullable().optional(),
-  content: z.string().min(20, 'Le contenu doit être détaillé'),
+  content: z.string().min(20, "Le contenu doit être détaillé"),
   imageUrl: z.string().nullable().optional(),
   seoTitle: z.string().max(60).nullable().optional(),
   seoDescription: z.string().max(160).nullable().optional(),
   visible: z.boolean(),
   publishedAt: z.string().nullable().optional(), // ISO string
-})
+  themeId: z.string().nullable().optional(),
+});
 
 export async function GET() {
   try {
     const posts = await prisma.blogPost.findMany({
-      orderBy: { createdAt: 'desc' },
-    })
+      orderBy: { createdAt: "desc" },
+      include: {
+        themes: true,
+      },
+    });
 
-    return NextResponse.json(posts)
+    return NextResponse.json(posts);
   } catch (error) {
-    console.error('Error fetching blog posts:', error)
+    console.error("Error fetching blog posts:", error);
     return NextResponse.json(
-      { error: 'Erreur lors de la récupération des articles' },
+      { error: "Erreur lors de la récupération des articles" },
       { status: 500 }
-    )
+    );
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
-    const validatedData = blogPostSchema.parse(body)
+    const body = await request.json();
+    const validatedData = blogPostSchema.parse(body);
 
     // Vérifier unicité du slug
     const existing = await prisma.blogPost.findUnique({
       where: { slug: validatedData.slug },
-    })
+    });
 
     if (existing) {
       return NextResponse.json(
-        { error: 'Un article avec ce slug existe déjà' },
+        { error: "Un article avec ce slug existe déjà" },
         { status: 400 }
-      )
+      );
     }
 
     // Créer l'article
@@ -61,19 +65,28 @@ export async function POST(request: Request) {
         publishedAt: validatedData.publishedAt
           ? new Date(validatedData.publishedAt)
           : null,
+        // CORRECTION : Logique de connexion pour un seul ID
+        themes: validatedData.themeId
+          ? {
+              connect: { id: validatedData.themeId },
+            }
+          : undefined,
       },
-    })
+      include: {
+        themes: true,
+      },
+    });
 
-    return NextResponse.json(post, { status: 201 })
+    return NextResponse.json(post, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: error.issues[0].message },
         { status: 400 }
-      )
+      );
     }
 
-    console.error('Error creating blog post:', error)
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+    console.error("Error creating blog post:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
