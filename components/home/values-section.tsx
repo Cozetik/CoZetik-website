@@ -75,25 +75,32 @@ export function ValuesSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="flex flex-col justify-center px-8 md:px-12 lg:px-20"
+            className="flex flex-col justify-center items-center px-8 md:px-12 lg:px-0"
           >
-            <ul className="space-y-10 text-left">
+            <ul className="w-full max-w-2xl">
               {values.map((value, index) => (
-                <motion.li
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{
-                    duration: 0.4,
-                    delay: 0.1 + index * 0.08,
-                    ease: 'easeOut',
-                  }}
-                  className="font-sans font-normal text-xl leading-relaxed tracking-[-0.02em] text-cozetik-black md:text-2xl lg:text-[28px]"
-                  style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
-                >
-                  - {value}
-                </motion.li>
+                <>
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{
+                      duration: 0.4,
+                      delay: 0.1 + index * 0.08,
+                      ease: 'easeOut',
+                    }}
+                    className="font-sans font-normal text-base leading-relaxed tracking-[-0.02em] text-cozetik-black md:text-2xl lg:text-xl pb-10"
+                    style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+                  >
+                    {value}
+                  </motion.li>
+                  {index < values.length - 1 && (
+                    <li key={`divider-${index}`} className="list-none">
+                      <div className="w-full h-[1px] bg-cozetik-black mb-10" />
+                    </li>
+                  )}
+                </>
               ))}
             </ul>
           </motion.div>
