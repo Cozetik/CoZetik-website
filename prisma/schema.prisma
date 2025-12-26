@@ -193,3 +193,30 @@ model FormationFAQ {
   @@unique([formationId, order])
   @@index([formationId])
 }
+
+// Candidature model for job applications
+model Candidature {
+  id               String        @id @default(cuid())
+  civility         String
+  firstName        String
+  lastName         String
+  birthDate        String
+  email            String
+  phone            String
+  address          String?
+  postalCode       String?
+  city             String?
+  formation        String
+  educationLevel   String
+  currentSituation String
+  startDate        String?
+  motivation       String        @db.Text
+  cvUrl            String?
+  coverLetterUrl   String?
+  otherDocumentUrl String?
+  acceptPrivacy    Boolean       @default(false)
+  acceptNewsletter Boolean       @default(false)
+  status           RequestStatus @default(NEW)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}

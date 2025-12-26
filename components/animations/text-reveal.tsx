@@ -36,7 +36,7 @@ export function TextReveal({
           rotate: 0,
           scale: 1,
           duration: duration * 1.5,
-          stagger: 0.1,
+          stagger: 0.2,
           ease: "elastic.out(1, 0.3)",
           delay: delay,
           onComplete: () => {
