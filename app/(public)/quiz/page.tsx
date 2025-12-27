@@ -46,7 +46,7 @@ export default function QuizIntroPage() {
               <p className="text-lg md:text-xl text-gray-800 leading-relaxed" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                 <span className="font-bold">Réponds vite. Sans trop réfléchir.</span>
                 <br />
-                La bonne réponse, c'est celle qui te ressemble aujourd'hui.
+                La bonne réponse, c&apos;est celle qui te ressemble aujourd&apos;hui.
               </p>
             </div>
 
@@ -84,7 +84,7 @@ export default function QuizIntroPage() {
                 <br />
                 À chaque question, choisis A, B, C, D, E, F, G ou H.
                 <br />
-                À la fin, regarde la lettre qui revient le plus souvent. C'est ton profil.
+                À la fin, regarde la lettre qui revient le plus souvent. C&apos;est ton profil.
               </p>
             </div>
 
@@ -120,7 +120,7 @@ export default function QuizIntroPage() {
             className="border-t-2 border-gray-200 pt-12 text-center"
           >
             <p className="text-xl md:text-2xl font-semibold text-[#2C2C2C] italic" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-              « Une bonne formation n'ajoute pas une couche.
+              « Une bonne formation n&apos;ajoute pas une couche.
               <br />
               Elle enlève ce qui bloque. »
             </p>

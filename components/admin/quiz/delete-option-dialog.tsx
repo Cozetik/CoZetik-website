@@ -67,7 +67,7 @@ export default function DeleteOptionDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
           <AlertDialogDescription>
-            Cette action est irréversible. L'option{' '}
+            Cette action est irréversible. L&apos;option{' '}
             <strong>{optionLetter}</strong> sera définitivement supprimée.
           </AlertDialogDescription>
         </AlertDialogHeader>

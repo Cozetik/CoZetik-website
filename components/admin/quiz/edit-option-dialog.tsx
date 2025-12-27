@@ -43,7 +43,7 @@ const optionSchema = z.object({
     .min(5, 'Le texte est trop court (min 5 caractères)')
     .max(500, 'Le texte est trop long (max 500 caractères)'),
   order: z
-    .number({ invalid_type_error: "L'ordre doit être un nombre" })
+    .number({ message: "L'ordre doit être un nombre" })
     .int("L'ordre doit être un nombre entier")
     .positive("L'ordre doit être positif"),
 })
@@ -116,7 +116,7 @@ export default function EditOptionDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Modifier l'option {option.letter}</DialogTitle>
+          <DialogTitle>Modifier l&apos;option {option.letter}</DialogTitle>
           <DialogDescription>
             Modifiez les informations de cette option de réponse
           </DialogDescription>
@@ -186,14 +186,14 @@ export default function EditOptionDialog({
                   <FormLabel>Texte *</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Ex: Je sais des choses, mais j'ai du mal à les partager..."
+                      placeholder="Ex: Je sais des choses, mais j&apos;ai du mal à les partager..."
                       className="min-h-[100px]"
                       {...field}
                       disabled={isLoading}
                     />
                   </FormControl>
                   <FormDescription>
-                    Texte complet de l'option de réponse
+                    Texte complet de l&apos;option de réponse
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

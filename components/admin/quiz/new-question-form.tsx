@@ -24,7 +24,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react'
 
 const formSchema = z.object({
   order: z
-    .number({ invalid_type_error: "L'ordre doit être un nombre" })
+    .number({ message: "L'ordre doit être un nombre" })
     .int("L'ordre doit être un nombre entier")
     .positive("L'ordre doit être positif"),
   question: z
