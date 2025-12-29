@@ -1,15 +1,14 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const values = [
-  'Approche sur-mesure — Parce que votre réussite mérite un accompagnement personnalisé',
-  'Formations certifiantes — Des diplômes reconnus qui ouvrent des portes',
-  'Pédagogie active — Apprendre par la pratique et les projets concrets',
-  'Réseau professionnel — Des partenaires entreprises engagés à vos côtés',
-]
-
+  "Approche sur-mesure — Parce que votre réussite mérite un accompagnement personnalisé",
+  "Formations certifiantes — Des diplômes reconnus qui ouvrent des portes",
+  "Pédagogie active — Apprendre par la pratique et les projets concrets",
+  "Réseau professionnel — Des partenaires entreprises engagés à vos côtés",
+];
 
 export function ValuesSection() {
   return (
@@ -36,8 +35,8 @@ export function ValuesSection() {
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="flex relative flex-col justify-center"
           >
             {/* Personnage violet - Haut gauche */}
@@ -63,7 +62,10 @@ export function ValuesSection() {
                 />
               </div>
               <div className="ml-10 md:ml-16 lg:ml-20">VALEURS</div>
-              <p className="mt-4 font-sans text-base text-cozetik-white/80 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+              <p
+                className="mt-4 font-sans text-base text-cozetik-white/80 md:text-lg"
+                style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+              >
                 Une approche unique de la formation
               </p>
             </div>
@@ -73,25 +75,24 @@ export function ValuesSection() {
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="flex flex-col justify-center items-center px-8 md:px-12 lg:px-0"
           >
             <ul className="w-full max-w-2xl">
               {values.map((value, index) => (
-                <>
+                <div key={index}>
                   <motion.li
-                    key={index}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-50px' }}
+                    viewport={{ once: true, margin: "-50px" }}
                     transition={{
                       duration: 0.4,
                       delay: 0.1 + index * 0.08,
-                      ease: 'easeOut',
+                      ease: "easeOut",
                     }}
                     className="font-sans font-normal text-base leading-relaxed tracking-[-0.02em] text-cozetik-black md:text-2xl lg:text-xl pb-10"
-                    style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+                    style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
                   >
                     {value}
                   </motion.li>
@@ -100,12 +101,12 @@ export function ValuesSection() {
                       <div className="w-full h-[1px] bg-cozetik-black mb-10" />
                     </li>
                   )}
-                </>
+                </div>
               ))}
             </ul>
           </motion.div>
         </div>
       </div>
     </section>
-  )
+  );
 }

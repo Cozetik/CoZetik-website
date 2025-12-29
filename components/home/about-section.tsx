@@ -27,7 +27,7 @@ export function AboutSection() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-12 lg:flex-row lg:gap-20">
           {/* Left Column - Text Content avec fond beige */}
           <motion.div
-            className="relative flex flex-1 flex-col lg:max-w-[60%]"
+            className="relative flex flex-1 flex-col z-10 lg:max-w-[60%]"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -49,7 +49,7 @@ export function AboutSection() {
 
               {/* Paragraph - Nouveau wording */}
               <p
-                className="mt-6 max-w-[600px] font-sans text-base leading-[150%] text-cozetik-black md:text-lg"
+                className="mt-6 max-w-[600px] relative z-10 font-sans text-base leading-[150%] text-cozetik-black md:text-lg"
                 style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
               >
                 Chez Cozetik, nous croyons que chaque parcours est unique.
@@ -72,7 +72,7 @@ export function AboutSection() {
 
             {/* Autographe SVG Violet - Below button */}
             <svg
-              className="pointer-events-none absolute top-[100px] -left-[650px] z-20 w-[800px] md:top-[150px] md:-left-[750px] md:w-[1000px] lg:top-[200px] lg:-left-[850px] lg:w-[1200px]"
+              className="pointer-events-none absolute top-[100px] -left-[650px] -z-20  w-[800px] md:top-[150px] md:-left-[750px] md:w-[1000px] lg:top-[220px] lg:-left-[850px] lg:w-[1200px] xl:z-20"
               style={{
                 overflow: "visible",
               }}
@@ -91,7 +91,7 @@ export function AboutSection() {
 
           {/* Right Column - Image étudiants qui déborde beaucoup */}
           <motion.div
-            className="relative flex flex-1 items-center justify-center lg:max-w-[60%] lg:-ml-24"
+            className="relative z-20 flex flex-1 items-center justify-center lg:max-w-[60%] lg:-ml-24"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

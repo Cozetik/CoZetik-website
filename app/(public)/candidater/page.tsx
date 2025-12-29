@@ -1,23 +1,7 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRight, CheckCircle2, Loader2, Upload } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Checkbox } from '@/components/ui/checkbox'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Label } from '@/components/ui/label'
-import { toast } from 'sonner'
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -25,97 +9,119 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { candidatureSchema, type CandidatureFormData } from '@/lib/validations/candidature'
-import Link from 'next/link'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  candidatureSchema,
+  type CandidatureFormData,
+} from "@/lib/validations/candidature";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const FORMATIONS = [
-  { value: 'informatique', label: 'Informatique' },
-  { value: 'prise-de-parole', label: 'Prise de Parole' },
-  { value: 'intelligence-emotionnelle', label: 'Intelligence Émotionnelle' },
-  { value: 'business', label: 'Business' },
-  { value: 'kizomba-bien-etre-connexion', label: 'Kizomba Bien-Être & Connexion' },
-]
+  { value: "informatique", label: "Informatique" },
+  { value: "prise-de-parole", label: "Prise de Parole" },
+  { value: "intelligence-emotionnelle", label: "Intelligence Émotionnelle" },
+  { value: "business", label: "Business" },
+  {
+    value: "kizomba-bien-etre-connexion",
+    label: "Kizomba Bien-Être & Connexion",
+  },
+];
 
 const EDUCATION_LEVELS = [
-  { value: 'bac', label: 'Bac' },
-  { value: 'bac+1', label: 'Bac+1' },
-  { value: 'bac+2', label: 'Bac+2' },
-  { value: 'bac+3', label: 'Bac+3' },
-  { value: 'bac+4', label: 'Bac+4' },
-  { value: 'bac+5', label: 'Bac+5 ou plus' },
-]
+  { value: "bac", label: "Bac" },
+  { value: "bac+1", label: "Bac+1" },
+  { value: "bac+2", label: "Bac+2" },
+  { value: "bac+3", label: "Bac+3" },
+  { value: "bac+4", label: "Bac+4" },
+  { value: "bac+5", label: "Bac+5 ou plus" },
+];
 
 const SITUATIONS = [
-  { value: 'etudiant', label: 'Étudiant' },
-  { value: 'recherche-emploi', label: 'En recherche d\'emploi' },
-  { value: 'activite', label: 'En activité professionnelle' },
-  { value: 'reconversion', label: 'En reconversion' },
-  { value: 'autre', label: 'Autre' },
-]
+  { value: "etudiant", label: "Étudiant" },
+  { value: "recherche-emploi", label: "En recherche d'emploi" },
+  { value: "activite", label: "En activité professionnelle" },
+  { value: "reconversion", label: "En reconversion" },
+  { value: "autre", label: "Autre" },
+];
 
 const START_DATES = [
-  { value: 'des-que-possible', label: 'Dès que possible' },
-  { value: 'septembre-2025', label: 'Rentrée septembre 2025' },
-  { value: 'janvier-2026', label: 'Rentrée janvier 2026' },
-  { value: 'a-definir', label: 'À définir' },
-]
+  { value: "des-que-possible", label: "Dès que possible" },
+  { value: "septembre-2025", label: "Rentrée septembre 2025" },
+  { value: "janvier-2026", label: "Rentrée janvier 2026" },
+  { value: "a-definir", label: "À définir" },
+];
 
 export default function CandidaterPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const form = useForm<CandidatureFormData>({
     resolver: zodResolver(candidatureSchema),
     defaultValues: {
-      civility: 'M',
-      firstName: '',
-      lastName: '',
-      birthDate: '',
-      email: '',
-      phone: '',
-      address: '',
-      postalCode: '',
-      city: '',
-      formation: '',
-      educationLevel: '',
-      currentSituation: '',
-      startDate: '',
-      motivation: '',
+      civility: "M",
+      firstName: "",
+      lastName: "",
+      birthDate: "",
+      email: "",
+      phone: "",
+      address: "",
+      postalCode: "",
+      city: "",
+      formation: "",
+      educationLevel: "",
+      currentSituation: "",
+      startDate: "",
+      motivation: "",
       acceptPrivacy: false,
       acceptNewsletter: false,
     },
-  })
+  });
 
   async function onSubmit(data: CandidatureFormData) {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
-      const formData = new FormData()
+      const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
         if (value instanceof File) {
-          formData.append(key, value)
-        } else if (typeof value === 'boolean') {
-          formData.append(key, value.toString())
+          formData.append(key, value);
+        } else if (typeof value === "boolean") {
+          formData.append(key, value.toString());
         } else if (value) {
-          formData.append(key, value)
+          formData.append(key, value);
         }
-      })
+      });
 
-      const response = await fetch('/api/public/candidatures', {
-        method: 'POST',
+      const response = await fetch("/api/public/candidatures", {
+        method: "POST",
         body: formData,
-      })
+      });
 
       if (!response.ok) {
-        let errorMessage = 'Une erreur est survenue';
+        let errorMessage = "Une erreur est survenue";
         try {
           const error = await response.json();
           errorMessage = error.error || errorMessage;
         } catch (parseError) {
           // Si la réponse n'est pas du JSON (ex: page d'erreur HTML)
           const text = await response.text();
-          console.error('Erreur non-JSON:', text.substring(0, 100));
+          console.error("Erreur non-JSON:", text.substring(0, 100));
           errorMessage = `Erreur ${response.status}: ${response.statusText}`;
         }
         throw new Error(errorMessage);
@@ -123,29 +129,31 @@ export default function CandidaterPage() {
 
       const result = await response.json();
 
-      toast.success('Candidature envoyée !', {
+      toast.success("Candidature envoyée !", {
         description: (
-          <span style={{ color: '#000000' }}>
-            Votre candidature a bien été enregistrée. Notre équipe pédagogique l&apos;étudiera attentivement et vous contactera sous 48 heures.
+          <span style={{ color: "#000000" }}>
+            Votre candidature a bien été enregistrée. Notre équipe pédagogique
+            l&apos;étudiera attentivement et vous contactera sous 48 heures.
           </span>
         ),
         duration: 5000,
         icon: <CheckCircle2 className="h-5 w-5" />,
-      })
+      });
 
-      setIsSubmitted(true)
-      form.reset()
+      setIsSubmitted(true);
+      form.reset();
     } catch (error) {
-      console.error('Error submitting candidature:', error)
-      const errorMessage = error instanceof Error
-        ? error.message
-        : 'Une erreur est survenue lors de l\'envoi de votre candidature'
-      
-      toast.error('Erreur', {
+      console.error("Error submitting candidature:", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Une erreur est survenue lors de l'envoi de votre candidature";
+
+      toast.error("Erreur", {
         description: errorMessage,
-      })
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
@@ -154,37 +162,51 @@ export default function CandidaterPage() {
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-2xl w-full text-center">
           <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold text-black mb-4" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+          <h1
+            className="text-3xl font-bold text-black mb-4"
+            style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+          >
             Candidature envoyée !
           </h1>
-          <p className="text-lg text-gray-800 mb-8" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-            Merci pour votre confiance. Votre candidature a bien été enregistrée. Notre équipe pédagogique l&apos;étudiera attentivement et vous contactera sous 48 heures.
+          <p
+            className="text-lg text-gray-800 mb-8"
+            style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+          >
+            Merci pour votre confiance. Votre candidature a bien été
+            enregistrée. Notre équipe pédagogique l&apos;étudiera attentivement
+            et vous contactera sous 48 heures.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center justify-center bg-black px-8 py-3 text-base font-semibold text-white transition-all duration-200 hover:bg-gray-800"
-            style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+            className="inline-flex items-center justify-center bg-black px-8 py-3 text-base font-bricolage font-semibold text-white transition-all duration-200 hover:bg-gray-800"
           >
             Retour à l&apos;accueil
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="bg-white font-sans">
       {/* Hero Section */}
       <section className="relative bg-[#9A80B8] pb-10">
-        <div className="container mx-auto px-20">
+        <div className="container mx-auto px-4 md:px-20">
           <div className="relative">
             <div className="absolute -right-20 top-0 h-64 w-64 rounded-full bg-[#9A80B8] opacity-30 blur-3xl"></div>
-            <div className="relative w-fit overflow-hidden bg-[#2C2C2C] pl-[70px] pr-[150px] py-[100px] translate-y-40 md:translate-y-60">
-              <h1 className="mb-6 text-5xl font-extrabold text-white md:text-6xl lg:text-8xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+            <div className="relative w-full md:w-fit overflow-hidden bg-[#2C2C2C] pl-[20px] pr-[30px] py-[40px] translate-y-20 md:translate-y-60 md:pl-[70px] md:pr-[150px] md:py-[100px]">
+              <h1
+                className="mb-6 text-4xl font-extrabold text-white md:text-6xl lg:text-8xl"
+                style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+              >
                 Candidater à une formation
               </h1>
-              <p className="font-sans max-w-4xl text-lg leading-relaxed text-white md:text-xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Complétez votre dossier en quelques minutes, nous revenons vers vous rapidement
+              <p
+                className="font-sans max-w-4xl text-base leading-relaxed text-white md:text-xl"
+                style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+              >
+                Complétez votre dossier en quelques minutes, nous revenons vers
+                vous rapidement
               </p>
             </div>
           </div>
@@ -192,22 +214,30 @@ export default function CandidaterPage() {
       </section>
 
       {/* Introduction */}
-      <section className="pb-8 pt-50 md:pt-60">
-        <div className="container mx-auto px-20 max-w-4xl">
-          <p className="text-base text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-            Vous souhaitez rejoindre Cozetik ? Remplissez le formulaire ci-dessous. Notre équipe pédagogique étudiera votre candidature et vous contactera sous 48 heures pour échanger sur votre projet.
+      <section className="pb-8 pt-32 md:pt-64">
+        <div className="container mx-auto px-4 md:px-20 max-w-4xl">
+          <p
+            className="text-base text-gray-800 md:text-lg"
+            style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+          >
+            Vous souhaitez rejoindre Cozetik ? Remplissez le formulaire
+            ci-dessous. Notre équipe pédagogique étudiera votre candidature et
+            vous contactera sous 48 heures pour échanger sur votre projet.
           </p>
         </div>
       </section>
 
       {/* Formulaire */}
       <section className="pb-16">
-        <div className="container mx-auto px-20 max-w-4xl">
+        <div className="container mx-auto px-4 md:px-20 max-w-4xl">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {/* Section 1 : Informations personnelles */}
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                <h2
+                  className="text-2xl font-bold text-black"
+                  style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+                >
                   Informations personnelles
                 </h2>
 
@@ -227,15 +257,21 @@ export default function CandidaterPage() {
                         >
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="M" id="M" />
-                            <Label htmlFor="M" className="cursor-pointer">M.</Label>
+                            <Label htmlFor="M" className="cursor-pointer">
+                              M.
+                            </Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Mme" id="Mme" />
-                            <Label htmlFor="Mme" className="cursor-pointer">Mme</Label>
+                            <Label htmlFor="Mme" className="cursor-pointer">
+                              Mme
+                            </Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Autre" id="Autre" />
-                            <Label htmlFor="Autre" className="cursor-pointer">Autre</Label>
+                            <Label htmlFor="Autre" className="cursor-pointer">
+                              Autre
+                            </Label>
                           </div>
                         </RadioGroup>
                       </FormControl>
@@ -415,7 +451,10 @@ export default function CandidaterPage() {
 
               {/* Section 2 : Projet de formation */}
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                <h2
+                  className="text-2xl font-bold text-black"
+                  style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+                >
                   Votre projet de formation
                 </h2>
 
@@ -427,7 +466,10 @@ export default function CandidaterPage() {
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
                         Formation souhaitée *
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value || ''}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value || ""}
+                      >
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                             <SelectValue placeholder="Sélectionnez une formation" />
@@ -435,7 +477,10 @@ export default function CandidaterPage() {
                         </FormControl>
                         <SelectContent>
                           {FORMATIONS.map((formation) => (
-                            <SelectItem key={formation.value} value={formation.value}>
+                            <SelectItem
+                              key={formation.value}
+                              value={formation.value}
+                            >
                               {formation.label}
                             </SelectItem>
                           ))}
@@ -454,7 +499,10 @@ export default function CandidaterPage() {
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
                         Niveau d&apos;études actuel *
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value || ''}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value || ""}
+                      >
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                             <SelectValue placeholder="Sélectionnez votre niveau" />
@@ -481,7 +529,10 @@ export default function CandidaterPage() {
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
                         Situation actuelle *
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value || ''}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value || ""}
+                      >
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                             <SelectValue placeholder="Sélectionnez votre situation" />
@@ -489,7 +540,10 @@ export default function CandidaterPage() {
                         </FormControl>
                         <SelectContent>
                           {SITUATIONS.map((situation) => (
-                            <SelectItem key={situation.value} value={situation.value}>
+                            <SelectItem
+                              key={situation.value}
+                              value={situation.value}
+                            >
                               {situation.label}
                             </SelectItem>
                           ))}
@@ -508,7 +562,10 @@ export default function CandidaterPage() {
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
                         Date de début souhaitée
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value || ''}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value || ""}
+                      >
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                             <SelectValue placeholder="Sélectionnez une date" />
@@ -530,7 +587,10 @@ export default function CandidaterPage() {
 
               {/* Section 3 : Motivation */}
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                <h2
+                  className="text-2xl font-bold text-black"
+                  style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+                >
                   Votre motivation
                 </h2>
 
@@ -557,7 +617,10 @@ export default function CandidaterPage() {
 
               {/* Section 4 : Documents */}
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                <h2
+                  className="text-2xl font-bold text-black"
+                  style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+                >
                   Documents
                 </h2>
 
@@ -576,8 +639,8 @@ export default function CandidaterPage() {
                             accept=".pdf,.doc,.docx"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                             onChange={(e) => {
-                              const file = e.target.files?.[0]
-                              if (file) onChange(file)
+                              const file = e.target.files?.[0];
+                              if (file) onChange(file);
                             }}
                             {...field}
                           />
@@ -594,7 +657,8 @@ export default function CandidaterPage() {
                   render={({ field: { value, onChange, ...field } }) => (
                     <FormItem>
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
-                        Lettre de motivation (optionnel - PDF, DOC, DOCX - 5 Mo max)
+                        Lettre de motivation (optionnel - PDF, DOC, DOCX - 5 Mo
+                        max)
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -602,8 +666,8 @@ export default function CandidaterPage() {
                           accept=".pdf,.doc,.docx"
                           className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                           onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (file) onChange(file)
+                            const file = e.target.files?.[0];
+                            if (file) onChange(file);
                           }}
                           {...field}
                         />
@@ -626,8 +690,8 @@ export default function CandidaterPage() {
                           type="file"
                           className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                           onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (file) onChange(file)
+                            const file = e.target.files?.[0];
+                            if (file) onChange(file);
                           }}
                           {...field}
                         />
@@ -640,7 +704,10 @@ export default function CandidaterPage() {
 
               {/* Section 5 : Consentement */}
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
+                <h2
+                  className="text-2xl font-bold text-black"
+                  style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+                >
                   Consentement
                 </h2>
 
@@ -658,10 +725,14 @@ export default function CandidaterPage() {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel className="font-sans text-sm text-gray-600 cursor-pointer">
-                          J&apos;accepte que mes données personnelles soient traitées par Cozetik dans le cadre de ma candidature *
+                          J&apos;accepte que mes données personnelles soient
+                          traitées par Cozetik dans le cadre de ma candidature *
                         </FormLabel>
                         <p className="text-xs text-gray-500">
-                          <Link href="/politique-confidentialite" className="underline hover:text-[#9A80B8]">
+                          <Link
+                            href="/politique-confidentialite"
+                            className="underline hover:text-[#9A80B8]"
+                          >
                             Consulter notre politique de confidentialité
                           </Link>
                         </p>
@@ -684,15 +755,22 @@ export default function CandidaterPage() {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel className="font-sans text-sm text-gray-600 cursor-pointer">
-                          J&apos;accepte de recevoir des informations sur les formations et événements de Cozetik (optionnel)
+                          J&apos;accepte de recevoir des informations sur les
+                          formations et événements de Cozetik (optionnel)
                         </FormLabel>
                       </div>
                     </FormItem>
                   )}
                 />
 
-                <p className="text-xs text-gray-500" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification et de suppression de vos données. Pour l&apos;exercer, contactez-nous à contact@cozetik.fr
+                <p
+                  className="text-xs text-gray-500"
+                  style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+                >
+                  Conformément au RGPD, vous disposez d&apos;un droit
+                  d&apos;accès, de rectification et de suppression de vos
+                  données. Pour l&apos;exercer, contactez-nous à
+                  contact@cozetik.fr
                 </p>
               </div>
 
@@ -701,8 +779,8 @@ export default function CandidaterPage() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="font-sans h-14 w-auto min-w-[279px] bg-[#03120E] px-8 text-base font-bold uppercase text-white hover:bg-[#0a1f18] disabled:opacity-50"
-                  style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+                  className="font-sans h-14 w-full md:w-auto min-w-0 md:min-w-[279px] bg-[#03120E] px-8 text-base font-bold uppercase text-white hover:bg-[#0a1f18] disabled:opacity-50"
+                  style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
                 >
                   {isSubmitting ? (
                     <>
@@ -722,6 +800,5 @@ export default function CandidaterPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-
