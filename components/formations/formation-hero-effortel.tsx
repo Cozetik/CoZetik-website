@@ -111,7 +111,7 @@ export default function FormationHeroEffortel({
     >
       <div className="container mx-auto px-4 md:px-10 lg:px-20 py-16 md:py-20 lg:py-32 min-h-screen flex flex-col justify-center">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 mb-6 text-sm font-sans text-white/60 overflow-x-auto whitespace-nowrap pb-2 md:pb-0">
+        <nav className="flex items-center gap-2 mb-6 pt-10 text-sm font-sans text-white/60 overflow-x-auto whitespace-nowrap pb-2 md:pb-0 lg:pt-0">
           <Link href="/" className="hover:text-white transition-colors">
             Accueil
           </Link>

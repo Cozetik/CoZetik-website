@@ -167,8 +167,11 @@ export function HeroSection() {
           )}
         </button>
       </div>
-      <Link href="#formations">
-        <ArrowDown className="absolute bottom-3 left-1/2 z-20 text-cozetik-white/70 animate-bounce md:bottom-6 md:h-16 md:w-16" />
+      <Link
+        href="#formations"
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 md:bottom-6"
+      >
+        <ArrowDown className="h-8 w-8 text-cozetik-white/70 animate-bounce transition-all duration-800 hover:text-cozetik-white hover:scale-110 md:h-16 md:w-16" />
       </Link>
     </section>
   );
