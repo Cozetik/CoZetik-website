@@ -77,7 +77,7 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
   }
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-none border">
       <Table>
         <TableHeader>
           <TableRow>

@@ -120,7 +120,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
     return (
       <Card className="sticky top-24">
         <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/20">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-none bg-green-100 dark:bg-green-900/20">
             <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
           </div>
           <h3 className="mb-2 text-xl font-semibold">Demande envoyée !</h3>

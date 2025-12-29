@@ -4,11 +4,37 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const values = [
-  "Approche sur-mesure — Parce que votre réussite mérite un accompagnement personnalisé",
-  "Formations certifiantes — Des diplômes reconnus qui ouvrent des portes",
-  "Pédagogie active — Apprendre par la pratique et les projets concrets",
-  "Réseau professionnel — Des partenaires entreprises engagés à vos côtés",
-];
+  {
+    number: '01',
+    title: 'HUMAIN AU CŒUR DU RECRUTEMENT',
+    description:
+      'Nous plaçons l\'humain au centre de chaque recrutement. Chaque candidat est unique et mérite une attention personnalisée pour trouver le poste qui lui correspond parfaitement.',
+  },
+  {
+    number: '02',
+    title: 'EXCELLENCE ET EXPERTISE MÉTIER RPO',
+    description:
+      'Notre expertise en Recruitment Process Outsourcing (RPO) nous permet d\'accompagner les entreprises avec des solutions sur-mesure et des processus optimisés pour recruter les meilleurs talents.',
+  },
+  {
+    number: '03',
+    title: 'EMPLOYABILITÉ DURABLE ET CONCRÈTE',
+    description:
+      'Nous formons nos candidats aux compétences recherchées par les entreprises d\'aujourd\'hui et de demain, pour une employabilité durable et des carrières épanouissantes.',
+  },
+  {
+    number: '04',
+    title: 'RECRUTEMENT ÉTHIQUE ET RESPONSABLE',
+    description:
+      'Nous respectons des standards éthiques élevés dans tous nos processus de recrutement, garantissant transparence, équité et respect de la diversité.',
+  },
+  {
+    number: '05',
+    title: 'INNOVATION ET AGILITÉ TERRAIN',
+    description:
+      'Nous adoptons les dernières technologies et méthodologies agiles pour rester à la pointe du recrutement moderne et répondre rapidement aux besoins du marché.',
+  },
+]
 
 export function ValuesSection() {
   return (
@@ -16,7 +42,7 @@ export function ValuesSection() {
       {/* Split Background: Noir gauche / Beige droite */}
       <div className="absolute inset-0">
         <div className="relative w-full h-full bg-cozetik-black lg:w-1/2">
-          {/* Signature violette - Décalée vers la gauche */}
+          {/* Signature verte - Décalée vers la gauche */}
           <Image
             src="/signature verte.png"
             alt="Signature verte"
@@ -29,23 +55,23 @@ export function ValuesSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-[1440px] px-5 md:px-[60px] lg:px-[120px]">
+      <div className="relative z-10 mx-auto max-w-[1440px] min-h-screen  max-h-screen px-5 md:px-[60px] lg:px-[120px]">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-28">
           {/* Left Column - Titre + Illustrations décoratives (Fond Noir) */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex relative flex-col justify-center"
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="flex relative flex-col justify-center min-h-[600px]"
           >
-            {/* Personnage violet - Haut gauche */}
+            {/* Personnage violet - Position fixe en haut */}
             <Image
               src="/Bonhomme violet.png"
               alt="Bonhomme violet"
               width={110}
               height={123}
-              className="absolute left-0 -top-12 h-18 w-auto md:-top-16 md:h-24 lg:-top-20 lg:h-[123px]"
+              className="absolute left-0 top-16 h-18 w-auto md:top-20 md:h-24 lg:top-24 lg:h-[123px]"
             />
 
             {/* Title NOS VALEURS */}
@@ -71,39 +97,46 @@ export function ValuesSection() {
             </div>
           </motion.div>
 
-          {/* Right Column - Liste valeurs (Fond Beige) */}
+          {/* Right Column - Liste valeurs avec numéros (Fond Beige) */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex flex-col justify-center items-center px-8 md:px-12 lg:px-0"
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="flex flex-col justify-center px-8 md:px-12 lg:px-0"
           >
-            <ul className="w-full max-w-2xl">
+            <div className="flex flex-col gap-6 md:gap-8">
               {values.map((value, index) => (
-                <div key={index}>
-                  <motion.li
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{
-                      duration: 0.4,
-                      delay: 0.1 + index * 0.08,
-                      ease: "easeOut",
-                    }}
-                    className="font-sans font-normal text-base leading-relaxed tracking-[-0.02em] text-cozetik-black md:text-2xl lg:text-xl pb-10"
-                    style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
-                  >
-                    {value}
-                  </motion.li>
-                  {index < values.length - 1 && (
-                    <li key={`divider-${index}`} className="list-none">
-                      <div className="w-full h-[1px] bg-cozetik-black mb-10" />
-                    </li>
-                  )}
-                </div>
+                <motion.div
+                  key={value.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{
+                    duration: 0.4,
+                    delay: 0.1 + index * 0.08,
+                    ease: 'easeOut',
+                  }}
+                  className="flex flex-col gap-3 md:flex-row md:gap-6"
+                >
+                  {/* Numéro - à gauche */}
+                  <div className="flex flex-shrink-0 items-start text-4xl font-extrabold font-display text-cozetik-green md:text-5xl lg:text-6xl">
+                    {value.number}
+                  </div>
+
+                  {/* Titre + Description - à droite */}
+                  <div className="flex flex-col flex-1 gap-2">
+                    <h3 className="font-sans text-base font-bold leading-tight uppercase text-cozetik-black md:text-lg lg:text-xl">
+                      {value.title}
+                    </h3>
+
+                    <p className="font-sans text-sm leading-relaxed text-cozetik-black/80 md:text-base">
+                      {value.description}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
-            </ul>
+            </div>
           </motion.div>
         </div>
       </div>

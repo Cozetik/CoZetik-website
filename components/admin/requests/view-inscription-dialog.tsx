@@ -135,7 +135,7 @@ export function ViewInscriptionDialog({
             <label className="text-sm font-medium text-muted-foreground">
               Message / Motivation
             </label>
-            <div className="mt-1 p-4 bg-muted rounded-lg whitespace-pre-wrap text-base">
+            <div className="mt-1 p-4 bg-muted rounded-none whitespace-pre-wrap text-base">
               {inscription.message}
             </div>
           </div>

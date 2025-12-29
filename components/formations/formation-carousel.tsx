@@ -120,7 +120,7 @@ export default function FormationCarousel({ steps, darkMode = false }: Formation
                   <div
                     key={step.id}
                     className={cn(
-                      "absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 transition-all duration-300",
+                      "absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-none border-2 transition-all duration-300",
                       darkMode ? "border-cozetik-black" : "border-white",
                       isCompleted && "bg-cozetik-green",
                       isActive && "bg-cozetik-green ring-4 ring-cozetik-green/30",

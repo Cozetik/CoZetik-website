@@ -50,15 +50,15 @@ export function CTASection() {
               {/* Additional Info */}
               <div className="mt-10 flex flex-col gap-4 text-sm opacity-75 sm:flex-row sm:justify-center sm:gap-8">
                 <div className="flex items-center justify-center gap-2">
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />
+                  <div className="h-1.5 w-1.5 rounded-none bg-primary-foreground" />
                   <span>Réponse sous 24h</span>
                 </div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />
+                  <div className="h-1.5 w-1.5 rounded-none bg-primary-foreground" />
                   <span>Devis gratuit</span>
                 </div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />
+                  <div className="h-1.5 w-1.5 rounded-none bg-primary-foreground" />
                   <span>Sans engagement</span>
                 </div>
               </div>

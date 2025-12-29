@@ -92,8 +92,8 @@ export default function BlogClient({
               </>
             ) : (
               // Empty State
-              <div className="anim-filter flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
-                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-muted">
+              <div className="anim-filter flex min-h-[400px] flex-col items-center justify-center rounded-none border border-dashed p-12 text-center">
+                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-none bg-muted">
                   <BookOpen className="h-12 w-12 text-muted-foreground" />
                 </div>
                 <h2 className="mt-6 text-2xl font-semibold">
@@ -132,13 +132,13 @@ export default function BlogClient({
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                 <a
                   href="/contact"
-                  className="inline-flex h-10 items-center font-sans justify-center rounded-md bg-primary px-8 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-all duration-300 ease-in-out hover:scale-105  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="inline-flex h-10 items-center font-sans justify-center rounded-none bg-primary px-8 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-all duration-300 ease-in-out hover:scale-105  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   Nous contacter
                 </a>
                 <Link
                   href="/formations"
-                  className="inline-flex h-10 items-center gap-2 font-sans justify-center rounded-md border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-all duration-300 ease-in-out hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="inline-flex h-10 items-center gap-2 font-sans justify-center rounded-none border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-all duration-300 ease-in-out hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   Découvrir nos formations <ArrowRight width={20} />
                 </Link>

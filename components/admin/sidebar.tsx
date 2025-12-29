@@ -101,7 +101,7 @@ export default function Sidebar() {
                   <button
                     onClick={() => toggleExpanded(item.name)}
                     className={cn(
-                      "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                      "flex w-full items-center gap-3 rounded-none px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
                       hasActiveChild && "bg-accent text-accent-foreground"
                     )}
                   >
@@ -122,7 +122,7 @@ export default function Sidebar() {
                           key={subItem.href}
                           href={subItem.href}
                           className={cn(
-                            "block rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
+                            "block rounded-none px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
                             isActive(subItem.href) &&
                               "bg-accent font-medium text-accent-foreground"
                           )}
@@ -141,7 +141,7 @@ export default function Sidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                  "flex items-center gap-3 rounded-none px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
                   isActive(item.href) && "bg-accent text-accent-foreground"
                 )}
               >

@@ -27,7 +27,7 @@ function Hero() {
     <section className="relative bg-[#ADA6DB] pb-10">
       <div className="container mx-auto px-6 md:px-12 lg:px-20">
         <div className="relative">
-          <div className="absolute -right-16 top-2 h-64 w-64 rounded-full bg-[#ADA6DB] opacity-30 blur-3xl" />
+          <div className="absolute -right-16 top-2 h-64 w-64 rounded-none bg-[#ADA6DB] opacity-30 blur-3xl" />
 
           <div className="relative max-w-5xl translate-y-24 overflow-hidden bg-[#262626] px-8 py-14 md:px-16 md:py-20 lg:px-20 lg:py-24">
             <h1
@@ -92,23 +92,23 @@ function Filters({
 
 function FormationCard({ formation }: { formation: Formation }) {
   return (
-    <div className="flex h-full flex-col bg-[#262626] px-8 py-10 text-white">
-      <div className="text-xs font-semibold uppercase tracking-[0.35em] text-[#ADA6DB]">
+    <div className="group flex h-full flex-col bg-white border-2 border-[#262626] px-8 py-10 transition-all duration-300 hover:bg-[#262626]">
+      <div className="text-xs font-semibold uppercase tracking-[0.35em] text-[#ADA6DB] transition-colors duration-300">
         {formation.category?.name || "Formation"}
       </div>
-      <h3 className="mt-4 font-bricolage text-2xl font-extrabold md:text-3xl">
+      <h3 className="mt-4 font-bricolage text-2xl font-extrabold md:text-3xl text-[#262626] transition-colors duration-300 group-hover:text-white">
         {formation.title}
       </h3>
-      <p className="mt-4 text-base leading-relaxed text-white/80">
+      <p className="mt-4 text-base leading-relaxed text-[#262626]/70 transition-colors duration-300 group-hover:text-white/80">
         {formation.description || ""}
       </p>
       <div className="mt-auto flex items-center justify-between pt-8">
-        <div className="text-sm uppercase tracking-wide text-white/60">
+        <div className="text-sm uppercase tracking-wide text-[#262626]/60 transition-colors duration-300 group-hover:text-white/60">
           En savoir plus
         </div>
         <Link
           href={`/formations/${formation.slug}`}
-          className="flex items-center gap-2 bg-[#ADA6DB] px-4 py-3 text-base font-semibold uppercase text-white transition-colors hover:bg-[#bdb7e3]"
+          className="flex items-center gap-2 bg-[#262626] px-4 py-3 text-base font-semibold uppercase text-white transition-all duration-300 group-hover:bg-[#ADA6DB] group-hover:text-white"
         >
           Découvrir
           <ArrowRight className="h-4 w-4" />

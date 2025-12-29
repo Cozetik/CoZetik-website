@@ -54,7 +54,7 @@ export default async function FormationStepsPage({
       </div>
 
       {steps.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12 border rounded-lg bg-muted/50">
+        <div className="flex flex-col items-center justify-center py-12 border rounded-none bg-muted/50">
           <ListOrdered className="h-16 w-16 text-muted-foreground mb-4" />
           <h3 className="text-lg font-semibold mb-2">Aucun step configuré</h3>
           <p className="text-muted-foreground mb-4">

@@ -23,7 +23,7 @@ export default function FormationObjectives({ objectives }: FormationObjectivesP
           {objectives.map((objective, index) => (
             <div key={index} className="flex items-start gap-4">
               {/* Icon Check avec background circulaire */}
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-cozetik-green/10 flex items-center justify-center">
+              <div className="flex-shrink-0 w-10 h-10 rounded-none bg-cozetik-green/10 flex items-center justify-center">
                 <Check className="w-6 h-6 text-cozetik-green" />
               </div>
 

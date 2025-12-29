@@ -28,7 +28,7 @@ export function CategoryCard({ name, slug, index }: CategoryCardProps) {
         role="link"
         aria-label={`Catégorie ${name}`}
       >
-        <div className="flex h-48 items-center justify-center bg-[#FDFDFD] px-8 transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:bg-cozetik-beige/80 group-has-[.group\/card:hover]:bg-[#FDFDFD]">
+        <div className="flex h-48 items-center justify-center bg-cozetik-beige px-8 transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:bg-white hover:border hover:border-cozetik-green/20 group-has-[.group\/card:hover]:bg-cozetik-beige">
           <h3 className="text-center font-sans text-xl font-bold uppercase leading-tight tracking-normal text-cozetik-black transition-colors duration-300 group-has-[.group\/card:hover]:text-gray-400 group-hover/card:text-cozetik-black md:text-2xl">
             {name}
           </h3>

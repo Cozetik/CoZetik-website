@@ -11,7 +11,7 @@ export default function QuizIntroPage() {
       <section className="relative bg-[#9A80B8] pb-10">
         <div className="container mx-auto px-6 md:px-20">
           <div className="relative">
-            <div className="absolute -right-20 top-0 h-64 w-64 rounded-full bg-[#9A80B8] opacity-30 blur-3xl"></div>
+            <div className="absolute -right-20 top-0 h-64 w-64 rounded-none bg-[#9A80B8] opacity-30 blur-3xl"></div>
             <div className="relative w-full md:w-fit overflow-hidden bg-[#2C2C2C] px-8 md:pl-[70px] md:pr-[150px] py-16 md:py-[100px] translate-y-20 md:translate-y-40 lg:translate-y-60">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -67,8 +67,8 @@ export default function QuizIntroPage() {
                     transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
                     className="flex items-start gap-4"
                   >
-                    <div className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#5E985E]">
-                      <div className="h-2 w-2 rounded-full bg-white"></div>
+                    <div className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-none bg-[#5E985E]">
+                      <div className="h-2 w-2 rounded-none bg-white"></div>
                     </div>
                     <span className="text-lg md:text-xl text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                       {item}
@@ -78,7 +78,7 @@ export default function QuizIntroPage() {
               </ul>
             </div>
 
-            <div className="bg-[#EFEFEF] rounded-lg p-6 md:p-8">
+            <div className="bg-[#EFEFEF] rounded-none p-6 md:p-8">
               <p className="text-base md:text-lg text-gray-700 italic" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                 💡 <span className="font-semibold">Comment ça marche ?</span>
                 <br />

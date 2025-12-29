@@ -59,7 +59,7 @@ export function MobileNav({ open, onOpenChange, items }: MobileNavProps) {
               href={item.href}
               onClick={() => onOpenChange(false)}
               className={cn(
-                'flex items-center rounded-md px-4 py-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+                'flex items-center rounded-none px-4 py-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
                 pathname === item.href
                   ? 'bg-accent text-accent-foreground'
                   : 'text-muted-foreground'

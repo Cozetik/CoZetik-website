@@ -126,7 +126,7 @@ export default function FormationHeroSimple({
                   <div
                     key={index}
                     className={cn(
-                      "h-1 transition-all duration-300 rounded-full",
+                      "h-1 transition-all duration-300 rounded-none",
                       index <= activeIndex
                         ? "w-12 bg-cozetik-green"
                         : "w-8 bg-white/20"
@@ -167,9 +167,9 @@ export default function FormationHeroSimple({
                       }}
                     >
                       {/* Card */}
-                      <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-lg h-[500px] flex flex-col">
+                      <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-none h-[500px] flex flex-col">
                         {/* Icon avec numéro */}
-                        <div className="w-16 h-16 rounded-lg bg-cozetik-green/20 flex items-center justify-center mb-6">
+                        <div className="w-16 h-16 rounded-none bg-cozetik-green/20 flex items-center justify-center mb-6">
                           <span className="text-3xl font-display font-bold text-cozetik-green">
                             {String(step.order).padStart(2, '0')}
                           </span>
@@ -215,7 +215,7 @@ export default function FormationHeroSimple({
                 <button
                   onClick={() => setActiveIndex((prev) => Math.max(0, prev - 1))}
                   disabled={activeIndex === 0}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-white transition-colors"
+                  className="w-10 h-10 rounded-none bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-white transition-colors"
                   aria-label="Étape précédente"
                 >
                   ←
@@ -223,7 +223,7 @@ export default function FormationHeroSimple({
                 <button
                   onClick={() => setActiveIndex((prev) => Math.min(steps.length - 1, prev + 1))}
                   disabled={activeIndex === steps.length - 1}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-white transition-colors"
+                  className="w-10 h-10 rounded-none bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-white transition-colors"
                   aria-label="Étape suivante"
                 >
                   →

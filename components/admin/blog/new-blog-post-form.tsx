@@ -157,7 +157,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {/* Section: Contenu principal */}
-          <div className="space-y-4 p-6 border rounded-lg bg-card">
+          <div className="space-y-4 p-6 border rounded-none bg-card">
             <h2 className="text-xl font-semibold">Contenu principal</h2>
 
             {/* ...existing code... (Title field) */}
@@ -280,7 +280,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
           </div>
 
           {/* Section: Médias */}
-          <div className="space-y-4 p-6 border rounded-lg bg-card">
+          <div className="space-y-4 p-6 border rounded-none bg-card">
             <h2 className="text-xl font-semibold">Image mise en avant</h2>
 
             <FormField
@@ -306,7 +306,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
           </div>
 
           {/* Section: SEO */}
-          <div className="space-y-4 p-6 border rounded-lg bg-card">
+          <div className="space-y-4 p-6 border rounded-none bg-card">
             <h2 className="text-xl font-semibold">SEO</h2>
 
             <FormField
@@ -352,7 +352,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
           </div>
 
           {/* Section: Publication */}
-          <div className="space-y-4 p-6 border rounded-lg bg-card">
+          <div className="space-y-4 p-6 border rounded-none bg-card">
             <h2 className="text-xl font-semibold">Publication</h2>
 
             <FormField

@@ -188,7 +188,7 @@ export default function InscriptionsTable({
     const finalItems = filterByFormation(filteredItems)
 
     return (
-      <div className="rounded-md border">
+      <div className="rounded-none border">
         <Table>
           <TableHeader>
             <TableRow>

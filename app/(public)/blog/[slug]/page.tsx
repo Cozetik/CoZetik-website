@@ -163,7 +163,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
               <div className="flex flex-wrap items-center justify-center gap-6 text-sm font-medium text-white/90 md:text-base">
                 {post.publishedAt && (
-                  <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+                  <div className="flex items-center gap-2 rounded-none bg-white/10 px-4 py-1.5 backdrop-blur-sm">
                     <Calendar className="h-4 w-4" />
                     <time dateTime={post.publishedAt.toISOString()}>
                       {format(new Date(post.publishedAt), "d MMMM yyyy", {
@@ -172,7 +172,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </time>
                   </div>
                 )}
-                <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+                <div className="flex items-center gap-2 rounded-none bg-white/10 px-4 py-1.5 backdrop-blur-sm">
                   <Clock className="h-4 w-4" />
                   <span>{readingTime} min de lecture</span>
                 </div>
@@ -236,7 +236,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             {/* Article Content */}
             <div
-              className="prose font-sans prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:leading-relaxed prose-p:text-muted-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-img:rounded-lg prose-ul:text-muted-foreground prose-ol:text-muted-foreground"
+              className="prose font-sans prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:leading-relaxed prose-p:text-muted-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-img:rounded-none prose-ul:text-muted-foreground prose-ol:text-muted-foreground"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 

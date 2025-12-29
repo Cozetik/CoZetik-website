@@ -123,10 +123,10 @@ export default function ContactPage() {
         <div className="container mx-auto px-4 md:px-20">
           <div className="relative">
             {/* Decorative purple shape */}
-            <div className="absolute -right-20 top-0 h-64 w-64 rounded-full bg-[#9A80B8] opacity-30 blur-3xl"></div>
+            <div className="absolute -right-20 top-0 h-64 w-64 rounded-none bg-[#9A80B8] opacity-30 blur-3xl"></div>
 
             {/* Dark grey block */}
-            <div className="relative w-full md:w-fit overflow-hidden bg-[#2C2C2C] pl-[20px] pr-[30px] py-[40px] translate-y-20 md:translate-y-60 md:pl-[70px] md:pr-[150px] md:py-[100px]">
+            <div className="relative w-fit overflow-hidden bg-[#2C2C2C] pl-[70px] pr-[150px] py-[100px] translate-y-40 md:translate-y-60">
               {/* Purple scribble decoration */}
               <div className="absolute right-0 -z-100 top-0 translate-x-4 -translate-y-8 overflow-visible md:translate-x-8 md:-translate-y-15">
                 <svg
@@ -486,7 +486,7 @@ export default function ContactPage() {
                 >
                   Comment nous trouver ?
                 </h2>
-                <div className="mb-4 overflow-hidden rounded-lg h-[300px] md:h-[400px]">
+                <div className="mb-4 overflow-hidden rounded-none" style={{ height: '400px' }}>
                   <iframe
                     src="https://www.google.com/maps?q=4+Rue+Sarah+Bernhardt,+92600+Asnières-sur-Seine&output=embed&zoom=15"
                     width="100%"

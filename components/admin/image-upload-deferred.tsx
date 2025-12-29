@@ -73,7 +73,7 @@ export function ImageUploadDeferred({
       <Card className="p-4">
         {displayUrl ? (
           <div className="relative group">
-            <div className="relative w-full h-64 rounded-lg overflow-hidden bg-muted">
+            <div className="relative w-full h-64 rounded-none overflow-hidden bg-muted">
               <Image
                 src={displayUrl}
                 alt="Preview"
@@ -106,7 +106,7 @@ export function ImageUploadDeferred({
             className={`cursor-pointer block ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <div
-              className={`flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-8 transition-colors ${
+              className={`flex flex-col items-center justify-center border-2 border-dashed rounded-none p-8 transition-colors ${
                 disabled
                   ? 'border-muted'
                   : 'border-muted-foreground/25 hover:border-primary'
@@ -135,7 +135,7 @@ export function ImageUploadDeferred({
       </Card>
 
       {error && (
-        <div className="text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-lg p-3">
+        <div className="text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-none p-3">
           {error}
         </div>
       )}

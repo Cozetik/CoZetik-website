@@ -121,7 +121,7 @@ export default function ThemeManager({ initialThemes }: ThemeManagerProps) {
           {themes.map((theme) => (
             <div
               key={theme.id}
-              className="flex items-center gap-1 bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm group"
+              className="flex items-center gap-1 bg-secondary text-secondary-foreground px-3 py-1 rounded-none text-sm group"
             >
               <span>{theme.name}</span>
               <button

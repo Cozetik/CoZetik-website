@@ -95,8 +95,8 @@ export function FormationsList({ formations, categories }: FormationsListProps) 
           ))}
         </div>
       ) : (
-        <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+        <div className="flex min-h-[400px] flex-col items-center justify-center rounded-none border border-dashed p-12 text-center">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-none bg-muted">
             <Filter className="h-10 w-10 text-muted-foreground" />
           </div>
           <h3 className="mt-6 text-xl font-semibold">Aucune formation trouvée</h3>

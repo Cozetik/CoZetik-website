@@ -142,7 +142,7 @@ export function HeroSection() {
           onClick={togglePlay}
           onKeyDown={(e) => handleKeyDown(e, togglePlay)}
           aria-label={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
-          className="cursor-pointer rounded-lg border-2 border-transparent bg-black/20 p-3 text-cozetik-white/90 backdrop-blur-sm transition-all duration-200 hover:border-cozetik-green hover:bg-black/30 hover:text-cozetik-white hover:scale-105 active:border-cozetik-green active:scale-95 md:p-4"
+          className="cursor-pointer rounded-none border-2 border-transparent bg-black/20 p-3 text-cozetik-white/90 backdrop-blur-sm transition-all duration-200 hover:border-cozetik-green hover:bg-black/30 hover:text-cozetik-white hover:scale-105 active:border-cozetik-green active:scale-95 md:p-4"
           tabIndex={0}
         >
           {isPlaying ? (
@@ -157,7 +157,7 @@ export function HeroSection() {
           onClick={toggleMute}
           onKeyDown={(e) => handleKeyDown(e, toggleMute)}
           aria-label={isMuted ? "Activer le son" : "Désactiver le son"}
-          className="cursor-pointer rounded-lg border-2 border-transparent bg-black/20 p-3 text-cozetik-white/90 backdrop-blur-sm transition-all duration-200 hover:border-cozetik-green hover:bg-black/30 hover:text-cozetik-white hover:scale-105 active:border-cozetik-green active:scale-95 md:p-4"
+          className="cursor-pointer rounded-none border-2 border-transparent bg-black/20 p-3 text-cozetik-white/90 backdrop-blur-sm transition-all duration-200 hover:border-cozetik-green hover:bg-black/30 hover:text-cozetik-white hover:scale-105 active:border-cozetik-green active:scale-95 md:p-4"
           tabIndex={0}
         >
           {isMuted ? (

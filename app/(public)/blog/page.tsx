@@ -135,8 +135,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             </>
           ) : (
             // Empty State
-            <div className="anim-filter flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
-              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-muted">
+            <div className="anim-filter flex min-h-[400px] flex-col items-center justify-center rounded-none border border-dashed p-12 text-center">
+              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-none bg-muted">
                 <BookOpen className="h-12 w-12 text-muted-foreground" />
               </div>
               <h2 className="mt-6 text-2xl font-semibold">
@@ -171,13 +171,13 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             <div className="flex flex-col gap-4 mt-8 sm:flex-row sm:justify-center">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center font-sans bg-black px-8 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-gray-800"
+                className="inline-flex h-10 items-center font-sans justify-center rounded-none bg-primary px-8 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-all duration-300 ease-in-out hover:scale-105  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 Nous contacter
               </Link>
               <Link
                 href="/formations"
-                className="inline-flex items-center justify-center border-2 border-white bg-transparent px-8 py-4 text-base font-semibold font-sans text-black transition-all duration-200 hover:bg-white hover:text-[#ADA6DB]"
+                className="inline-flex h-10 items-center gap-2 font-sans justify-center rounded-none border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-all duration-300 ease-in-out hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 Découvrir nos formations{" "}
                 <ArrowRight width={20} className="ml-2" />

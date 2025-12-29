@@ -59,7 +59,7 @@ export default function FormationKeyInfos({ formation }: FormationKeyInfosProps)
             const Icon = info.icon
             return (
               <div key={index} className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 rounded-full bg-cozetik-green/10 flex items-center justify-center mb-4">
+                <div className="w-20 h-20 rounded-none bg-cozetik-green/10 flex items-center justify-center mb-4">
                   <Icon className="w-10 h-10 text-cozetik-green" />
                 </div>
                 <p className="font-display font-bold text-2xl text-cozetik-black uppercase">

@@ -238,7 +238,7 @@ export function ViewCandidatureDialog({
             <label className="text-sm font-medium text-muted-foreground">
               Motivation
             </label>
-            <div className="mt-1 p-4 bg-muted rounded-lg whitespace-pre-wrap text-base">
+            <div className="mt-1 p-4 bg-muted rounded-none whitespace-pre-wrap text-base">
               {candidature.motivation}
             </div>
           </div>
@@ -249,7 +249,7 @@ export function ViewCandidatureDialog({
             {(candidature.cvUrl || candidature.coverLetterUrl || candidature.otherDocumentUrl) ? (
               <div className="space-y-3">
                 {candidature.cvUrl && (
-                  <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between p-3 border rounded-none hover:bg-muted/50 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded">
                         <svg
@@ -302,7 +302,7 @@ export function ViewCandidatureDialog({
                   </div>
                 )}
                 {candidature.coverLetterUrl && (
-                  <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between p-3 border rounded-none hover:bg-muted/50 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded">
                         <svg
@@ -355,7 +355,7 @@ export function ViewCandidatureDialog({
                   </div>
                 )}
                 {candidature.otherDocumentUrl && (
-                  <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between p-3 border rounded-none hover:bg-muted/50 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="p-2 bg-green-100 dark:bg-green-900 rounded">
                         <svg
@@ -409,7 +409,7 @@ export function ViewCandidatureDialog({
                 )}
               </div>
             ) : (
-              <div className="p-4 border border-dashed rounded-lg text-center text-muted-foreground">
+              <div className="p-4 border border-dashed rounded-none text-center text-muted-foreground">
                 <svg
                   className="w-8 h-8 mx-auto mb-2 opacity-50"
                   fill="none"

@@ -53,7 +53,7 @@ export default function PartnersTable({
   }
 
   return (
-    <div className="border rounded-lg">
+    <div className="border rounded-none">
       <Table>
         <TableHeader>
           <TableRow>

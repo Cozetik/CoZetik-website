@@ -150,7 +150,7 @@ export default function FormationHeroScroll({
                   <div
                     key={index}
                     className={cn(
-                      "h-1 transition-all duration-300 rounded-full",
+                      "h-1 transition-all duration-300 rounded-none",
                       index <= activeIndex
                         ? "w-12 bg-cozetik-green"
                         : "w-8 bg-white/20"
@@ -194,9 +194,9 @@ export default function FormationHeroScroll({
                         )}
                       >
                         {/* Card */}
-                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-lg h-[480px] flex flex-col">
+                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-none h-[480px] flex flex-col">
                           {/* Icon avec numéro */}
-                          <div className="w-16 h-16 rounded-lg bg-cozetik-green/20 flex items-center justify-center mb-6">
+                          <div className="w-16 h-16 rounded-none bg-cozetik-green/20 flex items-center justify-center mb-6">
                             <span className="text-3xl font-display font-bold text-cozetik-green">
                               {String(step.order).padStart(2, '0')}
                             </span>

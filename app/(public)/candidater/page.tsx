@@ -193,12 +193,9 @@ export default function CandidaterPage() {
       <section className="relative bg-[#9A80B8] pb-10">
         <div className="container mx-auto px-4 md:px-20">
           <div className="relative">
-            <div className="absolute -right-20 top-0 h-64 w-64 rounded-full bg-[#9A80B8] opacity-30 blur-3xl"></div>
-            <div className="relative w-full md:w-fit overflow-hidden bg-[#2C2C2C] pl-[20px] pr-[30px] py-[40px] translate-y-20 md:translate-y-60 md:pl-[70px] md:pr-[150px] md:py-[100px]">
-              <h1
-                className="mb-6 text-4xl font-extrabold text-white md:text-6xl lg:text-8xl"
-                style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
-              >
+            <div className="absolute -right-20 top-0 h-64 w-64 rounded-none bg-[#9A80B8] opacity-30 blur-3xl"></div>
+            <div className="relative w-fit overflow-hidden bg-[#2C2C2C] pl-[70px] pr-[150px] py-[100px] translate-y-40 md:translate-y-60">
+              <h1 className="mb-6 text-5xl font-extrabold text-white md:text-6xl lg:text-8xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                 Candidater à une formation
               </h1>
               <p

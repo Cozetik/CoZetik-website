@@ -32,7 +32,7 @@ export function QuizQuestionComponent({ question, value, onChange }: QuizQuestio
             return (
               <div
                 key={`${question.id}-${index}`}
-                className={`flex items-start space-x-4 p-4 rounded-lg border-2 transition-all duration-200 ${
+                className={`flex items-start space-x-4 p-4 rounded-none border-2 transition-all duration-200 ${
                   isSelected
                     ? 'border-[#03120E] bg-[#F5F5F5] shadow-md'
                     : 'border-[#E0E0E0] bg-white hover:border-[#9A80B8] hover:shadow-sm'
@@ -81,7 +81,7 @@ export function QuizQuestionComponent({ question, value, onChange }: QuizQuestio
               return (
                 <div
                   key={`${question.id}-${scaleValue}`}
-                  className={`flex items-center space-x-4 p-4 rounded-lg border-2 transition-all duration-200 ${
+                  className={`flex items-center space-x-4 p-4 rounded-none border-2 transition-all duration-200 ${
                     isSelected
                       ? 'border-[#03120E] bg-[#F5F5F5] shadow-md'
                       : 'border-[#E0E0E0] bg-white hover:border-[#9A80B8] hover:shadow-sm'

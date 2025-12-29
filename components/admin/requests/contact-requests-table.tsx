@@ -157,7 +157,7 @@ export default function ContactRequestsTable({
   }
 
   const renderTable = (filteredItems: ContactRequest[]) => (
-    <div className="rounded-md border">
+    <div className="rounded-none border">
       <Table>
         <TableHeader>
           <TableRow>

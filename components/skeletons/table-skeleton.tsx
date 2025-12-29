@@ -20,7 +20,7 @@ export function TableSkeleton({
   showImage = false,
 }: TableSkeletonProps) {
   return (
-    <div className="rounded-md border">
+    <div className="rounded-none border">
       <Table>
         <TableHeader>
           <TableRow>

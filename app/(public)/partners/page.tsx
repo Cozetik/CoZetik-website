@@ -48,7 +48,7 @@ export default async function PartnersPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             {/* Icon */}
-            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-none bg-primary/10">
               <Handshake className="h-8 w-8 text-primary" />
             </div>
 
@@ -97,7 +97,7 @@ export default async function PartnersPage() {
                       <Card className="h-full transition-all hover:shadow-lg">
                         <CardHeader className="pb-4">
                           {/* Logo */}
-                          <div className="mb-4 flex h-32 items-center justify-center rounded-md bg-muted p-4">
+                          <div className="mb-4 flex h-32 items-center justify-center rounded-none bg-muted p-4">
                             {partner.logoUrl ? (
                               <div className="relative h-full w-full">
                                 <Image
@@ -160,8 +160,8 @@ export default async function PartnersPage() {
             </>
           ) : (
             // Empty State
-            <div className="flex min-h-[500px] flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
-              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-muted">
+            <div className="flex min-h-[500px] flex-col items-center justify-center rounded-none border border-dashed p-12 text-center">
+              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-none bg-muted">
                 <Handshake className="h-12 w-12 text-muted-foreground" />
               </div>
               <h2 className="mt-6 text-2xl font-semibold">

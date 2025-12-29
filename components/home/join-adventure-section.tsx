@@ -23,7 +23,7 @@ const steps = [
 
 export function JoinAdventureSection() {
   return (
-    <section className="w-full bg-cozetik-violet px-5 py-28 md:px-[60px] md:py-40 lg:px-[120px] lg:py-52">
+    <section className="w-full bg-[#FDFDFD] px-5 py-28 md:px-[60px] md:py-40 lg:px-[120px] lg:py-52">
       <div className="container mx-auto max-w-[1200px]">
         {/* Title + Autographe Noir */}
         <motion.div

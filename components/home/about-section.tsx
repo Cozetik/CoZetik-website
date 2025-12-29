@@ -102,7 +102,7 @@ export function AboutSection() {
               alt="Étudiants souriants suivant une formation Cozetik"
               width={1000}
               height={750}
-              className="h-auto w-[150%] object-cover rounded-lg"
+              className="h-auto w-[150%] object-cover rounded-none"
               priority
               sizes="(max-width: 768px) 100vw, 75vw"
             />

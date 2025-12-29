@@ -28,13 +28,13 @@ export default function Loading() {
 
               {/* Buttons skeleton */}
               <div className="flex gap-4 pt-6">
-                <Skeleton className="h-12 w-40 bg-white/10 rounded-full" />
-                <Skeleton className="h-12 w-40 bg-white/10 rounded-full" />
+                <Skeleton className="h-12 w-40 bg-white/10 rounded-none" />
+                <Skeleton className="h-12 w-40 bg-white/10 rounded-none" />
               </div>
             </div>
 
             {/* Image/Carousel placeholder */}
-            <div className="relative aspect-video lg:aspect-square rounded-2xl overflow-hidden">
+            <div className="relative aspect-video lg:aspect-square rounded-none overflow-hidden">
               <Skeleton className="h-full w-full bg-white/10" />
             </div>
           </div>
@@ -62,8 +62,8 @@ export default function Loading() {
           <Skeleton className="h-10 w-64 mb-12 bg-cozetik-black/10" />
           <div className="grid md:grid-cols-2 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="flex gap-4 p-6 bg-white rounded-xl">
-                <Skeleton className="h-6 w-6 shrink-0 rounded-full bg-cozetik-black/10" />
+              <div key={i} className="flex gap-4 p-6 bg-white rounded-none">
+                <Skeleton className="h-6 w-6 shrink-0 rounded-none bg-cozetik-black/10" />
                 <div className="space-y-2 w-full">
                   <Skeleton className="h-5 w-full bg-cozetik-black/10" />
                   <Skeleton className="h-4 w-2/3 bg-cozetik-black/10" />

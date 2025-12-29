@@ -53,7 +53,7 @@ export function WhyCozetikSection() {
               >
                 <CardContent className="p-6">
                   {/* Icon */}
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-none bg-primary/10">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
 

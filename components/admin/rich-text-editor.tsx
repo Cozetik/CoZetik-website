@@ -170,7 +170,7 @@ export function RichTextEditor({
 
   return (
     <div className="relative">
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border rounded-none overflow-hidden">
         <Toolbar
           editor={editor}
           onLinkClick={handleLinkClick}
@@ -182,7 +182,7 @@ export function RichTextEditor({
       </div>
 
       {isUploadingImage && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-none">
           <div className="flex items-center gap-2 text-sm">
             <Loader2 className="h-4 w-4 animate-spin" />
             <span>Upload de l&apos;image en cours...</span>

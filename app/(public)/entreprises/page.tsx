@@ -28,7 +28,7 @@ export default function EntreprisesPage() {
       <section className="relative bg-[#ADA6DB] pb-10">
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
           <div className="relative">
-            <div className="absolute -right-16 top-2 h-64 w-64 rounded-full bg-[#ADA6DB] opacity-30 blur-3xl" />
+            <div className="absolute -right-16 top-2 h-64 w-64 rounded-none bg-[#ADA6DB] opacity-30 blur-3xl" />
             <div className="relative max-w-5xl translate-y-24 overflow-hidden bg-[#262626] px-8 py-14 md:px-16 md:py-20 lg:px-20 lg:py-24">
               <h1 className="mb-4 text-4xl font-extrabold text-white md:text-6xl lg:text-8xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                 Développez les talents de vos équipes
@@ -210,7 +210,7 @@ export default function EntreprisesPage() {
           </h2>
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#ADA6DB] text-white font-bold">1</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-none bg-[#ADA6DB] text-white font-bold">1</span>
               <div>
                 <h3 className="mb-2 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                   Échange
@@ -221,7 +221,7 @@ export default function EntreprisesPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#ADA6DB] text-white font-bold">2</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-none bg-[#ADA6DB] text-white font-bold">2</span>
               <div>
                 <h3 className="mb-2 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                   Diagnostic
@@ -232,7 +232,7 @@ export default function EntreprisesPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#ADA6DB] text-white font-bold">3</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-none bg-[#ADA6DB] text-white font-bold">3</span>
               <div>
                 <h3 className="mb-2 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                   Proposition
@@ -243,7 +243,7 @@ export default function EntreprisesPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#ADA6DB] text-white font-bold">4</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-none bg-[#ADA6DB] text-white font-bold">4</span>
               <div>
                 <h3 className="mb-2 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                   Formation
@@ -254,7 +254,7 @@ export default function EntreprisesPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#ADA6DB] text-white font-bold">5</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-none bg-[#ADA6DB] text-white font-bold">5</span>
               <div>
                 <h3 className="mb-2 text-xl font-bold text-black" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                   Suivi

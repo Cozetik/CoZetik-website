@@ -169,7 +169,7 @@ export default function CandidaturesTable({
   }
 
   const renderTable = (filteredItems: Candidature[]) => (
-    <div className="rounded-md border">
+    <div className="rounded-none border">
       <Table>
         <TableHeader>
           <TableRow>

@@ -170,12 +170,10 @@ export default function FormationHeroEffortel({
               </div>
 
               {/* Progress Bar */}
-              <div className="relative h-2 bg-white/10 rounded-full overflow-hidden mb-4">
+              <div className="relative h-2 bg-white/10 rounded-none overflow-hidden mb-4">
                 <div
-                  className="absolute top-0 left-0 h-full bg-cozetik-green transition-all duration-300 rounded-full"
-                  style={{
-                    width: `${(activeIndex / (steps.length - 1)) * 100}%`,
-                  }}
+                  className="absolute top-0 left-0 h-full bg-cozetik-green transition-all duration-300 rounded-none"
+                  style={{ width: `${(activeIndex / (steps.length - 1)) * 100}%` }}
                 />
               </div>
 
@@ -185,7 +183,7 @@ export default function FormationHeroEffortel({
                   <div
                     key={index}
                     className={cn(
-                      "h-2 rounded-full transition-all duration-300",
+                      "h-2 rounded-none transition-all duration-300",
                       index <= activeIndex
                         ? "w-8 bg-cozetik-green"
                         : "w-6 bg-white/20"
@@ -222,49 +220,45 @@ export default function FormationHeroEffortel({
                     const isPast = index < activeIndex;
                     const isFuture = index > activeIndex;
 
-                    return (
-                      <div
-                        key={step.id}
-                        className={cn(
-                          // MODIFICATION: Largeur responsive (85vw sur mobile) et snap-center
-                          "flex-shrink-0 w-[85vw] md:w-[420px] snap-center transition-all duration-500",
-                          // Sur mobile : toujours visible (scale-100 opacity-100)
-                          // Sur desktop (lg) : application de la logique active/inactive
-                          "scale-100 opacity-100",
-                          (isPast || isFuture) && "lg:scale-90 lg:opacity-40"
-                        )}
-                      >
-                        {/* Card */}
-                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 md:p-10 pt-8 md:pt-12 rounded-2xl h-[500px] md:h-[560px] flex flex-col relative overflow-hidden">
-                          {/* Background Gradient */}
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-cozetik-green/10 blur-3xl rounded-full" />
+                  return (
+                    <div
+                      key={step.id}
+                      className={cn(
+                        "flex-shrink-0 w-[420px] transition-all duration-500",
+                        isActive && "scale-100 opacity-100",
+                        (isPast || isFuture) && "scale-90 opacity-40"
+                      )}
+                    >
+                      {/* Card */}
+                      <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-10 pt-12 rounded-none h-[560px] flex flex-col relative overflow-hidden">
 
-                          {/* Icon avec numéro */}
-                          <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cozetik-green/30 to-cozetik-green/10 flex items-center justify-center mb-4 md:mb-6">
-                            <span className="text-2xl md:text-3xl font-display font-bold text-cozetik-green">
-                              {String(step.order).padStart(2, "0")}
-                            </span>
+                        {/* Background Gradient */}
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-cozetik-green/10 blur-3xl rounded-none" />
+
+                        {/* Icon avec numéro */}
+                        <div className="relative w-16 h-16 rounded-none bg-gradient-to-br from-cozetik-green/30 to-cozetik-green/10 flex items-center justify-center mb-6">
+                          <span className="text-3xl font-display font-bold text-cozetik-green">
+                            {String(step.order).padStart(2, '0')}
+                          </span>
+                        </div>
+
+                        {/* Titre */}
+                        <h3 className="relative font-display font-bold text-2xl md:text-3xl text-white mb-4 leading-tight">
+                          {step.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="relative text-white/70 leading-relaxed mb-6 flex-grow line-clamp-4">
+                          {step.description}
+                        </p>
+
+                        {/* Durée */}
+                        {step.duration && (
+                          <div className="relative flex items-center gap-2 mb-4 text-white/60 bg-white/5 rounded-none px-3 py-2 w-fit">
+                            <Clock className="w-4 h-4" />
+                            <span className="text-sm font-medium">{step.duration}</span>
                           </div>
-
-                          {/* Titre */}
-                          <h3 className="relative font-display font-bold text-xl md:text-3xl text-white mb-3 md:mb-4 leading-tight">
-                            {step.title}
-                          </h3>
-
-                          {/* Description */}
-                          <p className="relative text-sm md:text-base text-white/70 leading-relaxed mb-4 md:mb-6 flex-grow line-clamp-4">
-                            {step.description}
-                          </p>
-
-                          {/* Durée */}
-                          {step.duration && (
-                            <div className="relative flex items-center gap-2 mb-4 text-white/60 bg-white/5 rounded-lg px-3 py-2 w-fit">
-                              <Clock className="w-4 h-4" />
-                              <span className="text-xs md:text-sm font-medium">
-                                {step.duration}
-                              </span>
-                            </div>
-                          )}
+                        )}
 
                           {/* Key Points */}
                           {step.keyPoints.length > 0 && (

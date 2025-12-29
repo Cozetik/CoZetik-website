@@ -30,7 +30,7 @@ export default function BlogLoading() {
         <div className="container mx-auto px-4">
           {/* Filter Skeleton */}
           <div className="flex justify-center mb-10">
-            <Skeleton className="h-10 w-[280px] rounded-md" />
+            <Skeleton className="h-10 w-[280px] rounded-none" />
           </div>
 
           {/* Posts Count Skeleton */}

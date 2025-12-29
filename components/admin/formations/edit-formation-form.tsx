@@ -414,7 +414,7 @@ export default function EditFormationForm({
                 control={form.control}
                 name="visible"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-none border p-4">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
@@ -540,7 +540,7 @@ export default function EditFormationForm({
                 control={form.control}
                 name="isCertified"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-none border p-4">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
@@ -562,7 +562,7 @@ export default function EditFormationForm({
                 control={form.control}
                 name="isFlexible"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-none border p-4">
                     <FormControl>
                       <Checkbox
                         checked={field.value}

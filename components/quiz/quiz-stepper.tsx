@@ -109,7 +109,7 @@ export function QuizStepper({ onComplete }: QuizStepperProps) {
             {Math.round(progress)}%
           </motion.span>
         </div>
-        <div className="h-3 w-full bg-[#EFEFEF] rounded-full overflow-hidden">
+        <div className="h-3 w-full bg-[#EFEFEF] rounded-none overflow-hidden">
           <motion.div
             className="h-full bg-[#03120E]"
             initial={{ width: 0 }}

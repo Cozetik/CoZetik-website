@@ -100,7 +100,7 @@ export function ViewContactRequestDialog({
             <label className="text-sm font-medium text-muted-foreground">
               Message
             </label>
-            <div className="mt-1 p-4 bg-muted rounded-lg whitespace-pre-wrap text-base">
+            <div className="mt-1 p-4 bg-muted rounded-none whitespace-pre-wrap text-base">
               {request.message}
             </div>
           </div>

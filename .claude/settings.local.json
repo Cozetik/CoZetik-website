@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app:*)",
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(test:*)",
+      "Bash(gh api:*)",
+      "Bash(echo \"✅ Sprint 2 milestone créé\" gh api repos/Cozetik/CoZetik-website/milestones -X POST -f title=\"Sprint 3 : Blog + Demandes\" -f description=\"CRUD Blog, Tiptap, Demandes contact, Inscriptions\" -f due_on=\"2026-01-08T23:59:59Z\")",
+      "Bash(echo \"✅ Sprint 3 milestone créé\" gh api repos/Cozetik/CoZetik-website/milestones -X POST -f title=\"Sprint 4 : Frontend Pages\" -f description=\"Pages publiques : Accueil, Formations, Blog, Partenaires\" -f due_on=\"2026-01-15T23:59:59Z\")",
+      "Bash(echo \"✅ Sprint 4 milestone créé\" gh api repos/Cozetik/CoZetik-website/milestones -X POST -f title=\"Sprint 6 : Polish + SEO + Deploy\" -f description=\"SEO, Analytics, Tests, Documentation, Déploiement\" -f due_on=\"2026-01-29T23:59:59Z\")",
+      "Bash(gh label create:*)",
+      "Bash(chmod:*)",
+      "Bash(./scripts/create-remaining-sprints.sh:*)",
+      "Bash(gh issue list:*)",
+      "Bash(pkill:*)",
+      "Read(//private/tmp/**)",
+      "Read(//Users/wissem/Website-vierge/**)",
+      "Bash(cat:*)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(npx prisma migrate reset:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(npx prisma:*)",
+      "Bash(npx tsx:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

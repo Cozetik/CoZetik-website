@@ -77,7 +77,7 @@ export function Header() {
               key={item.href}
               href={item.href}
               className={cn(
-                "font-sans text-base font-normal text-cozetik-white transition-colors duration-200 hover:text-cozetik-beige focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cozetik-beige focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-sm",
+                "font-sans text-base font-normal text-cozetik-white transition-colors duration-200 hover:text-cozetik-beige focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cozetik-beige focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-none",
                 pathname === item.href && "text-cozetik-beige font-semibold"
               )}
             >
@@ -86,7 +86,7 @@ export function Header() {
           ))}
           <Link
             href="/candidater"
-            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-gray-300 bg-gray-700/60 rounded-lg transition-all duration-200 hover:bg-[#9A80B8] hover:text-white border-2 border-transparent hover:border-[#11111141] hover:border-dashed"
+            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-gray-300 bg-gray-700/60 rounded-none transition-all duration-200 hover:bg-[#9A80B8] hover:text-white border-2 border-transparent"
           >
             Candidater
           </Link>
