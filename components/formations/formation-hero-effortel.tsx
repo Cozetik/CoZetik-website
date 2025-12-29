@@ -224,13 +224,13 @@ export default function FormationHeroEffortel({
                     <div
                       key={step.id}
                       className={cn(
-                        "flex-shrink-0 w-[420px] transition-all duration-500",
+                        "flex-shrink-0 w-[85vw] md:w-[420px] snap-center transition-all duration-500",
                         isActive && "scale-100 opacity-100",
-                        (isPast || isFuture) && "scale-90 opacity-40"
+                        (isPast || isFuture) && "lg:scale-90 lg:opacity-40"
                       )}
                     >
                       {/* Card */}
-                      <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-10 pt-12 rounded-none h-[560px] flex flex-col relative overflow-hidden">
+                      <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 md:p-10 pt-12 rounded-none min-h-[480px] md:min-h-[560px] flex flex-col relative overflow-hidden">
 
                         {/* Background Gradient */}
                         <div className="absolute top-0 right-0 w-32 h-32 bg-cozetik-green/10 blur-3xl rounded-none" />
