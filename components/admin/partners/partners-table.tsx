@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
@@ -16,6 +17,7 @@ import {
 } from '@/components/ui/table'
 import { Pencil, ExternalLink } from 'lucide-react'
 import DeletePartnerDialog from './delete-partner-dialog'
+import { toast } from 'sonner'
 
 interface Partner {
   id: string
@@ -32,6 +34,7 @@ export default function PartnersTable({
 }: {
   partners: Partner[]
 }) {
+  const router = useRouter()
   const [items, setItems] = useState(partners)
 
   const handleToggleVisibility = async (id: string, currentValue: boolean) => {
@@ -40,15 +43,27 @@ export default function PartnersTable({
         method: 'PATCH',
       })
 
-      if (response.ok) {
-        setItems(
-          items.map((item) =>
-            item.id === id ? { ...item, visible: !currentValue } : item
-          )
-        )
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors de la mise à jour')
       }
+
+      // Mettre à jour l'état local
+      setItems(
+        items.map((item) =>
+          item.id === id ? { ...item, visible: !currentValue } : item
+        )
+      )
+
+      toast.success(
+        data.visible
+          ? 'Partenaire rendu visible'
+          : 'Partenaire masqué'
+      )
+      router.refresh()
     } catch (error) {
-      console.error('Error toggling visibility:', error)
+      toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
     }
   }
 

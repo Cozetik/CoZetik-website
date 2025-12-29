@@ -141,15 +141,10 @@ export async function PUT(
         seoDescription: validatedData.seoDescription || null,
         visible: validatedData.visible,
         publishedAt,
-        // AJOUT : Gestion de la relation Many-to-Many pour le thème
-        themes: {
-          // 1. On déconnecte tout (reset)
-          set: [],
-          // 2. Si un themeId est présent, on le connecte
-          ...(validatedData.themeId && {
-            connect: { id: validatedData.themeId },
-          }),
-        },
+        themeId: validatedData.themeId || null,
+      },
+      include: {
+        theme: true,
       },
     });
 

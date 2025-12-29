@@ -3,14 +3,31 @@
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { quizQuestions } from '@/lib/quiz/questions'
 import { QuizQuestionComponent } from './quiz-question'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import { toast } from 'sonner'
+
+// Types pour les questions de la BDD
+interface QuizOption {
+  id: string
+  questionId: string
+  letter: string
+  text: string
+  order: number
+}
+
+interface QuizQuestionFromDB {
+  id: string
+  order: number
+  question: string
+  visible: boolean
+  options: QuizOption[]
+}
 
 // Schema dynamique pour valider chaque question
 const createQuestionSchema = (questionId: string) => {
@@ -27,9 +44,61 @@ export function QuizStepper({ onComplete }: QuizStepperProps) {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [questions, setQuestions] = useState<QuizQuestionFromDB[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const currentQuestion = quizQuestions[currentStep]
-  const totalSteps = quizQuestions.length
+  // Charger les questions depuis l'API au montage du composant
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch('/api/quiz/questions')
+
+        if (!response.ok) {
+          throw new Error('Erreur lors du chargement des questions')
+        }
+
+        const data = await response.json()
+
+        if (!data || data.length === 0) {
+          throw new Error('Aucune question disponible')
+        }
+
+        setQuestions(data)
+      } catch (err) {
+        console.error('Error fetching quiz questions:', err)
+        setError(err instanceof Error ? err.message : 'Erreur inconnue')
+        toast.error('Impossible de charger les questions du quiz')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchQuestions()
+  }, [])
+
+  // Attendre le chargement des questions
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-[#03120E] mb-4" />
+        <p className="text-sm text-muted-foreground">Chargement des questions...</p>
+      </div>
+    )
+  }
+
+  // Afficher l'erreur si le chargement a échoué
+  if (error || questions.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <p className="text-red-600 font-semibold mb-2">Erreur</p>
+        <p className="text-sm text-muted-foreground">{error || 'Aucune question disponible'}</p>
+      </div>
+    )
+  }
+
+  const currentQuestion = questions[currentStep]
+  const totalSteps = questions.length
   const progress = ((currentStep + 1) / totalSteps) * 100
 
   // Form pour la question actuelle

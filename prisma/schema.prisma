@@ -118,7 +118,8 @@ model BlogPost {
   seoDescription String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  themes Theme[]
+  themeId        String?
+  theme          Theme?    @relation(fields: [themeId], references: [id])
 }
 
 model Theme {

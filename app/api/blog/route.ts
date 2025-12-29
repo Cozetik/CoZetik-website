@@ -20,7 +20,7 @@ export async function GET() {
     const posts = await prisma.blogPost.findMany({
       orderBy: { createdAt: "desc" },
       include: {
-        themes: true,
+        theme: true,
       },
     });
 
@@ -65,15 +65,10 @@ export async function POST(request: Request) {
         publishedAt: validatedData.publishedAt
           ? new Date(validatedData.publishedAt)
           : null,
-        // CORRECTION : Logique de connexion pour un seul ID
-        themes: validatedData.themeId
-          ? {
-              connect: { id: validatedData.themeId },
-            }
-          : undefined,
+        themeId: validatedData.themeId || null,
       },
       include: {
-        themes: true,
+        theme: true,
       },
     });
 

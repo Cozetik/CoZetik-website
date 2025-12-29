@@ -30,7 +30,7 @@ export default async function EditBlogPostPage({
       seoDescription: true,
       visible: true,
       publishedAt: true,
-      themes: true,
+      themeId: true,
     },
   });
 
@@ -40,7 +40,7 @@ export default async function EditBlogPostPage({
 
   const formattedPost = {
     ...post,
-    themeId: post.themes.length > 0 ? post.themes[0].id : null,
+    themeId: post.themeId || null,
   };
 
   return (

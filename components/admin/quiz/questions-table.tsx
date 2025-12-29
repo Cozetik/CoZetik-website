@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -15,6 +16,7 @@ import {
 } from '@/components/ui/table'
 import { Pencil, Settings } from 'lucide-react'
 import DeleteQuestionDialog from './delete-question-dialog'
+import { toast } from 'sonner'
 
 interface Question {
   id: string
@@ -31,6 +33,7 @@ export default function QuestionsTable({
 }: {
   questions: Question[]
 }) {
+  const router = useRouter()
   const [items, setItems] = useState(questions)
 
   const handleToggleVisibility = async (id: string, currentValue: boolean) => {
@@ -39,15 +42,27 @@ export default function QuestionsTable({
         method: 'PATCH',
       })
 
-      if (response.ok) {
-        setItems(
-          items.map((item) =>
-            item.id === id ? { ...item, visible: !currentValue } : item
-          )
-        )
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors de la mise à jour')
       }
+
+      // Mettre à jour l'état local
+      setItems(
+        items.map((item) =>
+          item.id === id ? { ...item, visible: !currentValue } : item
+        )
+      )
+
+      toast.success(
+        data.visible
+          ? 'Question rendue visible'
+          : 'Question masquée'
+      )
+      router.refresh()
     } catch (error) {
-      console.error('Error toggling visibility:', error)
+      toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
     }
   }
 
