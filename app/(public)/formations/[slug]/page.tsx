@@ -7,6 +7,7 @@ import FormationObjectives from '@/components/formations/formation-objectives'
 import FormationCTAMid from '@/components/formations/formation-cta-mid'
 import FormationFormWrapper from '@/components/formations/formation-form-wrapper'
 import FormationFAQ from '@/components/formations/formation-faq'
+import { StructuredData } from '@/components/seo/structured-data'
 
 interface FormationPageProps {
   params: Promise<{ slug: string }>
@@ -80,6 +81,9 @@ export async function generateMetadata({
       description,
       images: formation.imageUrl ? [formation.imageUrl] : ['/og-image.jpg'],
     },
+    alternates: {
+      canonical: `https://cozetik.com/formations/${formation.slug}`,
+    },
   }
 }
 
@@ -91,8 +95,77 @@ export default async function FormationPage({ params }: FormationPageProps) {
     notFound()
   }
 
+  const baseUrl = 'https://cozetik.com'
+  const formationUrl = `${baseUrl}/formations/${formation.slug}`
+
+  // Structured Data - Course Schema
+  const courseSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: formation.title,
+    description: formation.description,
+    provider: {
+      '@type': 'Organization',
+      name: 'Cozetik',
+      url: baseUrl,
+      logo: `${baseUrl}/logo-cozetik_Logo-transparent.png`,
+    },
+    url: formationUrl,
+    image: formation.imageUrl ? formation.imageUrl : `${baseUrl}/og-image.jpg`,
+    courseCode: formation.slug,
+    educationalCredentialAwarded: formation.isCertified ? 'Certificat professionnel' : undefined,
+    teaches: formation.objectives.length > 0 ? formation.objectives : undefined,
+    coursePrerequisites: formation.prerequisites || 'Aucun prérequis',
+    timeRequired: formation.duration || undefined,
+    inLanguage: 'fr-FR',
+    audience: {
+      '@type': 'EducationalAudience',
+      educationalRole: 'student',
+    },
+    ...(formation.level && {
+      educationalLevel: {
+        '@type': 'DefinedTerm',
+        name: formation.level,
+      },
+    }),
+  }
+
+  // Structured Data - BreadcrumbList
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Accueil',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Formations',
+        item: `${baseUrl}/formations`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: formation.category.name,
+        item: `${baseUrl}/formations?category=${formation.category.slug}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: formation.title,
+        item: formationUrl,
+      },
+    ],
+  }
+
   return (
-    <main className="bg-cozetik-beige">
+    <>
+      <StructuredData data={[courseSchema, breadcrumbSchema]} />
+      <main className="bg-cozetik-beige">
       {/* 1. Hero avec Carousel Horizontal Effortel style - Fond Noir */}
       <FormationHeroEffortel
         formation={formation}
@@ -123,5 +196,6 @@ export default async function FormationPage({ params }: FormationPageProps) {
       {/* 6. FAQ - Blanc */}
       {formation.faqs.length > 0 && <FormationFAQ faqs={formation.faqs} />}
     </main>
+    </>
   )
 }

@@ -2,19 +2,34 @@ import { prisma } from '@/lib/prisma'
 import FormationsClientPage from './FormationsClient'
 
 export const metadata = {
-  title: 'Nos formations',
-  description: 'Des parcours post-bac adaptés à vos ambitions professionnelles',
+  title: 'Nos formations professionnelles certifiantes',
+  description:
+    'Découvrez notre catalogue complet de formations professionnelles certifiantes. Parcours post-bac en informatique, business, communication, intelligence émotionnelle et bien-être. Formations adaptées à vos ambitions professionnelles.',
+  keywords: [
+    'formations professionnelles',
+    'formations certifiantes',
+    'formation post-bac',
+    'formation informatique',
+    'formation business',
+    'formation communication',
+    'formation intelligence émotionnelle',
+    'catalogue formations',
+  ],
   openGraph: {
-    title: 'Nos formations | Cozetik',
-    description: 'Des parcours post-bac adaptés à vos ambitions professionnelles',
+    title: 'Nos formations professionnelles certifiantes | Cozetik',
+    description:
+      'Catalogue complet de formations professionnelles certifiantes. Parcours post-bac adaptés à vos ambitions professionnelles.',
     images: ['/og-image.jpg'],
     url: 'https://cozetik.com/formations',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nos formations | Cozetik',
-    description: 'Des parcours post-bac adaptés à vos ambitions professionnelles',
+    title: 'Nos formations professionnelles certifiantes | Cozetik',
+    description: 'Catalogue complet de formations certifiantes adaptées à vos ambitions.',
     images: ['/og-image.jpg'],
+  },
+  alternates: {
+    canonical: 'https://cozetik.com/formations',
   },
 }
 

@@ -36,6 +36,9 @@ export const metadata: Metadata = {
     description: 'Collaborations avec des entreprises de renom.',
     images: ['/og-image.jpg'],
   },
+  alternates: {
+    canonical: 'https://cozetik.com/partners',
+  },
 }
 
 export default async function PartnersPage() {

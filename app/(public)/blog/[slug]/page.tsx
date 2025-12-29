@@ -20,6 +20,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { StructuredData } from "@/components/seo/structured-data";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -120,6 +121,9 @@ export async function generateMetadata({
       description: truncatedDescription,
       images: post.imageUrl ? [post.imageUrl] : ["/og-image.jpg"],
     },
+    alternates: {
+      canonical: `https://cozetik.com/blog/${post.slug}`,
+    },
   };
 }
 
@@ -136,12 +140,72 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const wordCount = post.content.split(" ").length;
   const readingTime = Math.ceil(wordCount / 200);
 
-  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-  const shareText = post.title;
+  const baseUrl = 'https://cozetik.com'
+  const postUrl = `${baseUrl}/blog/${post.slug}`
+  const shareUrl = postUrl
+  const shareText = post.title
+
+  // Structured Data - Article Schema
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.seoTitle || post.title,
+    description: post.seoDescription || post.excerpt || post.title,
+    image: post.imageUrl ? [post.imageUrl] : [`${baseUrl}/og-image.jpg`],
+    datePublished: post.publishedAt?.toISOString(),
+    dateModified: post.updatedAt?.toISOString() || post.publishedAt?.toISOString(),
+    author: {
+      '@type': 'Organization',
+      name: 'Cozetik',
+      url: baseUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Cozetik',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/logo-cozetik_Logo-transparent.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': postUrl,
+    },
+    url: postUrl,
+    inLanguage: 'fr-FR',
+  }
+
+  // Structured Data - BreadcrumbList
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Accueil',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: `${baseUrl}/blog`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: postUrl,
+      },
+    ],
+  }
 
   return (
-    // 1. Envelopper le contenu avec l'animateur
-    <BlogPostAnimator>
+    <>
+      <StructuredData data={[articleSchema, breadcrumbSchema]} />
+      {/* 1. Envelopper le contenu avec l'animateur */}
+      <BlogPostAnimator>
       {post.imageUrl && (
         <div className="relative h-[60vh] min-h-[500px] w-full overflow-hidden">
           <Image
@@ -370,5 +434,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </section>
     </BlogPostAnimator>
+    </>
   );
 }
