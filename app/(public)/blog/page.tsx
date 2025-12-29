@@ -8,13 +8,23 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Blog Cozetik - Actualités et conseils formations professionnelles",
   description:
-    "Découvrez nos articles sur les formations professionnelles, les tendances du marché et les conseils pour développer vos compétences.",
+    "Découvrez nos articles sur les formations professionnelles, les tendances du marché de l'emploi, les conseils pour développer vos compétences et réussir votre carrière. Articles d'experts régulièrement mis à jour.",
+  keywords: [
+    'blog formation',
+    'actualités formation professionnelle',
+    'conseils carrière',
+    'tendances marché emploi',
+    'développement compétences',
+    'articles formation',
+    'expertise formation',
+    'conseils professionnels',
+  ],
   openGraph: {
     title: "Blog Cozetik - Actualités et conseils formations",
     description:
-      "Actualités, conseils et tendances du monde de la formation professionnelle. Articles d'experts pour rester informé.",
+      "Actualités, conseils et tendances du monde de la formation professionnelle. Articles d'experts pour rester informé et développer vos compétences.",
     images: ["/og-image.jpg"],
     url: "https://cozetik.com/blog",
     type: "website",
@@ -22,8 +32,11 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Blog Cozetik - Actualités et conseils formations",
-    description: "Actualités et tendances de la formation professionnelle.",
+    description: "Actualités et tendances de la formation professionnelle. Articles d'experts.",
     images: ["/og-image.jpg"],
+  },
+  alternates: {
+    canonical: "https://cozetik.com/blog",
   },
 };
 

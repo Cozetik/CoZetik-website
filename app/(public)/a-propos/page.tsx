@@ -3,23 +3,37 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "À propos de Cozetik",
+  title: 'À propos de Cozetik - Qui sommes-nous ?',
   description:
-    "Découvrez Cozetik, votre partenaire stratégique pour les talents d'avenir. Développez vos compétences Clés du monde numérique et humain.",
+    'Découvrez Cozetik, votre partenaire stratégique pour les talents d\'avenir. Centre de formation professionnelle alliant excellence technique, développement personnel et bien-être. Formations certifiantes en informatique, business, communication et intelligence émotionnelle.',
+  keywords: [
+    'cozetik',
+    'centre formation',
+    'formation professionnelle',
+    'qui sommes-nous',
+    'histoire cozetik',
+    'mission cozetik',
+    'valeurs cozetik',
+    'équipe formation',
+  ],
   openGraph: {
-    title: "À propos de Cozetik - Qui sommes-nous ?",
-    description: "Votre Partenaire Stratégique pour les Talents d'Avenir",
-    images: ["/og-image.jpg"],
-    url: "https://cozetik.com/a-propos",
-    type: "website",
+    title: 'À propos de Cozetik - Qui sommes-nous ?',
+    description:
+      'Votre Partenaire Stratégique pour les Talents d\'Avenir. Formations professionnelles alliant excellence technique et développement personnel.',
+    images: ['/og-image.jpg'],
+    url: 'https://cozetik.com/a-propos',
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "À propos de Cozetik",
-    description: "Votre Partenaire Stratégique pour les Talents d'Avenir",
-    images: ["/og-image.jpg"],
+    card: 'summary_large_image',
+    title: 'À propos de Cozetik - Qui sommes-nous ?',
+    description: 'Votre Partenaire Stratégique pour les Talents d\'Avenir',
+    images: ['/og-image.jpg'],
   },
-};
+  alternates: {
+    canonical: 'https://cozetik.com/a-propos',
+  },
+}
 
 export default function AProposPage() {
   return (

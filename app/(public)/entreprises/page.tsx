@@ -3,21 +3,35 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export const metadata: Metadata = {
-  title: 'Formations entreprise - Cozetik',
+  title: 'Formations entreprise - Solutions de formation sur mesure',
   description:
-    'Développez les talents de vos équipes avec des formations professionnelles sur mesure, adaptées à vos enjeux.',
+    'Développez les talents de vos équipes avec des formations professionnelles sur mesure. Cozetik propose des parcours adaptés à vos enjeux business : informatique, communication, intelligence émotionnelle, leadership. Devis personnalisé disponible.',
+  keywords: [
+    'formation entreprise',
+    'formation professionnelle entreprise',
+    'formation sur mesure',
+    'formation équipe',
+    'devis formation entreprise',
+    'formation informatique entreprise',
+    'formation management',
+    'formation leadership',
+  ],
   openGraph: {
-    title: 'Formations entreprise | Cozetik',
-    description: 'Des formations professionnelles sur mesure pour vos équipes',
+    title: 'Formations entreprise sur mesure | Cozetik',
+    description:
+      'Formations professionnelles sur mesure pour vos équipes. Parcours adaptés à vos enjeux business avec devis personnalisé.',
     images: ['/og-image.jpg'],
     url: 'https://cozetik.com/entreprises',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Formations entreprise | Cozetik',
-    description: 'Des formations professionnelles sur mesure pour vos équipes',
+    title: 'Formations entreprise sur mesure | Cozetik',
+    description: 'Formations professionnelles sur mesure pour développer les talents de vos équipes',
     images: ['/og-image.jpg'],
+  },
+  alternates: {
+    canonical: 'https://cozetik.com/entreprises',
   },
 }
 
