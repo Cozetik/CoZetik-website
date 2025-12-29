@@ -34,7 +34,10 @@ export function AboutSection() {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             {/* Zone beige wrapper */}
-            <div className="bg-cozetik-beige p-8 md:p-12 lg:p-16">
+            <div
+              id="formations"
+              className="bg-cozetik-beige p-8 md:p-12 lg:p-16"
+            >
               {/* Title - COZÉTIK broken on 2 lines */}
               <h2 className="font-display text-[80px] font-normal leading-[100%] tracking-[0] text-cozetik-black md:text-[120px] lg:text-[160px]">
                 COZ

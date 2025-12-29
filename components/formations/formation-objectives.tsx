@@ -1,20 +1,21 @@
-import { Check } from 'lucide-react'
+import { Check } from "lucide-react";
 
 interface FormationObjectivesProps {
-  objectives: string[]
+  objectives: string[];
 }
 
-export default function FormationObjectives({ objectives }: FormationObjectivesProps) {
+export default function FormationObjectives({
+  objectives,
+}: FormationObjectivesProps) {
   if (!objectives || objectives.length === 0) {
-    return null
+    return null;
   }
 
   return (
     <section className="bg-cozetik-beige py-20 md:py-24">
       <div className="container mx-auto px-4 md:px-10 lg:px-20 max-w-6xl">
-
         {/* Titre */}
-        <h2 className="font-display font-bold text-4xl md:text-5xl text-cozetik-black text-center mb-16">
+        <h2 className="font-display text-4xl md:text-5xl text-cozetik-black text-center mb-16">
           CE QUE VOUS ALLEZ MAÎTRISER
         </h2>
 
@@ -28,7 +29,7 @@ export default function FormationObjectives({ objectives }: FormationObjectivesP
               </div>
 
               {/* Texte Objectif */}
-              <p className="font-semibold text-lg text-cozetik-black leading-relaxed">
+              <p className="font-semibold font-sans text-lg text-cozetik-black leading-relaxed">
                 {objective}
               </p>
             </div>
@@ -36,5 +37,5 @@ export default function FormationObjectives({ objectives }: FormationObjectivesP
         </div>
       </div>
     </section>
-  )
+  );
 }

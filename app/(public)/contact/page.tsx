@@ -117,7 +117,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="bg-white font-sans">
+    <div className="w-full overflow-x-hidden bg-white font-sans">
       {/* Hero Section */}
       <section className="relative bg-[#9A80B8] pb-10">
         <div className="container mx-auto px-4 md:px-20">
@@ -147,7 +147,7 @@ export default function ContactPage() {
               </div>
 
               <h1
-                className={`${leagueSpartan.className} relative z-10 mb-6 text-5xl font-extrabold text-white md:text-6xl lg:text-8xl`}
+                className={`${leagueSpartan.className} relative z-10 mb-6 text-4xl font-extrabold text-white md:text-6xl lg:text-8xl`}
               >
                 Contactez-nous
               </h1>
@@ -373,109 +373,108 @@ export default function ContactPage() {
 
             {/* Colonne droite : Informations de contact */}
             <div className="space-y-8">
-              <div>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <h2
-                  className="mb-4 text-2xl font-bold text-black"
+                  className="col-span-1 mb-4 text-2xl font-bold text-black sm:col-span-2"
                   style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
                 >
                   Nos coordonnées
                 </h2>
-                <div className="space-y-4">
-                  <div>
-                    <p
-                      className="mb-2 text-base font-semibold text-gray-800"
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                      }}
+
+                <div>
+                  <p
+                    className="mb-2 text-base font-semibold text-gray-800"
+                    style={{
+                      fontFamily: "var(--font-bricolage), sans-serif",
+                    }}
+                  >
+                    📍 Adresse
+                  </p>
+                  <p
+                    className="text-base text-gray-600"
+                    style={{
+                      fontFamily: "var(--font-bricolage), sans-serif",
+                    }}
+                  >
+                    4 Rue Sarah Bernhardt
+                    <br />
+                    92600 Asnières-sur-Seine
+                  </p>
+                </div>
+                <div className="mb-4">
+                  <p
+                    className="mb-2 text-base font-semibold text-gray-800"
+                    style={{
+                      fontFamily: "var(--font-bricolage), sans-serif",
+                    }}
+                  >
+                    📞 Téléphone
+                  </p>
+                  <p
+                    className="text-base text-gray-600"
+                    style={{
+                      fontFamily: "var(--font-bricolage), sans-serif",
+                    }}
+                  >
+                    [Numéro de téléphone]
+                    <br />
+                    <span className="text-sm">
+                      Du lundi au vendredi, 9h - 18h
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p
+                    className="mb-2 text-base font-semibold text-gray-800"
+                    style={{
+                      fontFamily: "var(--font-bricolage), sans-serif",
+                    }}
+                  >
+                    📧 Email
+                  </p>
+                  <p
+                    className="text-base text-gray-600"
+                    style={{
+                      fontFamily: "var(--font-bricolage), sans-serif",
+                    }}
+                  >
+                    <Link
+                      href="mailto:contact@cozetik.fr"
+                      className="underline hover:text-[#9A80B8]"
                     >
-                      📍 Adresse
-                    </p>
-                    <p
-                      className="text-base text-gray-600"
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                      }}
+                      contact@cozetik.fr
+                    </Link>
+                    <br />
+                    <Link
+                      href="mailto:entreprises@cozetik.fr"
+                      className="underline hover:text-[#9A80B8]"
                     >
-                      4 Rue Sarah Bernhardt
-                      <br />
-                      92600 Asnières-sur-Seine
-                    </p>
-                  </div>
-                  <div>
-                    <p
-                      className="mb-2 text-base font-semibold text-gray-800"
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                      }}
-                    >
-                      📞 Téléphone
-                    </p>
-                    <p
-                      className="text-base text-gray-600"
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                      }}
-                    >
-                      [Numéro de téléphone]
-                      <br />
-                      <span className="text-sm">
-                        Du lundi au vendredi, 9h - 18h
-                      </span>
-                    </p>
-                  </div>
-                  <div>
-                    <p
-                      className="mb-2 text-base font-semibold text-gray-800"
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                      }}
-                    >
-                      📧 Email
-                    </p>
-                    <p
-                      className="text-base text-gray-600"
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                      }}
-                    >
-                      <Link
-                        href="mailto:contact@cozetik.fr"
-                        className="underline hover:text-[#9A80B8]"
-                      >
-                        contact@cozetik.fr
-                      </Link>
-                      <br />
-                      <Link
-                        href="mailto:entreprises@cozetik.fr"
-                        className="underline hover:text-[#9A80B8]"
-                      >
-                        entreprises@cozetik.fr
-                      </Link>
-                      <span className="text-sm block mt-1">
-                        (pour les demandes professionnelles)
-                      </span>
-                    </p>
-                  </div>
-                  <div>
-                    <p
-                      className="mb-2 text-base font-semibold text-gray-800"
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                      }}
-                    >
-                      🕐 Horaires d&apos;ouverture
-                    </p>
-                    <p
-                      className="text-base text-gray-600"
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                      }}
-                    >
-                      Lundi - Vendredi : 9h00 - 18h00
-                      <br />
-                      Samedi - Dimanche : Fermé
-                    </p>
-                  </div>
+                      entreprises@cozetik.fr
+                    </Link>
+                    <span className="text-sm block mt-1">
+                      (pour les demandes professionnelles)
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p
+                    className="mb-2 text-base font-semibold text-gray-800"
+                    style={{
+                      fontFamily: "var(--font-bricolage), sans-serif",
+                    }}
+                  >
+                    🕐 Horaires d&apos;ouverture
+                  </p>
+                  <p
+                    className="text-base text-gray-600"
+                    style={{
+                      fontFamily: "var(--font-bricolage), sans-serif",
+                    }}
+                  >
+                    Lundi - Vendredi : 9h00 - 18h00
+                    <br />
+                    Samedi - Dimanche : Fermé
+                  </p>
                 </div>
               </div>
 
@@ -486,7 +485,10 @@ export default function ContactPage() {
                 >
                   Comment nous trouver ?
                 </h2>
-                <div className="mb-4 overflow-hidden rounded-none" style={{ height: '400px' }}>
+                <div
+                  className="mb-4 overflow-hidden rounded-none"
+                  style={{ height: "400px" }}
+                >
                   <iframe
                     src="https://www.google.com/maps?q=4+Rue+Sarah+Bernhardt,+92600+Asnières-sur-Seine&output=embed&zoom=15"
                     width="100%"

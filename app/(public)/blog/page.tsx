@@ -12,14 +12,14 @@ export const metadata: Metadata = {
   description:
     "Découvrez nos articles sur les formations professionnelles, les tendances du marché de l'emploi, les conseils pour développer vos compétences et réussir votre carrière. Articles d'experts régulièrement mis à jour.",
   keywords: [
-    'blog formation',
-    'actualités formation professionnelle',
-    'conseils carrière',
-    'tendances marché emploi',
-    'développement compétences',
-    'articles formation',
-    'expertise formation',
-    'conseils professionnels',
+    "blog formation",
+    "actualités formation professionnelle",
+    "conseils carrière",
+    "tendances marché emploi",
+    "développement compétences",
+    "articles formation",
+    "expertise formation",
+    "conseils professionnels",
   ],
   openGraph: {
     title: "Blog Cozetik - Actualités et conseils formations",
@@ -32,7 +32,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Blog Cozetik - Actualités et conseils formations",
-    description: "Actualités et tendances de la formation professionnelle. Articles d'experts.",
+    description:
+      "Actualités et tendances de la formation professionnelle. Articles d'experts.",
     images: ["/og-image.jpg"],
   },
   alternates: {
