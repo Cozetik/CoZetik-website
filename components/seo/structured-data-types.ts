@@ -47,6 +47,7 @@ export interface Article {
   author?: {
     '@type': 'Organization' | 'Person'
     name: string
+    url?: string
   }
   publisher?: {
     '@type': 'Organization'
@@ -56,6 +57,12 @@ export interface Article {
       url: string
     }
   }
+  mainEntityOfPage?: {
+    '@type': 'WebPage'
+    '@id': string
+  }
+  url?: string
+  inLanguage?: string
 }
 
 export interface Course {
