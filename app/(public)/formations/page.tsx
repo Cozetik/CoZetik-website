@@ -20,7 +20,7 @@ export const metadata = {
     description:
       'Catalogue complet de formations professionnelles certifiantes. Parcours post-bac adaptés à vos ambitions professionnelles.',
     images: ['/og-image.jpg'],
-    url: 'https://cozetik.com/formations',
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/formations`,
   },
   twitter: {
     card: 'summary_large_image',
@@ -29,7 +29,7 @@ export const metadata = {
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://cozetik.com/formations',
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/formations`,
   },
 }
 

@@ -111,7 +111,7 @@ export async function generateMetadata({
       title: post.seoTitle || `${post.title} | Blog Cozetik`,
       description: truncatedDescription,
       images: post.imageUrl ? [post.imageUrl] : ["/og-image.jpg"],
-      url: `https://cozetik.com/blog/${post.slug}`,
+      url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/blog/${post.slug}`,
       type: "article",
       publishedTime: post.publishedAt?.toISOString(),
     },
@@ -122,7 +122,7 @@ export async function generateMetadata({
       images: post.imageUrl ? [post.imageUrl] : ["/og-image.jpg"],
     },
     alternates: {
-      canonical: `https://cozetik.com/blog/${post.slug}`,
+      canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/blog/${post.slug}`,
     },
   };
 }
@@ -140,7 +140,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const wordCount = post.content.split(" ").length;
   const readingTime = Math.ceil(wordCount / 200);
 
-  const baseUrl = 'https://cozetik.com'
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'
   const postUrl = `${baseUrl}/blog/${post.slug}`
   const shareUrl = postUrl
   const shareText = post.title

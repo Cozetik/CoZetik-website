@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     description:
       'Complétez votre dossier de candidature en ligne. Notre équipe pédagogique étudiera votre candidature et vous contactera sous 48 heures.',
     images: ['/og-image.jpg'],
-    url: 'https://cozetik.com/candidater',
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/candidater`,
     type: 'website',
   },
   twitter: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://cozetik.com/candidater',
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/candidater`,
   },
 }
 

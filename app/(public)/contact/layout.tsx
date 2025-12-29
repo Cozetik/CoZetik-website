@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description:
       'Une question ? Besoin d\'informations ? Notre équipe vous répond rapidement. Contactez-nous pour vos demandes de formation.',
     images: ['/og-image.jpg'],
-    url: 'https://cozetik.com/contact',
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/contact`,
     type: 'website',
   },
   twitter: {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://cozetik.com/contact',
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/contact`,
   },
 }
 

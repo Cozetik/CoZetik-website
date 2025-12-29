@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description:
       'Votre Partenaire Stratégique pour les Talents d\'Avenir. Formations professionnelles alliant excellence technique et développement personnel.',
     images: ['/og-image.jpg'],
-    url: 'https://cozetik.com/a-propos',
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/a-propos`,
     type: 'website',
   },
   twitter: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://cozetik.com/a-propos',
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/a-propos`,
   },
 }
 

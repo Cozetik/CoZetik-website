@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     description:
       'Répondez à notre quiz en 2-3 minutes et obtenez une recommandation personnalisée de formation adaptée à votre profil.',
     images: ['/og-image.jpg'],
-    url: 'https://cozetik.com/quiz',
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/quiz`,
     type: 'website',
   },
   twitter: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://cozetik.com/quiz',
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/quiz`,
   },
 }
 

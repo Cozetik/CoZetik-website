@@ -1,5 +1,5 @@
 # robots.txt for Cozetik
-# https://cozetik.com/robots.txt
+# https://cozetik.fr/robots.txt
 
 User-agent: *
 Allow: /
@@ -21,4 +21,4 @@ Disallow: /admin/*
 Disallow: /api/*
 
 # Sitemap
-Sitemap: https://cozetik.com/sitemap.xml
+Sitemap: https://cozetik.fr/sitemap.xml
