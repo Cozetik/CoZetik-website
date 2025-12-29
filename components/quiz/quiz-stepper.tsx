@@ -77,6 +77,27 @@ export function QuizStepper({ onComplete }: QuizStepperProps) {
     fetchQuestions()
   }, [])
 
+  const currentQuestion = questions[currentStep]
+  const hasQuestions = questions.length > 0
+
+  // Form pour la question actuelle (toujours appeler le hook)
+  const form = useForm({
+    resolver: hasQuestions ? zodResolver(createQuestionSchema(currentQuestion?.id || 'default')) : undefined,
+    defaultValues: hasQuestions ? {
+      [currentQuestion?.id || 'default']: answers[currentQuestion?.id || ''] || '',
+    } : {},
+  })
+
+  // Réinitialiser le form quand on change de question
+  useEffect(() => {
+    if (hasQuestions && currentQuestion) {
+      form.reset({
+        [currentQuestion.id]: answers[currentQuestion.id] || '',
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep, hasQuestions])
+
   // Attendre le chargement des questions
   if (isLoading) {
     return (
@@ -88,7 +109,7 @@ export function QuizStepper({ onComplete }: QuizStepperProps) {
   }
 
   // Afficher l'erreur si le chargement a échoué
-  if (error || questions.length === 0) {
+  if (error || !hasQuestions) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <p className="text-red-600 font-semibold mb-2">Erreur</p>
@@ -97,25 +118,8 @@ export function QuizStepper({ onComplete }: QuizStepperProps) {
     )
   }
 
-  const currentQuestion = questions[currentStep]
   const totalSteps = questions.length
   const progress = ((currentStep + 1) / totalSteps) * 100
-
-  // Form pour la question actuelle
-  const form = useForm({
-    resolver: zodResolver(createQuestionSchema(currentQuestion.id)),
-    defaultValues: {
-      [currentQuestion.id]: answers[currentQuestion.id] || '',
-    },
-  })
-
-  // Réinitialiser le form quand on change de question
-  useEffect(() => {
-    form.reset({
-      [currentQuestion.id]: answers[currentQuestion.id] || '',
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStep])
 
   const handleNext = (data: any) => {
     // Sauvegarder la réponse
@@ -129,7 +133,7 @@ export function QuizStepper({ onComplete }: QuizStepperProps) {
       // Passer à la question suivante
       setCurrentStep(currentStep + 1)
       // Reset le form avec la réponse précédente si elle existe
-      const nextQuestion = quizQuestions[currentStep + 1]
+      const nextQuestion = questions[currentStep + 1]
       form.reset({
         [nextQuestion.id]: newAnswers[nextQuestion.id] || '',
       })
@@ -142,7 +146,7 @@ export function QuizStepper({ onComplete }: QuizStepperProps) {
   const handlePrevious = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1)
-      const prevQuestion = quizQuestions[currentStep - 1]
+      const prevQuestion = questions[currentStep - 1]
       form.reset({
         [prevQuestion.id]: answers[prevQuestion.id] || '',
       })

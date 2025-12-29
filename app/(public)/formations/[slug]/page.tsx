@@ -100,12 +100,12 @@ export default async function FormationPage({ params }: FormationPageProps) {
 
   // Structured Data - Course Schema
   const courseSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Course',
+    '@context': 'https://schema.org' as const,
+    '@type': 'Course' as const,
     name: formation.title,
     description: formation.description,
     provider: {
-      '@type': 'Organization',
+      '@type': 'Organization' as const,
       name: 'Cozetik',
       url: baseUrl,
       logo: `${baseUrl}/logo-cozetik_Logo-transparent.png`,
@@ -119,12 +119,12 @@ export default async function FormationPage({ params }: FormationPageProps) {
     timeRequired: formation.duration || undefined,
     inLanguage: 'fr-FR',
     audience: {
-      '@type': 'EducationalAudience',
+      '@type': 'EducationalAudience' as const,
       educationalRole: 'student',
     },
     ...(formation.level && {
       educationalLevel: {
-        '@type': 'DefinedTerm',
+        '@type': 'DefinedTerm' as const,
         name: formation.level,
       },
     }),
@@ -132,29 +132,29 @@ export default async function FormationPage({ params }: FormationPageProps) {
 
   // Structured Data - BreadcrumbList
   const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    '@context': 'https://schema.org' as const,
+    '@type': 'BreadcrumbList' as const,
     itemListElement: [
       {
-        '@type': 'ListItem',
+        '@type': 'ListItem' as const,
         position: 1,
         name: 'Accueil',
         item: baseUrl,
       },
       {
-        '@type': 'ListItem',
+        '@type': 'ListItem' as const,
         position: 2,
         name: 'Formations',
         item: `${baseUrl}/formations`,
       },
       {
-        '@type': 'ListItem',
+        '@type': 'ListItem' as const,
         position: 3,
         name: formation.category.name,
         item: `${baseUrl}/formations?category=${formation.category.slug}`,
       },
       {
-        '@type': 'ListItem',
+        '@type': 'ListItem' as const,
         position: 4,
         name: formation.title,
         item: formationUrl,

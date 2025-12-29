@@ -13,10 +13,10 @@ interface BlogCardProps {
     content: string | null;
     imageUrl: string | null;
     publishedAt: Date | null;
-    themes?: {
+    theme?: {
       name: string;
       slug: string;
-    }[];
+    } | null;
   };
   className?: string;
   index?: number;
@@ -44,16 +44,13 @@ export function BlogCard({ post, className, index = 0 }: BlogCardProps) {
     >
       {/* Image Container */}
       <div className="relative aspect-[16/10] w-full overflow-hidden">
-        {post.themes && post.themes.length > 0 && (
+        {post.theme && (
           <div className="absolute right-4 top-4 z-20 flex flex-wrap gap-2">
-            {post.themes.slice(0, 2).map((theme) => (
-              <span
-                key={theme.slug}
-                className="rounded-none bg-white/90 shadow-md border-[#0000004f] border px-3 py-1 text-xs font-sans font-semibold "
-              >
-                {theme.name}
-              </span>
-            ))}
+            <span
+              className="rounded-none bg-white/90 shadow-md border-[#0000004f] border px-3 py-1 text-xs font-sans font-semibold "
+            >
+              {post.theme.name}
+            </span>
           </div>
         )}
 

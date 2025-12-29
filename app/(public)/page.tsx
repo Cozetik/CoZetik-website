@@ -87,21 +87,21 @@ export default async function Home() {
   const { categories, formations, partners } = await getHomeData();
 
   const organizationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@context': 'https://schema.org' as const,
+    '@type': 'Organization' as const,
     name: 'Cozetik',
     url: 'https://cozetik.com',
     logo: 'https://cozetik.com/logo-cozetik_Logo-transparent.png',
     description: 'Cozetik - Formations professionnelles certifiantes. Développez vos compétences avec des formations de qualité adaptées aux besoins du marché.',
     address: {
-      '@type': 'PostalAddress',
+      '@type': 'PostalAddress' as const,
       streetAddress: '4 Rue Sarah Bernhardt',
       addressLocality: 'Asnières-sur-Seine',
       postalCode: '92600',
       addressCountry: 'FR',
     },
     contactPoint: {
-      '@type': 'ContactPoint',
+      '@type': 'ContactPoint' as const,
       contactType: 'customer service',
       email: 'contact@cozetik.fr',
       areaServed: 'FR',

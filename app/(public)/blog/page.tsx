@@ -59,10 +59,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     },
     ...(activeThemeSlug
       ? {
-          themes: {
-            some: {
-              slug: activeThemeSlug,
-            },
+          theme: {
+            slug: activeThemeSlug,
           },
         }
       : {}),
@@ -81,7 +79,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       content: true,
       imageUrl: true,
       publishedAt: true,
-      themes: {
+      theme: {
         select: {
           name: true,
           slug: true,
