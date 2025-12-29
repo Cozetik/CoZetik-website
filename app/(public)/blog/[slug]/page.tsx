@@ -164,7 +164,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       name: 'Cozetik',
       logo: {
         '@type': 'ImageObject' as const,
-        url: `${baseUrl}/logo-cozetik_Logo-transparent.png`,
+        url: `${baseUrl}/logo-google.png`,
+        width: 156,
+        height: 112,
       },
     },
     mainEntityOfPage: {

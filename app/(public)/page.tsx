@@ -91,7 +91,7 @@ export default async function Home() {
     '@type': 'Organization' as const,
     name: 'Cozetik',
     url: 'https://cozetik.com',
-    logo: 'https://cozetik.com/logo-cozetik_Logo-transparent.png',
+    logo: 'https://cozetik.com/logo-google.png',
     description: 'Cozetik - Formations professionnelles certifiantes. Développez vos compétences avec des formations de qualité adaptées aux besoins du marché.',
     address: {
       '@type': 'PostalAddress' as const,
