@@ -136,7 +136,7 @@ export function HeroSection() {
       </div>
 
       {/* Video Controls - Boutons séparés et carrés avec bordure verte */}
-      <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-3 md:bottom-10 md:left-auto md:right-10 md:translate-x-0 md:gap-4">
+      <div className="absolute bottom-5 z-20 w-full flex justify-between translate-x-0 px-2 gap-3 md:bottom-10 md:right-10 md:translate-x-0 md:gap-4 md:justify-end">
         {/* Play/Pause Button */}
         <button
           onClick={togglePlay}
@@ -167,7 +167,9 @@ export function HeroSection() {
           )}
         </button>
       </div>
-      <ArrowDown className="absolute bottom-3 left-1/2 z-20 h-10 w-10 -translate-x-1/2 text-cozetik-white/70 animate-bounce md:bottom-6 md:h-20 md:w-20" />
+      <Link href="#formations">
+        <ArrowDown className="absolute bottom-3 left-1/2 z-20 text-cozetik-white/70 animate-bounce md:bottom-6 md:h-16 md:w-16" />
+      </Link>
     </section>
   );
 }

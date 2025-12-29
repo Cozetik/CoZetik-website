@@ -111,7 +111,7 @@ export default function FormationHeroEffortel({
     >
       <div className="container mx-auto px-4 md:px-10 lg:px-20 py-16 md:py-20 lg:py-32 min-h-screen flex flex-col justify-center">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 mb-6 text-sm text-white/60 overflow-x-auto whitespace-nowrap pb-2 md:pb-0">
+        <nav className="flex items-center gap-2 mb-6 text-sm font-sans text-white/60 overflow-x-auto whitespace-nowrap pb-2 md:pb-0">
           <Link href="/" className="hover:text-white transition-colors">
             Accueil
           </Link>
@@ -136,17 +136,17 @@ export default function FormationHeroEffortel({
             className="lg:sticky lg:top-32"
           >
             {/* Badge Catégorie */}
-            <Badge className="mb-6 bg-cozetik-green text-white font-semibold text-xs uppercase px-4 py-1.5 rounded-none">
+            <Badge className="mb-6 font-sans bg-cozetik-green text-white font-semibold text-xs uppercase px-4 py-1.5 rounded-none">
               {formation.category.name}
             </Badge>
 
             {/* Titre */}
-            <h1 className="font-display font-extrabold text-4xl md:text-6xl lg:text-7xl text-white leading-tight mb-6">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl text-white leading-tight mb-6">
               {formation.title}
             </h1>
 
             {/* Description */}
-            <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-[600px]">
+            <p className="text-base font-sans md:text-lg text-white/80 leading-relaxed mb-8 max-w-[600px]">
               {formation.description}
             </p>
 
@@ -154,7 +154,7 @@ export default function FormationHeroEffortel({
             <Button
               size="lg"
               onClick={scrollToForm}
-              className="w-full md:w-auto bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg px-10 py-6 rounded-none transition-all duration-300 hover:scale-105 mb-12"
+              className="w-full md:w-auto bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg font-sans px-10 py-6 rounded-none transition-all duration-300 hover:scale-105 mb-12"
             >
               Commencer maintenant
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -163,8 +163,10 @@ export default function FormationHeroEffortel({
             {/* Progress Indicator - Masqué sur mobile */}
             <div className="hidden lg:block">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-white/60 text-sm">Parcours de formation</p>
-                <p className="text-white/80 text-sm font-semibold">
+                <p className="text-white/60 text-sm font-sans">
+                  Parcours de formation
+                </p>
+                <p className="text-white/80 text-sm font-sans font-semibold">
                   {activeIndex + 1}/{steps.length}
                 </p>
               </div>
@@ -173,7 +175,9 @@ export default function FormationHeroEffortel({
               <div className="relative h-2 bg-white/10 rounded-none overflow-hidden mb-4">
                 <div
                   className="absolute top-0 left-0 h-full bg-cozetik-green transition-all duration-300 rounded-none"
-                  style={{ width: `${(activeIndex / (steps.length - 1)) * 100}%` }}
+                  style={{
+                    width: `${(activeIndex / (steps.length - 1)) * 100}%`,
+                  }}
                 />
               </div>
 
@@ -194,7 +198,7 @@ export default function FormationHeroEffortel({
             </div>
 
             {/* Scroll Hint */}
-            <p className="text-white/40 text-sm mt-8 hidden lg:block">
+            <p className="text-white/40 text-sm mt-8 hidden font-sans lg:block">
               ↓ Scrollez pour découvrir le parcours
             </p>
           </motion.div>
@@ -220,45 +224,46 @@ export default function FormationHeroEffortel({
                     const isPast = index < activeIndex;
                     const isFuture = index > activeIndex;
 
-                  return (
-                    <div
-                      key={step.id}
-                      className={cn(
-                        "flex-shrink-0 w-[85vw] md:w-[420px] snap-center transition-all duration-500",
-                        isActive && "scale-100 opacity-100",
-                        (isPast || isFuture) && "lg:scale-90 lg:opacity-40"
-                      )}
-                    >
-                      {/* Card */}
-                      <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 md:p-10 pt-12 rounded-none min-h-[480px] md:min-h-[560px] flex flex-col relative overflow-hidden">
-
-                        {/* Background Gradient */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-cozetik-green/10 blur-3xl rounded-none" />
-
-                        {/* Icon avec numéro */}
-                        <div className="relative w-16 h-16 rounded-none bg-gradient-to-br from-cozetik-green/30 to-cozetik-green/10 flex items-center justify-center mb-6">
-                          <span className="text-3xl font-display font-bold text-cozetik-green">
-                            {String(step.order).padStart(2, '0')}
-                          </span>
-                        </div>
-
-                        {/* Titre */}
-                        <h3 className="relative font-display font-bold text-2xl md:text-3xl text-white mb-4 leading-tight">
-                          {step.title}
-                        </h3>
-
-                        {/* Description */}
-                        <p className="relative text-white/70 leading-relaxed mb-6 flex-grow line-clamp-4">
-                          {step.description}
-                        </p>
-
-                        {/* Durée */}
-                        {step.duration && (
-                          <div className="relative flex items-center gap-2 mb-4 text-white/60 bg-white/5 rounded-none px-3 py-2 w-fit">
-                            <Clock className="w-4 h-4" />
-                            <span className="text-sm font-medium">{step.duration}</span>
-                          </div>
+                    return (
+                      <div
+                        key={step.id}
+                        className={cn(
+                          "flex-shrink-0 w-[85vw] md:w-[420px] snap-center transition-all duration-500",
+                          isActive && "scale-100 opacity-100",
+                          (isPast || isFuture) && "lg:scale-90 lg:opacity-40"
                         )}
+                      >
+                        {/* Card */}
+                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 md:p-10 pt-12 rounded-none min-h-[480px] md:min-h-[560px] flex flex-col relative overflow-hidden">
+                          {/* Background Gradient */}
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-cozetik-green/10 blur-3xl rounded-none" />
+
+                          {/* Icon avec numéro */}
+                          <div className="relative w-16 h-16 rounded-none bg-gradient-to-br from-cozetik-green/30 to-cozetik-green/10 flex items-center justify-center mb-6">
+                            <span className="text-3xl font-display font-bold text-cozetik-green">
+                              {String(step.order).padStart(2, "0")}
+                            </span>
+                          </div>
+
+                          {/* Titre */}
+                          <h3 className="relative font-display  text-2xl md:text-3xl text-white mb-4 leading-tight">
+                            {step.title}
+                          </h3>
+
+                          {/* Description */}
+                          <p className="relative font-sans text-white/70 leading-relaxed mb-6 flex-grow line-clamp-4">
+                            {step.description}
+                          </p>
+
+                          {/* Durée */}
+                          {step.duration && (
+                            <div className="relative flex items-center gap-2 mb-4 text-white/60 bg-white/5 rounded-none px-3 py-2 w-fit">
+                              <Clock className="w-4 h-4" />
+                              <span className="text-sm font-sans font-medium">
+                                {step.duration}
+                              </span>
+                            </div>
+                          )}
 
                           {/* Key Points */}
                           {step.keyPoints.length > 0 && (
@@ -266,7 +271,7 @@ export default function FormationHeroEffortel({
                               {step.keyPoints.slice(0, 3).map((point, i) => (
                                 <li
                                   key={i}
-                                  className="flex items-start gap-2.5"
+                                  className="flex items-start gap-2.5 font-sans"
                                 >
                                   <Check className="w-4 h-4 text-cozetik-green flex-shrink-0 mt-0.5" />
                                   <span className="text-xs md:text-sm text-white/70 line-clamp-1">
