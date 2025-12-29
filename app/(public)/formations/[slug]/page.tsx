@@ -108,7 +108,7 @@ export default async function FormationPage({ params }: FormationPageProps) {
       '@type': 'Organization' as const,
       name: 'Cozetik',
       url: baseUrl,
-      logo: `${baseUrl}/logo-cozetik_Logo-transparent.png`,
+      logo: `${baseUrl}/logo-google.png`,
     },
     url: formationUrl,
     image: formation.imageUrl ? formation.imageUrl : `${baseUrl}/og-image.jpg`,
