@@ -23,7 +23,7 @@ export function AboutSection() {
 
   return (
     <>
-      <section className="relative bg-[#FDFDFD] px-5 py-10 md:px-10 md:py-16 lg:px-[120px] lg:py-[100px]">
+      <section className="relative bg-[#FDFDFD] px-5 py-10 md:px-10 md:py-16 lg:px-[120px] lg:py-[100px] overflow-hidden">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-12 lg:flex-row lg:gap-20">
           {/* Left Column - Text Content avec fond beige */}
           <motion.div
@@ -94,7 +94,7 @@ export function AboutSection() {
 
           {/* Right Column - Image étudiants qui déborde beaucoup */}
           <motion.div
-            className="relative z-20 flex flex-1 items-center justify-center lg:max-w-[60%] lg:-ml-24"
+            className="relative z-20 flex flex-1 items-center justify-center lg:max-w-[60%] lg:-ml-24 overflow-hidden"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -105,7 +105,7 @@ export function AboutSection() {
               alt="Étudiants souriants suivant une formation Cozetik"
               width={1000}
               height={750}
-              className="h-auto w-[150%] object-cover rounded-none"
+              className="h-auto w-full md:w-[120%] lg:w-[150%] object-cover rounded-none"
               priority
               sizes="(max-width: 768px) 100vw, 75vw"
             />
