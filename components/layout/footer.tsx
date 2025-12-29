@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { prisma } from '@/lib/prisma'
 
 const menuLinks = [
@@ -70,9 +71,14 @@ export async function Footer() {
           {/* Colonne 1 : Cozetik */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <span className="font-display text-[32px] text-cozetik-white" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                COZETIK
-              </span>
+              <Image
+                src="/logo footer.png"
+                alt="Logo Cozetik"
+                width={150}
+                height={60}
+                className="h-auto w-[150px]"
+                priority
+              />
             </Link>
             <p className="font-sans text-sm text-cozetik-white/80" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
               Formez-vous aux métiers de demain
