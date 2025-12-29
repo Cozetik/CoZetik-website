@@ -103,7 +103,7 @@ export async function Footer() {
           </div>
 
           {/* Colonnes Liens */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:ml-auto lg:gap-10">
+          <div className="grid grid-cols-2 gap-8 lg:ml-auto lg:gap-10 sm:grid-cols-3">
             {/* Colonne 2 : Formations */}
             <div>
               <h3
@@ -155,7 +155,7 @@ export async function Footer() {
             </div>
 
             {/* Colonne 4 : Informations */}
-            <div>
+            <div className="">
               <h3
                 className="mb-4 font-sans text-base font-bold text-cozetik-white"
                 style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
