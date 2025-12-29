@@ -1,39 +1,39 @@
-'use client'
+"use client";
 
-import { ArrowRight, Star } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Star } from "lucide-react";
 
 interface FormationCTAMidProps {
-  rating: number | null
-  reviewsCount: number
-  studentsCount: number
+  rating: number | null;
+  reviewsCount: number;
+  studentsCount: number;
 }
 
 export default function FormationCTAMid({
   rating,
   reviewsCount,
-  studentsCount
+  studentsCount,
 }: FormationCTAMidProps) {
   const scrollToForm = () => {
-    document.getElementById('formulaire-inscription')?.scrollIntoView({
-      behavior: 'smooth'
-    })
-  }
+    document.getElementById("formulaire-inscription")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section className="bg-cozetik-green py-20 md:py-24">
       <div className="container mx-auto px-4 md:px-10 lg:px-20 text-center">
-
         {/* Titre */}
         <h2 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-10">
-          PRÊT À TRANSFORMER<br className="hidden md:block" /> VOTRE PRODUCTIVITÉ ?
+          PRÊT À TRANSFORMER
+          <br className="hidden md:block" /> VOTRE PRODUCTIVITÉ ?
         </h2>
 
         {/* Bouton CTA */}
         <Button
           size="lg"
           onClick={scrollToForm}
-          className="bg-cozetik-black hover:bg-[#363636] text-white font-bold text-xl px-12 py-6 rounded-none transition-all duration-300 hover:scale-105"
+          className="bg-cozetik-black hover:bg-[#363636] text-white font-bold text-xl px-12 py-6 rounded-none transition-all duration-300 hover:scale-105 w-full md:w-1/2"
         >
           COMMENCER MAINTENANT
           <ArrowRight className="ml-3 w-6 h-6" />
@@ -65,5 +65,5 @@ export default function FormationCTAMid({
         </div>
       </div>
     </section>
-  )
+  );
 }
