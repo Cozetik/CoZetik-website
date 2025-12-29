@@ -177,19 +177,19 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <section className="border-t bg-[#F2E7D8] py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="mb-4 text-3xl font-bricolage  font-semibold md:text-4xl lg:text-5xl">
+            <h2 className="mb-4 text-3xl font-bricolage  font-bold md:text-4xl lg:text-5xl">
               Envie de nous rejoindre ?
             </h2>
             <div className="flex flex-col gap-4 mt-8 sm:flex-row sm:justify-center">
               <Link
                 href="/contact"
-                className="inline-flex h-10 items-center font-sans justify-center rounded-none bg-primary px-8 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-all duration-300 ease-in-out hover:scale-105  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-center font-bricolage bg-black px-8 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-gray-800"
               >
                 Nous contacter
               </Link>
               <Link
                 href="/formations"
-                className="inline-flex h-10 items-center gap-2 font-sans justify-center rounded-none border border-input bg-background px-8 py-2 text-sm font-medium ring-offset-background transition-all duration-300 ease-in-out hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-center border-2 border-white bg-transparent px-8 py-4 font-bricolage font-semibold text-black transition-all duration-200 hover:bg-white hover:text-[#ADA6DB]"
               >
                 Découvrir nos formations{" "}
                 <ArrowRight width={20} className="ml-2" />
