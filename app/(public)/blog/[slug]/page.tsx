@@ -147,28 +147,28 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   // Structured Data - Article Schema
   const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@context': 'https://schema.org' as const,
+    '@type': 'Article' as const,
     headline: post.seoTitle || post.title,
     description: post.seoDescription || post.excerpt || post.title,
     image: post.imageUrl ? [post.imageUrl] : [`${baseUrl}/og-image.jpg`],
     datePublished: post.publishedAt?.toISOString(),
     dateModified: post.updatedAt?.toISOString() || post.publishedAt?.toISOString(),
     author: {
-      '@type': 'Organization',
+      '@type': 'Organization' as const,
       name: 'Cozetik',
       url: baseUrl,
     },
     publisher: {
-      '@type': 'Organization',
+      '@type': 'Organization' as const,
       name: 'Cozetik',
       logo: {
-        '@type': 'ImageObject',
+        '@type': 'ImageObject' as const,
         url: `${baseUrl}/logo-cozetik_Logo-transparent.png`,
       },
     },
     mainEntityOfPage: {
-      '@type': 'WebPage',
+      '@type': 'WebPage' as const,
       '@id': postUrl,
     },
     url: postUrl,
@@ -177,23 +177,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   // Structured Data - BreadcrumbList
   const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    '@context': 'https://schema.org' as const,
+    '@type': 'BreadcrumbList' as const,
     itemListElement: [
       {
-        '@type': 'ListItem',
+        '@type': 'ListItem' as const,
         position: 1,
         name: 'Accueil',
         item: baseUrl,
       },
       {
-        '@type': 'ListItem',
+        '@type': 'ListItem' as const,
         position: 2,
         name: 'Blog',
         item: `${baseUrl}/blog`,
       },
       {
-        '@type': 'ListItem',
+        '@type': 'ListItem' as const,
         position: 3,
         name: post.title,
         item: postUrl,
