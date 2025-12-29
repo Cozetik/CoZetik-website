@@ -57,7 +57,7 @@ export function Header() {
           <Image
             src={
               scrollDirection === "up" && isScrolled
-                ? "/logo footer.png"
+                ? "/logo-footer.png"
                 : "/logo-cozetik_Logo-transparent.png"
             }
             alt="Cozetik"

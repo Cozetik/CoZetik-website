@@ -79,7 +79,11 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/logo-cozetik_Logo-transparent.png",
+    icon: [
+      { url: '/icon.png' },
+      { url: '/icon.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: '/apple-icon.png',
   },
 };
 

@@ -72,7 +72,7 @@ export async function Footer() {
           <div className="space-y-4">
             <Link href="/" className="inline-block">
               <Image
-                src="/logo footer.png"
+                src="/logo-footer.png"
                 alt="Logo Cozetik"
                 width={150}
                 height={60}
