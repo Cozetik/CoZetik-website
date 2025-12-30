@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description:
       "Actualités, conseils et tendances du monde de la formation professionnelle. Articles d'experts pour rester informé et développer vos compétences.",
     images: ["/og-image.jpg"],
-    url: "https://cozetik.com/blog",
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/blog`,
     type: "website",
   },
   twitter: {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
   },
   alternates: {
-    canonical: "https://cozetik.com/blog",
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/blog`,
   },
 };
 

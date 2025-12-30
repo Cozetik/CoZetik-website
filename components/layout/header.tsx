@@ -43,7 +43,7 @@ export function Header() {
         "fixed top-0 z-50 w-full transition-all duration-300 ease-out",
         isHidden && "-translate-y-full",
         isAtTop
-          ? "border-b border-white/10 bg-transparent backdrop-blur-sm"
+          ? "border-b border-white/0 bg-transparent"
           : "border-b border-white/10 bg-cozetik-black/95 backdrop-blur-md shadow-[0_2px_8px_rgba(0,0,0,0.1)]"
       )}
     >

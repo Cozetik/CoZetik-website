@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description:
       'Formations professionnelles sur mesure pour vos équipes. Parcours adaptés à vos enjeux business avec devis personnalisé.',
     images: ['/og-image.jpg'],
-    url: 'https://cozetik.com/entreprises',
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/entreprises`,
     type: 'website',
   },
   twitter: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://cozetik.com/entreprises',
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/entreprises`,
   },
 }
 

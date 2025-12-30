@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description:
       'Nous collaborons avec des entreprises et organisations de renom pour vous garantir des formations de qualité adaptées au marché.',
     images: ['/og-image.jpg'],
-    url: 'https://cozetik.com/partners',
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/partners`,
     type: 'website',
   },
   twitter: {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://cozetik.com/partners',
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/partners`,
   },
 }
 

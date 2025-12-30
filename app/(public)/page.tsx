@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description:
       "Formations de qualité pour booster votre carrière. Formez-vous avec les meilleurs experts du secteur. Parcours certifiants adaptés à vos ambitions.",
     images: ["/og-image.jpg"],
-    url: "https://cozetik.com",
+    url: process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr",
   },
   twitter: {
     card: "summary_large_image",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
   },
   alternates: {
-    canonical: "https://cozetik.com",
+    canonical: process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr",
   },
 };
 
@@ -86,12 +86,13 @@ async function getHomeData() {
 export default async function Home() {
   const { categories, formations, partners } = await getHomeData();
 
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'
   const organizationSchema = {
     '@context': 'https://schema.org' as const,
     '@type': 'Organization' as const,
     name: 'Cozetik',
-    url: 'https://cozetik.com',
-    logo: 'https://cozetik.com/logo-google.png',
+    url: baseUrl,
+    logo: `${baseUrl}/logo-cozetik_Logo-transparent.png`,
     description: 'Cozetik - Formations professionnelles certifiantes. Développez vos compétences avec des formations de qualité adaptées aux besoins du marché.',
     address: {
       '@type': 'PostalAddress' as const,

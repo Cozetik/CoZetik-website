@@ -70,10 +70,6 @@
     @apply bg-background text-foreground;
     overflow-x: hidden;
   }
-  #__next,
-  [data-lenis-root] {
-    height: 100%;
-  }
 }
 
 @layer utilities {
