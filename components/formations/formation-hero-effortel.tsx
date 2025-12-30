@@ -22,6 +22,8 @@ interface FormationStep {
 }
 
 interface FormationHeroEffortelProps {
+  categoryId: string;
+  formationId: string;
   formation: {
     title: string;
     description: string;
@@ -36,6 +38,8 @@ interface FormationHeroEffortelProps {
 export default function FormationHeroEffortel({
   formation,
   steps,
+  categoryId,
+  formationId,
 }: FormationHeroEffortelProps) {
   const scrollToForm = () => {
     document.getElementById("formulaire-inscription")?.scrollIntoView({
@@ -153,11 +157,15 @@ export default function FormationHeroEffortel({
             {/* Bouton CTA */}
             <Button
               size="lg"
-              onClick={scrollToForm}
               className="w-full md:w-auto bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg font-sans px-10 py-6 rounded-none transition-all duration-300 hover:scale-105 mb-12"
             >
-              Commencer maintenant
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <Link
+                className="flex items-center"
+                href={`/candidater?categoryId=${categoryId}&formationId=${formationId}`}
+              >
+                Commencer maintenant
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Link>
             </Button>
 
             {/* Progress Indicator - Masqué sur mobile */}

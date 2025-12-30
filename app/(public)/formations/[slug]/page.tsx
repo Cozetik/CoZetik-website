@@ -173,7 +173,12 @@ export default async function FormationPage({ params }: FormationPageProps) {
       <StructuredData data={[courseSchema, breadcrumbSchema]} />
       <main className="bg-cozetik-beige">
         {/* 1. Hero avec Carousel Horizontal Effortel style - Fond Noir */}
-        <FormationHeroEffortel formation={formation} steps={formation.steps} />
+        <FormationHeroEffortel
+          formation={formation}
+          steps={formation.steps}
+          categoryId={formation.category.id}
+          formationId={formation.id}
+        />
 
         {/* 2. Infos Clés - Beige (Prix, Durée, Niveau, etc.) */}
         <FormationKeyInfos formation={formation} />
