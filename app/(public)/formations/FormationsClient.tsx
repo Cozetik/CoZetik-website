@@ -29,7 +29,7 @@ function Hero() {
       {/* Image de fond */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/image-formation.jpg"
+          src="https://res.cloudinary.com/dqmsyqdc4/image/upload/v1767109647/cozetik/image-formation.jpg"
           alt="Formations Cozetik"
           fill
           className="object-cover"
