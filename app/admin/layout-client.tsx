@@ -30,7 +30,9 @@ export default function AdminLayoutClient({
           userEmail={userEmail}
           onMenuClick={() => setMobileNavOpen(true)}
         />
-        <main className="flex-1 bg-background p-6">{children}</main>
+        <main className="flex-1 bg-background p-6 overflow-y-auto">
+          {children}
+        </main>
       </div>
 
       {/* Mobile Navigation */}
