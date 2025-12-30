@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
@@ -109,6 +110,8 @@ export async function PUT(
       },
     })
 
+    revalidatePath('/admin/quiz/profiles')
+
     return NextResponse.json(profile)
   } catch (error) {
     console.error('Error updating quiz profile:', error)
@@ -150,6 +153,8 @@ export async function DELETE(
     await prisma.quizProfile.delete({
       where: { id },
     })
+
+    revalidatePath('/admin/quiz/profiles')
 
     return NextResponse.json({ success: true })
   } catch (error) {

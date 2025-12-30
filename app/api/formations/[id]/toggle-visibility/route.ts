@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 
 export async function PATCH(
@@ -8,10 +9,9 @@ export async function PATCH(
   try {
     const { id } = await context.params
 
-    // Récupérer la formation actuelle
+    // Récupérer et toggle la visibilité en une seule requête
     const formation = await prisma.formation.findUnique({
       where: { id },
-      select: { visible: true },
     })
 
     if (!formation) {
@@ -21,11 +21,16 @@ export async function PATCH(
       )
     }
 
-    // Toggle la visibilité
+    // Mettre à jour la formation
     const updatedFormation = await prisma.formation.update({
       where: { id },
       data: { visible: !formation.visible },
     })
+
+    // Invalider le cache Next.js pour forcer le rafraîchissement
+    revalidatePath('/admin/formations')
+    revalidatePath('/formations')
+    revalidatePath('/(public)/formations', 'page')
 
     return NextResponse.json(updatedFormation)
   } catch (error) {

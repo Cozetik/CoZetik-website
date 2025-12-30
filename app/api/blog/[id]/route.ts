@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
+import { revalidatePath } from 'next/cache';
 import * as z from "zod";
 
 // Configuration Cloudinary
@@ -148,6 +149,9 @@ export async function PUT(
       },
     });
 
+    revalidatePath('/admin/blog');
+    revalidatePath('/blog');
+
     return NextResponse.json(updatedPost);
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -231,6 +235,9 @@ export async function DELETE(
     await prisma.blogPost.delete({
       where: { id },
     });
+
+    revalidatePath('/admin/blog');
+    revalidatePath('/blog');
 
     return NextResponse.json({ message: "Article supprimé avec succès" });
   } catch (error) {

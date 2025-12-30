@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 
 export async function PATCH(
@@ -27,6 +28,9 @@ export async function PATCH(
         visible: !question.visible,
       },
     })
+
+    // Invalider le cache Next.js
+    revalidatePath('/admin/quiz/questions')
 
     return NextResponse.json(updatedQuestion)
   } catch (error) {

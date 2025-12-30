@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { deleteImage } from '@/lib/blob'
 import { z } from 'zod'
@@ -152,6 +153,10 @@ export async function PUT(
       },
     })
 
+    revalidatePath('/admin/formations')
+    revalidatePath('/formations')
+    revalidatePath('/(public)/formations', 'page')
+
     return NextResponse.json(formation)
   } catch (error) {
     console.error('Error updating formation:', error)
@@ -228,6 +233,10 @@ export async function DELETE(
     await prisma.formation.delete({
       where: { id },
     })
+
+    revalidatePath('/admin/formations')
+    revalidatePath('/formations')
+    revalidatePath('/(public)/formations', 'page')
 
     return NextResponse.json({ success: true })
   } catch (error) {

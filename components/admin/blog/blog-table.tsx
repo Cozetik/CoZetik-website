@@ -41,6 +41,27 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
   }
 
   const handleToggleVisibility = async (postId: string) => {
+    const originalItem = items.find(item => item.id === postId)
+    if (!originalItem) return
+
+    // Optimistic update
+    const newVisibleState = !originalItem.visible
+    const newPublishedAt = newVisibleState && !originalItem.publishedAt
+      ? new Date().toISOString()
+      : originalItem.publishedAt
+
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === postId
+          ? {
+              ...item,
+              visible: newVisibleState,
+              publishedAt: newPublishedAt,
+            }
+          : item
+      )
+    )
+
     try {
       const response = await fetch(`/api/blog/${postId}/toggle-visibility`, {
         method: 'PATCH',
@@ -52,7 +73,7 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
         throw new Error(data.error || 'Erreur lors de la mise à jour')
       }
 
-      // Mettre à jour l'état local
+      // Mettre à jour avec les données réelles du serveur
       setItems((prev) =>
         prev.map((item) =>
           item.id === postId
@@ -72,6 +93,14 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
       )
       router.refresh()
     } catch (error) {
+      // Rollback en cas d'erreur
+      setItems((prev) =>
+        prev.map((item) =>
+          item.id === postId
+            ? originalItem
+            : item
+        )
+      )
       toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
     }
   }

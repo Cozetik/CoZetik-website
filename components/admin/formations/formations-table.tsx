@@ -57,6 +57,14 @@ export default function FormationsTable({
   }
 
   const handleToggleVisibility = async (id: string, currentValue: boolean) => {
+    // Optimistic update - mettre à jour l'UI immédiatement
+    const newValue = !currentValue
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, visible: newValue } : item
+      )
+    )
+
     try {
       const response = await fetch(`/api/formations/${id}/toggle-visibility`, {
         method: 'PATCH',
@@ -68,13 +76,6 @@ export default function FormationsTable({
         throw new Error(data.error || 'Erreur lors de la mise à jour')
       }
 
-      // Mettre à jour l'état local
-      setItems(
-        items.map((item) =>
-          item.id === id ? { ...item, visible: !currentValue } : item
-        )
-      )
-
       toast.success(
         data.visible
           ? 'Formation rendue visible'
@@ -82,6 +83,12 @@ export default function FormationsTable({
       )
       router.refresh()
     } catch (error) {
+      // Rollback en cas d'erreur
+      setItems(
+        items.map((item) =>
+          item.id === id ? { ...item, visible: currentValue } : item
+        )
+      )
       toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
     }
   }

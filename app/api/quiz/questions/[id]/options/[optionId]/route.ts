@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
@@ -69,6 +70,8 @@ export async function PUT(
       },
     })
 
+    revalidatePath('/admin/quiz/questions')
+
     return NextResponse.json(option)
   } catch (error) {
     console.error('Error updating quiz option:', error)
@@ -118,6 +121,8 @@ export async function DELETE(
     await prisma.quizOption.delete({
       where: { id: optionId },
     })
+
+    revalidatePath('/admin/quiz/questions')
 
     return NextResponse.json({ success: true })
   } catch (error) {

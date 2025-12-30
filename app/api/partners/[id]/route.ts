@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { deleteImage } from '@/lib/blob'
 import { z } from 'zod'
@@ -98,6 +99,9 @@ export async function PUT(
       },
     })
 
+    revalidatePath('/admin/partners')
+    revalidatePath('/')
+
     return NextResponse.json(partner)
   } catch (error) {
     console.error('Error updating partner:', error)
@@ -149,6 +153,9 @@ export async function DELETE(
     await prisma.partner.delete({
       where: { id },
     })
+
+    revalidatePath('/admin/partners')
+    revalidatePath('/')
 
     return NextResponse.json({ success: true })
   } catch (error) {

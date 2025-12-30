@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 
 export async function PATCH(
@@ -21,6 +22,8 @@ export async function PATCH(
       where: { id },
       data: { status },
     })
+
+    revalidatePath('/admin/requests/candidatures')
 
     return NextResponse.json({ status: candidature.status })
   } catch (error) {

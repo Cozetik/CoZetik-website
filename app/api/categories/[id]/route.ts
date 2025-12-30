@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { deleteImage } from '@/lib/blob'
 import { z } from 'zod'
@@ -107,6 +108,9 @@ export async function PUT(
       },
     })
 
+    revalidatePath('/admin/categories')
+    revalidatePath('/formations')
+
     return NextResponse.json(category)
   } catch (error) {
     console.error('Error updating category:', error)
@@ -173,6 +177,9 @@ export async function DELETE(
     await prisma.category.delete({
       where: { id },
     })
+
+    revalidatePath('/admin/categories')
+    revalidatePath('/formations')
 
     return NextResponse.json({ success: true })
   } catch (error) {

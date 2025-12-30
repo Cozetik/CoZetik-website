@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { revalidatePath } from 'next/cache';
 import * as z from "zod";
 
 const blogPostSchema = z.object({
@@ -71,6 +72,9 @@ export async function POST(request: Request) {
         theme: true,
       },
     });
+
+    revalidatePath('/admin/blog');
+    revalidatePath('/blog');
 
     return NextResponse.json(post, { status: 201 });
   } catch (error) {

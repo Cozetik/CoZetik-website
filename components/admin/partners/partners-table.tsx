@@ -38,6 +38,14 @@ export default function PartnersTable({
   const [items, setItems] = useState(partners)
 
   const handleToggleVisibility = async (id: string, currentValue: boolean) => {
+    // Optimistic update
+    const newValue = !currentValue
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, visible: newValue } : item
+      )
+    )
+
     try {
       const response = await fetch(`/api/partners/${id}/toggle-visibility`, {
         method: 'PATCH',
@@ -49,13 +57,6 @@ export default function PartnersTable({
         throw new Error(data.error || 'Erreur lors de la mise à jour')
       }
 
-      // Mettre à jour l'état local
-      setItems(
-        items.map((item) =>
-          item.id === id ? { ...item, visible: !currentValue } : item
-        )
-      )
-
       toast.success(
         data.visible
           ? 'Partenaire rendu visible'
@@ -63,6 +64,12 @@ export default function PartnersTable({
       )
       router.refresh()
     } catch (error) {
+      // Rollback en cas d'erreur
+      setItems(
+        items.map((item) =>
+          item.id === id ? { ...item, visible: currentValue } : item
+        )
+      )
       toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
     }
   }

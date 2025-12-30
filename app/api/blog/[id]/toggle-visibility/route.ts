@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 
 // PATCH - Toggle la visibilité d'un article
@@ -38,6 +39,11 @@ export async function PATCH(
         publishedAt,
       },
     })
+
+    // Invalider le cache Next.js
+    revalidatePath('/admin/blog')
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${post.slug}`)
 
     return NextResponse.json(updatedPost)
   } catch (error) {

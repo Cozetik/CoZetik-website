@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
@@ -50,6 +51,9 @@ export async function POST(request: Request) {
         order: validatedData.order,
       },
     })
+
+    revalidatePath('/admin/partners')
+    revalidatePath('/')
 
     return NextResponse.json(partner, { status: 201 })
   } catch (error) {

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 
 export async function PATCH(
@@ -11,7 +12,6 @@ export async function PATCH(
     // Récupérer le partenaire actuel
     const partner = await prisma.partner.findUnique({
       where: { id },
-      select: { visible: true },
     })
 
     if (!partner) {
@@ -26,6 +26,10 @@ export async function PATCH(
       where: { id },
       data: { visible: !partner.visible },
     })
+
+    // Invalider le cache Next.js
+    revalidatePath('/admin/partners')
+    revalidatePath('/')
 
     return NextResponse.json(updatedPartner)
   } catch (error) {
