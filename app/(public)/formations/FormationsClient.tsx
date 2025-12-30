@@ -81,7 +81,7 @@ function Filters({
           className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
             selectedCategory === "all"
               ? "bg-[#262626] text-white"
-              : "bg-white text-[#262626] hover:bg-[#f3f0fa]"
+              : "bg-white text-[#262626] hover:bg-[#ADA6DB]/10"
           }`}
         >
           Tous
@@ -94,7 +94,7 @@ function Filters({
             className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
               selectedCategory === category.id
                 ? "bg-[#262626] text-white"
-                : "bg-white text-[#262626] hover:bg-[#f3f0fa]"
+                : "bg-white text-[#262626] hover:bg-[#ADA6DB]/10"
             }`}
           >
             {category.name}
