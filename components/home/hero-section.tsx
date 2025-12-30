@@ -64,7 +64,7 @@ export function HeroSection() {
         className="absolute inset-0 h-full w-full object-cover"
       >
         <source
-          src="https://res.cloudinary.com/dqmsyqdc4/video/upload/q_auto,f_auto/Online_Education_Universities_Library_Scholarship_Free_Stock_Footage_1_1_cuquox.mp4"
+          src="https://res.cloudinary.com/dqmsyqdc4/video/upload/v1767113998/Online_Education_Universities_Library_Scholarship_Free_Stock_Footage_sw14qr_7b88b7.mp4"
           type="video/mp4"
         />
         Your browser does not support the video tag.
