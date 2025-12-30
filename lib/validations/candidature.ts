@@ -1,14 +1,13 @@
 import { z } from "zod";
 
-export const candidatureSchema = z.object({
+// Schéma pour le formulaire (garde birthDate comme string)
+export const candidatureFormSchema = z.object({
   civility: z.enum(["M", "Mme", "Autre"], {
     message: "La civilité est requise",
   }),
   firstName: z.string().min(2, "Le prénom doit contenir au moins 2 caractères"),
   lastName: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
-  birthDate: z
-    .string()
-    .regex(/^\d{2}\/\d{2}\/\d{4}$/, "Format de date invalide (JJ/MM/AAAA)"),
+  birthDate: z.string().min(1, "La date de naissance est requise"),
   email: z.string().email("Adresse email invalide"),
   phone: z
     .string()
@@ -16,6 +15,9 @@ export const candidatureSchema = z.object({
   address: z.string().optional(),
   postalCode: z.string().optional(),
   city: z.string().optional(),
+  categoryFormation: z
+    .string()
+    .min(1, "La catégorie de formation souhaitée est requise"),
   formation: z.string().min(1, "La formation souhaitée est requise"),
   educationLevel: z.string().min(1, "Le niveau d'études est requis"),
   currentSituation: z.string().min(1, "La situation actuelle est requise"),
@@ -63,4 +65,13 @@ export const candidatureSchema = z.object({
   acceptNewsletter: z.boolean().optional(),
 });
 
-export type CandidatureFormData = z.infer<typeof candidatureSchema>;
+// Schéma pour l'API (transforme birthDate en Date)
+export const candidatureSchema = candidatureFormSchema.extend({
+  birthDate: z
+    .string()
+    .min(1, "La date de naissance est requise")
+    .transform((val) => new Date(val)),
+});
+
+export type CandidatureFormData = z.infer<typeof candidatureFormSchema>;
+export type CandidatureData = z.infer<typeof candidatureSchema>;
