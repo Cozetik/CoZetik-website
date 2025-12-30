@@ -63,18 +63,13 @@
     @apply border-border;
   }
   html {
-    height: 100%;
     scroll-behavior: smooth;
     overflow-x: hidden;
   }
   body {
     @apply bg-background text-foreground;
-    height: 100%;
+    min-height: 100vh;
     overflow-x: hidden;
-  }
-  #__next,
-  [data-lenis-root] {
-    height: 100%;
   }
 }
 

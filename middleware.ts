@@ -1,7 +1,19 @@
 import { auth } from "@/auth"
 
+// Keep-alive pour Neon DB (évite auto-suspend après 5min)
+let lastPing = 0
+const PING_INTERVAL = 4 * 60 * 1000 // 4 minutes
+
 export default auth((req) => {
   try {
+    // Keep-alive DB : ping toutes les 4 min pour éviter Neon auto-suspend
+    const now = Date.now()
+    if (now - lastPing > PING_INTERVAL) {
+      lastPing = now
+      // Fire and forget - ne bloque pas la requête
+      fetch(`${req.nextUrl.origin}/api/cron/keep-alive`).catch(() => {})
+    }
+
     const isLoggedIn = !!req.auth
     const isAdminRoute = req.nextUrl.pathname.startsWith('/admin')
     const isLoginPage = req.nextUrl.pathname === '/auth-admin'
@@ -33,5 +45,10 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ['/admin/:path*', '/auth-admin']
+  // Matcher étendu pour capturer plus de routes (pour le keep-alive)
+  matcher: [
+    '/admin/:path*',
+    '/auth-admin',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ]
 }

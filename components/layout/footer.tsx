@@ -71,9 +71,9 @@ export async function Footer() {
   const formations = await getFooterFormations();
 
   return (
-    <footer className=" bg-cozetik-black lg:w-screen">
+    <footer className="bg-cozetik-black">
       <div className="container w-full px-4 py-12">
-        <div className="flex flex-col gap-12  px-10 lg:w-screen lg:flex-row lg:justify-between">
+        <div className="flex flex-col gap-12 px-10 lg:flex-row lg:justify-between">
           {/* Colonne 1 : Cozetik */}
           <div className="space-y-4 lg:max-w-[300px]">
             <Link href="/" className="inline-block">
@@ -181,7 +181,7 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 w-full border-t border-cozetik-white/20 pt-6 lg:w-screen">
+        <div className="mt-10 w-full border-t border-cozetik-white/20 pt-6">
           <div className="flex flex-col items-center justify-center gap-2 text-center">
             <p
               className="font-sans text-sm font-normal text-[#888888]"
