@@ -49,8 +49,8 @@ export default function AProposPage() {
             className="object-cover"
             priority
           />
-          {/* Overlay vert */}
-          <div className="absolute inset-0 bg-[#5E985E] opacity-50" />
+          {/* Overlay violet */}
+          <div className="absolute inset-0 bg-[#ADA6DB] opacity-50" />
         </div>
 
         {/* Rectangle violet en bas à gauche avec 50px d'écart */}
