@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { sendEmail } from '@/lib/resend'
 import { render } from '@react-email/render'
@@ -74,6 +75,8 @@ export async function PATCH(
         // On continue même si l'email échoue
       }
     }
+
+    revalidatePath('/admin/requests/contact')
 
     return NextResponse.json({
       ...updatedRequest,

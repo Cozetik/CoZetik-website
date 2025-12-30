@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 
 // Hook pour éviter les warnings SSR avec useLayoutEffect
@@ -24,14 +25,28 @@ type Formation = {
 
 function Hero() {
   return (
-    <section className="relative bg-[#ADA6DB] pb-10">
-      <div className="container mx-auto px-6 md:px-12 lg:px-20">
+    <section className="relative bg-[#ADA6DB] pb-10 overflow-hidden">
+      {/* Image de fond */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://res.cloudinary.com/dqmsyqdc4/image/upload/v1767109647/cozetik/image-formation.jpg"
+          alt="Formations Cozetik"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        {/* Overlay violet */}
+        <div className="absolute inset-0 bg-[#ADA6DB] opacity-50" />
+      </div>
+
+      <div className="container relative z-10 px-6 mx-auto md:px-12 lg:px-20">
         <div className="relative">
           <div className="absolute -right-16 top-2 h-64 w-64 rounded-none bg-[#ADA6DB] opacity-30 blur-3xl" />
 
           <div className="relative max-w-5xl translate-y-24 overflow-hidden bg-[#262626] px-8 py-14 md:px-16 md:py-20 lg:px-20 lg:py-24">
             <h1
-              className="mb-4 font-bricolage text-4xl font-extrabold text-white md:text-6xl lg:text-8xl"
+              className="mb-4 text-4xl font-extrabold text-white font-bricolage md:text-6xl lg:text-8xl"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
               Nos formations
@@ -66,7 +81,7 @@ function Filters({
           className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
             selectedCategory === "all"
               ? "bg-[#262626] text-white"
-              : "bg-white text-[#262626] hover:bg-[#f3f0fa]"
+              : "bg-white text-[#262626] hover:bg-[#ADA6DB]/10"
           }`}
         >
           Tous
@@ -79,7 +94,7 @@ function Filters({
             className={`rounded-none border border-[#262626] px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors md:px-6 ${
               selectedCategory === category.id
                 ? "bg-[#262626] text-white"
-                : "bg-white text-[#262626] hover:bg-[#f3f0fa]"
+                : "bg-white text-[#262626] hover:bg-[#ADA6DB]/10"
             }`}
           >
             {category.name}
@@ -102,7 +117,7 @@ function FormationCard({ formation }: { formation: Formation }) {
       <p className="mt-4 text-base leading-relaxed text-[#262626]/70 transition-colors duration-300 group-hover:text-white/80">
         {formation.description || ""}
       </p>
-      <div className="mt-auto flex items-center justify-between pt-8">
+      <div className="flex justify-between items-center pt-8 mt-auto">
         <div className="text-sm uppercase tracking-wide text-[#262626]/60 transition-colors duration-300 group-hover:text-white/60">
           En savoir plus
         </div>
@@ -111,7 +126,7 @@ function FormationCard({ formation }: { formation: Formation }) {
           className="flex items-center gap-2 bg-[#262626] px-4 py-3 text-base font-semibold uppercase text-white transition-all duration-300 group-hover:bg-[#ADA6DB] group-hover:text-white"
         >
           Découvrir
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </div>
@@ -166,8 +181,8 @@ export default function FormationsClientPage({
 
       <Hero />
 
-      <section className="pb-16 pt-32 md:pb-24 md:pt-40">
-        <div className="container mx-auto px-6 md:px-12 lg:px-20">
+      <section className="pt-32 pb-16 md:pb-24 md:pt-40">
+        <div className="container px-6 mx-auto md:px-12 lg:px-20">
           <div className="flex flex-col gap-10">
             <Filters
               selectedCategory={selectedCategory}
@@ -181,7 +196,7 @@ export default function FormationsClientPage({
               ))}
 
               {filteredFormations.length === 0 && (
-                <p className="text-gray-500 col-span-full text-center py-10">
+                <p className="col-span-full py-10 text-center text-gray-500">
                   Aucune formation trouvée dans cette catégorie.
                 </p>
               )}

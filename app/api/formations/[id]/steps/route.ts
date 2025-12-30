@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
@@ -95,6 +96,10 @@ export async function POST(
         keyPoints: validatedData.keyPoints,
       },
     })
+
+    revalidatePath('/admin/formations')
+    revalidatePath('/formations')
+    revalidatePath('/(public)/formations', 'page')
 
     return NextResponse.json(step, { status: 201 })
   } catch (error) {

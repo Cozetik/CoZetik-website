@@ -40,6 +40,14 @@ export default function CategoriesTable({
   const [items, setItems] = useState(categories)
 
   const handleToggleVisibility = async (id: string, currentValue: boolean) => {
+    // Optimistic update
+    const newValue = !currentValue
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, visible: newValue } : item
+      )
+    )
+
     try {
       const response = await fetch(`/api/categories/${id}/toggle-visibility`, {
         method: 'PATCH',
@@ -51,13 +59,6 @@ export default function CategoriesTable({
         throw new Error(data.error || 'Erreur lors de la mise à jour')
       }
 
-      // Mettre à jour l'état local
-      setItems(
-        items.map((item) =>
-          item.id === id ? { ...item, visible: !currentValue } : item
-        )
-      )
-
       toast.success(
         data.visible
           ? 'Catégorie rendue visible'
@@ -65,6 +66,12 @@ export default function CategoriesTable({
       )
       router.refresh()
     } catch (error) {
+      // Rollback en cas d'erreur
+      setItems(
+        items.map((item) =>
+          item.id === id ? { ...item, visible: currentValue } : item
+        )
+      )
       toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
     }
   }

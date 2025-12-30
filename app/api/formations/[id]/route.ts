@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { deleteImage } from '@/lib/blob'
 import { z } from 'zod'
@@ -81,24 +82,20 @@ export async function PUT(
       )
     }
 
-    // Vérifier l'unicité du slug (si modifié)
-    if (validatedData.slug !== existingFormation.slug) {
-      const slugExists = await prisma.formation.findUnique({
-        where: { slug: validatedData.slug },
-      })
+    // Paralléliser les vérifications de slug et catégorie
+    const [slugExists, categoryExists] = await Promise.all([
+      validatedData.slug !== existingFormation.slug
+        ? prisma.formation.findUnique({ where: { slug: validatedData.slug } })
+        : Promise.resolve(null),
+      prisma.category.findUnique({ where: { id: validatedData.categoryId } })
+    ])
 
-      if (slugExists) {
-        return NextResponse.json(
-          { error: 'Une formation avec ce titre existe déjà' },
-          { status: 400 }
-        )
-      }
+    if (slugExists) {
+      return NextResponse.json(
+        { error: 'Une formation avec ce titre existe déjà' },
+        { status: 400 }
+      )
     }
-
-    // Vérifier que la catégorie existe
-    const categoryExists = await prisma.category.findUnique({
-      where: { id: validatedData.categoryId },
-    })
 
     if (!categoryExists) {
       return NextResponse.json(
@@ -107,18 +104,15 @@ export async function PUT(
       )
     }
 
-    // Supprimer l'ancienne image si elle a changé
+    // Supprimer l'ancienne image si elle a changé (non bloquant)
     if (
       validatedData.previousImageUrl &&
       validatedData.previousImageUrl !== validatedData.imageUrl &&
       validatedData.previousImageUrl.trim() !== ''
     ) {
-      try {
-        await deleteImage(validatedData.previousImageUrl)
-      } catch (error) {
-        console.error('Error deleting old image:', error)
-        // Continue même si la suppression échoue
-      }
+      deleteImage(validatedData.previousImageUrl).catch(err =>
+        console.error('Background image deletion failed:', err)
+      )
     }
 
     // Mettre à jour la formation
@@ -152,6 +146,10 @@ export async function PUT(
       },
     })
 
+    revalidatePath('/admin/formations')
+    revalidatePath('/formations')
+    revalidatePath('/(public)/formations', 'page')
+
     return NextResponse.json(formation)
   } catch (error) {
     console.error('Error updating formation:', error)
@@ -177,15 +175,15 @@ export async function DELETE(
   try {
     const { id } = await context.params
 
-    // Vérifier si la formation existe
-    const formation = await prisma.formation.findUnique({
-      where: { id },
-      include: {
-        _count: {
-          select: { sessions: true, inscriptions: true },
-        },
-      },
-    })
+    // Paralléliser les vérifications (formation + counts)
+    const [formation, sessionsCount, inscriptionsCount] = await Promise.all([
+      prisma.formation.findUnique({
+        where: { id },
+        select: { id: true, imageUrl: true }
+      }),
+      prisma.formationSession.count({ where: { formationId: id } }),
+      prisma.formationInscription.count({ where: { formationId: id } })
+    ])
 
     if (!formation) {
       return NextResponse.json(
@@ -195,39 +193,40 @@ export async function DELETE(
     }
 
     // Vérifier si des sessions sont liées
-    if (formation._count.sessions > 0) {
+    if (sessionsCount > 0) {
       return NextResponse.json(
         {
-          error: `Impossible de supprimer cette formation. ${formation._count.sessions} session(s) y sont liées.`,
+          error: `Impossible de supprimer cette formation. ${sessionsCount} session(s) y sont liées.`,
         },
         { status: 400 }
       )
     }
 
     // Vérifier si des inscriptions sont liées
-    if (formation._count.inscriptions > 0) {
+    if (inscriptionsCount > 0) {
       return NextResponse.json(
         {
-          error: `Impossible de supprimer cette formation. ${formation._count.inscriptions} inscription(s) y sont liées.`,
+          error: `Impossible de supprimer cette formation. ${inscriptionsCount} inscription(s) y sont liées.`,
         },
         { status: 400 }
       )
     }
 
-    // Supprimer l'image si elle existe
+    // Supprimer l'image si elle existe (non bloquant)
     if (formation.imageUrl) {
-      try {
-        await deleteImage(formation.imageUrl)
-      } catch (error) {
-        console.error('Error deleting image:', error)
-        // Continue même si la suppression de l'image échoue
-      }
+      deleteImage(formation.imageUrl).catch(err =>
+        console.error('Background image deletion failed:', err)
+      )
     }
 
     // Supprimer la formation
     await prisma.formation.delete({
       where: { id },
     })
+
+    revalidatePath('/admin/formations')
+    revalidatePath('/formations')
+    revalidatePath('/(public)/formations', 'page')
 
     return NextResponse.json({ success: true })
   } catch (error) {

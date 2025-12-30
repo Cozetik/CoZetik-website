@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 
 export async function PATCH(
@@ -11,7 +12,6 @@ export async function PATCH(
     // Récupérer la catégorie actuelle
     const category = await prisma.category.findUnique({
       where: { id },
-      select: { visible: true },
     })
 
     if (!category) {
@@ -26,6 +26,11 @@ export async function PATCH(
       where: { id },
       data: { visible: !category.visible },
     })
+
+    // Invalider le cache Next.js
+    revalidatePath('/admin/categories')
+    revalidatePath('/formations')
+    revalidatePath('/')
 
     return NextResponse.json(updatedCategory)
   } catch (error) {

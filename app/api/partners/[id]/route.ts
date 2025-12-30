@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { deleteImage } from '@/lib/blob'
 import { z } from 'zod'
@@ -69,18 +70,15 @@ export async function PUT(
       )
     }
 
-    // Supprimer l'ancien logo si il a changé
+    // Supprimer l'ancien logo si il a changé (non bloquant)
     if (
       validatedData.previousLogoUrl &&
       validatedData.previousLogoUrl !== validatedData.logoUrl &&
       validatedData.previousLogoUrl.trim() !== ''
     ) {
-      try {
-        await deleteImage(validatedData.previousLogoUrl)
-      } catch (error) {
-        console.error('Error deleting old logo:', error)
-        // Continue même si la suppression échoue
-      }
+      deleteImage(validatedData.previousLogoUrl).catch(err =>
+        console.error('Background image deletion failed:', err)
+      )
     }
 
     // Mettre à jour le partenaire
@@ -97,6 +95,9 @@ export async function PUT(
         order: dataToUpdate.order,
       },
     })
+
+    revalidatePath('/admin/partners')
+    revalidatePath('/')
 
     return NextResponse.json(partner)
   } catch (error) {
@@ -123,9 +124,10 @@ export async function DELETE(
   try {
     const { id } = await context.params
 
-    // Vérifier si le partenaire existe
+    // Vérifier si le partenaire existe (seulement les champs nécessaires)
     const partner = await prisma.partner.findUnique({
       where: { id },
+      select: { id: true, logoUrl: true }
     })
 
     if (!partner) {
@@ -135,20 +137,20 @@ export async function DELETE(
       )
     }
 
-    // Supprimer le logo si il existe
+    // Supprimer le logo si il existe (non bloquant)
     if (partner.logoUrl) {
-      try {
-        await deleteImage(partner.logoUrl)
-      } catch (error) {
-        console.error('Error deleting logo:', error)
-        // Continue même si la suppression du logo échoue
-      }
+      deleteImage(partner.logoUrl).catch(err =>
+        console.error('Background image deletion failed:', err)
+      )
     }
 
     // Supprimer le partenaire
     await prisma.partner.delete({
       where: { id },
     })
+
+    revalidatePath('/admin/partners')
+    revalidatePath('/')
 
     return NextResponse.json({ success: true })
   } catch (error) {

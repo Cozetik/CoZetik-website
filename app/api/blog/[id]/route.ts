@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
+import { revalidatePath } from 'next/cache';
 import * as z from "zod";
 
 // Configuration Cloudinary
@@ -100,7 +101,7 @@ export async function PUT(
       }
     }
 
-    // Supprimer l'ancienne image de Cloudinary si nouvelle image uploadée
+    // Supprimer l'ancienne image de Cloudinary si nouvelle image uploadée (non bloquant)
     if (
       validatedData.previousImageUrl &&
       validatedData.imageUrl &&
@@ -110,12 +111,9 @@ export async function PUT(
         validatedData.previousImageUrl
       );
       if (publicId) {
-        try {
-          await cloudinary.uploader.destroy(publicId);
-        } catch (error) {
-          console.error("Error deleting old image from Cloudinary:", error);
-          // On continue même si la suppression échoue
-        }
+        cloudinary.uploader.destroy(publicId).catch(err =>
+          console.error('Background image deletion failed:', err)
+        );
       }
     }
 
@@ -147,6 +145,9 @@ export async function PUT(
         theme: true,
       },
     });
+
+    revalidatePath('/admin/blog');
+    revalidatePath('/blog');
 
     return NextResponse.json(updatedPost);
   } catch (error) {
@@ -200,30 +201,24 @@ export async function DELETE(
       );
     }
 
-    // Supprimer l'image principale de Cloudinary si elle existe
+    // Supprimer l'image principale de Cloudinary si elle existe (non bloquant)
     if (post.imageUrl) {
       const publicId = extractCloudinaryPublicId(post.imageUrl);
       if (publicId) {
-        try {
-          await cloudinary.uploader.destroy(publicId);
-        } catch (error) {
-          console.error("Error deleting main image from Cloudinary:", error);
-          // On continue même si la suppression échoue
-        }
+        cloudinary.uploader.destroy(publicId).catch(err =>
+          console.error('Background image deletion failed:', err)
+        );
       }
     }
 
-    // Extraire et supprimer les images inline du contenu
+    // Extraire et supprimer les images inline du contenu (non bloquant)
     const inlineImages = extractCloudinaryImagesFromContent(post.content);
     for (const imageUrl of inlineImages) {
       const publicId = extractCloudinaryPublicId(imageUrl);
       if (publicId) {
-        try {
-          await cloudinary.uploader.destroy(publicId);
-        } catch (error) {
-          console.error("Error deleting inline image from Cloudinary:", error);
-          // On continue même si la suppression échoue
-        }
+        cloudinary.uploader.destroy(publicId).catch(err =>
+          console.error('Background inline image deletion failed:', err)
+        );
       }
     }
 
@@ -231,6 +226,9 @@ export async function DELETE(
     await prisma.blogPost.delete({
       where: { id },
     });
+
+    revalidatePath('/admin/blog');
+    revalidatePath('/blog');
 
     return NextResponse.json({ message: "Article supprimé avec succès" });
   } catch (error) {

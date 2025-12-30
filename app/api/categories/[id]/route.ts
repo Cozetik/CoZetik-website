@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { deleteImage } from '@/lib/blob'
 import { z } from 'zod'
@@ -78,18 +79,16 @@ export async function PUT(
       }
     }
 
-    // Supprimer l'ancienne image si elle a changé
+    // Supprimer l'ancienne image en arrière-plan (non bloquant)
     if (
       validatedData.previousImageUrl &&
       validatedData.previousImageUrl !== validatedData.imageUrl &&
       validatedData.previousImageUrl.trim() !== ''
     ) {
-      try {
-        await deleteImage(validatedData.previousImageUrl)
-      } catch (error) {
-        console.error('Error deleting old image:', error)
-        // Continue même si la suppression échoue
-      }
+      // Fire & forget - ne pas await
+      deleteImage(validatedData.previousImageUrl).catch((error) =>
+        console.error('Background image deletion failed:', error)
+      )
     }
 
     // Mettre à jour la catégorie
@@ -106,6 +105,9 @@ export async function PUT(
         order: dataToUpdate.order,
       },
     })
+
+    revalidatePath('/admin/categories')
+    revalidatePath('/formations')
 
     return NextResponse.json(category)
   } catch (error) {
@@ -132,15 +134,14 @@ export async function DELETE(
   try {
     const { id } = await context.params
 
-    // Vérifier si la catégorie existe
-    const category = await prisma.category.findUnique({
-      where: { id },
-      include: {
-        _count: {
-          select: { formations: true },
-        },
-      },
-    })
+    // Paralléliser : vérification catégorie + count formations
+    const [category, formationsCount] = await Promise.all([
+      prisma.category.findUnique({
+        where: { id },
+        select: { id: true, imageUrl: true }, // Seulement les champs nécessaires
+      }),
+      prisma.formation.count({ where: { categoryId: id } }),
+    ])
 
     if (!category) {
       return NextResponse.json(
@@ -150,29 +151,29 @@ export async function DELETE(
     }
 
     // Vérifier si des formations sont liées
-    if (category._count.formations > 0) {
+    if (formationsCount > 0) {
       return NextResponse.json(
         {
-          error: `Impossible de supprimer cette catégorie. ${category._count.formations} formation(s) y sont liées.`,
+          error: `Impossible de supprimer cette catégorie. ${formationsCount} formation(s) y sont liées.`,
         },
         { status: 400 }
       )
     }
 
-    // Supprimer l'image si elle existe
+    // Supprimer l'image en arrière-plan (non bloquant)
     if (category.imageUrl) {
-      try {
-        await deleteImage(category.imageUrl)
-      } catch (error) {
-        console.error('Error deleting image:', error)
-        // Continue même si la suppression de l'image échoue
-      }
+      deleteImage(category.imageUrl).catch((error) =>
+        console.error('Background image deletion failed:', error)
+      )
     }
 
     // Supprimer la catégorie
     await prisma.category.delete({
       where: { id },
     })
+
+    revalidatePath('/admin/categories')
+    revalidatePath('/formations')
 
     return NextResponse.json({ success: true })
   } catch (error) {

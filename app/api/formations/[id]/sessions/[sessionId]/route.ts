@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 
 export async function DELETE(
@@ -32,6 +33,10 @@ export async function DELETE(
     await prisma.formationSession.delete({
       where: { id: sessionId },
     })
+
+    revalidatePath('/admin/formations')
+    revalidatePath('/formations')
+    revalidatePath('/(public)/formations', 'page')
 
     return NextResponse.json({ success: true })
   } catch (error) {

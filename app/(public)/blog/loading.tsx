@@ -5,7 +5,7 @@ export default function BlogLoading() {
   return (
     <div className="flex flex-col">
       {/* Page Header Skeleton */}
-      <section className="border-b bg-[#C792DF] py-16 pt-36 text-center">
+      <section className="border-b bg-[#ADA6DB] py-16 pt-36 text-center">
         <div className="container mx-auto px-4">
           <div className="mx-auto flex max-w-5xl flex-col items-center">
             {/* Title Skeleton */}
