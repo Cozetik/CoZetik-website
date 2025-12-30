@@ -1,6 +1,5 @@
 import FormationCTAMid from "@/components/formations/formation-cta-mid";
 import FormationFAQ from "@/components/formations/formation-faq";
-import FormationFormWrapper from "@/components/formations/formation-form-wrapper";
 import FormationHeroEffortel from "@/components/formations/formation-hero-effortel";
 import FormationKeyInfos from "@/components/formations/formation-key-infos";
 import FormationObjectives from "@/components/formations/formation-objectives";
@@ -191,13 +190,6 @@ export default async function FormationPage({ params }: FormationPageProps) {
           studentsCount={formation.studentsCount}
           categoryId={formation.category.id}
           formationId={formation.id}
-        />
-
-        {/* 5. Formulaire - Beige */}
-        <FormationFormWrapper
-          formationId={formation.id}
-          categoryId={formation.category.id}
-          formationTitle={formation.title}
         />
 
         {/* 6. FAQ - Blanc */}
