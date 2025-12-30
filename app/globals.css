@@ -65,7 +65,6 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
-    height: 100%;
   }
   body {
     @apply bg-background text-foreground;
