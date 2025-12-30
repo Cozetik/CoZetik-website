@@ -11,11 +11,11 @@ import * as React from "react";
 import { MobileNav } from "./mobile-nav";
 
 const navItems = [
-  { href: "/", label: "Accueil" },
-  { href: "/formations", label: "Formations" },
-  { href: "/a-propos", label: "À propos" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "Accueil", hoverColor: "hover:text-[#5E985E]" },
+  { href: "/formations", label: "Formations", hoverColor: "hover:text-[#ADA6DB]" },
+  { href: "/a-propos", label: "À propos", hoverColor: "hover:text-[#5E985E]" },
+  { href: "/blog", label: "Blog", hoverColor: "hover:text-[#ADA6DB]" },
+  { href: "/contact", label: "Contact", hoverColor: "hover:text-[#5E985E]" },
 ];
 
 export function Header() {
@@ -72,21 +72,27 @@ export function Header() {
           className="hidden items-center gap-10 md:flex"
           aria-label="Navigation principale"
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "font-sans text-base font-normal text-cozetik-white transition-colors duration-200 hover:text-cozetik-beige focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cozetik-beige focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-none",
-                pathname === item.href && "text-cozetik-beige font-semibold"
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            const activeColor = item.hoverColor.replace("hover:text-", "text-");
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "font-sans text-base font-normal text-cozetik-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cozetik-beige focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-none",
+                  item.hoverColor,
+                  isActive && `${activeColor} font-semibold`
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
           <Link
             href="/candidater"
-            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-gray-300 bg-gray-700/60 rounded-none transition-all duration-200 hover:bg-[#9A80B8] hover:text-white border-2 border-transparent"
+            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-gray-300 bg-gray-700/60 rounded-none transition-all duration-200 hover:bg-[#ADA6DB] hover:text-white border-2 border-transparent"
           >
             Candidater
           </Link>

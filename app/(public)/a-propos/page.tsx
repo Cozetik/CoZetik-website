@@ -49,10 +49,12 @@ export default function AProposPage() {
             className="object-cover"
             priority
           />
+          {/* Overlay vert */}
+          <div className="absolute inset-0 bg-[#5E985E] opacity-50" />
         </div>
 
         {/* Rectangle violet en bas à gauche avec 50px d'écart */}
-        <div className="absolute -bottom-[15px] left-4 z-10 h-auto min-h-[120px] w-[calc(100%-2rem)] bg-[#B4A5D5] flex flex-col items-start justify-center px-4 py-6 md:-bottom-[20px] md:left-8 md:w-[calc(100%-4rem)] md:px-6 md:py-8 lg:-bottom-[30px] lg:left-[50px] lg:h-[219px] lg:w-[1052px] lg:px-[70px]">
+        <div className="absolute -bottom-[15px] left-4 z-10 h-auto min-h-[120px] w-[calc(100%-2rem)] bg-[#ADA6DB] flex flex-col items-start justify-center px-4 py-6 md:-bottom-[20px] md:left-8 md:w-[calc(100%-4rem)] md:px-6 md:py-8 lg:-bottom-[30px] lg:left-[50px] lg:h-[219px] lg:w-[1052px] lg:px-[70px]">
           <h1 className="text-5xl font-bold uppercase tracking-wide text-white leading-none text-left font-display sm:text-7xl md:text-7xl lg:text-7xl xl:text-[80px]">
             QUI SOMMES NOUS ?
           </h1>
