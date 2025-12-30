@@ -11,9 +11,34 @@ export default async function CandidaturesPage() {
   try {
     // Vérifier si le modèle existe dans le client Prisma
     if ("candidature" in prisma && prisma.candidature) {
-      candidatures = await (prisma.candidature as any).findMany({
-        orderBy: [{ status: "asc" }, { createdAt: "desc" }],
-      });
+      // Récupérer les candidatures, catégories et formations en parallèle
+      const [candidaturesData, categories, formations] = await Promise.all([
+        (prisma.candidature as any).findMany({
+          orderBy: [{ status: "asc" }, { createdAt: "desc" }],
+        }),
+        prisma.category.findMany({
+          select: { id: true, name: true },
+        }),
+        prisma.formation.findMany({
+          select: { id: true, title: true },
+        }),
+      ]);
+
+      candidatures = candidaturesData;
+
+      // Créer des maps pour un accès rapide
+      const categoryMap = new Map(categories.map((c) => [c.id, c.name]));
+      const formationMap = new Map(formations.map((f) => [f.id, f.title]));
+
+      // Ajouter les noms aux candidatures
+      candidatures = candidatures.map((candidature: any) => ({
+        ...candidature,
+        categoryName:
+          categoryMap.get(candidature.categoryFormation) ||
+          candidature.categoryFormation,
+        formationName:
+          formationMap.get(candidature.formation) || candidature.formation,
+      }));
     } else {
       hasError = true;
       errorMessage =
