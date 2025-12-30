@@ -121,15 +121,14 @@ export async function DELETE(
   try {
     const { id } = await context.params
 
-    // Vérifier que la question existe
-    const question = await prisma.quizQuestion.findUnique({
-      where: { id },
-      include: {
-        _count: {
-          select: { options: true },
-        },
-      },
-    })
+    // Paralléliser : vérification question + count options
+    const [question, optionsCount] = await Promise.all([
+      prisma.quizQuestion.findUnique({
+        where: { id },
+        select: { id: true }, // Seulement l'ID nécessaire
+      }),
+      prisma.quizOption.count({ where: { questionId: id } }),
+    ])
 
     if (!question) {
       return NextResponse.json(
@@ -139,10 +138,10 @@ export async function DELETE(
     }
 
     // Vérifier si des options sont liées
-    if (question._count.options > 0) {
+    if (optionsCount > 0) {
       return NextResponse.json(
         {
-          error: `Impossible de supprimer cette question. ${question._count.options} option(s) y sont liées.`,
+          error: `Impossible de supprimer cette question. ${optionsCount} option(s) y sont liées.`,
         },
         { status: 400 }
       )
