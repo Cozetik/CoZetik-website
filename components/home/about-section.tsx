@@ -101,7 +101,7 @@ export function AboutSection() {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <Image
-              src="/image-about.png"
+              src="/image-landing-page.jpg"
               alt="Étudiants souriants suivant une formation Cozetik"
               width={1000}
               height={750}
