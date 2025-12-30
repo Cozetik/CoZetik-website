@@ -72,7 +72,7 @@ export async function generateMetadata({
       title: `${formation.title} | Cozetik`,
       description,
       images: formation.imageUrl ? [formation.imageUrl] : ['/og-image.jpg'],
-      url: `https://cozetik.com/formations/${formation.slug}`,
+      url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/formations/${formation.slug}`,
       type: 'article',
     },
     twitter: {
@@ -82,7 +82,7 @@ export async function generateMetadata({
       images: formation.imageUrl ? [formation.imageUrl] : ['/og-image.jpg'],
     },
     alternates: {
-      canonical: `https://cozetik.com/formations/${formation.slug}`,
+      canonical: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/formations/${formation.slug}`,
     },
   }
 }
@@ -95,7 +95,7 @@ export default async function FormationPage({ params }: FormationPageProps) {
     notFound()
   }
 
-  const baseUrl = 'https://cozetik.com'
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'
   const formationUrl = `${baseUrl}/formations/${formation.slug}`
 
   // Structured Data - Course Schema

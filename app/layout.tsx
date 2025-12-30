@@ -26,7 +26,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.com"
+    process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr"
   ),
   title: {
     default: "Cozetik - Formations professionnelles certifiantes",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://cozetik.com",
+    url: process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr",
     siteName: "Cozetik",
     title: "Cozetik - Formations professionnelles certifiantes",
     description:
