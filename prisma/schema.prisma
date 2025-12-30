@@ -265,12 +265,13 @@ model Candidature {
   civility         String
   firstName        String
   lastName         String
-  birthDate        String
+  birthDate        DateTime
   email            String
   phone            String
   address          String?
   postalCode       String?
   city             String?
+  categoryFormation String
   formation        String
   educationLevel   String
   currentSituation String

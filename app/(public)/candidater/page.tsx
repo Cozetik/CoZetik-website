@@ -22,26 +22,16 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  candidatureSchema,
+  candidatureFormSchema, // Changé de candidatureSchema à candidatureFormSchema
   type CandidatureFormData,
 } from "@/lib/validations/candidature";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowRight, Calendar, CheckCircle2, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-const FORMATIONS = [
-  { value: "informatique", label: "Informatique" },
-  { value: "prise-de-parole", label: "Prise de Parole" },
-  { value: "intelligence-emotionnelle", label: "Intelligence Émotionnelle" },
-  { value: "business", label: "Business" },
-  {
-    value: "kizomba-bien-etre-connexion",
-    label: "Kizomba Bien-Être & Connexion",
-  },
-];
 
 const EDUCATION_LEVELS = [
   { value: "bac", label: "Bac" },
@@ -67,12 +57,34 @@ const START_DATES = [
   { value: "a-definir", label: "À définir" },
 ];
 
-export default function CandidaterPage() {
+type Category = {
+  id: string;
+  name: string;
+  slug: string;
+};
+
+type Formation = {
+  id: string;
+  title: string;
+  slug: string;
+  categoryId: string;
+};
+
+function CandidaterContent() {
+  const searchParams = useSearchParams();
+  const categoryIdFromUrl = searchParams.get("categoryId");
+  const formationIdFromUrl = searchParams.get("formationId");
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [formations, setFormations] = useState<Formation[]>([]);
+  const [filteredFormations, setFilteredFormations] = useState<Formation[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const form = useForm<CandidatureFormData>({
-    resolver: zodResolver(candidatureSchema),
+    resolver: zodResolver(candidatureFormSchema),
     defaultValues: {
       civility: "M",
       firstName: "",
@@ -83,7 +95,8 @@ export default function CandidaterPage() {
       address: "",
       postalCode: "",
       city: "",
-      formation: "",
+      categoryFormation: categoryIdFromUrl || "",
+      formation: formationIdFromUrl || "",
       educationLevel: "",
       currentSituation: "",
       startDate: "",
@@ -93,18 +106,94 @@ export default function CandidaterPage() {
     },
   });
 
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoadingData(true);
+      try {
+        const [categoriesRes, formationsRes] = await Promise.all([
+          fetch("/api/categories"),
+          fetch("/api/formations"),
+        ]);
+
+        if (!categoriesRes.ok || !formationsRes.ok) {
+          throw new Error("Erreur lors du chargement des données");
+        }
+
+        const categoriesData = await categoriesRes.json();
+        const formationsData = await formationsRes.json();
+
+        setCategories(categoriesData);
+        setFormations(formationsData);
+
+        if (categoryIdFromUrl) {
+          const filtered = formationsData.filter(
+            (f: Formation) => f.categoryId === categoryIdFromUrl
+          );
+          setFilteredFormations(filtered);
+
+          form.reset({
+            ...form.getValues(),
+            categoryFormation: categoryIdFromUrl,
+            formation:
+              formationIdFromUrl &&
+              filtered.find((f: Formation) => f.id === formationIdFromUrl)
+                ? formationIdFromUrl
+                : "",
+          });
+        }
+
+        setIsInitialized(true);
+      } catch (error) {
+        console.error("Erreur lors du chargement des données:", error);
+        toast.error("Erreur", {
+          description: "Impossible de charger les formations disponibles",
+        });
+        setIsInitialized(true);
+      } finally {
+        setIsLoadingData(false);
+      }
+    }
+
+    fetchData();
+  }, [categoryIdFromUrl, formationIdFromUrl]);
+
+  const selectedCategory = form.watch("categoryFormation");
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    if (selectedCategory) {
+      const filtered = formations.filter(
+        (f) => f.categoryId === selectedCategory
+      );
+      setFilteredFormations(filtered);
+
+      const currentFormation = form.getValues("formation");
+      if (
+        currentFormation &&
+        !filtered.find((f) => f.id === currentFormation)
+      ) {
+        form.setValue("formation", "");
+      }
+    } else {
+      setFilteredFormations([]);
+      form.setValue("formation", "");
+    }
+  }, [selectedCategory, formations, form, isInitialized]);
+
   async function onSubmit(data: CandidatureFormData) {
     setIsSubmitting(true);
 
     try {
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
-        if (value instanceof File) {
+        if (key === "birthDate" && typeof value === "string") {
+          formData.append(key, new Date(value).toISOString());
+        } else if (value instanceof File) {
           formData.append(key, value);
         } else if (typeof value === "boolean") {
           formData.append(key, value.toString());
         } else if (value) {
-          formData.append(key, value);
+          formData.append(key, value.toString());
         }
       });
 
@@ -119,7 +208,6 @@ export default function CandidaterPage() {
           const error = await response.json();
           errorMessage = error.error || errorMessage;
         } catch (parseError) {
-          // Si la réponse n'est pas du JSON (ex: page d'erreur HTML)
           const text = await response.text();
           console.error("Erreur non-JSON:", text.substring(0, 100));
           errorMessage = `Erreur ${response.status}: ${response.statusText}`;
@@ -127,7 +215,7 @@ export default function CandidaterPage() {
         throw new Error(errorMessage);
       }
 
-      const result = await response.json();
+      await response.json();
 
       toast.success("Candidature envoyée !", {
         description: (
@@ -193,8 +281,8 @@ export default function CandidaterPage() {
       <section className="relative bg-[#9A80B8] pb-10">
         <div className="container mx-auto px-4 md:px-20">
           <div className="relative">
-            <div className="absolute -right-20 top-0 h-64 w-64 rounded-none bg-[#9A80B8] opacity-30 blur-3xl"></div>
-            <div className="relative w-full md:w-fit overflow-hidden bg-[#2C2C2C] pl-[20px] pr-[30px] py-[40px] translate-y-20 md:translate-y-60 md:pl-[70px] md:pr-[150px] md:py-[100px]">
+            <div className="absolute -right-20 top-0 h-64 w-64 rounded-none bg-[#9A80B8] opacity-30 blur-3xl pointer-events-none"></div>
+            <div className="relative w-full md:w-fit bg-[#2C2C2C] pl-[20px] pr-[30px] py-[40px] translate-y-20 md:translate-y-60 md:pl-[70px] md:pr-[150px] md:py-[100px]">
               <h1
                 className="mb-6 text-4xl font-extrabold text-white md:text-6xl lg:text-8xl"
                 style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
@@ -328,14 +416,17 @@ export default function CandidaterPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
-                        Date de naissance * (JJ/MM/AAAA)
+                        Date de naissance *
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="JJ/MM/AAAA"
-                          className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
-                          {...field}
-                        />
+                        <div className="relative group">
+                          <Input
+                            type="date"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] pr-10 transition-all duration-200 group-hover:bg-[#E5E5E5] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-3 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-inner-spin-button]:appearance-none focus:ring-2 focus:ring-[#9A80B8]/20"
+                            {...field}
+                          />
+                          <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#2C2C2C]/50 pointer-events-none group-hover:text-[#9A80B8] transition-colors duration-200" />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -460,6 +551,47 @@ export default function CandidaterPage() {
 
                 <FormField
                   control={form.control}
+                  name="categoryFormation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
+                        Catégorie de formation souhaitée *
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value || ""}
+                        disabled={isLoadingData}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
+                            <SelectValue
+                              placeholder={
+                                isLoadingData
+                                  ? "Chargement..."
+                                  : "Sélectionnez une catégorie"
+                              }
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {categories.map((category) => (
+                            <SelectItem
+                              key={category.id}
+                              value={category.id}
+                              className="font-sans"
+                            >
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
                   name="formation"
                   render={({ field }) => (
                     <FormItem>
@@ -469,19 +601,35 @@ export default function CandidaterPage() {
                       <Select
                         onValueChange={field.onChange}
                         value={field.value || ""}
+                        disabled={
+                          isLoadingData ||
+                          !selectedCategory ||
+                          filteredFormations.length === 0
+                        }
                       >
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
-                            <SelectValue placeholder="Sélectionnez une formation" />
+                            <SelectValue
+                              placeholder={
+                                isLoadingData
+                                  ? "Chargement..."
+                                  : !selectedCategory
+                                    ? "Sélectionnez d'abord une catégorie"
+                                    : filteredFormations.length === 0
+                                      ? "Aucune formation disponible"
+                                      : "Sélectionnez une formation"
+                              }
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {FORMATIONS.map((formation) => (
+                          {filteredFormations.map((formation) => (
                             <SelectItem
-                              key={formation.value}
-                              value={formation.value}
+                              key={formation.id}
+                              value={formation.id}
+                              className="font-sans"
                             >
-                              {formation.label}
+                              {formation.title}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -510,7 +658,11 @@ export default function CandidaterPage() {
                         </FormControl>
                         <SelectContent>
                           {EDUCATION_LEVELS.map((level) => (
-                            <SelectItem key={level.value} value={level.value}>
+                            <SelectItem
+                              key={level.value}
+                              value={level.value}
+                              className="font-sans"
+                            >
                               {level.label}
                             </SelectItem>
                           ))}
@@ -543,6 +695,7 @@ export default function CandidaterPage() {
                             <SelectItem
                               key={situation.value}
                               value={situation.value}
+                              className="font-sans"
                             >
                               {situation.label}
                             </SelectItem>
@@ -573,7 +726,11 @@ export default function CandidaterPage() {
                         </FormControl>
                         <SelectContent>
                           {START_DATES.map((date) => (
-                            <SelectItem key={date.value} value={date.value}>
+                            <SelectItem
+                              key={date.value}
+                              value={date.value}
+                              className="font-sans"
+                            >
                               {date.label}
                             </SelectItem>
                           ))}
@@ -800,5 +957,22 @@ export default function CandidaterPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function CandidaterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <div className="text-center">
+            <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-[#9A80B8]" />
+            <p className="text-lg text-gray-600">Chargement du formulaire...</p>
+          </div>
+        </div>
+      }
+    >
+      <CandidaterContent />
+    </Suspense>
   );
 }
