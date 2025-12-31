@@ -65,19 +65,31 @@ export default function EditCategoryForm({ category }: EditCategoryFormProps) {
     setIsLoading(true)
 
     try {
+      const payload = {
+        ...values,
+        slug: category.slug, // Utiliser le slug existant (ne pas regénérer)
+        previousImageUrl,
+      }
+
+      console.log('[DEBUG FORM] ===== DÉBUT DEBUG =====')
+      console.log('[DEBUG FORM] Payload envoyé:', JSON.stringify(payload, null, 2))
+      console.log('[DEBUG FORM] category.slug:', category.slug)
+      console.log('[DEBUG FORM] category complète:', category)
+      console.log('[DEBUG FORM] values du form:', values)
+      console.log('[DEBUG FORM] ===== FIN DEBUG =====')
+
       const response = await fetch(`/api/categories/${category.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...values,
-          slug: category.slug, // Utiliser le slug existant (ne pas regénérer)
-          previousImageUrl,
-        }),
+        body: JSON.stringify(payload),
       })
 
       const data = await response.json()
 
+      console.log('[DEBUG FORM] Réponse API:', { status: response.status, data })
+
       if (!response.ok) {
+        console.error('[DEBUG FORM] ERREUR API:', data)
         throw new Error(data.error || 'Erreur lors de la modification')
       }
 
