@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
@@ -199,17 +198,17 @@ export function ViewCandidatureDialog({
           <Eye className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl h-[90vh] p-0 gap-0 flex flex-col">
+      <DialogContent className="max-w-5xl max-h-[95vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="px-6 py-4 border-b bg-white shrink-0">
+        <div className="shrink-0">
           <DialogHeader>
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
-                <DialogTitle className="text-xl font-semibold text-gray-900 mb-1">
+                <DialogTitle className="text-xl font-semibold text-gray-900">
                   {candidature.civility} {candidature.firstName}{" "}
                   {candidature.lastName}
                 </DialogTitle>
-                <DialogDescription className="text-sm text-gray-500 flex items-center gap-2">
+                <DialogDescription className="text-sm text-gray-500 flex items-center gap-2 mt-1">
                   <Calendar className="w-3.5 h-3.5" />
                   Reçue le{" "}
                   {format(new Date(candidature.createdAt), "PPP à HH:mm", {
@@ -223,17 +222,17 @@ export function ViewCandidatureDialog({
         </div>
 
         {/* Contenu scrollable */}
-        <ScrollArea className="flex-1">
-          <div className="px-6 py-6 space-y-6">
+        <div className="flex-1 overflow-y-auto mt-4">
+          <div className="space-y-6 pr-2">
             {/* Informations personnelles */}
             <section>
               <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
                 <User className="w-4 h-4 text-gray-600" />
                 Informations personnelles
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pl-6">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-3">
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-1">
+                  <p className="text-xs font-medium text-gray-500 mb-0.5">
                     Date de naissance
                   </p>
                   <p className="text-sm text-gray-900">
@@ -243,7 +242,7 @@ export function ViewCandidatureDialog({
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-1">
+                  <p className="text-xs font-medium text-gray-500 mb-0.5">
                     Email
                   </p>
                   <a
@@ -255,7 +254,7 @@ export function ViewCandidatureDialog({
                   </a>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-1">
+                  <p className="text-xs font-medium text-gray-500 mb-0.5">
                     Téléphone
                   </p>
                   <a
@@ -268,7 +267,7 @@ export function ViewCandidatureDialog({
                 </div>
                 {(candidature.address || candidature.city) && (
                   <div>
-                    <p className="text-xs font-medium text-gray-500 mb-1">
+                    <p className="text-xs font-medium text-gray-500 mb-0.5">
                       Adresse
                     </p>
                     <p className="text-sm text-gray-900 flex items-start gap-1.5">
@@ -293,17 +292,17 @@ export function ViewCandidatureDialog({
                 <GraduationCap className="w-4 h-4 text-gray-600" />
                 Projet de formation
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pl-6">
-                <div className="sm:col-span-2">
-                  <p className="text-xs font-medium text-gray-500 mb-1">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+                <div>
+                  <p className="text-xs font-medium text-gray-500 mb-0.5">
                     Catégorie
                   </p>
                   <p className="text-sm text-gray-900">
                     {categoryName || candidature.categoryFormation}
                   </p>
                 </div>
-                <div className="sm:col-span-2">
-                  <p className="text-xs font-medium text-gray-500 mb-1">
+                <div>
+                  <p className="text-xs font-medium text-gray-500 mb-0.5">
                     Formation souhaitée
                   </p>
                   <p className="text-sm font-semibold text-[#9A80B8]">
@@ -311,7 +310,7 @@ export function ViewCandidatureDialog({
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-1">
+                  <p className="text-xs font-medium text-gray-500 mb-0.5">
                     Niveau d&apos;études
                   </p>
                   <p className="text-sm text-gray-900">
@@ -319,7 +318,7 @@ export function ViewCandidatureDialog({
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-1">
+                  <p className="text-xs font-medium text-gray-500 mb-0.5">
                     Situation actuelle
                   </p>
                   <p className="text-sm text-gray-900">
@@ -327,8 +326,8 @@ export function ViewCandidatureDialog({
                   </p>
                 </div>
                 {candidature.startDate && (
-                  <div className="sm:col-span-2">
-                    <p className="text-xs font-medium text-gray-500 mb-1">
+                  <div className="col-span-2">
+                    <p className="text-xs font-medium text-gray-500 mb-0.5">
                       Date de début souhaitée
                     </p>
                     <p className="text-sm text-gray-900 flex items-center gap-1.5">
@@ -348,8 +347,8 @@ export function ViewCandidatureDialog({
                 <MessageSquare className="w-4 h-4 text-gray-600" />
                 Lettre de motivation
               </h3>
-              <div className="pl-6">
-                <div className="p-4 bg-gray-50 rounded-md border border-gray-200 max-h-[300px] overflow-y-auto">
+              <div className="relative">
+                <div className="p-3 bg-gray-50 rounded-md border border-gray-200 max-h-[150px] overflow-y-auto">
                   <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
                     {candidature.motivation}
                   </p>
@@ -365,7 +364,7 @@ export function ViewCandidatureDialog({
                 <FileText className="w-4 h-4 text-gray-600" />
                 Documents joints
               </h3>
-              <div className="pl-6">
+              <div>
                 {candidature.cvUrl ||
                 candidature.coverLetterUrl ||
                 candidature.otherDocumentUrl ? (
@@ -471,7 +470,7 @@ export function ViewCandidatureDialog({
                 <Mail className="w-4 h-4 text-gray-600" />
                 Répondre au candidat
               </h3>
-              <div className="pl-6 space-y-3">
+              <div className="space-y-3">
                 <div>
                   <Label
                     htmlFor="email-subject"
@@ -498,7 +497,7 @@ export function ViewCandidatureDialog({
                     value={emailMessage}
                     onChange={(e) => setEmailMessage(e.target.value)}
                     placeholder="Bonjour,&#10;&#10;Nous avons bien reçu votre candidature..."
-                    rows={6}
+                    rows={4}
                   />
                 </div>
                 <Button
@@ -525,7 +524,7 @@ export function ViewCandidatureDialog({
               </div>
             </section>
           </div>
-        </ScrollArea>
+        </div>
       </DialogContent>
     </Dialog>
   );
