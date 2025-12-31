@@ -50,20 +50,13 @@ export async function PUT(
     const { id } = await context.params
     const body = await request.json()
 
-    // Debug: log du body reçu
-    console.log('[DEBUG PUT /api/categories] ID:', id)
-    console.log('[DEBUG PUT /api/categories] Body reçu:', JSON.stringify(body, null, 2))
-
     // Validation avec Zod
     const validatedData = updateCategorySchema.parse(body)
-    console.log('[DEBUG PUT /api/categories] Validation Zod réussie')
 
     // Récupérer la catégorie existante
     const existingCategory = await prisma.category.findUnique({
       where: { id },
     })
-
-    console.log('[DEBUG PUT /api/categories] Catégorie existante:', existingCategory ? `Trouvée (slug: ${existingCategory.slug})` : 'Non trouvée')
 
     if (!existingCategory) {
       return NextResponse.json(
@@ -74,21 +67,16 @@ export async function PUT(
 
     // Vérifier l'unicité du slug (si modifié)
     if (validatedData.slug !== existingCategory.slug) {
-      console.log('[DEBUG PUT /api/categories] Le slug a changé, vérification d\'unicité...')
       const slugExists = await prisma.category.findUnique({
         where: { slug: validatedData.slug },
       })
 
       if (slugExists && slugExists.id !== id) {
-        console.log('[DEBUG PUT /api/categories] ERREUR: Slug déjà utilisé par une autre catégorie')
         return NextResponse.json(
           { error: 'Une catégorie avec ce nom existe déjà' },
           { status: 400 }
         )
       }
-      console.log('[DEBUG PUT /api/categories] Slug unique, OK')
-    } else {
-      console.log('[DEBUG PUT /api/categories] Slug inchangé, pas de vérification nécessaire')
     }
 
     // Supprimer l'ancienne image en arrière-plan (non bloquant)
@@ -123,10 +111,9 @@ export async function PUT(
 
     return NextResponse.json(category)
   } catch (error) {
-    console.error('[DEBUG PUT /api/categories] ERREUR ATTRAPÉE:', error)
+    console.error('Error updating category:', error)
 
     if (error instanceof z.ZodError) {
-      console.error('[DEBUG PUT /api/categories] Erreur de validation Zod:', JSON.stringify(error.issues, null, 2))
       return NextResponse.json(
         { error: 'Données invalides', details: error.issues },
         { status: 400 }
