@@ -383,8 +383,9 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={`/api/download?url=${encodeURIComponent(candidature.cvUrl)}&filename=CV_${candidature.lastName}_${candidature.firstName}`}
-                            download
+                            href={candidature.cvUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
                             Télécharger
@@ -406,8 +407,9 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={`/api/download?url=${encodeURIComponent(candidature.coverLetterUrl)}&filename=Lettre_motivation_${candidature.lastName}_${candidature.firstName}`}
-                            download
+                            href={candidature.coverLetterUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
                             Télécharger
@@ -429,8 +431,9 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={`/api/download?url=${encodeURIComponent(candidature.otherDocumentUrl)}&filename=Document_${candidature.lastName}_${candidature.firstName}`}
-                            download
+                            href={candidature.otherDocumentUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
                             Télécharger
