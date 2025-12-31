@@ -112,16 +112,6 @@ export function ViewCandidatureDialog({
     }
   }, [isOpen, candidature.formation, candidature.categoryFormation]);
 
-  // Convertir l'URL Cloudinary pour forcer le téléchargement
-  const getDownloadUrl = (url: string) => {
-    if (!url) return url;
-    // Si c'est une URL Cloudinary, ajouter le paramètre fl_attachment
-    if (url.includes("cloudinary.com")) {
-      return url.replace("/upload/", "/upload/fl_attachment/");
-    }
-    return url;
-  };
-
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "NEW":
@@ -208,7 +198,7 @@ export function ViewCandidatureDialog({
           <Eye className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-5xl h-[90vh] p-0 flex flex-col">
+      <DialogContent className="max-w-5xl p-0 flex flex-col">
         {/* Header */}
         <div className="shrink-0 px-6 pt-6 pb-4 border-b">
           <DialogHeader>
@@ -393,9 +383,8 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={getDownloadUrl(candidature.cvUrl)}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href={`/api/download?url=${encodeURIComponent(candidature.cvUrl)}&filename=CV_${candidature.lastName}_${candidature.firstName}`}
+                            download
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
                             Télécharger
@@ -417,9 +406,8 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={getDownloadUrl(candidature.coverLetterUrl)}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href={`/api/download?url=${encodeURIComponent(candidature.coverLetterUrl)}&filename=Lettre_motivation_${candidature.lastName}_${candidature.firstName}`}
+                            download
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
                             Télécharger
@@ -441,9 +429,8 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={getDownloadUrl(candidature.otherDocumentUrl)}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href={`/api/download?url=${encodeURIComponent(candidature.otherDocumentUrl)}&filename=Document_${candidature.lastName}_${candidature.firstName}`}
+                            download
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
                             Télécharger
