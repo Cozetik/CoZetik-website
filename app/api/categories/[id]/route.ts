@@ -7,11 +7,11 @@ import { z } from 'zod'
 const updateCategorySchema = z.object({
   name: z.string().min(1, 'Le nom est requis').max(100),
   slug: z.string().min(1, 'Le slug est requis'),
-  description: z.string().optional(),
-  imageUrl: z.string().optional(),
+  description: z.string().optional().or(z.literal('')),
+  imageUrl: z.string().optional().or(z.literal('')),
   visible: z.boolean().default(true),
   order: z.number().int().min(0).default(0),
-  previousImageUrl: z.string().optional(),
+  previousImageUrl: z.string().optional().or(z.literal('')).nullable(),
 })
 
 export async function GET(
