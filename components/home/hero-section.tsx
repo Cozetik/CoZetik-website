@@ -52,7 +52,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-cozetik-black lg:bg-none">
+    <section className="relative min-h-screen w-full overflow-hidden">
       {/* Video Background Layer */}
       <video
         ref={videoRef}
@@ -61,7 +61,7 @@ export function HeroSection() {
         muted
         playsInline
         preload="metadata"
-        className="absolute hidden inset-0 h-full w-full object-cover md:block "
+        className="absolute inset-0 h-full w-full object-cover "
       >
         <source
           src="https://res.cloudinary.com/dqmsyqdc4/video/upload/v1767179869/Online_Education_Scholarship_Free_Stock_Footagea_uhwuxd.mp4"
@@ -90,7 +90,7 @@ export function HeroSection() {
 
           {/* Autographe SVG Vert - Animated */}
           <svg
-            className="pointer-events-none absolute bottom-10 right-0 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-100 lg:-right-16 lg:w-64"
+            className="pointer-events-none absolute -bottom-2 -right-6 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-100 lg:-right-16 lg:w-64"
             style={{
               opacity: 0,
               animation: "fadeIn 3s ease-in-out 0.5s forwards",
