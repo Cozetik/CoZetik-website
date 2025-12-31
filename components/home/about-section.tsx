@@ -75,7 +75,7 @@ export function AboutSection() {
 
             {/* Autographe SVG Violet - Below button */}
             <svg
-              className="pointer-events-none absolute top-[100px] -left-[650px] -z-20  w-[800px] md:top-[150px] md:-left-[750px] md:w-[1000px] lg:top-[220px] lg:-left-[850px] lg:w-[1200px] xl:z-20"
+              className="pointer-events-none absolute top-[100px] -left-[650px] -z-20  w-[800px] md:top-[150px] md:-left-[750px] md:w-[1000px] lg:top-[220px] lg:-left-[850px] lg:w-[1000px] xl:z-20"
               style={{
                 overflow: "visible",
               }}

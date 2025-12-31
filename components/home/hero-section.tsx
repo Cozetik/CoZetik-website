@@ -52,7 +52,8 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-[#C792DF]">
+    <section className="relative min-h-screen w-full overflow-hidden bg-cozetik-black lg:bg-none">
+      {/* Video Background Layer */}
       <video
         ref={videoRef}
         autoPlay
@@ -60,7 +61,7 @@ export function HeroSection() {
         muted
         playsInline
         preload="metadata"
-        className="absolute inset-0 h-full w-full object-cover hidden md:block"
+        className="absolute hidden inset-0 h-full w-full object-cover md:block "
       >
         <source
           src="https://res.cloudinary.com/dqmsyqdc4/video/upload/v1767113998/Online_Education_Universities_Library_Scholarship_Free_Stock_Footage_sw14qr_7b88b7.mp4"
@@ -69,27 +70,27 @@ export function HeroSection() {
         Your browser does not support the video tag.
       </video>
 
-      {/* Overlay Layer - 20% opacity for readability - pointer-events-none - Only on desktop */}
-      <div className="pointer-events-none absolute inset-0 bg-black/[0.20] hidden md:block" />
+      {/* Overlay Layer - 20% opacity for readability - pointer-events-none */}
+      <div className="pointer-events-none absolute inset-0 bg-black/[0.20]" />
 
       {/* Content Layer */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 sm:px-6 text-center">
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center">
         <div className="relative">
           {/* Main Title */}
           <TextReveal
             as={"h1"}
             text="COZÉTIK"
             delay={0.2}
-            className="font-display text-[70px] sm:text-[125px] md:text-[150px] lg:text-[180px] xl:text-[200px] 2xl:text-[230px] font-normal leading-[100%] tracking-[0] text-cozetik-white mx-auto w-auto max-w-full px-4 break-words"
+            className="font-display text-[80px] sm:text-[125px] md:text-[150px] lg:text-[180px] xl:text-[200px] 2xl:text-[230px] font-normal leading-[100%] tracking-[0] text-cozetik-white mx-auto w-auto max-w-full px-4 break-words"
           />
           {/* Subtitle */}
-          <p className="mt-3 sm:mt-4 font-sans text-base sm:text-lg text-cozetik-white md:text-xl lg:text-2xl px-2">
+          <p className="mt-4 font-sans hidden text-lg text-cozetik-white md:text-xl lg:text-2xl lg:block">
             Des parcours certifiants qui transforment votre carrière
           </p>
 
           {/* Autographe SVG Vert - Animated */}
           <svg
-            className="pointer-events-none absolute bottom-24 right-2 z-20 w-24 sm:bottom-28 sm:right-6 sm:w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-100 lg:-right-16 lg:w-64"
+            className="pointer-events-none absolute bottom-10 right-0 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-100 lg:-right-16 lg:w-64"
             style={{
               opacity: 0,
               animation: "fadeIn 3s ease-in-out 0.5s forwards",
@@ -109,33 +110,33 @@ export function HeroSection() {
         </div>
 
         {/* CTA Buttons */}
-        <div className="relative z-30 mt-8 sm:mt-10 flex flex-col items-stretch sm:items-center gap-3 sm:gap-4 md:flex-row md:gap-6 w-full max-w-md sm:max-w-lg md:max-w-none px-6 sm:px-8 md:px-4">
+        <div className="relative z-30 mt-6 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
           <Link
             href="/formations"
-            className="group flex items-center justify-between sm:justify-center gap-3 bg-cozetik-white/10 backdrop-blur-sm border-2 border-cozetik-white/30 rounded-lg px-5 py-3.5 sm:px-6 sm:py-4 font-sans text-base sm:text-lg font-semibold text-cozetik-white transition-all duration-300 hover:bg-cozetik-white/20 hover:border-cozetik-white hover:scale-[1.02] active:scale-[0.98] md:bg-transparent md:backdrop-blur-none md:border-0 md:rounded-none md:px-0 md:py-0 md:border-b-2 md:border-transparent md:pb-1 md:hover:bg-transparent md:hover:border-cozetik-white md:text-xl lg:text-2xl"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
           >
-            <span>Découvrir nos formations</span>
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+            Découvrir nos formations
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
           </Link>
           <Link
             href="/quiz"
-            className="group flex items-center justify-between sm:justify-center gap-3 bg-cozetik-white/10 backdrop-blur-sm border-2 border-cozetik-white/30 rounded-lg px-5 py-3.5 sm:px-6 sm:py-4 font-sans text-base sm:text-lg font-semibold text-cozetik-white transition-all duration-300 hover:bg-cozetik-white/20 hover:border-cozetik-white hover:scale-[1.02] active:scale-[0.98] md:bg-transparent md:backdrop-blur-none md:border-0 md:rounded-none md:px-0 md:py-0 md:border-b-2 md:border-transparent md:pb-1 md:hover:bg-transparent md:hover:border-cozetik-white md:text-xl lg:text-2xl"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
           >
-            <span>Trouvez votre formation idéale</span>
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+            Trouvez votre formation idéale
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
           </Link>
           <Link
             href="/candidater"
-            className="group flex items-center justify-between sm:justify-center gap-3 bg-cozetik-green/90 backdrop-blur-sm border-2 border-cozetik-green rounded-lg px-5 py-3.5 sm:px-6 sm:py-4 font-sans text-base sm:text-lg font-semibold text-cozetik-white transition-all duration-300 hover:bg-cozetik-green hover:border-cozetik-white hover:scale-[1.02] active:scale-[0.98] shadow-lg md:bg-transparent md:backdrop-blur-none md:border-0 md:rounded-none md:px-0 md:py-0 md:border-b-2 md:border-transparent md:pb-1 md:hover:bg-transparent md:hover:border-cozetik-white md:shadow-none md:text-xl lg:text-2xl"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
           >
-            <span>Candidater</span>
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+            Candidater
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
           </Link>
         </div>
       </div>
 
-      {/* Video Controls - Hidden on mobile, visible on desktop */}
-      <div className="absolute bottom-5 z-20 w-full hidden md:flex justify-between translate-x-0 px-2 gap-3 md:bottom-10 md:right-10 md:translate-x-0 md:gap-4 md:justify-end">
+      {/* Video Controls - Boutons séparés et carrés avec bordure verte */}
+      <div className="absolute  bottom-5 z-20 w-full hidden justify-between translate-x-0 px-2 gap-3 md:bottom-10 md:right-10 md:translate-x-0 md:gap-4 md:flex md:justify-end mblock">
         {/* Play/Pause Button */}
         <button
           onClick={togglePlay}

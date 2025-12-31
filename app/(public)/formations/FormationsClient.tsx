@@ -1,8 +1,8 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 
 // Hook pour éviter les warnings SSR avec useLayoutEffect
@@ -25,7 +25,7 @@ type Formation = {
 
 function Hero() {
   return (
-    <section className="relative bg-[#ADA6DB] pb-10 overflow-hidden">
+    <section className="relative bg-[#ADA6DB] pb-10 ">
       {/* Image de fond */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -44,7 +44,7 @@ function Hero() {
         <div className="relative">
           <div className="absolute -right-16 top-2 h-64 w-64 rounded-none bg-[#ADA6DB] opacity-30 blur-3xl" />
 
-          <div className="relative max-w-5xl translate-y-24 overflow-hidden bg-[#262626] px-8 py-14 md:px-16 md:py-20 lg:px-20 lg:py-24">
+          <div className="relative max-w-5xl translate-y-24  bg-[#262626] px-8 py-14 md:px-16 md:py-20 lg:px-20 lg:py-24">
             <h1
               className="mb-4 text-4xl font-extrabold text-white font-bricolage md:text-6xl lg:text-8xl"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
