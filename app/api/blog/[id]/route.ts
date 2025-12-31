@@ -93,7 +93,7 @@ export async function PUT(
         where: { slug: validatedData.slug },
       });
 
-      if (slugExists) {
+      if (slugExists && slugExists.id !== id) {
         return NextResponse.json(
           { error: "Un article avec ce slug existe déjà" },
           { status: 400 }

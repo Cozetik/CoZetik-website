@@ -85,7 +85,7 @@ export async function PUT(
         where: { letter: letterUpper },
       })
 
-      if (conflictingProfile) {
+      if (conflictingProfile && conflictingProfile.id !== id) {
         return NextResponse.json(
           { error: `Un profil avec la lettre ${letterUpper} existe déjà` },
           { status: 400 }

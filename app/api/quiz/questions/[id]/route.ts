@@ -71,7 +71,7 @@ export async function PUT(
         where: { order: validatedData.order },
       })
 
-      if (conflictingQuestion) {
+      if (conflictingQuestion && conflictingQuestion.id !== id) {
         return NextResponse.json(
           { error: `Une question avec l'ordre ${validatedData.order} existe déjà` },
           { status: 400 }
