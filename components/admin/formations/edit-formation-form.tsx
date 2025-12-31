@@ -74,6 +74,7 @@ interface Category {
 interface Formation {
   id: string
   title: string
+  slug: string
   categoryId: string
   description: string
   program: string
