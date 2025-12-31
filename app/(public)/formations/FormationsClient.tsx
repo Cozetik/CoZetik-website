@@ -107,26 +107,26 @@ function Filters({
 
 function FormationCard({ formation }: { formation: Formation }) {
   return (
-    <div className="group flex h-full flex-col bg-white border-2 border-[#262626] px-8 py-10 transition-all duration-300 hover:bg-[#262626]">
-      <div className="text-xs font-semibold uppercase tracking-[0.35em] text-[#ADA6DB] transition-colors duration-300">
+    <div className="group flex h-full flex-col bg-white border-2 border-[#262626] px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 transition-all duration-300 hover:bg-[#262626]">
+      <div className="text-xs font-semibold uppercase tracking-[0.35em] text-[#ADA6DB] transition-colors duration-300 break-words">
         {formation.category?.name || "Formation"}
       </div>
-      <h3 className="mt-4 font-bricolage text-2xl font-extrabold md:text-3xl text-[#262626] transition-colors duration-300 group-hover:text-white">
+      <h3 className="mt-4 font-bricolage text-xl sm:text-2xl md:text-3xl font-extrabold text-[#262626] transition-colors duration-300 group-hover:text-white break-words">
         {formation.title}
       </h3>
-      <p className="mt-4 text-base leading-relaxed text-[#262626]/70 transition-colors duration-300 group-hover:text-white/80">
+      <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#262626]/70 transition-colors duration-300 group-hover:text-white/80 break-words">
         {formation.description || ""}
       </p>
-      <div className="flex justify-between items-center pt-8 mt-auto">
-        <div className="text-sm uppercase tracking-wide text-[#262626]/60 transition-colors duration-300 group-hover:text-white/60">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-2 pt-6 sm:pt-8 mt-auto">
+        <div className="text-xs sm:text-sm uppercase tracking-wide text-[#262626]/60 transition-colors duration-300 group-hover:text-white/60">
           En savoir plus
         </div>
         <Link
           href={`/formations/${formation.slug}`}
-          className="flex items-center gap-2 bg-[#262626] px-4 py-3 text-base font-semibold uppercase text-white transition-all duration-300 group-hover:bg-[#ADA6DB] group-hover:text-white"
+          className="flex items-center justify-center gap-2 bg-[#262626] px-4 py-3 text-sm sm:text-base font-semibold uppercase text-white transition-all duration-300 group-hover:bg-[#ADA6DB] group-hover:text-white whitespace-nowrap"
         >
           Découvrir
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 flex-shrink-0" />
         </Link>
       </div>
     </div>
@@ -190,7 +190,7 @@ export default function FormationsClientPage({
               categories={categories}
             />
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 max-w-full overflow-hidden">
               {filteredFormations.map((formation) => (
                 <FormationCard key={formation.id} formation={formation} />
               ))}
