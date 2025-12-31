@@ -13,8 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@radix-ui/react-select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
@@ -30,7 +30,7 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface Candidature {
@@ -44,6 +44,7 @@ interface Candidature {
   address: string | null;
   postalCode: string | null;
   city: string | null;
+  categoryFormation: string;
   formation: string;
   educationLevel: string;
   currentSituation: string;
@@ -69,6 +70,48 @@ export function ViewCandidatureDialog({
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailSubject, setEmailSubject] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
+  const [formationName, setFormationName] = useState<string>("");
+  const [categoryName, setCategoryName] = useState<string>("");
+
+  // Récupérer les noms de la formation et de la catégorie
+  useEffect(() => {
+    async function fetchNames() {
+      try {
+        // Récupérer la formation
+        if (candidature.formation) {
+          const formationRes = await fetch(
+            `/api/formations/${candidature.formation}`
+          );
+          if (formationRes.ok) {
+            const formation = await formationRes.json();
+            setFormationName(formation.title);
+          } else {
+            setFormationName(candidature.formation);
+          }
+        }
+        // Récupérer la catégorie
+        if (candidature.categoryFormation) {
+          const categoryRes = await fetch(`/api/categories`);
+          if (categoryRes.ok) {
+            const categories = await categoryRes.json();
+            const category = categories.find(
+              (c: any) => c.id === candidature.categoryFormation
+            );
+            setCategoryName(category?.name || candidature.categoryFormation);
+          } else {
+            setCategoryName(candidature.categoryFormation);
+          }
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des noms:", error);
+        setFormationName(candidature.formation);
+        setCategoryName(candidature.categoryFormation);
+      }
+    }
+    if (isOpen) {
+      fetchNames();
+    }
+  }, [isOpen, candidature.formation, candidature.categoryFormation]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -156,7 +199,7 @@ export function ViewCandidatureDialog({
           <Eye className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0 gap-0 overflow-hidden">
+      <DialogContent className="max-w-4xl h-[90vh] p-0 gap-0 flex flex-col">
         {/* Header */}
         <div className="px-6 py-4 border-b bg-white shrink-0">
           <DialogHeader>
@@ -180,7 +223,7 @@ export function ViewCandidatureDialog({
         </div>
 
         {/* Contenu scrollable */}
-        <ScrollArea className="flex-1 overflow-y-auto">
+        <ScrollArea className="flex-1">
           <div className="px-6 py-6 space-y-6">
             {/* Informations personnelles */}
             <section>
@@ -253,10 +296,18 @@ export function ViewCandidatureDialog({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pl-6">
                 <div className="sm:col-span-2">
                   <p className="text-xs font-medium text-gray-500 mb-1">
+                    Catégorie
+                  </p>
+                  <p className="text-sm text-gray-900">
+                    {categoryName || candidature.categoryFormation}
+                  </p>
+                </div>
+                <div className="sm:col-span-2">
+                  <p className="text-xs font-medium text-gray-500 mb-1">
                     Formation souhaitée
                   </p>
                   <p className="text-sm font-semibold text-[#9A80B8]">
-                    {candidature.formation}
+                    {formationName || candidature.formation}
                   </p>
                 </div>
                 <div>
@@ -298,8 +349,8 @@ export function ViewCandidatureDialog({
                 Lettre de motivation
               </h3>
               <div className="pl-6">
-                <div className="p-4 bg-gray-50 rounded-md border border-gray-200">
-                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                <div className="p-4 bg-gray-50 rounded-md border border-gray-200 max-h-[300px] overflow-y-auto">
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
                     {candidature.motivation}
                   </p>
                 </div>
