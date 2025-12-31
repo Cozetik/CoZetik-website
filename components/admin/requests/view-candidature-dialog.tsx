@@ -112,6 +112,16 @@ export function ViewCandidatureDialog({
     }
   }, [isOpen, candidature.formation, candidature.categoryFormation]);
 
+  // Convertir l'URL Cloudinary pour forcer le téléchargement
+  const getDownloadUrl = (url: string) => {
+    if (!url) return url;
+    // Si c'est une URL Cloudinary, ajouter le paramètre fl_attachment
+    if (url.includes("cloudinary.com")) {
+      return url.replace("/upload/", "/upload/fl_attachment/");
+    }
+    return url;
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "NEW":
@@ -198,9 +208,9 @@ export function ViewCandidatureDialog({
           <Eye className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-5xl h-[95vh] overflow-hidden flex flex-col p-6">
+      <DialogContent className="max-w-5xl h-[90vh] p-0 flex flex-col">
         {/* Header */}
-        <div className="shrink-0 pb-4 border-b">
+        <div className="shrink-0 px-6 pt-6 pb-4 border-b">
           <DialogHeader>
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
@@ -222,7 +232,7 @@ export function ViewCandidatureDialog({
         </div>
 
         {/* Contenu scrollable */}
-        <div className="flex-1 overflow-y-auto mt-4 -mr-6 pr-6">
+        <div className="flex-1 overflow-y-auto px-6 py-4">
           <div className="space-y-6">
             {/* Informations personnelles */}
             <section>
@@ -383,8 +393,8 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={candidature.cvUrl}
-                            download
+                            href={getDownloadUrl(candidature.cvUrl)}
+                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
@@ -407,8 +417,8 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={candidature.coverLetterUrl}
-                            download
+                            href={getDownloadUrl(candidature.coverLetterUrl)}
+                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
@@ -431,8 +441,8 @@ export function ViewCandidatureDialog({
                         </div>
                         <Button asChild variant="outline" size="sm">
                           <a
-                            href={candidature.otherDocumentUrl}
-                            download
+                            href={getDownloadUrl(candidature.otherDocumentUrl)}
+                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
