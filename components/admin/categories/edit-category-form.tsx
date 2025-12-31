@@ -19,7 +19,6 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ImageUpload } from '@/components/admin/image-upload'
-import { slugify } from '@/lib/slugify'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -38,6 +37,7 @@ interface EditCategoryFormProps {
   category: {
     id: string
     name: string
+    slug: string
     description: string | null
     imageUrl: string | null
     visible: boolean
@@ -64,22 +64,13 @@ export default function EditCategoryForm({ category }: EditCategoryFormProps) {
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true)
 
-    // Générer le slug depuis le nom
-    const slug = slugify(values.name)
-
-    if (!slug) {
-      toast.error('Le nom doit contenir au moins un caractère valide')
-      setIsLoading(false)
-      return
-    }
-
     try {
       const response = await fetch(`/api/categories/${category.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...values,
-          slug,
+          slug: category.slug, // Utiliser le slug existant (ne pas regénérer)
           previousImageUrl,
         }),
       })

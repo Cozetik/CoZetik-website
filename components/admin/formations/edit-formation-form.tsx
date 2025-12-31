@@ -26,7 +26,6 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ImageUpload } from '@/components/admin/image-upload'
-import { slugify } from '@/lib/slugify'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -132,15 +131,6 @@ export default function EditFormationForm({
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true)
 
-    // Générer le slug depuis le titre
-    const slug = slugify(values.title)
-
-    if (!slug) {
-      toast.error('Le titre doit contenir au moins un caractère valide')
-      setIsLoading(false)
-      return
-    }
-
     try {
       // Convertir objectives (string avec retours à la ligne) en array
       const objectivesArray = values.objectives
@@ -152,7 +142,7 @@ export default function EditFormationForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...values,
-          slug,
+          slug: formation.slug, // Utiliser le slug existant (ne pas regénérer)
           price: values.price || null,
           duration: values.duration || null,
           level: values.level || null,

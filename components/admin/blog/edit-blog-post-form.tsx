@@ -28,7 +28,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { slugify } from "@/lib/slugify";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -85,7 +84,6 @@ export default function EditBlogPostForm({
 }: EditBlogPostFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [manualSlug, setManualSlug] = useState(false);
   const [previousImageUrl] = useState(post.imageUrl);
 
   const form = useForm<z.infer<typeof blogPostSchema>>({
@@ -104,15 +102,11 @@ export default function EditBlogPostForm({
     },
   });
 
-  // Auto-générer le slug depuis le titre
+  // Gestion du changement de titre (sans regénérer le slug)
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     form.setValue("title", title);
-
-    if (!manualSlug) {
-      const slug = slugify(title);
-      form.setValue("slug", slug);
-    }
+    // Le slug n'est plus régénéré automatiquement lors de l'édition
   };
 
   const onSubmit = async (values: z.infer<typeof blogPostSchema>) => {
@@ -207,15 +201,10 @@ export default function EditBlogPostForm({
                     <Input
                       placeholder="ex: 10-conseils-pour-maitriser-ia"
                       {...field}
-                      onChange={(e) => {
-                        setManualSlug(true);
-                        field.onChange(e);
-                      }}
                     />
                   </FormControl>
                   <FormDescription>
-                    URL de l&apos;article (généré automatiquement depuis le
-                    titre)
+                    URL de l&apos;article (modifiable manuellement)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
