@@ -278,7 +278,7 @@ export default function ContactPage() {
                             <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
                               <SelectValue placeholder="Sélectionnez un objet" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="font-sans">
                               <SelectItem value="info-formation">
                                 Demande d&apos;information sur une formation
                               </SelectItem>

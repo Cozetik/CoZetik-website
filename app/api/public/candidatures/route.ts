@@ -33,13 +33,21 @@ async function uploadFileToCloudinary(
     }
 
     // Validation taille (10MB)
-    const maxSize = 10 * 1024 * 1024; // 10MB en bytes
+    const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
       console.warn(
         `File ${file.name} is too large (${file.size} bytes), skipping upload`
       );
       return null;
     }
+
+    // Extraire l'extension du fichier original et créer un nom de fichier unique
+    const fileExtension = file.name.split(".").pop()?.toLowerCase() || "";
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 8);
+
+    // Créer un nom de fichier avec extension
+    const fileName = `${timestamp}-${randomString}.${fileExtension}`;
 
     // Convertir le fichier en buffer
     const bytes = await file.arrayBuffer();
@@ -67,12 +75,13 @@ async function uploadFileToCloudinary(
           {
             folder: folder,
             resource_type: resourceType,
-            // Pour les PDF et documents, on garde le format original
-            ...(resourceType === "raw"
-              ? {}
-              : {
-                  transformation: [{ quality: "auto", fetch_format: "auto" }],
-                }),
+            public_id: `${timestamp}-${randomString}`,
+            use_filename: false,
+            unique_filename: false,
+            overwrite: false,
+            // Pour les fichiers raw (PDF, DOCX, etc.), on doit spécifier le format
+            ...(resourceType === "raw" &&
+              fileExtension && { format: fileExtension }),
           },
           (error, result) => {
             if (error) reject(error);
@@ -85,6 +94,14 @@ async function uploadFileToCloudinary(
     );
 
     console.log(`✅ Fichier uploadé: ${file.name} -> ${result.secure_url}`);
+
+    // ✅ Vérifier que l'URL contient bien l'extension
+    if (!result.secure_url.includes(`.${fileExtension}`)) {
+      console.warn(
+        `⚠️ L'URL ne contient pas l'extension attendue: ${result.secure_url}`
+      );
+    }
+
     return result.secure_url;
   } catch (error) {
     console.error(`❌ Erreur lors de l'upload du fichier ${file.name}:`, error);

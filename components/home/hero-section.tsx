@@ -52,7 +52,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
+    <section className="relative min-h-screen w-full overflow-hidden bg-cozetik-black lg:bg-none">
       {/* Video Background Layer */}
       <video
         ref={videoRef}
@@ -61,7 +61,7 @@ export function HeroSection() {
         muted
         playsInline
         preload="metadata"
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute hidden inset-0 h-full w-full object-cover md:block "
       >
         <source
           src="https://res.cloudinary.com/dqmsyqdc4/video/upload/v1767179869/Online_Education_Scholarship_Free_Stock_Footagea_uhwuxd.mp4"
@@ -84,13 +84,13 @@ export function HeroSection() {
             className="font-display text-[80px] sm:text-[125px] md:text-[150px] lg:text-[180px] xl:text-[200px] 2xl:text-[230px] font-normal leading-[100%] tracking-[0] text-cozetik-white mx-auto w-auto max-w-full px-4 break-words"
           />
           {/* Subtitle */}
-          <p className="mt-4 font-sans text-lg text-cozetik-white md:text-xl lg:text-2xl">
+          <p className="mt-4 font-sans hidden text-lg text-cozetik-white md:text-xl lg:text-2xl lg:block">
             Des parcours certifiants qui transforment votre carrière
           </p>
 
           {/* Autographe SVG Vert - Animated */}
           <svg
-            className="pointer-events-none absolute bottom-28 right-6 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-100 lg:-right-16 lg:w-64"
+            className="pointer-events-none absolute bottom-10 right-0 z-20 w-32 md:bottom-12 md:-right-12 md:w-48 lg:bottom-100 lg:-right-16 lg:w-64"
             style={{
               opacity: 0,
               animation: "fadeIn 3s ease-in-out 0.5s forwards",
@@ -136,7 +136,7 @@ export function HeroSection() {
       </div>
 
       {/* Video Controls - Boutons séparés et carrés avec bordure verte */}
-      <div className="absolute bottom-5 z-20 w-full flex justify-between translate-x-0 px-2 gap-3 md:bottom-10 md:right-10 md:translate-x-0 md:gap-4 md:justify-end">
+      <div className="absolute  bottom-5 z-20 w-full hidden justify-between translate-x-0 px-2 gap-3 md:bottom-10 md:right-10 md:translate-x-0 md:gap-4 md:flex md:justify-end mblock">
         {/* Play/Pause Button */}
         <button
           onClick={togglePlay}
