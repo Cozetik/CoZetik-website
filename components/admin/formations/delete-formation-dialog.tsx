@@ -59,7 +59,7 @@ export default function DeleteFormationDialog({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" aria-label="Supprimer la formation">
           <Trash className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>

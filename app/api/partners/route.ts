@@ -5,14 +5,14 @@ import { z } from 'zod'
 
 const partnerSchema = z.object({
   name: z.string().min(1, 'Le nom est requis').max(200),
-  description: z.string().nullable().optional(),
-  logoUrl: z.string().nullable().optional(),
+  description: z.string().optional().nullable(),
+  logoUrl: z.string().optional().nullable(),
   websiteUrl: z
     .string()
     .url('URL invalide')
-    .nullable()
+    .or(z.literal(''))
     .optional()
-    .or(z.literal(null)),
+    .nullable(),
   visible: z.boolean().default(true),
   order: z.number().int().min(0).default(0),
 })

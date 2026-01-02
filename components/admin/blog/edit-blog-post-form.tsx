@@ -374,18 +374,18 @@ export default function EditBlogPostForm({
                       className="flex gap-4"
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="false" id="draft" />
+                        <RadioGroupItem value="false" id="edit-post-draft" />
                         <label
-                          htmlFor="draft"
+                          htmlFor="edit-post-draft"
                           className="cursor-pointer text-sm font-normal"
                         >
                           Brouillon
                         </label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="true" id="published" />
+                        <RadioGroupItem value="true" id="edit-post-published" />
                         <label
-                          htmlFor="published"
+                          htmlFor="edit-post-published"
                           className="cursor-pointer text-sm font-normal"
                         >
                           Publié

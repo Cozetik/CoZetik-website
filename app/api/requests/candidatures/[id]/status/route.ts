@@ -18,6 +18,18 @@ export async function PATCH(
       )
     }
 
+    // Vérifier que la candidature existe
+    const existingCandidature = await prisma.candidature.findUnique({
+      where: { id },
+    })
+
+    if (!existingCandidature) {
+      return NextResponse.json(
+        { error: 'Candidature introuvable' },
+        { status: 404 }
+      )
+    }
+
     const candidature = await prisma.candidature.update({
       where: { id },
       data: { status },

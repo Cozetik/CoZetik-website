@@ -12,7 +12,13 @@ const profileSchema = z.object({
   desir: z.string().min(1, 'Le désir est requis'),
   phraseMiroir: z.string().min(1, 'La phrase miroir est requise'),
   programmeSignature: z.string().min(1, 'Le programme signature est requis'),
-  modulesComplementaires: z.string(), // Sera converti en array
+  modulesComplementaires: z.union([
+    z.string(),
+    z.array(z.string())
+  ]).transform(val => {
+    if (Array.isArray(val)) return val
+    return val.split('\n').map(m => m.trim()).filter(m => m !== '')
+  }),
   visible: z.boolean().default(true),
 })
 
@@ -37,14 +43,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
 
-    // Validation avec Zod
+    // Validation avec Zod (modulesComplementaires est transformé automatiquement en array)
     const validatedData = profileSchema.parse(body)
-
-    // Convertir modulesComplementaires string → array
-    const modulesArray = validatedData.modulesComplementaires
-      .split('\n')
-      .map(m => m.trim())
-      .filter(m => m !== '')
 
     // Vérifier l'unicité de la lettre
     const existingProfile = await prisma.quizProfile.findUnique({
@@ -69,7 +69,7 @@ export async function POST(request: Request) {
         desir: validatedData.desir,
         phraseMiroir: validatedData.phraseMiroir,
         programmeSignature: validatedData.programmeSignature,
-        modulesComplementaires: modulesArray,
+        modulesComplementaires: validatedData.modulesComplementaires,
         visible: validatedData.visible,
       },
     })

@@ -8,6 +8,18 @@ export async function DELETE(
   try {
     const { id } = await params
 
+    // Vérifier que la candidature existe
+    const candidature = await prisma.candidature.findUnique({
+      where: { id },
+    })
+
+    if (!candidature) {
+      return NextResponse.json(
+        { error: 'Candidature introuvable' },
+        { status: 404 }
+      )
+    }
+
     await prisma.candidature.delete({
       where: { id },
     })
