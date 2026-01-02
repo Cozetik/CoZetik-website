@@ -46,11 +46,10 @@ export const metadata: Metadata = {
 async function getHomeData() {
   try {
     const [categories, formations, partners, values] = await Promise.all([
-      // Fetch visible categories (limit to 5 for homepage)
+      // Fetch visible categories
       prisma.category.findMany({
         where: { visible: true },
         orderBy: { order: "asc" },
-        take: 5,
         select: {
           id: true,
           name: true,
