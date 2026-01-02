@@ -31,9 +31,9 @@ import * as z from 'zod'
 
 const valueSchema = z.object({
   order: z
-    .number({ required_error: "L'ordre est requis" })
-    .int("L'ordre doit être un nombre entier")
-    .positive("L'ordre doit être positif"),
+    .number({ message: "L'ordre est requis" })
+    .int({ message: "L'ordre doit être un nombre entier" })
+    .positive({ message: "L'ordre doit être positif" }),
   title: z.string().min(1, 'Le titre est requis').max(200, 'Titre trop long'),
   description: z.string().min(10, 'Description trop courte (min. 10 caractères)'),
 })
