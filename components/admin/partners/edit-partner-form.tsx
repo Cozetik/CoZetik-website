@@ -227,6 +227,7 @@ export default function EditPartnerForm({ partner }: { partner: Partner }) {
                         type="number"
                         placeholder="0"
                         {...field}
+                        onChange={e => field.onChange(parseInt(e.target.value) || 0)}
                         disabled={isLoading}
                       />
                     </FormControl>

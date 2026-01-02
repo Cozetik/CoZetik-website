@@ -264,6 +264,7 @@ export default function EditFormationForm({
                         placeholder="Laisser vide pour gratuit"
                         {...field}
                         value={field.value ?? ''}
+                        onChange={e => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
                         disabled={isLoading}
                       />
                     </FormControl>
@@ -389,6 +390,7 @@ export default function EditFormationForm({
                         type="number"
                         placeholder="0"
                         {...field}
+                        onChange={e => field.onChange(parseInt(e.target.value) || 0)}
                         disabled={isLoading}
                       />
                     </FormControl>

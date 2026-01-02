@@ -245,6 +245,7 @@ export default function AddSessionDialog({
                       placeholder="Laisser vide si illimité"
                       {...field}
                       value={field.value ?? ''}
+                      onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : null)}
                       disabled={isLoading}
                     />
                   </FormControl>
