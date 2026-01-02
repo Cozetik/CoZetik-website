@@ -3,10 +3,10 @@ import Credentials from "next-auth/providers/credentials"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 import type { Role } from "@prisma/client"
+import { authConfig } from "./auth.config"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  trustHost: true, // Requis pour Auth.js v5
-  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+  ...authConfig,
   providers: [
     Credentials({
       name: "Credentials",
@@ -56,6 +56,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
+    ...authConfig.callbacks,
     async jwt({ token, user }) {
       // Lors de la première connexion, ajouter l'id et le role au token
       if (user) {
@@ -72,11 +73,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session
     },
-  },
-  pages: {
-    signIn: "/auth-admin",
-  },
-  session: {
-    strategy: "jwt",
   },
 })
