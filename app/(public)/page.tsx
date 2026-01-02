@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 
 async function getHomeData() {
   try {
-    const [categories, formations, partners] = await Promise.all([
+    const [categories, formations, partners, values] = await Promise.all([
       // Fetch visible categories (limit to 5 for homepage)
       prisma.category.findMany({
         where: { visible: true },
@@ -75,17 +75,23 @@ async function getHomeData() {
         where: { visible: true },
         orderBy: { order: "asc" },
       }),
+
+      // Fetch visible values for "Nos Valeurs" section
+      prisma.value.findMany({
+        where: { visible: true },
+        orderBy: { order: "asc" },
+      }),
     ]);
 
-    return { categories, formations, partners };
+    return { categories, formations, partners, values };
   } catch (error) {
     console.error("Error fetching home data:", error);
-    return { categories: [], formations: [], partners: [] };
+    return { categories: [], formations: [], partners: [], values: [] };
   }
 }
 
 export default async function Home() {
-  const { categories, formations, partners } = await getHomeData();
+  const { categories, formations, partners, values } = await getHomeData();
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'
   const organizationSchema = {
@@ -131,7 +137,7 @@ export default async function Home() {
               Nos domaines d&apos;expertise
             </h2>
             <p className="font-sans text-lg text-cozetik-black/80 md:text-xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-              5 parcours pour révéler votre potentiel
+              {categories.length} parcours pour révéler votre potentiel
             </p>
           </div>
           <CategoriesSection categories={categories} />
@@ -153,7 +159,7 @@ export default async function Home() {
       </section>
 
       {/* Nos Valeurs Section - Fond noir */}
-      <ValuesSection />
+      <ValuesSection values={values} />
 
       {/* CTA Section 1 - Rejoins l'Aventure (Violet) */}
       <JoinAdventureSection />

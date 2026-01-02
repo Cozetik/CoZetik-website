@@ -298,3 +298,17 @@ model Candidature {
 
     @@map("candidatures")
 }
+
+// Value model for company values (homepage section "Nos Valeurs")
+model Value {
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  title       String   // "HUMAIN AU CŒUR DU RECRUTEMENT"
+  description String   @db.Text // Description détaillée
+  visible     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([order])
+  @@index([visible, order])
+}

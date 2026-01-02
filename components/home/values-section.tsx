@@ -3,40 +3,65 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const values = [
+interface Value {
+  id: string;
+  order: number;
+  title: string;
+  description: string;
+  visible: boolean;
+}
+
+interface ValuesSectionProps {
+  values?: Value[];
+}
+
+// Valeurs par défaut (fallback si pas de données en DB)
+const defaultValues = [
   {
-    number: "01",
+    id: "default-1",
+    order: 1,
     title: "HUMAIN AU CŒUR DU RECRUTEMENT",
     description:
       "Nous plaçons l'humain au centre de chaque recrutement. Chaque candidat est unique et mérite une attention personnalisée pour trouver le poste qui lui correspond parfaitement.",
+    visible: true,
   },
   {
-    number: "02",
+    id: "default-2",
+    order: 2,
     title: "EXCELLENCE ET EXPERTISE MÉTIER RPO",
     description:
       "Notre expertise en Recruitment Process Outsourcing (RPO) nous permet d'accompagner les entreprises avec des solutions sur-mesure et des processus optimisés pour recruter les meilleurs talents.",
+    visible: true,
   },
   {
-    number: "03",
+    id: "default-3",
+    order: 3,
     title: "EMPLOYABILITÉ DURABLE ET CONCRÈTE",
     description:
       "Nous formons nos candidats aux compétences recherchées par les entreprises d'aujourd'hui et de demain, pour une employabilité durable et des carrières épanouissantes.",
+    visible: true,
   },
   {
-    number: "04",
+    id: "default-4",
+    order: 4,
     title: "RECRUTEMENT ÉTHIQUE ET RESPONSABLE",
     description:
       "Nous respectons des standards éthiques élevés dans tous nos processus de recrutement, garantissant transparence, équité et respect de la diversité.",
+    visible: true,
   },
   {
-    number: "05",
+    id: "default-5",
+    order: 5,
     title: "INNOVATION ET AGILITÉ TERRAIN",
     description:
       "Nous adoptons les dernières technologies et méthodologies agiles pour rester à la pointe du recrutement moderne et répondre rapidement aux besoins du marché.",
+    visible: true,
   },
 ];
 
-export function ValuesSection() {
+export function ValuesSection({ values: propValues }: ValuesSectionProps) {
+  // Utiliser les valeurs passées en props ou les valeurs par défaut
+  const values = propValues && propValues.length > 0 ? propValues : defaultValues;
   return (
     <section className="relative w-full overflow-hidden lg:py-24">
       {/* Desktop Background: Split Noir gauche / Beige droite - Caché sur mobile/tablette */}
@@ -117,7 +142,7 @@ export function ValuesSection() {
             <div className="flex flex-col gap-8 md:gap-10 lg:gap-8">
               {values.map((value, index) => (
                 <motion.div
-                  key={value.number}
+                  key={value.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
@@ -130,7 +155,7 @@ export function ValuesSection() {
                 >
                   {/* Numéro */}
                   <div className="flex flex-shrink-0 items-start font-display text-4xl font-extrabold text-cozetik-green md:text-5xl lg:text-6xl">
-                    {value.number}
+                    {value.order.toString().padStart(2, "0")}
                   </div>
 
                   {/* Titre + Description */}
