@@ -18,7 +18,7 @@ export default function AdminLayoutClient({
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
-    <div className="flex">
+    <div className="flex font-sans antialiased">
       {/* Desktop Sidebar */}
       <aside className="hidden w-64 lg:block">
         <Sidebar />
@@ -30,7 +30,7 @@ export default function AdminLayoutClient({
           userEmail={userEmail}
           onMenuClick={() => setMobileNavOpen(true)}
         />
-        <main className="flex-1 bg-background p-6">{children}</main>
+        <main className="flex-1 bg-background p-6 font-sans">{children}</main>
       </div>
 
       {/* Mobile Navigation */}

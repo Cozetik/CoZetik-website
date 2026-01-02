@@ -30,7 +30,7 @@ export default function Header({ userEmail, onMenuClick }: HeaderProps) {
   }
 
   return (
-    <header className="flex h-16 items-center justify-between border-b bg-background px-6">
+    <header className="flex h-16 items-center justify-between border-b bg-background px-6 font-sans">
       {/* Mobile Menu Button */}
       <Button
         variant="ghost"

@@ -9,6 +9,7 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_DATABASE_URL")
+  // directUrl est optionnel, utilise DATABASE_URL si non défini
 }
 
 enum Role {
@@ -288,8 +289,11 @@ model Candidature {
   startDate        String?
   motivation       String        @db.Text
   cvUrl            String?
+  cvFileName       String?
   coverLetterUrl   String?
+  coverLetterFileName String?
   otherDocumentUrl String?
+  otherDocumentFileName String?
   acceptPrivacy    Boolean       @default(false)
   acceptNewsletter Boolean       @default(false)
   status           RequestStatus @default(NEW)

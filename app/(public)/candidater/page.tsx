@@ -3,6 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  Dialog,
+  DialogContent,
+} from "@/components/ui/dialog";
+import {
   Form,
   FormControl,
   FormField,
@@ -26,10 +30,10 @@ import {
   type CandidatureFormData,
 } from "@/lib/validations/candidature";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Calendar, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowRight, Calendar, CheckCircle2, Eye, Loader2, FileText, X } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -82,6 +86,10 @@ function CandidaterContent() {
   const [filteredFormations, setFilteredFormations] = useState<Formation[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [viewingFile, setViewingFile] = useState<{
+    file: File;
+    name: string;
+  } | null>(null);
 
   const form = useForm<CandidatureFormData>({
     resolver: zodResolver(candidatureFormSchema),
@@ -105,6 +113,10 @@ function CandidaterContent() {
       acceptNewsletter: false,
     },
   });
+
+  const cvInputRef = useRef<HTMLInputElement>(null);
+  const coverLetterInputRef = useRef<HTMLInputElement>(null);
+  const otherDocumentInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -186,16 +198,30 @@ function CandidaterContent() {
     try {
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
+        // Ignorer les valeurs null ou undefined
+        if (value === null || value === undefined) {
+          return;
+        }
+        
         if (key === "birthDate" && typeof value === "string") {
           formData.append(key, new Date(value).toISOString());
         } else if (value instanceof File) {
           formData.append(key, value);
         } else if (typeof value === "boolean") {
           formData.append(key, value.toString());
-        } else if (value) {
+        } else if (value !== null && value !== undefined) {
           formData.append(key, value.toString());
         }
       });
+      
+      // Vérifier que le CV est présent
+      if (!data.cv || !(data.cv instanceof File)) {
+        toast.error("Erreur", {
+          description: "Le CV est obligatoire",
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       const response = await fetch("/api/public/candidatures", {
         method: "POST",
@@ -207,9 +233,13 @@ function CandidaterContent() {
         try {
           const error = await response.json();
           errorMessage = error.error || errorMessage;
+          // Afficher les détails en mode développement
+          if (process.env.NODE_ENV === "development" && error.details) {
+            console.error("Détails de l'erreur:", error.details);
+          }
         } catch (parseError) {
           const text = await response.text();
-          console.error("Erreur non-JSON:", text.substring(0, 100));
+          console.error("Erreur non-JSON:", text.substring(0, 200));
           errorMessage = `Erreur ${response.status}: ${response.statusText}`;
         }
         throw new Error(errorMessage);
@@ -790,8 +820,9 @@ function CandidaterContent() {
                         CV * (PDF, DOC, DOCX - 5 Mo max)
                       </FormLabel>
                       <FormControl>
-                        <div className="flex items-center gap-4">
+                        <div className="space-y-3">
                           <Input
+                            ref={cvInputRef}
                             type="file"
                             accept=".pdf,.doc,.docx"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
@@ -800,7 +831,52 @@ function CandidaterContent() {
                               if (file) onChange(file);
                             }}
                             {...field}
+                            value=""
                           />
+                          {value && value instanceof File && (
+                            <div className="flex items-center justify-between p-3 bg-[#EFEFEF] rounded-md border border-gray-200">
+                              <div className="flex items-center gap-3 min-w-0 flex-1">
+                                <div className="p-2 bg-[#9A80B8]/10 rounded shrink-0">
+                                  <FileText className="w-5 h-5 text-[#9A80B8]" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-medium text-[#2C2C2C] truncate">
+                                    {value.name}
+                                  </p>
+                                  <p className="text-xs text-gray-500">
+                                    {(value.size / 1024 / 1024).toFixed(2)} Mo
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    setViewingFile({ file: value, name: "CV" });
+                                  }}
+                                >
+                                  <Eye className="h-4 w-4 mr-1.5" />
+                                  Voir
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-8 w-8"
+                                  onClick={() => {
+                                    onChange(null);
+                                    if (cvInputRef.current) {
+                                      cvInputRef.current.value = "";
+                                    }
+                                  }}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -818,16 +894,67 @@ function CandidaterContent() {
                         max)
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          type="file"
-                          accept=".pdf,.doc,.docx"
-                          className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) onChange(file);
-                          }}
-                          {...field}
-                        />
+                        <div className="space-y-3">
+                          <Input
+                            ref={coverLetterInputRef}
+                            type="file"
+                            accept=".pdf,.doc,.docx"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) onChange(file);
+                            }}
+                            {...field}
+                            value=""
+                          />
+                          {value && value instanceof File && (
+                            <div className="flex items-center justify-between p-3 bg-[#EFEFEF] rounded-md border border-gray-200">
+                              <div className="flex items-center gap-3 min-w-0 flex-1">
+                                <div className="p-2 bg-[#9A80B8]/10 rounded shrink-0">
+                                  <FileText className="w-5 h-5 text-[#9A80B8]" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-medium text-[#2C2C2C] truncate">
+                                    {value.name}
+                                  </p>
+                                  <p className="text-xs text-gray-500">
+                                    {(value.size / 1024 / 1024).toFixed(2)} Mo
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    setViewingFile({
+                                      file: value,
+                                      name: "Lettre de motivation",
+                                    });
+                                  }}
+                                >
+                                  <Eye className="h-4 w-4 mr-1.5" />
+                                  Voir
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-8 w-8"
+                                  onClick={() => {
+                                    onChange(null);
+                                    if (coverLetterInputRef.current) {
+                                      coverLetterInputRef.current.value = "";
+                                    }
+                                  }}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -843,15 +970,66 @@ function CandidaterContent() {
                         Autre document (optionnel - diplômes, attestations...)
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          type="file"
-                          className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) onChange(file);
-                          }}
-                          {...field}
-                        />
+                        <div className="space-y-3">
+                          <Input
+                            ref={otherDocumentInputRef}
+                            type="file"
+                            className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) onChange(file);
+                            }}
+                            {...field}
+                            value=""
+                          />
+                          {value && value instanceof File && (
+                            <div className="flex items-center justify-between p-3 bg-[#EFEFEF] rounded-md border border-gray-200">
+                              <div className="flex items-center gap-3 min-w-0 flex-1">
+                                <div className="p-2 bg-[#9A80B8]/10 rounded shrink-0">
+                                  <FileText className="w-5 h-5 text-[#9A80B8]" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-medium text-[#2C2C2C] truncate">
+                                    {value.name}
+                                  </p>
+                                  <p className="text-xs text-gray-500">
+                                    {(value.size / 1024 / 1024).toFixed(2)} Mo
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    setViewingFile({
+                                      file: value,
+                                      name: "Autre document",
+                                    });
+                                  }}
+                                >
+                                  <Eye className="h-4 w-4 mr-1.5" />
+                                  Voir
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-8 w-8"
+                                  onClick={() => {
+                                    onChange(null);
+                                    if (otherDocumentInputRef.current) {
+                                      otherDocumentInputRef.current.value = "";
+                                    }
+                                  }}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -956,6 +1134,90 @@ function CandidaterContent() {
           </Form>
         </div>
       </section>
+
+      {/* Dialog pour visualiser les fichiers */}
+      <Dialog open={!!viewingFile} onOpenChange={(open) => !open && setViewingFile(null)}>
+        <DialogContent className="max-w-6xl max-h-[90vh] p-0 flex flex-col">
+          {viewingFile && (
+            <div className="flex-1 overflow-auto p-6">
+              <FileViewer file={viewingFile.file} />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+// Composant pour visualiser les fichiers
+function FileViewer({ file }: { file: File }) {
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const fileType = file.type.toLowerCase();
+
+  useEffect(() => {
+    // Créer une URL temporaire pour le fichier
+    const url = URL.createObjectURL(file);
+    setFileUrl(url);
+
+    // Nettoyer l'URL quand le composant est démonté
+    return () => {
+      URL.revokeObjectURL(url);
+    };
+  }, [file]);
+
+  if (!fileUrl) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-[#9A80B8]" />
+      </div>
+    );
+  }
+
+  // PDF
+  if (fileType === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+    return (
+      <iframe
+        src={fileUrl}
+        className="w-full h-full min-h-[600px] border rounded-md"
+        title={file.name}
+      />
+    );
+  }
+
+  // Images
+  if (fileType.startsWith("image/")) {
+    return (
+      <div className="flex items-center justify-center">
+        <img
+          src={fileUrl}
+          alt={file.name}
+          className="max-w-full max-h-[70vh] object-contain rounded-md"
+        />
+      </div>
+    );
+  }
+
+  // Documents Word ou autres
+  return (
+    <div className="flex flex-col items-center justify-center py-12">
+      <FileText className="w-16 h-16 text-gray-400 mb-4" />
+      <p className="text-gray-600 mb-4 text-center">
+        Aperçu non disponible pour ce type de fichier
+      </p>
+      <p className="text-sm text-gray-500 mb-4">
+        {file.name} ({(file.size / 1024 / 1024).toFixed(2)} Mo)
+      </p>
+      <Button
+        variant="outline"
+        onClick={() => {
+          const link = document.createElement("a");
+          link.href = fileUrl;
+          link.download = file.name;
+          link.click();
+        }}
+      >
+        Télécharger le fichier
+      </Button>
     </div>
   );
 }

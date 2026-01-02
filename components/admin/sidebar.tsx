@@ -82,10 +82,10 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="flex h-full flex-col border-r bg-muted/40">
+    <div className="flex h-full flex-col border-r bg-muted/40 font-sans">
       {/* Logo/Header */}
       <div className="flex h-16 items-center border-b px-6">
-        <h1 className="text-xl font-bold tracking-tight">Cozetik Admin</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Cozetik Admin</h1>
       </div>
 
       {/* Navigation */}
@@ -103,7 +103,7 @@ export default function Sidebar() {
                   <button
                     onClick={() => toggleExpanded(item.name)}
                     className={cn(
-                      "flex w-full items-center gap-3 rounded-none px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                      "flex w-full items-center gap-3 rounded-none px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground tracking-tight",
                       hasActiveChild && "bg-accent text-accent-foreground"
                     )}
                   >
@@ -124,7 +124,7 @@ export default function Sidebar() {
                           key={subItem.href}
                           href={subItem.href}
                           className={cn(
-                            "block rounded-none px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
+                            "block rounded-none px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground tracking-tight",
                             isActive(subItem.href) &&
                               "bg-accent font-medium text-accent-foreground"
                           )}
@@ -143,7 +143,7 @@ export default function Sidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-none px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                  "flex items-center gap-3 rounded-none px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground tracking-tight",
                   isActive(item.href) && "bg-accent text-accent-foreground"
                 )}
               >

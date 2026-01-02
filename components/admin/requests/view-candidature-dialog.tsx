@@ -28,9 +28,11 @@ import {
   MessageSquare,
   Phone,
   User,
+  X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface Candidature {
   id: string;
@@ -71,6 +73,23 @@ export function ViewCandidatureDialog({
   const [emailMessage, setEmailMessage] = useState("");
   const [formationName, setFormationName] = useState<string>("");
   const [categoryName, setCategoryName] = useState<string>("");
+  const [viewingFile, setViewingFile] = useState<{
+    url: string;
+    name: string;
+    type: "pdf" | "image" | "other";
+  } | null>(null);
+  const [pdfLoadError, setPdfLoadError] = useState(false);
+
+  // Debug: vérifier les URLs des fichiers
+  useEffect(() => {
+    if (isOpen) {
+      console.log("📎 URLs des fichiers:", {
+        cvUrl: candidature.cvUrl,
+        coverLetterUrl: candidature.coverLetterUrl,
+        otherDocumentUrl: candidature.otherDocumentUrl,
+      });
+    }
+  }, [isOpen, candidature.cvUrl, candidature.coverLetterUrl, candidature.otherDocumentUrl]);
 
   // Récupérer les noms de la formation et de la catégorie
   useEffect(() => {
@@ -191,6 +210,34 @@ export function ViewCandidatureDialog({
     }
   };
 
+  const getFileType = (url: string): "pdf" | "image" | "other" => {
+    const lowerUrl = url.toLowerCase();
+    if (lowerUrl.includes(".pdf") || lowerUrl.includes("pdf")) {
+      return "pdf";
+    }
+    if (
+      lowerUrl.includes(".jpg") ||
+      lowerUrl.includes(".jpeg") ||
+      lowerUrl.includes(".png") ||
+      lowerUrl.includes(".gif") ||
+      lowerUrl.includes(".webp") ||
+      lowerUrl.includes("image")
+    ) {
+      return "image";
+    }
+    return "other";
+  };
+
+  const handleViewFile = (url: string, name: string) => {
+    // Réinitialiser l'état d'erreur
+    setPdfLoadError(false);
+    setViewingFile({
+      url,
+      name,
+      type: getFileType(url),
+    });
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -204,11 +251,11 @@ export function ViewCandidatureDialog({
           <DialogHeader>
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
-                <DialogTitle className="text-xl font-semibold text-gray-900">
+                <DialogTitle className="text-xl font-semibold text-gray-900 tracking-tight">
                   {candidature.civility} {candidature.firstName}{" "}
                   {candidature.lastName}
                 </DialogTitle>
-                <DialogDescription className="text-sm text-gray-500 flex items-center gap-2 mt-1">
+                <DialogDescription className="text-sm text-gray-500 flex items-center gap-2 mt-1 tracking-tight">
                   <Calendar className="w-3.5 h-3.5" />
                   Reçue le{" "}
                   {format(new Date(candidature.createdAt), "PPP à HH:mm", {
@@ -226,7 +273,7 @@ export function ViewCandidatureDialog({
           <div className="space-y-6">
             {/* Informations personnelles */}
             <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2 tracking-tight">
                 <User className="w-4 h-4 text-gray-600" />
                 Informations personnelles
               </h3>
@@ -288,7 +335,7 @@ export function ViewCandidatureDialog({
 
             {/* Projet de formation */}
             <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2 tracking-tight">
                 <GraduationCap className="w-4 h-4 text-gray-600" />
                 Projet de formation
               </h3>
@@ -343,7 +390,7 @@ export function ViewCandidatureDialog({
 
             {/* Motivation */}
             <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2 tracking-tight">
                 <MessageSquare className="w-4 h-4 text-gray-600" />
                 Lettre de motivation
               </h3>
@@ -360,7 +407,7 @@ export function ViewCandidatureDialog({
 
             {/* Documents */}
             <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2 tracking-tight">
                 <FileText className="w-4 h-4 text-gray-600" />
                 Documents joints
               </h3>
@@ -368,85 +415,140 @@ export function ViewCandidatureDialog({
                 {candidature.cvUrl ||
                 candidature.coverLetterUrl ||
                 candidature.otherDocumentUrl ? (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {candidature.cvUrl && (
-                      <div className="flex items-center justify-between p-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <div className="p-1.5 bg-blue-50 rounded shrink-0">
-                            <FileText className="w-3.5 h-3.5 text-blue-600" />
+                      <div className="flex items-center justify-between p-3 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors bg-white">
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <div className="p-2 bg-blue-50 rounded shrink-0">
+                            <FileText className="w-4 h-4 text-blue-600" />
                           </div>
-                          <div>
-                            <p className="text-xs font-medium text-gray-900">
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-gray-900">
                               CV
+                            </p>
+                            <p className="text-xs text-gray-500 truncate">
+                              {candidature.cvFileName || candidature.cvUrl?.split('/').pop() || 'Fichier CV'}
                             </p>
                           </div>
                         </div>
-                        <Button asChild variant="outline" size="sm">
-                          <a
-                            href={candidature.cvUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleViewFile(candidature.cvUrl!, candidature.cvFileName || "CV")}
                           >
-                            <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                            Télécharger
-                          </a>
-                        </Button>
+                            <Eye className="w-4 h-4 mr-1.5" />
+                            Voir
+                          </Button>
+                          <Button asChild variant="outline" size="sm">
+                            <a
+                              href={candidature.cvUrl}
+                              download
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <ExternalLink className="w-4 h-4 mr-1.5" />
+                              Télécharger
+                            </a>
+                          </Button>
+                        </div>
                       </div>
                     )}
                     {candidature.coverLetterUrl && (
-                      <div className="flex items-center justify-between p-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <div className="p-1.5 bg-purple-50 rounded shrink-0">
-                            <FileText className="w-3.5 h-3.5 text-purple-600" />
+                      <div className="flex items-center justify-between p-3 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors bg-white">
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <div className="p-2 bg-purple-50 rounded shrink-0">
+                            <FileText className="w-4 h-4 text-purple-600" />
                           </div>
-                          <div>
-                            <p className="text-xs font-medium text-gray-900">
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-gray-900">
                               Lettre de motivation
+                            </p>
+                            <p className="text-xs text-gray-500 truncate">
+                              {candidature.coverLetterFileName || candidature.coverLetterUrl?.split('/').pop() || 'Fichier lettre'}
                             </p>
                           </div>
                         </div>
-                        <Button asChild variant="outline" size="sm">
-                          <a
-                            href={candidature.coverLetterUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              handleViewFile(
+                                candidature.coverLetterUrl!,
+                                candidature.coverLetterFileName || "Lettre de motivation"
+                              )
+                            }
                           >
-                            <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                            Télécharger
-                          </a>
-                        </Button>
+                            <Eye className="w-4 h-4 mr-1.5" />
+                            Voir
+                          </Button>
+                          <Button asChild variant="outline" size="sm">
+                            <a
+                              href={candidature.coverLetterUrl}
+                              download
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <ExternalLink className="w-4 h-4 mr-1.5" />
+                              Télécharger
+                            </a>
+                          </Button>
+                        </div>
                       </div>
                     )}
                     {candidature.otherDocumentUrl && (
-                      <div className="flex items-center justify-between p-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <div className="p-1.5 bg-green-50 rounded shrink-0">
-                            <FileText className="w-3.5 h-3.5 text-green-600" />
+                      <div className="flex items-center justify-between p-3 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors bg-white">
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <div className="p-2 bg-green-50 rounded shrink-0">
+                            <FileText className="w-4 h-4 text-green-600" />
                           </div>
-                          <div>
-                            <p className="text-xs font-medium text-gray-900">
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-gray-900">
                               Autre document
+                            </p>
+                            <p className="text-xs text-gray-500 truncate">
+                              {candidature.otherDocumentFileName || candidature.otherDocumentUrl?.split('/').pop() || 'Fichier document'}
                             </p>
                           </div>
                         </div>
-                        <Button asChild variant="outline" size="sm">
-                          <a
-                            href={candidature.otherDocumentUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              handleViewFile(
+                                candidature.otherDocumentUrl!,
+                                candidature.otherDocumentFileName || "Autre document"
+                              )
+                            }
                           >
-                            <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                            Télécharger
-                          </a>
-                        </Button>
+                            <Eye className="w-4 h-4 mr-1.5" />
+                            Voir
+                          </Button>
+                          <Button asChild variant="outline" size="sm">
+                            <a
+                              href={candidature.otherDocumentUrl}
+                              download
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <ExternalLink className="w-4 h-4 mr-1.5" />
+                              Télécharger
+                            </a>
+                          </Button>
+                        </div>
                       </div>
                     )}
                   </div>
                 ) : (
-                  <div className="py-8 text-center border border-dashed border-gray-300 rounded-md">
-                    <FileText className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                    <p className="text-sm text-gray-500">
+                  <div className="py-8 text-center border border-dashed border-gray-300 rounded-md bg-gray-50">
+                    <FileText className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+                    <p className="text-sm font-medium text-gray-600 mb-1">
                       Aucun document joint
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Le candidat n&apos;a pas fourni de documents
                     </p>
                   </div>
                 )}
@@ -457,7 +559,7 @@ export function ViewCandidatureDialog({
 
             {/* Formulaire email */}
             <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2 tracking-tight">
                 <Mail className="w-4 h-4 text-gray-600" />
                 Répondre au candidat
               </h3>
@@ -517,6 +619,98 @@ export function ViewCandidatureDialog({
           </div>
         </div>
       </DialogContent>
+
+      {/* Dialog pour visualiser les fichiers */}
+      <Dialog 
+        open={!!viewingFile} 
+        onOpenChange={(open) => {
+          if (!open) {
+            setViewingFile(null);
+            setPdfLoadError(false);
+          }
+        }}
+      >
+        <DialogContent className="max-w-6xl max-h-[90vh] p-0 flex flex-col">
+          <VisuallyHidden>
+            <DialogHeader>
+              <DialogTitle>Visualisation du fichier {viewingFile?.name}</DialogTitle>
+              <DialogDescription>Prévisualisation du document {viewingFile?.name}</DialogDescription>
+            </DialogHeader>
+          </VisuallyHidden>
+          {viewingFile && (
+            <div className="relative flex-1 overflow-auto p-6">
+              {/* Bouton de téléchargement en haut à droite */}
+              <div className="absolute top-8 right-8 z-10 flex gap-2">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="bg-white shadow-md"
+                >
+                  <a
+                    href={viewingFile.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Ouvrir dans un nouvel onglet
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="bg-white shadow-md"
+                >
+                  <a
+                    href={viewingFile.url}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Télécharger
+                  </a>
+                </Button>
+              </div>
+              
+              {viewingFile.type === "pdf" ? (
+                <iframe
+                  src={`/api/proxy-pdf?url=${encodeURIComponent(viewingFile.url)}`}
+                  className="w-full h-full min-h-[600px] border rounded-md"
+                  title={viewingFile.name}
+                />
+              ) : viewingFile.type === "image" ? (
+                <div className="flex items-center justify-center">
+                  <img
+                    src={viewingFile.url}
+                    alt={viewingFile.name}
+                    className="max-w-full max-h-[70vh] object-contain rounded-md"
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <FileText className="w-16 h-16 text-gray-400 mb-4" />
+                  <p className="text-gray-600 mb-4">
+                    Aperçu non disponible pour ce type de fichier
+                  </p>
+                  <Button asChild variant="outline">
+                    <a
+                      href={viewingFile.url}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Télécharger le fichier
+                    </a>
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Dialog>
   );
 }

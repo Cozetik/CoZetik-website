@@ -55,26 +55,69 @@ export default async function CandidaturesPage() {
   }
 
   // Sérialiser les dates pour le client
-  const serializedCandidatures = candidatures.map((candidature: any) => ({
-    ...candidature,
-    birthDate: candidature.birthDate.toISOString(),
-    createdAt: candidature.createdAt.toISOString(),
-    updatedAt: candidature.updatedAt.toISOString(),
-    // S'assurer que tous les champs sont présents
-    address: candidature.address ?? null,
-    postalCode: candidature.postalCode ?? null,
-    city: candidature.city ?? null,
-    startDate: candidature.startDate ?? null,
-    cvUrl: candidature.cvUrl ?? null,
-    coverLetterUrl: candidature.coverLetterUrl ?? null,
-    otherDocumentUrl: candidature.otherDocumentUrl ?? null,
-  }));
+  const serializedCandidatures = candidatures.map((candidature: any) => {
+    try {
+      const serialized = {
+        ...candidature,
+        birthDate: candidature.birthDate instanceof Date 
+          ? candidature.birthDate.toISOString() 
+          : new Date(candidature.birthDate).toISOString(),
+        createdAt: candidature.createdAt instanceof Date 
+          ? candidature.createdAt.toISOString() 
+          : new Date(candidature.createdAt).toISOString(),
+        updatedAt: candidature.updatedAt instanceof Date 
+          ? candidature.updatedAt.toISOString() 
+          : new Date(candidature.updatedAt).toISOString(),
+        // S'assurer que tous les champs sont présents
+        address: candidature.address ?? null,
+        postalCode: candidature.postalCode ?? null,
+        city: candidature.city ?? null,
+        startDate: candidature.startDate ?? null,
+        cvUrl: candidature.cvUrl ?? null,
+        cvFileName: candidature.cvFileName ?? null,
+        coverLetterUrl: candidature.coverLetterUrl ?? null,
+        coverLetterFileName: candidature.coverLetterFileName ?? null,
+        otherDocumentUrl: candidature.otherDocumentUrl ?? null,
+        otherDocumentFileName: candidature.otherDocumentFileName ?? null,
+      };
+      
+      // Debug: vérifier les URLs des fichiers
+      if (serialized.cvUrl || serialized.coverLetterUrl || serialized.otherDocumentUrl) {
+        console.log(`📎 Candidature ${serialized.id} - URLs fichiers:`, {
+          cvUrl: serialized.cvUrl,
+          cvFileName: serialized.cvFileName,
+          coverLetterUrl: serialized.coverLetterUrl,
+          coverLetterFileName: serialized.coverLetterFileName,
+          otherDocumentUrl: serialized.otherDocumentUrl,
+          otherDocumentFileName: serialized.otherDocumentFileName,
+        });
+      }
+      
+      return serialized;
+    } catch (serializeError) {
+      console.error(`❌ Erreur sérialisation candidature ${candidature.id}:`, serializeError);
+      // Retourner une version minimale en cas d'erreur
+      return {
+        ...candidature,
+        birthDate: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        address: candidature.address ?? null,
+        postalCode: candidature.postalCode ?? null,
+        city: candidature.city ?? null,
+        startDate: candidature.startDate ?? null,
+        cvUrl: candidature.cvUrl ?? null,
+        coverLetterUrl: candidature.coverLetterUrl ?? null,
+        otherDocumentUrl: candidature.otherDocumentUrl ?? null,
+      };
+    }
+  });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       <div>
-        <h1 className="text-3xl font-bold">Candidatures</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-3xl font-semibold tracking-tight">Candidatures</h1>
+        <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
           Gérez les candidatures reçues via le formulaire
         </p>
       </div>
