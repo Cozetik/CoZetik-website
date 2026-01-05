@@ -1,0 +1,12 @@
+--METADATA--
+TYPE: Template_Structure
+FORMAT: Markdown
+ELEMENTS: Titre H1, Date, Temps de lecture, Introduction, Corps (H2/H3), Avis de l'expert, Conclusion.
+--CONTENT--
+Structure type d'un article Cozetik :
+1. Titre accrocheur et bienveillant.
+2. Temps de lecture (environ 3 min).
+3. Introduction qui valide les émotions du lecteur.
+4. Corps de texte avec des conseils concrets (Loi de Pareto, Méthode Feynman, etc.).
+5. "L'avis de l'expert" : Un encadré avec une réflexion haute.
+6. Conclusion : Une invitation douce à l'action vers les formations Cozetik.
