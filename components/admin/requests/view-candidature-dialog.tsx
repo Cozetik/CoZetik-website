@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -116,33 +115,24 @@ export function ViewCandidatureDialog({
     switch (status) {
       case "NEW":
         return (
-          <Badge
-            variant="outline"
-            className="border-orange-500 text-orange-700 bg-orange-50"
-          >
+          <Badge className="bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20 hover:bg-orange-500/20 font-medium">
             Nouveau
           </Badge>
         );
       case "TREATED":
         return (
-          <Badge
-            variant="outline"
-            className="border-green-500 text-green-700 bg-green-50"
-          >
+          <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20 hover:bg-green-500/20 font-medium">
             Traité
           </Badge>
         );
       case "ARCHIVED":
         return (
-          <Badge
-            variant="outline"
-            className="border-gray-400 text-gray-600 bg-gray-50"
-          >
+          <Badge className="bg-gray-500/10 text-gray-700 dark:text-gray-400 border-gray-500/20 hover:bg-gray-500/20 font-medium">
             Archivé
           </Badge>
         );
       default:
-        return <Badge variant="outline">{status}</Badge>;
+        return <Badge>{status}</Badge>;
     }
   };
 
@@ -194,84 +184,96 @@ export function ViewCandidatureDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
           <Eye className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-5xl p-0 flex flex-col">
-        {/* Header */}
-        <div className="shrink-0 px-6 pt-6 pb-4 border-b">
-          <DialogHeader>
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                <DialogTitle className="text-xl font-semibold text-gray-900">
-                  {candidature.civility} {candidature.firstName}{" "}
-                  {candidature.lastName}
-                </DialogTitle>
-                <DialogDescription className="text-sm text-gray-500 flex items-center gap-2 mt-1">
-                  <Calendar className="w-3.5 h-3.5" />
-                  Reçue le{" "}
-                  {format(new Date(candidature.createdAt), "PPP à HH:mm", {
-                    locale: fr,
-                  })}
-                </DialogDescription>
-              </div>
-              {getStatusBadge(candidature.status)}
-            </div>
-          </DialogHeader>
-        </div>
+      <DialogContent className="max-w-4xl max-h-[90vh] font-sans p-0 flex flex-col">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b border-gray-200 shrink-0">
+          <DialogTitle className="font-bricolage text-2xl">
+            {candidature.civility} {candidature.firstName}{" "}
+            {candidature.lastName}
+          </DialogTitle>
+          <DialogDescription className="text-gray-600 flex items-center gap-2">
+            <Calendar className="h-3.5 w-3.5" />
+            Candidature reçue le{" "}
+            {format(new Date(candidature.createdAt), "PPP à HH:mm", {
+              locale: fr,
+            })}
+          </DialogDescription>
+        </DialogHeader>
 
-        {/* Contenu scrollable */}
-        <div className="flex-1 overflow-y-auto px-6 py-4">
+        <div className="flex-1 overflow-y-auto px-6 py-4 min-h-0">
           <div className="space-y-6">
+            {/* Statut */}
+            <div className="bg-muted/30 rounded-xl border border-border/50 p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="rounded-lg bg-blue-100 p-1.5">
+                  <FileText className="h-4 w-4 text-blue-600" />
+                </div>
+                <label className="text-sm font-semibold text-foreground">
+                  Statut de la candidature
+                </label>
+              </div>
+              <div>{getStatusBadge(candidature.status)}</div>
+            </div>
+
             {/* Informations personnelles */}
-            <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <User className="w-4 h-4 text-gray-600" />
-                Informations personnelles
-              </h3>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4">
+              <div className="flex items-center gap-2 pb-3 border-b border-gray-200">
+                <div className="rounded-lg bg-blue-100 p-1.5">
+                  <User className="h-4 w-4 text-blue-600" />
+                </div>
+                <h3 className="text-base font-bricolage font-semibold text-gray-900">
+                  Informations personnelles
+                </h3>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
                     Date de naissance
-                  </p>
-                  <p className="text-sm text-gray-900">
+                  </label>
+                  <p className="text-base text-gray-900">
                     {format(new Date(candidature.birthDate), "PPP", {
                       locale: fr,
                     })}
                   </p>
                 </div>
+
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">
-                    Email
-                  </p>
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
+                    Adresse email
+                  </label>
                   <a
                     href={`mailto:${candidature.email}`}
-                    className="text-sm text-[#9A80B8] hover:underline flex items-center gap-1.5"
+                    className="inline-flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-700 hover:underline"
                   >
-                    <Mail className="w-3.5 h-3.5" />
+                    <Mail className="h-3.5 w-3.5" />
                     {candidature.email}
                   </a>
                 </div>
+
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
                     Téléphone
-                  </p>
+                  </label>
                   <a
                     href={`tel:${candidature.phone}`}
-                    className="text-sm text-[#9A80B8] hover:underline flex items-center gap-1.5"
+                    className="inline-flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-700 hover:underline"
                   >
-                    <Phone className="w-3.5 h-3.5" />
+                    <Phone className="h-3.5 w-3.5" />
                     {candidature.phone}
                   </a>
                 </div>
+
                 {(candidature.address || candidature.city) && (
                   <div>
-                    <p className="text-xs font-medium text-gray-500 mb-0.5">
+                    <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
                       Adresse
-                    </p>
-                    <p className="text-sm text-gray-900 flex items-start gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                    </label>
+                    <p className="text-base text-gray-900 flex items-start gap-2">
+                      <MapPin className="h-4 w-4 mt-0.5 text-gray-400" />
                       <span>
                         {candidature.address}
                         {candidature.postalCode && candidature.address && ", "}
@@ -282,213 +284,253 @@ export function ViewCandidatureDialog({
                   </div>
                 )}
               </div>
-            </section>
-
-            <Separator />
+            </div>
 
             {/* Projet de formation */}
-            <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <GraduationCap className="w-4 h-4 text-gray-600" />
-                Projet de formation
-              </h3>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4">
+              <div className="flex items-center gap-2 pb-3 border-b border-gray-200">
+                <div className="rounded-lg bg-blue-100 p-1.5">
+                  <GraduationCap className="h-4 w-4 text-blue-600" />
+                </div>
+                <h3 className="text-base font-bricolage font-semibold text-gray-900">
+                  Projet de formation
+                </h3>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
                     Catégorie
-                  </p>
-                  <p className="text-sm text-gray-900">
+                  </label>
+                  <p className="text-base text-gray-900">
                     {categoryName || candidature.categoryFormation}
                   </p>
                 </div>
+
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
                     Formation souhaitée
-                  </p>
-                  <p className="text-sm font-semibold text-[#9A80B8]">
+                  </label>
+                  <p className="text-base font-semibold text-blue-600">
                     {formationName || candidature.formation}
                   </p>
                 </div>
+
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
                     Niveau d&apos;études
-                  </p>
-                  <p className="text-sm text-gray-900">
+                  </label>
+                  <p className="text-base text-gray-900">
                     {candidature.educationLevel}
                   </p>
                 </div>
+
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
                     Situation actuelle
-                  </p>
-                  <p className="text-sm text-gray-900">
+                  </label>
+                  <p className="text-base text-gray-900">
                     {candidature.currentSituation}
                   </p>
                 </div>
+
                 {candidature.startDate && (
-                  <div className="col-span-2">
-                    <p className="text-xs font-medium text-gray-500 mb-0.5">
+                  <div className="sm:col-span-2">
+                    <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
                       Date de début souhaitée
-                    </p>
-                    <p className="text-sm text-gray-900 flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-gray-500" />
+                    </label>
+                    <p className="text-base text-gray-900 flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-gray-400" />
                       {candidature.startDate}
                     </p>
                   </div>
                 )}
               </div>
-            </section>
-
-            <Separator />
+            </div>
 
             {/* Motivation */}
-            <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-gray-600" />
-                Lettre de motivation
-              </h3>
-              <div className="relative">
-                <div className="p-3 bg-gray-50 rounded-md border border-gray-200 max-h-[150px] overflow-y-auto">
-                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
-                    {candidature.motivation}
-                  </p>
+            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4">
+              <div className="flex items-center gap-2 pb-3 border-b border-gray-200">
+                <div className="rounded-lg bg-blue-100 p-1.5">
+                  <MessageSquare className="h-4 w-4 text-blue-600" />
                 </div>
+                <h3 className="text-base font-bricolage font-semibold text-gray-900">
+                  Lettre de motivation
+                </h3>
               </div>
-            </section>
 
-            <Separator />
+              <div className="bg-gradient-to-br from-blue-50/50 to-cyan-50/50 rounded-lg p-4 border border-blue-100">
+                <p className="text-base text-gray-900 whitespace-pre-wrap leading-relaxed break-words">
+                  {candidature.motivation}
+                </p>
+              </div>
+            </div>
 
             {/* Documents */}
-            <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-gray-600" />
-                Documents joints
-              </h3>
-              <div>
-                {candidature.cvUrl ||
-                candidature.coverLetterUrl ||
-                candidature.otherDocumentUrl ? (
-                  <div className="space-y-2">
-                    {candidature.cvUrl && (
-                      <div className="flex items-center justify-between p-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <div className="p-1.5 bg-blue-50 rounded shrink-0">
-                            <FileText className="w-3.5 h-3.5 text-blue-600" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-medium text-gray-900">
-                              CV
-                            </p>
-                          </div>
-                        </div>
-                        <Button asChild variant="outline">
-                          <a href={candidature.cvUrl} target="_blank" download>
-                            <Download className="mr-2 h-4 w-4" />
-                            Télécharger
-                          </a>
-                        </Button>
-                      </div>
-                    )}
-                    {candidature.coverLetterUrl && (
-                      <div className="flex items-center justify-between p-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <div className="p-1.5 bg-purple-50 rounded shrink-0">
-                            <FileText className="w-3.5 h-3.5 text-purple-600" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-medium text-gray-900">
-                              Lettre de motivation
-                            </p>
-                          </div>
-                        </div>
-                        <Button asChild variant="outline">
-                          <a
-                            // On encode l'URL pour éviter les problèmes avec les caractères spéciaux
-                            href={candidature.coverLetterUrl}
-                            target="_blank" // Optionnel maintenant, le téléchargement se lancera
-                            download // Attribut HTML5 pour suggérer le téléchargement
-                          >
-                            <Download className="mr-2 h-4 w-4" />
-                            Télécharger
-                          </a>
-                        </Button>
-                      </div>
-                    )}
-                    {candidature.otherDocumentUrl && (
-                      <div className="flex items-center justify-between p-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <div className="p-1.5 bg-green-50 rounded shrink-0">
-                            <FileText className="w-3.5 h-3.5 text-green-600" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-medium text-gray-900">
-                              Autre document
-                            </p>
-                          </div>
-                        </div>
-                        <Button asChild variant="outline">
-                          <a
-                            // On encode l'URL pour éviter les problèmes avec les caractères spéciaux
-                            href={candidature.otherDocumentUrl}
-                            target="_blank" // Optionnel maintenant, le téléchargement se lancera
-                            download // Attribut HTML5 pour suggérer le téléchargement
-                          >
-                            <Download className="mr-2 h-4 w-4" />
-                            Télécharger
-                          </a>
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="py-8 text-center border border-dashed border-gray-300 rounded-md">
-                    <FileText className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                    <p className="text-sm text-gray-500">
-                      Aucun document joint
-                    </p>
-                  </div>
-                )}
+            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4">
+              <div className="flex items-center gap-2 pb-3 border-b border-gray-200">
+                <div className="rounded-lg bg-blue-100 p-1.5">
+                  <FileText className="h-4 w-4 text-blue-600" />
+                </div>
+                <h3 className="text-base font-bricolage font-semibold text-gray-900">
+                  Documents joints
+                </h3>
               </div>
-            </section>
 
-            <Separator />
+              {candidature.cvUrl ||
+              candidature.coverLetterUrl ||
+              candidature.otherDocumentUrl ? (
+                <div className="space-y-3">
+                  {candidature.cvUrl && (
+                    <div className="flex items-center justify-between p-3 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 border border-blue-100 rounded-lg hover:shadow-sm transition-shadow">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <div className="p-2 bg-blue-100 rounded-lg shrink-0">
+                          <FileText className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-gray-900">
+                            CV
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Document personnel
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="bg-blue-600 hover:bg-blue-700 shrink-0 ml-3"
+                      >
+                        <a href={candidature.cvUrl} target="_blank" download>
+                          <Download className="mr-2 h-3.5 w-3.5" />
+                          Télécharger
+                        </a>
+                      </Button>
+                    </div>
+                  )}
+
+                  {candidature.coverLetterUrl && (
+                    <div className="flex items-center justify-between p-3 bg-gradient-to-br from-purple-50/50 to-pink-50/50 border border-purple-100 rounded-lg hover:shadow-sm transition-shadow">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <div className="p-2 bg-purple-100 rounded-lg shrink-0">
+                          <FileText className="h-4 w-4 text-purple-600" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-gray-900">
+                            Lettre de motivation
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Document complémentaire
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="bg-purple-600 hover:bg-purple-700 shrink-0 ml-3"
+                      >
+                        <a
+                          href={candidature.coverLetterUrl}
+                          target="_blank"
+                          download
+                        >
+                          <Download className="mr-2 h-3.5 w-3.5" />
+                          Télécharger
+                        </a>
+                      </Button>
+                    </div>
+                  )}
+
+                  {candidature.otherDocumentUrl && (
+                    <div className="flex items-center justify-between p-3 bg-gradient-to-br from-green-50/50 to-emerald-50/50 border border-green-100 rounded-lg hover:shadow-sm transition-shadow">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <div className="p-2 bg-green-100 rounded-lg shrink-0">
+                          <FileText className="h-4 w-4 text-green-600" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-gray-900">
+                            Autre document
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Pièce jointe supplémentaire
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="bg-green-600 hover:bg-green-700 shrink-0 ml-3"
+                      >
+                        <a
+                          href={candidature.otherDocumentUrl}
+                          target="_blank"
+                          download
+                        >
+                          <Download className="mr-2 h-3.5 w-3.5" />
+                          Télécharger
+                        </a>
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="py-12 text-center border-2 border-dashed border-gray-200 rounded-lg bg-gray-50/50">
+                  <FileText className="h-10 w-10 mx-auto mb-3 text-gray-300" />
+                  <p className="text-sm font-semibold text-gray-900 mb-1">
+                    Aucun document joint
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Le candidat n&apos;a pas fourni de documents
+                  </p>
+                </div>
+              )}
+            </div>
 
             {/* Formulaire email */}
-            <section>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <Mail className="w-4 h-4 text-gray-600" />
-                Répondre au candidat
-              </h3>
-              <div className="space-y-3">
+            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4">
+              <div className="flex items-center gap-2 pb-3 border-b border-gray-200">
+                <div className="rounded-lg bg-blue-100 p-1.5">
+                  <Mail className="h-4 w-4 text-blue-600" />
+                </div>
+                <h3 className="text-base font-bricolage font-semibold text-gray-900">
+                  Répondre au candidat
+                </h3>
+              </div>
+
+              <div className="space-y-4">
                 <div>
                   <Label
                     htmlFor="email-subject"
-                    className="text-sm font-medium mb-1.5 block"
+                    className="text-gray-700 font-medium text-sm mb-1.5 block"
                   >
-                    Sujet
+                    Sujet <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="email-subject"
                     value={emailSubject}
                     onChange={(e) => setEmailSubject(e.target.value)}
                     placeholder="Ex: Réponse à votre candidature"
+                    className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                   />
                 </div>
+
                 <div>
                   <Label
                     htmlFor="email-message"
-                    className="text-sm font-medium mb-1.5 block"
+                    className="text-gray-700 font-medium text-sm mb-1.5 block"
                   >
-                    Message
+                    Message <span className="text-red-500">*</span>
                   </Label>
                   <Textarea
                     id="email-message"
                     value={emailMessage}
                     onChange={(e) => setEmailMessage(e.target.value)}
                     placeholder="Bonjour,&#10;&#10;Nous avons bien reçu votre candidature..."
-                    rows={4}
+                    rows={6}
+                    className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"
                   />
                 </div>
+
                 <Button
                   onClick={handleSendEmail}
                   disabled={
@@ -496,7 +538,7 @@ export function ViewCandidatureDialog({
                     !emailSubject.trim() ||
                     !emailMessage.trim()
                   }
-                  className="w-full bg-[#9A80B8] hover:bg-[#8a70a8]"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-md hover:shadow-lg"
                 >
                   {isSendingEmail ? (
                     <>
@@ -511,7 +553,7 @@ export function ViewCandidatureDialog({
                   )}
                 </Button>
               </div>
-            </section>
+            </div>
           </div>
         </div>
       </DialogContent>

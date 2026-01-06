@@ -34,7 +34,17 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { ArrowLeft, CalendarIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarIcon,
+  FileText,
+  Image as ImageIcon,
+  Loader2,
+  Save,
+  Search,
+  Send,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -151,41 +161,67 @@ export default function EditBlogPostForm({
   };
 
   return (
-    <div className="max-w-4xl">
-      <div className="mb-8">
-        <Button variant="ghost" asChild className="mb-4 -ml-3 font-sans">
-          <Link href="/admin/blog">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour
-          </Link>
-        </Button>
-        <h1 className="text-4xl font-bricolage font-semibold tracking-tight mb-2 ">
-          Modifier l&apos;article
-        </h1>
-        <p className="text-muted-foreground font-sans">
-          Modifiez les informations de votre article
-        </p>
+    <div className="font-sans w-full">
+      {/* Header */}
+      <div className="mb-4 sm:mb-8 bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-600 rounded-xl sm:rounded-2xl p-4 sm:p-8 text-white relative overflow-hidden w-full">
+        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,black)]" />
+        <div className="relative">
+          <Button
+            variant="ghost"
+            asChild
+            className="mb-2 sm:mb-4 text-white hover:bg-white/20 hover:text-white"
+          >
+            <Link href="/admin/blog">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Retour aux articles</span>
+              <span className="sm:hidden">Retour</span>
+            </Link>
+          </Button>
+          <h1 className="text-2xl sm:text-4xl font-bricolage font-bold mb-1 sm:mb-2">
+            Modifier l&apos;article
+          </h1>
+          <p className="text-sm sm:text-base text-blue-50">
+            Modifiez les informations de votre article de blog
+          </p>
+        </div>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="space-y-6 p-6 border rounded-lg bg-card">
-            <h2 className="text-xl font-bricolage font-semibold">
-              Contenu principal
-            </h2>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 sm:space-y-8 w-full max-w-full"
+        >
+          {/* Section: Contenu principal */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-blue-100 p-1.5 sm:p-2">
+                <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Contenu principal
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Titre, slug, extrait et contenu
+                </p>
+              </div>
+            </div>
 
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Titre</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Titre <span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Ex: 10 Conseils pour maîtriser l'IA"
+                      className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-full text-sm sm:text-base"
                       {...field}
                       onChange={handleTitleChange}
-                      className="font-sans"
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -197,16 +233,19 @@ export default function EditBlogPostForm({
               control={form.control}
               name="slug"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Slug (URL)</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Slug (URL) <span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      className="font-sans"
                       placeholder="ex: 10-conseils-pour-maitriser-ia"
+                      className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-full text-sm sm:text-base font-mono"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription className="font-sans">
+                  <FormDescription className="text-xs text-gray-500">
                     URL de l&apos;article (modifiable manuellement)
                   </FormDescription>
                   <FormMessage />
@@ -218,16 +257,19 @@ export default function EditBlogPostForm({
               control={form.control}
               name="excerpt"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Extrait</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Extrait
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Résumé court de l'article..."
-                      className="min-h-[80px] resize-none"
+                      className="min-h-[100px] border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-full text-sm sm:text-base"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription className="font-sans">
+                  <FormDescription className="text-xs text-gray-500">
                     Maximum 500 caractères
                   </FormDescription>
                   <FormMessage />
@@ -239,33 +281,29 @@ export default function EditBlogPostForm({
               control={form.control}
               name="themeId"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Thème</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Thème
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value || undefined}
+                    disabled={isLoading}
                   >
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          className="font-sans"
-                          placeholder="Sélectionner un thème"
-                        />
+                      <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                        <SelectValue placeholder="Sélectionner un thème" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {themes.length > 0 ? (
                         themes.map((theme) => (
-                          <SelectItem
-                            key={theme.id}
-                            value={theme.id}
-                            className="font-sans"
-                          >
+                          <SelectItem key={theme.id} value={theme.id}>
                             {theme.name}
                           </SelectItem>
                         ))
                       ) : (
-                        <div className="p-2 text-sm text-muted-foreground font-sans">
+                        <div className="p-2 text-sm text-muted-foreground">
                           Aucun thème disponible
                         </div>
                       )}
@@ -280,8 +318,10 @@ export default function EditBlogPostForm({
               control={form.control}
               name="content"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Contenu</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Contenu <span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
                     <RichTextEditor
                       value={field.value}
@@ -294,25 +334,39 @@ export default function EditBlogPostForm({
             />
           </div>
 
-          <div className="space-y-6 p-6 border rounded-lg bg-card">
-            <h2 className="text-xl font-bricolage font-semibold">
-              Image mise en avant
-            </h2>
+          {/* Section: Image */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-pink-100 p-1.5 sm:p-2">
+                <ImageIcon className="h-4 w-4 sm:h-5 sm:w-5 text-pink-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Image mise en avant
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Image principale de l&apos;article
+                </p>
+              </div>
+            </div>
 
             <FormField
               control={form.control}
               name="imageUrl"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Image</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Image
+                  </FormLabel>
                   <FormControl>
                     <ImageUpload
                       value={field.value}
                       onChange={field.onChange}
                       onRemove={() => field.onChange("")}
+                      disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription className="font-sans">
+                  <FormDescription className="text-xs text-gray-500">
                     Image principale de l&apos;article (recommandé)
                   </FormDescription>
                   <FormMessage />
@@ -321,23 +375,39 @@ export default function EditBlogPostForm({
             />
           </div>
 
-          <div className="space-y-6 p-6 border rounded-lg bg-card">
-            <h2 className="text-xl font-bricolage font-semibold">SEO</h2>
+          {/* Section: SEO */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-green-100 p-1.5 sm:p-2">
+                <Search className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Référencement SEO
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Optimisez pour les moteurs de recherche
+                </p>
+              </div>
+            </div>
 
             <FormField
               control={form.control}
               name="seoTitle"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Meta Title</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Meta Title
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      className="font-sans"
                       placeholder="Titre pour les moteurs de recherche"
+                      className="border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all w-full text-sm sm:text-base"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription className="font-sans">
+                  <FormDescription className="text-xs text-gray-500">
                     Laissez vide pour utiliser le titre de l&apos;article (max
                     60 caractères)
                   </FormDescription>
@@ -350,16 +420,19 @@ export default function EditBlogPostForm({
               control={form.control}
               name="seoDescription"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Meta Description</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Meta Description
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Description pour les moteurs de recherche"
-                      className="min-h-[80px] resize-none font-sans"
+                      className="min-h-[100px] border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all w-full text-sm sm:text-base"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription className="font-sans">
+                  <FormDescription className="text-xs text-gray-500">
                     Laissez vide pour utiliser l&apos;extrait (max 160
                     caractères)
                   </FormDescription>
@@ -369,30 +442,44 @@ export default function EditBlogPostForm({
             />
           </div>
 
-          <div className="space-y-6 p-6 border rounded-lg bg-card">
-            <h2 className="text-xl font-bricolage font-semibold">
-              Publication
-            </h2>
+          {/* Section: Publication */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-purple-100 p-1.5 sm:p-2">
+                <Send className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Publication
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Statut et date de publication
+                </p>
+              </div>
+            </div>
 
             <FormField
               control={form.control}
               name="visible"
               render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="font-sans">Statut</FormLabel>
+                <FormItem className="space-y-3 w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Statut
+                  </FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={(value) =>
                         field.onChange(value === "true")
                       }
                       value={field.value ? "true" : "false"}
-                      className="flex gap-4 font-sans"
+                      className="flex gap-4"
+                      disabled={isLoading}
                     >
-                      <div className="flex items-center space-x-2 ">
+                      <div className="flex items-center space-x-2">
                         <RadioGroupItem value="false" id="edit-post-draft" />
                         <label
                           htmlFor="edit-post-draft"
-                          className="cursor-pointer text-sm font-normal font-sans"
+                          className="cursor-pointer text-sm font-normal"
                         >
                           Brouillon
                         </label>
@@ -401,7 +488,7 @@ export default function EditBlogPostForm({
                         <RadioGroupItem value="true" id="edit-post-published" />
                         <label
                           htmlFor="edit-post-published"
-                          className="cursor-pointer text-sm font-sans "
+                          className="cursor-pointer text-sm"
                         >
                           Publié
                         </label>
@@ -418,8 +505,8 @@ export default function EditBlogPostForm({
                 control={form.control}
                 name="publishedAt"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel className="font-sans">
+                  <FormItem className="flex flex-col w-full">
+                    <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
                       Date de publication
                     </FormLabel>
                     <Popover>
@@ -427,15 +514,16 @@ export default function EditBlogPostForm({
                         <FormControl>
                           <Button
                             variant="outline"
+                            disabled={isLoading}
                             className={cn(
-                              "pl-3 text-left font-normal w-full font-sans",
+                              "pl-3 text-left font-normal w-full border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20",
                               !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
                               format(field.value, "PPP", { locale: fr })
                             ) : (
-                              <span className="font-sans">
+                              <span>
                                 Date de publication (aujourd&apos;hui par
                                 défaut)
                               </span>
@@ -453,7 +541,7 @@ export default function EditBlogPostForm({
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormDescription className="font-sans">
+                    <FormDescription className="text-xs text-gray-500">
                       Laisser vide pour publier immédiatement
                     </FormDescription>
                     <FormMessage />
@@ -463,22 +551,45 @@ export default function EditBlogPostForm({
             )}
           </div>
 
-          <div className="flex gap-3 pt-4">
+          {/* Boutons d'action */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 bg-white rounded-xl border border-gray-200 p-4 sm:p-6 w-full max-w-full">
             <Button
               type="button"
               variant="outline"
               onClick={() => router.push("/admin/blog")}
               disabled={isLoading}
-              className="font-sans"
+              className="border-gray-300 hover:bg-gray-50 transition-colors w-full sm:w-auto"
             >
+              <X className="mr-2 h-4 w-4" />
               Annuler
             </Button>
-            <Button type="submit" disabled={isLoading} className="font-sans">
-              {isLoading
-                ? "Enregistrement..."
-                : form.watch("visible")
-                  ? "Publier"
-                  : "Enregistrer en brouillon"}
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-md hover:shadow-lg transition-all w-full sm:w-auto"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Enregistrement...
+                </>
+              ) : form.watch("visible") ? (
+                <>
+                  <Send className="mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">
+                    Publier l&apos;article
+                  </span>
+                  <span className="sm:hidden">Publier</span>
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">
+                    Enregistrer en brouillon
+                  </span>
+                  <span className="sm:hidden">Enregistrer</span>
+                </>
+              )}
             </Button>
           </div>
         </form>

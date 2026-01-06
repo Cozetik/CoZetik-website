@@ -1,11 +1,7 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -14,13 +10,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Checkbox } from '@/components/ui/checkbox'
-import { toast } from 'sonner'
-import Link from 'next/link'
-import { ArrowLeft, Loader2, Settings } from 'lucide-react'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeft, Hash, HelpCircle, Loader2, Settings } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
 const formSchema = z.object({
   order: z
@@ -29,23 +29,23 @@ const formSchema = z.object({
     .positive("L'ordre doit être positif"),
   question: z
     .string()
-    .min(10, 'La question est trop courte (min 10 caractères)')
-    .max(1000, 'La question est trop longue (max 1000 caractères)'),
+    .min(10, "La question est trop courte (min 10 caractères)")
+    .max(1000, "La question est trop longue (max 1000 caractères)"),
   visible: z.boolean(),
-})
+});
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema>;
 
 interface Question {
-  id: string
-  order: number
-  question: string
-  visible: boolean
+  id: string;
+  order: number;
+  question: string;
+  visible: boolean;
 }
 
 export default function EditQuestionForm({ question }: { question: Question }) {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -54,158 +54,225 @@ export default function EditQuestionForm({ question }: { question: Question }) {
       question: question.question,
       visible: question.visible,
     },
-  })
+  });
 
   const onSubmit = async (values: FormValues) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const response = await fetch(`/api/quiz/questions/${question.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la modification')
+        throw new Error(data.error || "Erreur lors de la modification");
       }
 
-      toast.success('Question modifiée avec succès')
-      router.push('/admin/quiz/questions')
-      router.refresh()
+      toast.success("Question modifiée avec succès");
+      router.push("/admin/quiz/questions");
+      router.refresh();
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Une erreur est survenue'
-      toast.error(message)
+        error instanceof Error ? error.message : "Une erreur est survenue";
+      toast.error(message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <>
-      <div className="mb-6">
-        <Button variant="ghost" asChild className="mb-4">
-          <Link href="/admin/quiz/questions">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour aux questions
-          </Link>
-        </Button>
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Modifier la question
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Question numéro {question.order}
-            </p>
-          </div>
-          <Button asChild variant="outline">
-            <Link href={`/admin/quiz/questions/${question.id}/options`}>
-              <Settings className="mr-2 h-4 w-4" />
-              Gérer les options
+    <div className="font-sans w-full max-w-full">
+      {/* Header */}
+      <div className="mb-4 sm:mb-8 bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-600 rounded-xl sm:rounded-2xl p-4 sm:p-8 text-white relative overflow-hidden w-full">
+        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,black)]" />
+        <div className="relative">
+          <Button
+            variant="ghost"
+            asChild
+            className="mb-2 sm:mb-4 text-white hover:bg-white/20"
+          >
+            <Link href="/admin/quiz/questions">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Retour aux questions</span>
+              <span className="sm:hidden">Retour</span>
             </Link>
           </Button>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div>
+              <h1 className="text-2xl sm:text-4xl font-bricolage font-bold mb-1 sm:mb-2">
+                Modifier la question
+              </h1>
+              <p className="text-sm sm:text-base text-blue-50">
+                Question numéro {question.order}
+              </p>
+            </div>
+            <Button
+              asChild
+              size="lg"
+              className="bg-white text-blue-600 hover:bg-white/90 shadow-lg font-semibold w-full sm:w-auto"
+            >
+              <Link href={`/admin/quiz/questions/${question.id}/options`}>
+                <Settings className="mr-2 h-5 w-5" />
+                <span className="hidden sm:inline">Gérer les options</span>
+                <span className="sm:hidden">Options</span>
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="order"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ordre *</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="1, 2, 3..."
-                    {...field}
-                    onChange={(e) => field.onChange(parseInt(e.target.value))}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Position de la question dans le quiz
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 sm:space-y-8 w-full max-w-full"
+        >
+          {/* Section: Informations */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-blue-100 p-1.5 sm:p-2">
+                <HelpCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Informations de la question
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Texte et ordre d&apos;affichage
+                </p>
+              </div>
+            </div>
 
-          <FormField
-            control={form.control}
-            name="question"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Question *</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Ex: Aujourd'hui, ton problème numéro 1, c'est…"
-                    className="min-h-[120px] resize-none"
-                    {...field}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Saisissez le texte de la question
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="visible"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-none border p-4">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>Question visible</FormLabel>
-                  <FormDescription>
-                    Cochez cette case pour rendre la question visible dans le quiz
+            <FormField
+              control={form.control}
+              name="order"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium flex items-center gap-2 text-sm sm:text-base">
+                    <Hash className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400" />
+                    Ordre <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="1, 2, 3..."
+                      className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm sm:text-base w-full"
+                      {...field}
+                      onChange={(e) => field.onChange(parseInt(e.target.value))}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormDescription className="text-xs text-gray-500">
+                    Position de la question dans le quiz
                   </FormDescription>
-                </div>
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <div className="flex gap-4 pt-4 border-t">
+            <FormField
+              control={form.control}
+              name="question"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Question <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Ex: Aujourd'hui, ton problème numéro 1, c'est…"
+                      className="min-h-[120px] border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none text-sm sm:text-base w-full"
+                      {...field}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormDescription className="text-xs text-gray-500">
+                    Saisissez le texte de la question (10-1000 caractères)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* Section: Paramètres d'affichage */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-gray-100 p-1.5 sm:p-2">
+                <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Paramètres d&apos;affichage
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Visibilité et ordre d&apos;affichage
+                </p>
+              </div>
+            </div>
+
+            <FormField
+              control={form.control}
+              name="visible"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-lg border border-gray-200 p-3 sm:p-4 bg-gray-50 w-full">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={isLoading}
+                      className="mt-1"
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                      Visible sur le site
+                    </FormLabel>
+                    <FormDescription className="text-xs text-gray-500">
+                      Cochez pour rendre la question visible dans le quiz
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* Boutons d'action */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 bg-white rounded-xl border border-gray-200 p-4 sm:p-6 w-full max-w-full">
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.push('/admin/quiz/questions')}
+              onClick={() => router.push("/admin/quiz/questions")}
               disabled={isLoading}
+              className="border-gray-300 hover:bg-gray-50 transition-colors w-full sm:w-auto"
             >
               Annuler
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-green-600 hover:bg-green-700"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-md hover:shadow-lg transition-all w-full sm:w-auto"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Modification...
+                  Enregistrement...
                 </>
               ) : (
-                'Enregistrer les modifications'
+                <>
+                  <span className="hidden sm:inline">
+                    Enregistrer les modifications
+                  </span>
+                  <span className="sm:hidden">Enregistrer</span>
+                </>
               )}
             </Button>
           </div>
         </form>
       </Form>
-    </>
-  )
+    </div>
+  );
 }
