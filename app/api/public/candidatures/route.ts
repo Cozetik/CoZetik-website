@@ -53,42 +53,29 @@ async function uploadFileToCloudinary(
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Déterminer le type de ressource selon le type MIME
-    let resourceType: "image" | "raw" | "auto" = "raw";
+    // MODIFICATION ICI : Simplification de la logique de type
+    // On laisse Cloudinary gérer 'auto' pour les PDF pour éviter les problèmes 'raw'
+    let resourceType: "image" | "raw" | "auto" = "auto";
+
+    // Si c'est explicitement une image, on le dit, sinon 'auto' gère très bien les PDF maintenant
     if (file.type.startsWith("image/")) {
       resourceType = "image";
-    } else if (
-      file.type === "application/pdf" ||
-      file.type.includes("document") ||
-      file.type.includes("msword") ||
-      file.type.includes("wordprocessingml")
-    ) {
-      resourceType = "raw";
-    } else {
-      resourceType = "auto";
     }
 
-    // Upload vers Cloudinary via Promise
     const result = await new Promise<{ secure_url: string; public_id: string }>(
       (resolve, reject) => {
-        // CORRECTION ICI : Pour les fichiers raw, il faut inclure l'extension dans le public_id
-        // car le paramètre 'format' est ignoré par Cloudinary pour ce type.
-        const publicId =
-          resourceType === "raw" && fileExtension
-            ? `${timestamp}-${randomString}.${fileExtension}`
-            : `${timestamp}-${randomString}`;
-
         const uploadStream = cloudinary.uploader.upload_stream(
           {
             folder: folder,
             resource_type: resourceType,
-            public_id: publicId,
-            use_filename: false,
+            // On utilise use_filename pour garder le nom avec extension
+            // Cela aide Cloudinary à servir le bon Content-Type
+            filename_override: fileName,
+            use_filename: true,
             unique_filename: false,
             overwrite: false,
-            // Le format ne doit être spécifié que si ce N'EST PAS du raw
-            ...(resourceType !== "raw" &&
-              fileExtension && { format: fileExtension }),
+            // public_id customisé sans extension forcée ici, on laisse filename_override faire le travail
+            public_id: `${timestamp}-${randomString}`,
           },
           (error, result) => {
             if (error) reject(error);
