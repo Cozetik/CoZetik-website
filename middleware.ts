@@ -10,9 +10,7 @@ const { auth } = NextAuth(authConfig);
 
 export default auth;
 
-// Désactiver la protection /admin en DEV
-const isProd = process.env.NODE_ENV === "production";
-
 export const config = {
-  matcher: isProd ? ["/admin/:path*", "/auth-admin"] : ["/auth-admin"],
+  // Matcher optimisé - uniquement les routes protégées
+  matcher: ["/admin/:path*", "/auth-admin"],
 };
