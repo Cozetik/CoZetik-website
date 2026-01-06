@@ -1,8 +1,5 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Trash } from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,14 +10,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface DeleteStepDialogProps {
-  formationId: string
-  stepId: string
-  stepTitle: string
+  formationId: string;
+  stepId: string;
+  stepTitle: string;
 }
 
 export default function DeleteStepDialog({
@@ -28,38 +28,38 @@ export default function DeleteStepDialog({
   stepId,
   stepTitle,
 }: DeleteStepDialogProps) {
-  const router = useRouter()
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [open, setOpen] = useState(false)
+  const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
-    setIsDeleting(true)
+    setIsDeleting(true);
 
     try {
       const response = await fetch(
         `/api/formations/${formationId}/steps/${stepId}`,
         {
-          method: 'DELETE',
+          method: "DELETE",
         }
-      )
+      );
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la suppression')
+        throw new Error(data.error || "Erreur lors de la suppression");
       }
 
-      toast.success('Step supprimé avec succès')
-      setOpen(false)
-      router.refresh()
+      toast.success("Step supprimé avec succès");
+      setOpen(false);
+      router.refresh();
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Une erreur est survenue'
-      toast.error(message)
+        error instanceof Error ? error.message : "Une erreur est survenue";
+      toast.error(message);
     } finally {
-      setIsDeleting(false)
+      setIsDeleting(false);
     }
-  }
+  };
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -72,8 +72,8 @@ export default function DeleteStepDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
           <AlertDialogDescription>
-            Cette action est irréversible. Le step{' '}
-            <strong>{stepTitle}</strong> sera définitivement supprimé.
+            Cette action est irréversible. Le step <strong>{stepTitle}</strong>{" "}
+            sera définitivement supprimé.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -83,10 +83,10 @@ export default function DeleteStepDialog({
             disabled={isDeleting}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
-            {isDeleting ? 'Suppression...' : 'Supprimer'}
+            {isDeleting ? "Suppression..." : "Supprimer"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

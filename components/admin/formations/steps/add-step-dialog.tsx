@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Plus } from "lucide-react";
+import { Clock, FileText, Hash, ListChecks, Loader2, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -31,7 +31,7 @@ import * as z from "zod";
 
 const stepSchema = z.object({
   order: z
-    .number({ error: "L'ordre doit être un nombre" })
+    .number({ message: "L'ordre doit être un nombre" })
     .int("L'ordre doit être un nombre entier")
     .positive("L'ordre doit être positif"),
   title: z.string().min(1, "Le titre est requis"),
@@ -44,8 +44,10 @@ type FormValues = z.infer<typeof stepSchema>;
 
 export default function AddStepDialog({
   formationId,
+  nextOrder = 1,
 }: {
   formationId: string;
+  nextOrder?: number;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -54,7 +56,7 @@ export default function AddStepDialog({
   const form = useForm<FormValues>({
     resolver: zodResolver(stepSchema),
     defaultValues: {
-      order: 1,
+      order: nextOrder,
       title: "",
       description: "",
       duration: "",
@@ -66,7 +68,6 @@ export default function AddStepDialog({
     setIsLoading(true);
 
     try {
-      // Convertir keyPoints de string à array (une ligne = un point)
       const keyPointsArray = values.keyPoints
         ? values.keyPoints
             .split("\n")
@@ -92,9 +93,15 @@ export default function AddStepDialog({
         throw new Error(data.error || "Erreur lors de la création");
       }
 
-      toast.success("Step ajouté avec succès");
+      toast.success("Étape ajoutée avec succès");
       setOpen(false);
-      form.reset();
+      form.reset({
+        order: nextOrder + 1,
+        title: "",
+        description: "",
+        duration: "",
+        keyPoints: "",
+      });
       router.refresh();
     } catch (error) {
       const message =
@@ -108,147 +115,215 @@ export default function AddStepDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Ajouter un step
+        <Button
+          size="lg"
+          className="bg-gradient-to-r flex items-center text-md from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg font-bricolage font-semibold"
+        >
+          <Plus className="mr-2 h-5 w-5" />
+          Nouvelle étape
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Nouveau step pédagogique</DialogTitle>
-          <DialogDescription>
-            Ajoutez une nouvelle étape au parcours de formation
-          </DialogDescription>
+      <DialogContent className="sm:max-w-[700px] max-h-[95vh] p-0 gap-0 overflow-hidden">
+        {/* Header avec gradient */}
+        <DialogHeader className="px-6 py-5 bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-600 text-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,black)]" />
+          <div className="relative flex items-start gap-4">
+            <div className="rounded-xl bg-white/20 backdrop-blur-sm p-3 shadow-lg">
+              <Plus className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <DialogTitle className="text-2xl font-bricolage font-bold text-white mb-1">
+                Nouvelle étape
+              </DialogTitle>
+              <DialogDescription className="text-blue-50 font-sans">
+                Ajoutez une nouvelle étape au parcours de formation
+              </DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="order"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ordre *</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="1, 2, 3..."
-                      {...field}
-                      onChange={(e) => field.onChange(parseInt(e.target.value))}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Position du step dans le parcours de formation
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Contenu scrollable */}
+        <div className="overflow-y-auto px-6 py-6 max-h-[calc(95vh-180px)] font-sans">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Section Informations principales */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-bricolage font-semibold text-gray-900 uppercase tracking-wide flex items-center gap-2">
+                  <div className="h-1 w-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
+                  Informations principales
+                </h3>
 
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Titre *</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ex: Fondamentaux de l'IA"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="order"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700 font-medium flex items-center gap-2">
+                          <Hash className="h-4 w-4 text-gray-400" />
+                          Ordre <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="1"
+                            className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(parseInt(e.target.value))
+                            }
+                            disabled={isLoading}
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs text-gray-500">
+                          Position de l&apos;étape dans le parcours
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description *</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Description détaillée de cette étape..."
-                      className="min-h-[100px]"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <FormField
+                    control={form.control}
+                    name="duration"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700 font-medium flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-gray-400" />
+                          Durée
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="2 heures"
+                            className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                            {...field}
+                            disabled={isLoading}
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs text-gray-500">
+                          Temps nécessaire pour l&apos;étape
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-            <FormField
-              control={form.control}
-              name="duration"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Durée</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ex: 2 heures"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Durée estimée de cette étape
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 font-medium flex items-center gap-2">
+                        <FileText className="h-4 w-4 text-gray-400" />
+                        Titre <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Ex: Fondamentaux de l'IA"
+                          className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-base"
+                          {...field}
+                          disabled={isLoading}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <FormField
-              control={form.control}
-              name="keyPoints"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Points clés</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Un point par ligne&#10;Comprendre l'IA&#10;Cas d'usage concrets&#10;Outils pratiques"
-                      className="min-h-[100px]"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Un point clé par ligne (appuyez sur Entrée pour passer à la
-                    ligne)
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              {/* Section Contenu */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-bricolage font-semibold text-gray-900 uppercase tracking-wide flex items-center gap-2">
+                  <div className="h-1 w-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" />
+                  Contenu pédagogique
+                </h3>
 
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setOpen(false)}
-                disabled={isLoading}
-              >
-                Annuler
-              </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Ajout...
-                  </>
-                ) : (
-                  "Ajouter"
-                )}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 font-medium">
+                        Description <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Décrivez ce que les apprenants vont découvrir dans cette étape..."
+                          className="min-h-[120px] border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
+                          {...field}
+                          disabled={isLoading}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-xs text-gray-500">
+                        Expliquez clairement les objectifs et le contenu de
+                        l&apos;étape
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="keyPoints"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 font-medium flex items-center gap-2">
+                        <ListChecks className="h-4 w-4 text-gray-400" />
+                        Points clés
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Comprendre les bases de l'IA&#10;Découvrir les cas d'usage concrets&#10;Maîtriser les outils essentiels"
+                          className="min-h-[120px] border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none font-mono text-sm"
+                          {...field}
+                          disabled={isLoading}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-xs text-gray-500">
+                        Un objectif par ligne • Utilisez des phrases courtes et
+                        impactantes
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </form>
+          </Form>
+        </div>
+
+        {/* Footer fixe */}
+        <DialogFooter className="px-6 py-4 bg-gray-50 border-t border-gray-200 gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setOpen(false)}
+            disabled={isLoading}
+            className="border-gray-300 hover:bg-white transition-colors font-sans"
+          >
+            Annuler
+          </Button>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            onClick={form.handleSubmit(onSubmit)}
+            className=" font-sans bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-md hover:shadow-lg transition-all"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Ajout en cours...
+              </>
+            ) : (
+              <>
+                <Plus className="mr-2 h-4 w-4" />
+                Ajouter l&apos;étape
+              </>
+            )}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

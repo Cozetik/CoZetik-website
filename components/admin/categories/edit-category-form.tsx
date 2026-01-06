@@ -1,11 +1,7 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
+import { ImageUpload } from "@/components/admin/image-upload";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,142 +10,219 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Checkbox } from '@/components/ui/checkbox'
-import { ImageUpload } from '@/components/admin/image-upload'
-import { toast } from 'sonner'
-import Link from 'next/link'
-import { ArrowLeft, Loader2 } from 'lucide-react'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ArrowLeft,
+  Eye,
+  FileText,
+  FolderOpen,
+  Hash,
+  Image as ImageIcon,
+  Loader2,
+  Save,
+  X,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
 const formSchema = z.object({
-  name: z.string().min(1, 'Le nom est requis').max(100, 'Le nom est trop long'),
+  name: z.string().min(1, "Le nom est requis").max(100, "Le nom est trop long"),
   description: z.string().optional(),
   imageUrl: z.string().optional(),
   visible: z.boolean(),
   order: z.number().int().min(0),
-})
+});
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema>;
 
 interface EditCategoryFormProps {
   category: {
-    id: string
-    name: string
-    slug: string
-    description: string | null
-    imageUrl: string | null
-    visible: boolean
-    order: number
-  }
+    id: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    imageUrl: string | null;
+    visible: boolean;
+    order: number;
+  };
 }
 
 export default function EditCategoryForm({ category }: EditCategoryFormProps) {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
-  const [previousImageUrl] = useState(category.imageUrl)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [previousImageUrl] = useState(category.imageUrl);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: category.name,
-      description: category.description || '',
-      imageUrl: category.imageUrl || '',
+      description: category.description || "",
+      imageUrl: category.imageUrl || "",
       visible: category.visible,
       order: category.order,
     },
-  })
+  });
 
   const onSubmit = async (values: FormValues) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const response = await fetch(`/api/categories/${category.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
-          slug: category.slug, // Utiliser le slug existant (ne pas regénérer)
+          slug: category.slug,
           previousImageUrl,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la modification')
+        throw new Error(data.error || "Erreur lors de la modification");
       }
 
-      toast.success('Catégorie modifiée avec succès')
-      router.push('/admin/categories')
-      router.refresh()
+      toast.success("Catégorie modifiée avec succès");
+      router.push("/admin/categories");
+      router.refresh();
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Une erreur est survenue'
-      toast.error(message)
+        error instanceof Error ? error.message : "Une erreur est survenue";
+      toast.error(message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="max-w-4xl">
-      <div className="mb-6">
-        <Button variant="ghost" asChild className="mb-4">
-          <Link href="/admin/categories">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour aux catégories
-          </Link>
-        </Button>
-        <h1 className="text-3xl font-bold tracking-tight">
-          Modifier la catégorie
-        </h1>
-        <p className="text-muted-foreground mt-1">
-          Modifiez les informations de la catégorie
-        </p>
+    <div className="font-sans w-full">
+      {/* Header */}
+      <div className="mb-4 sm:mb-8 bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-600 rounded-xl sm:rounded-2xl p-4 sm:p-8 text-white relative overflow-hidden w-full">
+        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,black)]" />
+        <div className="relative">
+          <Button
+            variant="ghost"
+            asChild
+            className="mb-2 sm:mb-4 text-white hover:bg-white/20 hover:text-white"
+          >
+            <Link href="/admin/categories">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Retour aux catégories</span>
+              <span className="sm:hidden">Retour</span>
+            </Link>
+          </Button>
+          <h1 className="text-2xl sm:text-4xl font-bricolage font-bold mb-1 sm:mb-2">
+            Modifier la catégorie
+          </h1>
+          <p className="text-sm sm:text-base text-purple-50">
+            Modifiez les informations de la catégorie
+          </p>
+        </div>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="grid gap-6 md:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nom *</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ex: Intelligence Artificielle"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 sm:space-y-8 w-full max-w-full"
+        >
+          {/* Section: Informations générales */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-purple-100 p-1.5 sm:p-2">
+                <FolderOpen className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Informations générales
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Nom, ordre et description
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 w-full">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-gray-700 font-medium flex items-center gap-2 text-sm sm:text-base">
+                      <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400" />
+                      Nom de la catégorie{" "}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ex: Intelligence Artificielle"
+                        className="border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all w-full text-sm sm:text-base"
+                        {...field}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="order"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-gray-700 font-medium flex items-center gap-2 text-sm sm:text-base">
+                      <Hash className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400" />
+                      Ordre d&apos;affichage
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="0"
+                        className="border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all w-full text-sm sm:text-base"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        value={field.value}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormDescription className="text-xs text-gray-500">
+                      Plus le nombre est petit, plus la catégorie apparaît en
+                      premier
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
-              name="order"
+              name="description"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ordre d&apos;affichage</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Description
+                  </FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="0"
+                    <Textarea
+                      placeholder="Décrivez brièvement cette catégorie..."
+                      className="min-h-[200px] border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all w-full text-sm sm:text-base"
                       {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                      value={field.value}
                       disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription>
-                    Plus le nombre est petit, plus la catégorie apparaît en
-                    premier
+                  <FormDescription className="text-xs text-gray-500">
+                    Cette description aidera les utilisateurs à comprendre le
+                    contenu de la catégorie
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -157,92 +230,125 @@ export default function EditCategoryForm({ category }: EditCategoryFormProps) {
             />
           </div>
 
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Description de la catégorie..."
-                    className="min-h-[100px] resize-none"
-                    {...field}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {/* Section: Image */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-pink-100 p-1.5 sm:p-2">
+                <ImageIcon className="h-4 w-4 sm:h-5 sm:w-5 text-pink-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Image de la catégorie
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Image de couverture de la catégorie
+                </p>
+              </div>
+            </div>
 
-          <FormField
-            control={form.control}
-            name="imageUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Image</FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value}
-                    onChange={field.onChange}
-                    onRemove={() => field.onChange('')}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Image principale de la catégorie (optionnel)
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="visible"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-none border p-4">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>Visible sur le site</FormLabel>
-                  <FormDescription>
-                    Cochez cette case pour rendre la catégorie visible sur le
-                    site public
+            <FormField
+              control={form.control}
+              name="imageUrl"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Image
+                  </FormLabel>
+                  <FormControl>
+                    <ImageUpload
+                      value={field.value}
+                      onChange={field.onChange}
+                      onRemove={() => field.onChange("")}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormDescription className="text-xs text-gray-500">
+                    Image principale de la catégorie (recommandé)
                   </FormDescription>
-                </div>
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <div className="flex gap-4">
+          {/* Section: Visibilité */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-green-100 p-1.5 sm:p-2">
+                <Eye className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Visibilité
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Contrôlez l&apos;affichage sur le site public
+                </p>
+              </div>
+            </div>
+
+            <FormField
+              control={form.control}
+              name="visible"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-lg border border-gray-200 p-3 sm:p-4 bg-green-50 w-full">
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={isLoading}
+                      className="data-[state=checked]:bg-green-500 mt-1"
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                      Catégorie visible
+                    </FormLabel>
+                    <FormDescription className="text-xs text-gray-500">
+                      Activez cette option pour rendre la catégorie visible sur
+                      le site public
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* Boutons d'action */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 bg-white rounded-xl border border-gray-200 p-4 sm:p-6 w-full max-w-full">
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.push('/admin/categories')}
+              onClick={() => router.push("/admin/categories")}
               disabled={isLoading}
+              className="border-gray-300 hover:bg-gray-50 transition-colors w-full sm:w-auto"
             >
+              <X className="mr-2 h-4 w-4" />
               Annuler
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-md hover:shadow-lg transition-all w-full sm:w-auto"
+            >
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Enregistrement...
                 </>
               ) : (
-                'Enregistrer les modifications'
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">
+                    Enregistrer les modifications
+                  </span>
+                  <span className="sm:hidden">Enregistrer</span>
+                </>
               )}
             </Button>
           </div>
         </form>
       </Form>
     </div>
-  )
+  );
 }

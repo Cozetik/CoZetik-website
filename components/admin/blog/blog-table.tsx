@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Pencil } from "lucide-react";
+import { ArrowUpDown, Calendar, Pencil, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -29,6 +29,11 @@ interface BlogPost {
   visible: boolean;
   publishedAt: string | null;
   createdAt: string;
+  theme: {
+    id: string;
+    name: string;
+    slug: string;
+  } | null;
 }
 
 export default function BlogTable({ posts }: { posts: BlogPost[] }) {
@@ -37,7 +42,7 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
 
   const formatDate = (date: string | null) => {
     if (!date) return "—";
-    return format(new Date(date), "dd/MM/yyyy", { locale: fr });
+    return format(new Date(date), "dd MMMM yyyy", { locale: fr });
   };
 
   const handleToggleVisibility = async (postId: string) => {
@@ -101,29 +106,32 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
   };
 
   return (
-    <div className="rounded-lg border overflow-hidden">
+    <div className="rounded-xl border border-border/50 overflow-hidden bg-card">
       <Table>
         <TableHeader>
-          <TableRow className="hover:bg-transparent border-b">
-            <TableHead className="w-[70px] font-medium text-xs uppercase tracking-wider font-sans">
+          <TableRow className="bg-muted/50 hover:bg-muted/50 border-b border-border/50">
+            <TableHead className="w-[80px] font-sans font-semibold text-foreground">
               Image
             </TableHead>
-            <TableHead className="font-medium text-xs uppercase tracking-wider font-sans">
-              Titre
+            <TableHead className="font-sans font-semibold text-foreground">
+              <div className="flex items-center gap-2">
+                Titre
+                <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground" />
+              </div>
             </TableHead>
-            <TableHead className="w-[110px] font-medium text-xs uppercase tracking-wider font-sans">
+            <TableHead className="w-[150px] font-sans font-semibold text-foreground">
+              Thème
+            </TableHead>
+            <TableHead className="w-[120px] font-sans font-semibold text-foreground">
               Statut
             </TableHead>
-            <TableHead className="w-[90px] font-medium text-xs uppercase tracking-wider font-sans">
-              Publié
+            <TableHead className="w-[120px] font-sans font-semibold text-foreground">
+              Visibilité
             </TableHead>
-            <TableHead className="w-[130px] font-medium text-xs uppercase tracking-wider font-sans">
-              Date publication
+            <TableHead className="w-[180px] font-sans font-semibold text-foreground">
+              Date de publication
             </TableHead>
-            <TableHead className="w-[110px] font-medium text-xs uppercase tracking-wider font-sans">
-              Créé le
-            </TableHead>
-            <TableHead className="w-[110px] text-right font-medium text-xs uppercase tracking-wider font-sans">
+            <TableHead className="w-[120px] text-right font-sans font-semibold text-foreground">
               Actions
             </TableHead>
           </TableRow>
@@ -132,57 +140,87 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
           {items.map((post) => (
             <TableRow
               key={post.id}
-              className="hover:bg-muted/50 transition-colors"
+              className="hover:bg-muted/30 transition-colors border-b border-border/30 last:border-0"
             >
-              <TableCell className="py-3">
+              <TableCell className="py-4">
                 {post.imageUrl ? (
-                  <div className="relative w-[50px] h-[50px] rounded-md overflow-hidden border">
+                  <div className="relative w-16 h-16 rounded-lg overflow-hidden border-2 border-border/50 shadow-sm">
                     <Image
-                      src={post.imageUrl || "/placeholder.svg"}
+                      src={post.imageUrl}
                       alt={post.title}
                       fill
                       className="object-cover"
                     />
                   </div>
                 ) : (
-                  <div className="w-[50px] h-[50px] bg-muted rounded-md flex items-center justify-center border">
-                    <span className="text-xs text-muted-foreground">—</span>
+                  <div className="w-16 h-16 bg-gradient-to-br from-muted to-muted/50 rounded-lg flex items-center justify-center border-2 border-border/50">
+                    <span className="text-xs text-muted-foreground font-medium">
+                      Pas d&apos;image
+                    </span>
                   </div>
                 )}
               </TableCell>
-              <TableCell className="font-sans">{post.title}</TableCell>
-              <TableCell>
+              <TableCell className="py-4">
+                <div className="flex flex-col gap-1">
+                  <span className="font-sans font-semibold text-foreground line-clamp-1">
+                    {post.title}
+                  </span>
+                  <code className="text-xs text-muted-foreground font-mono">
+                    /{post.slug}
+                  </code>
+                </div>
+              </TableCell>
+              <TableCell className="py-4">
+                {post.theme ? (
+                  <Badge
+                    variant="outline"
+                    className="font-sans bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20 hover:bg-purple-500/20 font-medium"
+                  >
+                    <Tag className="h-3 w-3 mr-1" />
+                    {post.theme.name}
+                  </Badge>
+                ) : (
+                  <span className="text-xs text-muted-foreground italic">
+                    Aucun thème
+                  </span>
+                )}
+              </TableCell>
+              <TableCell className="py-4">
                 <Badge
                   variant={post.visible ? "default" : "secondary"}
                   className={
                     post.visible
-                      ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100"
-                      : "bg-muted text-muted-foreground border hover:bg-muted"
+                      ? "font-sans bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20 hover:bg-green-500/20 font-medium"
+                      : "font-sans bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20 hover:bg-orange-500/20 font-medium"
                   }
                 >
                   {post.visible ? "Publié" : "Brouillon"}
                 </Badge>
               </TableCell>
-              <TableCell>
-                <Switch
-                  checked={post.visible}
-                  onCheckedChange={() => handleToggleVisibility(post.id)}
-                  className="data-[state=checked]:bg-emerald-600"
-                />
+              <TableCell className="py-4">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={post.visible}
+                    onCheckedChange={() => handleToggleVisibility(post.id)}
+                    className="data-[state=checked]:bg-green-500"
+                  />
+                </div>
               </TableCell>
-              <TableCell className="text-sm text-muted-foreground font-sans">
-                {formatDate(post.publishedAt)}
+              <TableCell className="py-4">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Calendar className="h-4 w-4" />
+                  <span className="font-sans">
+                    {formatDate(post.publishedAt)}
+                  </span>
+                </div>
               </TableCell>
-              <TableCell className="text-sm text-muted-foreground font-sans">
-                {formatDate(post.createdAt)}
-              </TableCell>
-              <TableCell className="text-right">
-                <div className="flex justify-end gap-1">
+              <TableCell className="py-4">
+                <div className="flex items-center justify-end gap-1">
                   <Button
                     variant="ghost"
                     size="icon"
                     asChild
-                    className="h-8 w-8 font-sans"
+                    className="h-8 w-8 hover:bg-muted"
                   >
                     <Link href={`/admin/blog/${post.id}/edit`}>
                       <Pencil className="h-4 w-4" />

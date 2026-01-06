@@ -2,7 +2,6 @@
 
 import { ImageUpload } from "@/components/admin/image-upload";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -13,10 +12,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { slugify } from "@/lib/slugify";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Eye,
+  FileText,
+  FolderOpen,
+  Hash,
+  Image as ImageIcon,
+  Loader2,
+  Save,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -90,46 +100,72 @@ export default function NewCategoryPage() {
   };
 
   return (
-    <div className="max-w-4xl">
-      <div className="mb-8">
-        <Button variant="ghost" asChild className="mb-4 -ml-3 font-sans">
-          <Link href="/admin/categories">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour aux catégories
-          </Link>
-        </Button>
-        <h1 className="text-4xl font-bricolage font-semibold tracking-tight mb-2">
-          Nouvelle catégorie
-        </h1>
-        <p className="text-muted-foreground font-sans">
-          Créez une nouvelle catégorie de formation
-        </p>
+    <div className="font-sans w-full">
+      {/* Header */}
+      <div className="mb-4 sm:mb-8 bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-600 rounded-xl sm:rounded-2xl p-4 sm:p-8 text-white relative overflow-hidden w-full">
+        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,black)]" />
+        <div className="relative">
+          <Button
+            variant="ghost"
+            asChild
+            className="mb-2 sm:mb-4 text-white hover:bg-white/20 hover:text-white"
+          >
+            <Link href="/admin/categories">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Retour aux catégories</span>
+              <span className="sm:hidden">Retour</span>
+            </Link>
+          </Button>
+          <h1 className="text-2xl sm:text-4xl font-bricolage font-bold mb-1 sm:mb-2">
+            Nouvelle catégorie
+          </h1>
+          <p className="text-sm sm:text-base text-purple-50">
+            Créez une nouvelle catégorie de formation
+          </p>
+        </div>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Section Informations générales */}
-          <div className="space-y-6 p-6 border rounded-lg bg-card">
-            <h2 className="text-xl font-bricolage font-semibold">
-              Informations générales
-            </h2>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 sm:space-y-8 w-full max-w-full"
+        >
+          {/* Section: Informations générales */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-purple-100 p-1.5 sm:p-2">
+                <FolderOpen className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Informations générales
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Nom, ordre et description
+                </p>
+              </div>
+            </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 w-full">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-sans">Nom *</FormLabel>
+                  <FormItem className="w-full">
+                    <FormLabel className="text-gray-700 font-medium flex items-center gap-2 text-sm sm:text-base">
+                      <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400" />
+                      Nom de la catégorie{" "}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
-                        className="font-sans"
                         placeholder="Ex: Intelligence Artificielle"
+                        className="border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all w-full text-sm sm:text-base"
                         {...field}
                         disabled={isLoading}
                       />
                     </FormControl>
-                    <FormMessage className="font-sans" />
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -138,26 +174,27 @@ export default function NewCategoryPage() {
                 control={form.control}
                 name="order"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-sans">
+                  <FormItem className="w-full">
+                    <FormLabel className="text-gray-700 font-medium flex items-center gap-2 text-sm sm:text-base">
+                      <Hash className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400" />
                       Ordre d&apos;affichage
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        className="font-sans"
                         placeholder="0"
+                        className="border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all w-full text-sm sm:text-base"
                         {...field}
                         onChange={(e) => field.onChange(Number(e.target.value))}
                         value={field.value}
                         disabled={isLoading}
                       />
                     </FormControl>
-                    <FormDescription className="font-sans">
+                    <FormDescription className="text-xs text-gray-500">
                       Plus le nombre est petit, plus la catégorie apparaît en
                       premier
                     </FormDescription>
-                    <FormMessage className="font-sans" />
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -167,32 +204,52 @@ export default function NewCategoryPage() {
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Description</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Description
+                  </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Description de la catégorie..."
-                      className="min-h-[100px] resize-none font-sans"
+                      placeholder="Décrivez brièvement cette catégorie..."
+                      className="min-h-[200px] border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all w-full text-sm sm:text-base"
                       {...field}
                       disabled={isLoading}
                     />
                   </FormControl>
-                  <FormMessage className="font-sans" />
+                  <FormDescription className="text-xs text-gray-500">
+                    Cette description aidera les utilisateurs à comprendre le
+                    contenu de la catégorie
+                  </FormDescription>
+                  <FormMessage />
                 </FormItem>
               )}
             />
           </div>
 
-          {/* Section Média */}
-          <div className="space-y-6 p-6 border rounded-lg bg-card">
-            <h2 className="text-xl font-bricolage font-semibold">Média</h2>
+          {/* Section: Image */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-pink-100 p-1.5 sm:p-2">
+                <ImageIcon className="h-4 w-4 sm:h-5 sm:w-5 text-pink-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Image de la catégorie
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Image de couverture de la catégorie
+                </p>
+              </div>
+            </div>
 
             <FormField
               control={form.control}
               name="imageUrl"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-sans">Image</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                    Image
+                  </FormLabel>
                   <FormControl>
                     <ImageUpload
                       value={field.value}
@@ -201,40 +258,51 @@ export default function NewCategoryPage() {
                       disabled={isLoading}
                     />
                   </FormControl>
-                  <FormDescription className="font-sans">
+                  <FormDescription className="text-xs text-gray-500">
                     Image principale de la catégorie (optionnel)
                   </FormDescription>
-                  <FormMessage className="font-sans" />
+                  <FormMessage />
                 </FormItem>
               )}
             />
           </div>
 
-          {/* Section Visibilité */}
-          <div className="space-y-6 p-6 border rounded-lg bg-card">
-            <h2 className="text-xl font-bricolage font-semibold">
-              Publication
-            </h2>
+          {/* Section: Visibilité */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
+            <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
+              <div className="rounded-lg bg-green-100 p-1.5 sm:p-2">
+                <Eye className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bricolage font-semibold text-gray-900">
+                  Visibilité
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Contrôlez l&apos;affichage sur le site public
+                </p>
+              </div>
+            </div>
 
             <FormField
               control={form.control}
               name="visible"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-lg border border-gray-200 p-3 sm:p-4 bg-green-50 w-full">
                   <FormControl>
-                    <Checkbox
+                    <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       disabled={isLoading}
+                      className="data-[state=checked]:bg-green-500 mt-1"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel className="font-sans cursor-pointer">
-                      Visible sur le site
+                    <FormLabel className="text-gray-700 font-medium text-sm sm:text-base">
+                      Catégorie visible
                     </FormLabel>
-                    <FormDescription className="font-sans">
-                      Cochez cette case pour rendre la catégorie visible sur le
-                      site public
+                    <FormDescription className="text-xs text-gray-500">
+                      Activez cette option pour rendre la catégorie visible sur
+                      le site public
                     </FormDescription>
                   </div>
                 </FormItem>
@@ -242,24 +310,34 @@ export default function NewCategoryPage() {
             />
           </div>
 
-          <div className="flex gap-4 pt-4">
+          {/* Boutons d'action */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 bg-white rounded-xl border border-gray-200 p-4 sm:p-6 w-full max-w-full">
             <Button
               type="button"
               variant="outline"
               onClick={() => router.push("/admin/categories")}
               disabled={isLoading}
-              className="font-sans"
+              className="border-gray-300 hover:bg-gray-50 transition-colors w-full sm:w-auto"
             >
+              <X className="mr-2 h-4 w-4" />
               Annuler
             </Button>
-            <Button type="submit" disabled={isLoading} className="font-sans">
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-md hover:shadow-lg transition-all w-full sm:w-auto"
+            >
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Création...
                 </>
               ) : (
-                "Créer la catégorie"
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">Créer la catégorie</span>
+                  <span className="sm:hidden">Créer</span>
+                </>
               )}
             </Button>
           </div>
