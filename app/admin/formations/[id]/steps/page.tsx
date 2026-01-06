@@ -1,70 +1,79 @@
-import { prisma } from '@/lib/prisma'
-import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowLeft, ListOrdered } from 'lucide-react'
-import AddStepDialog from '@/components/admin/formations/steps/add-step-dialog'
-import StepsTable from '@/components/admin/formations/steps/steps-table'
+import StepsTable from "@/components/admin/formations/steps/steps-table";
+import { Button } from "@/components/ui/button";
+import { prisma } from "@/lib/prisma";
+import { ArrowLeft, Layers, Plus } from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function FormationStepsPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params
+  const { id } = await params;
 
-  const [formation, steps] = await Promise.all([
-    prisma.formation.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        title: true,
+  const formation = await prisma.formation.findUnique({
+    where: { id },
+    include: {
+      steps: {
+        orderBy: { order: "asc" },
       },
-    }),
-    prisma.formationStep.findMany({
-      where: { formationId: id },
-      orderBy: { order: 'asc' },
-    }),
-  ])
+    },
+  });
 
   if (!formation) {
-    notFound()
+    notFound();
   }
 
   return (
-    <div className="max-w-5xl">
-      <div className="mb-6">
-        <Button variant="ghost" asChild className="mb-4">
+    <div className="space-y-6">
+      <div className="mb-8">
+        <Button variant="ghost" asChild className="mb-4 -ml-3 font-sans">
           <Link href="/admin/formations">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Retour aux formations
           </Link>
         </Button>
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Gérer les steps pédagogiques
+
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1">
+            <h1 className="text-4xl font-bricolage font-semibold tracking-tight">
+              Programme : {formation.title}
             </h1>
-            <p className="text-muted-foreground mt-1">
-              Formation : <strong>{formation.title}</strong>
+            <p className="text-muted-foreground font-sans">
+              Définissez les étapes clés du programme
             </p>
           </div>
-          <AddStepDialog formationId={formation.id} />
+          <Button asChild size="default" className="shadow-sm font-sans">
+            <Link href={`/admin/formations/${id}/steps/new`}>
+              <Plus className="mr-2 h-4 w-4" />
+              Nouvelle étape
+            </Link>
+          </Button>
         </div>
       </div>
 
-      {steps.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12 border rounded-none bg-muted/50">
-          <ListOrdered className="h-16 w-16 text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">Aucun step configuré</h3>
-          <p className="text-muted-foreground mb-4">
-            Créez le premier step pédagogique pour cette formation
+      {formation.steps.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 px-6 rounded-lg border border-dashed">
+          <div className="rounded-full bg-muted p-3 mb-4">
+            <Layers className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <h3 className="text-lg font-bricolage font-semibold mb-1.5">
+            Le programme est vide
+          </h3>
+          <p className="text-sm font-sans text-muted-foreground mb-6 text-center max-w-sm">
+            Structurez votre formation en ajoutant des étapes pédagogiques.
           </p>
-          <AddStepDialog formationId={formation.id} />
+          <Button asChild size="sm" className="font-sans">
+            <Link href={`/admin/formations/${id}/steps/new`}>
+              <Plus className="mr-2 h-4 w-4" />
+              Ajouter une étape
+            </Link>
+          </Button>
         </div>
       ) : (
-        <StepsTable steps={steps} formationId={formation.id} />
+        <StepsTable steps={formation.steps} formationId={id} />
       )}
     </div>
-  )
+  );
 }
