@@ -24,9 +24,11 @@ export default async function BlogPage() {
           <h1 className="text-4xl font-bricolage font-semibold tracking-tight">
             Blog
           </h1>
-          <p className="text-muted-foreground">Gérez vos articles de blog</p>
+          <p className="text-muted-foreground font-sans">
+            Gérez vos articles de blog
+          </p>
         </div>
-        <Button asChild size="default" className="shadow-sm">
+        <Button asChild size="default" className="shadow-sm font-sans">
           <Link href="/admin/blog/new">
             <Plus className="mr-2 h-4 w-4" />
             Nouvel article
@@ -42,10 +44,10 @@ export default async function BlogPage() {
           <h3 className="text-lg font-bricolage font-semibold mb-1.5">
             Aucun article créé
           </h3>
-          <p className="text-sm text-muted-foreground mb-6 text-center max-w-sm">
+          <p className="text-sm font-sans text-muted-foreground mb-6 text-center max-w-sm">
             Commencez par créer votre premier article de blog
           </p>
-          <Button asChild size="sm">
+          <Button asChild size="sm" className="font-sans">
             <Link href="/admin/blog/new">
               <Plus className="mr-2 h-4 w-4" />
               Créer un article

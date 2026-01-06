@@ -153,16 +153,16 @@ export default function EditBlogPostForm({
   return (
     <div className="max-w-4xl">
       <div className="mb-8">
-        <Button variant="ghost" asChild className="mb-4 -ml-3">
+        <Button variant="ghost" asChild className="mb-4 -ml-3 font-sans">
           <Link href="/admin/blog">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Retour
           </Link>
         </Button>
-        <h1 className="text-4xl font-bricolage font-semibold tracking-tight mb-2">
+        <h1 className="text-4xl font-bricolage font-semibold tracking-tight mb-2 ">
           Modifier l&apos;article
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground font-sans">
           Modifiez les informations de votre article
         </p>
       </div>
@@ -179,12 +179,13 @@ export default function EditBlogPostForm({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Titre</FormLabel>
+                  <FormLabel className="font-sans">Titre</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Ex: 10 Conseils pour maîtriser l'IA"
                       {...field}
                       onChange={handleTitleChange}
+                      className="font-sans"
                     />
                   </FormControl>
                   <FormMessage />
@@ -197,14 +198,15 @@ export default function EditBlogPostForm({
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slug (URL)</FormLabel>
+                  <FormLabel className="font-sans">Slug (URL)</FormLabel>
                   <FormControl>
                     <Input
+                      className="font-sans"
                       placeholder="ex: 10-conseils-pour-maitriser-ia"
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-sans">
                     URL de l&apos;article (modifiable manuellement)
                   </FormDescription>
                   <FormMessage />
@@ -217,7 +219,7 @@ export default function EditBlogPostForm({
               name="excerpt"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Extrait</FormLabel>
+                  <FormLabel className="font-sans">Extrait</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Résumé court de l'article..."
@@ -225,7 +227,9 @@ export default function EditBlogPostForm({
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Maximum 500 caractères</FormDescription>
+                  <FormDescription className="font-sans">
+                    Maximum 500 caractères
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -236,25 +240,32 @@ export default function EditBlogPostForm({
               name="themeId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Thème</FormLabel>
+                  <FormLabel className="font-sans">Thème</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value || undefined}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Sélectionner un thème" />
+                        <SelectValue
+                          className="font-sans"
+                          placeholder="Sélectionner un thème"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {themes.length > 0 ? (
                         themes.map((theme) => (
-                          <SelectItem key={theme.id} value={theme.id}>
+                          <SelectItem
+                            key={theme.id}
+                            value={theme.id}
+                            className="font-sans"
+                          >
                             {theme.name}
                           </SelectItem>
                         ))
                       ) : (
-                        <div className="p-2 text-sm text-muted-foreground">
+                        <div className="p-2 text-sm text-muted-foreground font-sans">
                           Aucun thème disponible
                         </div>
                       )}
@@ -270,7 +281,7 @@ export default function EditBlogPostForm({
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contenu</FormLabel>
+                  <FormLabel className="font-sans">Contenu</FormLabel>
                   <FormControl>
                     <RichTextEditor
                       value={field.value}
@@ -293,7 +304,7 @@ export default function EditBlogPostForm({
               name="imageUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image</FormLabel>
+                  <FormLabel className="font-sans">Image</FormLabel>
                   <FormControl>
                     <ImageUpload
                       value={field.value}
@@ -301,7 +312,7 @@ export default function EditBlogPostForm({
                       onRemove={() => field.onChange("")}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-sans">
                     Image principale de l&apos;article (recommandé)
                   </FormDescription>
                   <FormMessage />
@@ -318,14 +329,15 @@ export default function EditBlogPostForm({
               name="seoTitle"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Meta Title</FormLabel>
+                  <FormLabel className="font-sans">Meta Title</FormLabel>
                   <FormControl>
                     <Input
+                      className="font-sans"
                       placeholder="Titre pour les moteurs de recherche"
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-sans">
                     Laissez vide pour utiliser le titre de l&apos;article (max
                     60 caractères)
                   </FormDescription>
@@ -339,15 +351,15 @@ export default function EditBlogPostForm({
               name="seoDescription"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Meta Description</FormLabel>
+                  <FormLabel className="font-sans">Meta Description</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Description pour les moteurs de recherche"
-                      className="min-h-[80px] resize-none"
+                      className="min-h-[80px] resize-none font-sans"
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-sans">
                     Laissez vide pour utiliser l&apos;extrait (max 160
                     caractères)
                   </FormDescription>
@@ -367,20 +379,20 @@ export default function EditBlogPostForm({
               name="visible"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Statut</FormLabel>
+                  <FormLabel className="font-sans">Statut</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={(value) =>
                         field.onChange(value === "true")
                       }
                       value={field.value ? "true" : "false"}
-                      className="flex gap-4"
+                      className="flex gap-4 font-sans"
                     >
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-2 ">
                         <RadioGroupItem value="false" id="edit-post-draft" />
                         <label
                           htmlFor="edit-post-draft"
-                          className="cursor-pointer text-sm font-normal"
+                          className="cursor-pointer text-sm font-normal font-sans"
                         >
                           Brouillon
                         </label>
@@ -389,7 +401,7 @@ export default function EditBlogPostForm({
                         <RadioGroupItem value="true" id="edit-post-published" />
                         <label
                           htmlFor="edit-post-published"
-                          className="cursor-pointer text-sm font-normal"
+                          className="cursor-pointer text-sm font-sans "
                         >
                           Publié
                         </label>
@@ -407,21 +419,23 @@ export default function EditBlogPostForm({
                 name="publishedAt"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Date de publication</FormLabel>
+                    <FormLabel className="font-sans">
+                      Date de publication
+                    </FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
                             variant="outline"
                             className={cn(
-                              "pl-3 text-left font-normal w-full",
+                              "pl-3 text-left font-normal w-full font-sans",
                               !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
                               format(field.value, "PPP", { locale: fr })
                             ) : (
-                              <span>
+                              <span className="font-sans">
                                 Date de publication (aujourd&apos;hui par
                                 défaut)
                               </span>
@@ -439,7 +453,7 @@ export default function EditBlogPostForm({
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormDescription>
+                    <FormDescription className="font-sans">
                       Laisser vide pour publier immédiatement
                     </FormDescription>
                     <FormMessage />
@@ -455,10 +469,11 @@ export default function EditBlogPostForm({
               variant="outline"
               onClick={() => router.push("/admin/blog")}
               disabled={isLoading}
+              className="font-sans"
             >
               Annuler
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className="font-sans">
               {isLoading
                 ? "Enregistrement..."
                 : form.watch("visible")

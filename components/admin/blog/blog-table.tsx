@@ -105,25 +105,25 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent border-b">
-            <TableHead className="w-[70px] font-medium text-xs uppercase tracking-wider">
+            <TableHead className="w-[70px] font-medium text-xs uppercase tracking-wider font-sans">
               Image
             </TableHead>
-            <TableHead className="font-medium text-xs uppercase tracking-wider">
+            <TableHead className="font-medium text-xs uppercase tracking-wider font-sans">
               Titre
             </TableHead>
-            <TableHead className="w-[110px] font-medium text-xs uppercase tracking-wider">
+            <TableHead className="w-[110px] font-medium text-xs uppercase tracking-wider font-sans">
               Statut
             </TableHead>
-            <TableHead className="w-[90px] font-medium text-xs uppercase tracking-wider">
+            <TableHead className="w-[90px] font-medium text-xs uppercase tracking-wider font-sans">
               Publié
             </TableHead>
-            <TableHead className="w-[130px] font-medium text-xs uppercase tracking-wider">
+            <TableHead className="w-[130px] font-medium text-xs uppercase tracking-wider font-sans">
               Date publication
             </TableHead>
-            <TableHead className="w-[110px] font-medium text-xs uppercase tracking-wider">
+            <TableHead className="w-[110px] font-medium text-xs uppercase tracking-wider font-sans">
               Créé le
             </TableHead>
-            <TableHead className="w-[110px] text-right font-medium text-xs uppercase tracking-wider">
+            <TableHead className="w-[110px] text-right font-medium text-xs uppercase tracking-wider font-sans">
               Actions
             </TableHead>
           </TableRow>
@@ -150,7 +150,7 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
                   </div>
                 )}
               </TableCell>
-              <TableCell className="font-medium">{post.title}</TableCell>
+              <TableCell className="font-sans">{post.title}</TableCell>
               <TableCell>
                 <Badge
                   variant={post.visible ? "default" : "secondary"}
@@ -170,10 +170,10 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
                   className="data-[state=checked]:bg-emerald-600"
                 />
               </TableCell>
-              <TableCell className="text-sm text-muted-foreground">
+              <TableCell className="text-sm text-muted-foreground font-sans">
                 {formatDate(post.publishedAt)}
               </TableCell>
-              <TableCell className="text-sm text-muted-foreground">
+              <TableCell className="text-sm text-muted-foreground font-sans">
                 {formatDate(post.createdAt)}
               </TableCell>
               <TableCell className="text-right">
@@ -182,7 +182,7 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
                     variant="ghost"
                     size="icon"
                     asChild
-                    className="h-8 w-8"
+                    className="h-8 w-8 font-sans"
                   >
                     <Link href={`/admin/blog/${post.id}/edit`}>
                       <Pencil className="h-4 w-4" />

@@ -15,21 +15,21 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // 1. Parsing robuste de l'URL pour extraire version et public_id
+    // 1. Parsing
     const parts = url.split("/upload/");
     if (parts.length < 2) return NextResponse.redirect(url);
 
     const beforeUpload = parts[0];
-    const afterUpload = parts[1]; // Ex: v1767693979/cozetik/cv/mon-cv.pdf
+    const afterUpload = parts[1];
 
-    // Pour les raw, on garde 'raw', sinon 'image' (par défaut pour les PDF auto)
+    // Détection brute : si l'URL contient "raw", c'est du raw, sinon image
     const resourceType = beforeUpload.includes("/raw") ? "raw" : "image";
 
     const pathParts = afterUpload.split("/");
     let publicId = afterUpload;
     let version = undefined;
 
-    // Détection version (ex: v123456)
+    // Extraction version
     if (
       pathParts[0].startsWith("v") &&
       /^\d+$/.test(pathParts[0].substring(1))
@@ -38,49 +38,50 @@ export async function GET(request: NextRequest) {
       publicId = pathParts.slice(1).join("/");
     }
 
-    console.log(
-      `🔍 Proxy Download: Type=${resourceType}, Ver=${version}, ID=${publicId}`
-    );
-
-    // 2. Générer une URL signée valide (Côté serveur)
+    // 2. Génération URL signée
     const signedUrl = cloudinary.url(publicId, {
       resource_type: resourceType,
       type: "upload",
-      sign_url: true, // Important: signe la requête
+      sign_url: true,
       secure: true,
       version: version,
-      // Force le format pour éviter les erreurs de type (important pour les PDF en raw)
+      // Si c'est raw, on ne met pas de format, sinon on force pdf
       format: resourceType === "raw" ? undefined : "pdf",
     });
 
-    // 3. PROXY: Le serveur télécharge le fichier
-    // On utilise fetch depuis le serveur Node.js (pas de pb CORS ou 401 navigateur)
+    console.log(`Attempting download from: ${signedUrl}`);
+
+    // 3. Téléchargement côté serveur
     const response = await fetch(signedUrl);
 
     if (!response.ok) {
-      console.error(
-        `❌ Erreur fetch Cloudinary (${response.status}):`,
-        signedUrl
-      );
-      return new NextResponse(
-        `Erreur lors du téléchargement: ${response.statusText}`,
-        { status: response.status }
-      );
+      const errorBody = await response.text();
+      console.error(`❌ Cloudinary Error (${response.status}):`, errorBody);
+      return new NextResponse(`Erreur Cloudinary: ${response.status}`, {
+        status: response.status,
+      });
     }
 
-    // 4. Préparer les headers pour forcer le téléchargement chez le client
-    const headers = new Headers();
-    headers.set(
-      "Content-Type",
-      response.headers.get("Content-Type") || "application/pdf"
-    );
+    // 4. Conversion en Buffer (Plus stable que le stream direct pour les PDF)
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-    // On extrait le nom du fichier du public_id
-    const filename = publicId.split("/").pop() || "document.pdf";
+    // 5. Gestion intelligente du nom de fichier
+    // On prend le dernier morceau de l'ID
+    let filename = publicId.split("/").pop() || "document";
+
+    // Si le nom n'a pas d'extension pdf, on la rajoute de force
+    if (!filename.toLowerCase().endsWith(".pdf")) {
+      filename += ".pdf";
+    }
+
+    // 6. Réponse avec Headers forcés
+    const headers = new Headers();
+    headers.set("Content-Type", "application/pdf");
+    headers.set("Content-Length", buffer.length.toString());
     headers.set("Content-Disposition", `attachment; filename="${filename}"`);
 
-    // 5. Renvoyer le flux de données directement au navigateur
-    return new NextResponse(response.body, {
+    return new NextResponse(buffer, {
       status: 200,
       headers,
     });

@@ -140,7 +140,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
   return (
     <div className="max-w-4xl">
       <div className="mb-8">
-        <Button variant="ghost" asChild className="mb-4 -ml-3">
+        <Button variant="ghost" asChild className="mb-4 -ml-3 font-sans">
           <Link href="/admin/blog">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Retour
@@ -149,7 +149,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
         <h1 className="text-4xl font-bricolage font-semibold tracking-tight mb-2">
           Nouvel article
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground font-sans">
           Rédigez un nouvel article pour votre blog
         </p>
       </div>
@@ -166,15 +166,16 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Titre</FormLabel>
+                  <FormLabel className="font-sans">Titre</FormLabel>
                   <FormControl>
                     <Input
+                      className="font-sans"
                       placeholder="Ex: 10 Conseils pour maîtriser l'IA"
                       {...field}
                       onChange={handleTitleChange}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -184,9 +185,10 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slug (URL)</FormLabel>
+                  <FormLabel className="font-sans">Slug (URL)</FormLabel>
                   <FormControl>
                     <Input
+                      className="font-sans"
                       placeholder="ex: 10-conseils-pour-maitriser-ia"
                       {...field}
                       onChange={(e) => {
@@ -195,11 +197,11 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                       }}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-sans">
                     URL de l&apos;article (généré automatiquement depuis le
                     titre)
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -209,16 +211,18 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="excerpt"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Extrait</FormLabel>
+                  <FormLabel className="font-sans">Extrait</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Résumé court de l'article..."
-                      className="min-h-[80px] resize-none"
+                      className="min-h-[80px] resize-none font-sans"
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Maximum 500 caractères</FormDescription>
-                  <FormMessage />
+                  <FormDescription className="font-sans">
+                    Maximum 500 caractères
+                  </FormDescription>
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -228,31 +232,35 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="themeId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Thème</FormLabel>
+                  <FormLabel className="font-sans">Thème</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value || undefined}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="font-sans">
                         <SelectValue placeholder="Sélectionner un thème" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {themes.length > 0 ? (
                         themes.map((theme) => (
-                          <SelectItem key={theme.id} value={theme.id}>
+                          <SelectItem
+                            key={theme.id}
+                            value={theme.id}
+                            className="font-sans"
+                          >
                             {theme.name}
                           </SelectItem>
                         ))
                       ) : (
-                        <div className="p-2 text-sm text-muted-foreground">
+                        <div className="p-2 text-sm text-muted-foreground font-sans">
                           Aucun thème disponible
                         </div>
                       )}
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -262,14 +270,14 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contenu</FormLabel>
+                  <FormLabel className="font-sans">Contenu</FormLabel>
                   <FormControl>
                     <RichTextEditor
                       value={field.value}
                       onChange={field.onChange}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -285,7 +293,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="imageUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image</FormLabel>
+                  <FormLabel className="font-sans">Image</FormLabel>
                   <FormControl>
                     <ImageUpload
                       value={field.value}
@@ -293,10 +301,10 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                       onRemove={() => field.onChange("")}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-sans">
                     Image principale de l&apos;article (recommandé)
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -310,18 +318,19 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="seoTitle"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Meta Title</FormLabel>
+                  <FormLabel className="font-sans">Meta Title</FormLabel>
                   <FormControl>
                     <Input
+                      className="font-sans"
                       placeholder="Titre pour les moteurs de recherche"
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-sans">
                     Laissez vide pour utiliser le titre de l&apos;article (max
                     60 caractères)
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -331,19 +340,19 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="seoDescription"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Meta Description</FormLabel>
+                  <FormLabel className="font-sans">Meta Description</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Description pour les moteurs de recherche"
-                      className="min-h-[80px] resize-none"
+                      className="min-h-[80px] resize-none font-sans"
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-sans">
                     Laissez vide pour utiliser l&apos;extrait (max 160
                     caractères)
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -359,7 +368,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               name="visible"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Statut</FormLabel>
+                  <FormLabel className="font-sans">Statut</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={(value) =>
@@ -372,7 +381,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                         <RadioGroupItem value="false" id="new-post-draft" />
                         <label
                           htmlFor="new-post-draft"
-                          className="cursor-pointer text-sm font-normal"
+                          className="cursor-pointer text-sm font-normal font-sans"
                         >
                           Brouillon
                         </label>
@@ -381,14 +390,14 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                         <RadioGroupItem value="true" id="new-post-published" />
                         <label
                           htmlFor="new-post-published"
-                          className="cursor-pointer text-sm font-normal"
+                          className="cursor-pointer text-sm font-normal font-sans"
                         >
                           Publié
                         </label>
                       </div>
                     </RadioGroup>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="font-sans" />
                 </FormItem>
               )}
             />
@@ -399,14 +408,16 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                 name="publishedAt"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Date de publication</FormLabel>
+                    <FormLabel className="font-sans">
+                      Date de publication
+                    </FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
                             variant="outline"
                             className={cn(
-                              "pl-3 text-left font-normal w-full",
+                              "pl-3 text-left font-normal w-full font-sans",
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -431,10 +442,10 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormDescription>
+                    <FormDescription className="font-sans">
                       Laisser vide pour publier immédiatement
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage className="font-sans" />
                   </FormItem>
                 )}
               />
@@ -447,10 +458,11 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               variant="outline"
               onClick={() => router.push("/admin/blog")}
               disabled={isLoading}
+              className="font-sans"
             >
               Annuler
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className="font-sans">
               {isLoading
                 ? "Enregistrement..."
                 : form.watch("visible")

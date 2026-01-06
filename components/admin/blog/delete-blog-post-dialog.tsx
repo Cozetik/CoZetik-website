@@ -70,20 +70,22 @@ export function DeleteBlogPostDialog({
           <AlertDialogTitle className="font-bricolage text-xl">
             Supprimer l&apos;article ?
           </AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogDescription className="font-sans">
             Êtes-vous sûr de vouloir supprimer{" "}
-            <strong className="text-foreground font-medium">
+            <strong className="text-foreground font-sans">
               &quot;{postTitle}&quot;
             </strong>{" "}
             ? Cette action est irréversible.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>Annuler</AlertDialogCancel>
+          <AlertDialogCancel className="font-sans" disabled={isDeleting}>
+            Annuler
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleting}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="bg-destructive font-sans text-destructive-foreground hover:bg-destructive/90"
           >
             {isDeleting ? "Suppression..." : "Supprimer"}
           </AlertDialogAction>
