@@ -381,18 +381,19 @@ export function ViewCandidatureDialog({
                             </p>
                           </div>
                         </div>
-                        <a
-                          href={`/api/admin/secure-download?url=${encodeURIComponent(
-                            candidature.cvUrl || ""
-                          )}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Button variant="outline" size="sm">
+                        <Button asChild variant="outline">
+                          <a
+                            // On encode l'URL pour éviter les problèmes avec les caractères spéciaux
+                            href={`/api/admin/secure-download?url=${encodeURIComponent(
+                              candidature.cvUrl || ""
+                            )}`}
+                            target="_blank"
+                            download
+                          >
                             <Download className="mr-2 h-4 w-4" />
                             Télécharger
-                          </Button>
-                        </a>
+                          </a>
+                        </Button>
                       </div>
                     )}
                     {candidature.coverLetterUrl && (
@@ -407,18 +408,19 @@ export function ViewCandidatureDialog({
                             </p>
                           </div>
                         </div>
-                        <a
-                          href={`/api/admin/secure-download?url=${encodeURIComponent(
-                            candidature.coverLetterUrl || ""
-                          )}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Button variant="outline" size="sm">
+                        <Button asChild variant="outline">
+                          <a
+                            // On encode l'URL pour éviter les problèmes avec les caractères spéciaux
+                            href={`/api/admin/secure-download?url=${encodeURIComponent(
+                              candidature.coverLetterUrl || ""
+                            )}`}
+                            target="_blank" // Optionnel maintenant, le téléchargement se lancera
+                            download // Attribut HTML5 pour suggérer le téléchargement
+                          >
                             <Download className="mr-2 h-4 w-4" />
                             Télécharger
-                          </Button>
-                        </a>
+                          </a>
+                        </Button>
                       </div>
                     )}
                     {candidature.otherDocumentUrl && (
@@ -433,18 +435,19 @@ export function ViewCandidatureDialog({
                             </p>
                           </div>
                         </div>
-                        <a
-                          href={`/api/admin/secure-download?url=${encodeURIComponent(
-                            candidature.otherDocumentUrl || ""
-                          )}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Button variant="outline" size="sm">
+                        <Button asChild variant="outline">
+                          <a
+                            // On encode l'URL pour éviter les problèmes avec les caractères spéciaux
+                            href={`/api/admin/secure-download?url=${encodeURIComponent(
+                              candidature.otherDocumentUrl || ""
+                            )}`}
+                            target="_blank" // Optionnel maintenant, le téléchargement se lancera
+                            download // Attribut HTML5 pour suggérer le téléchargement
+                          >
                             <Download className="mr-2 h-4 w-4" />
                             Télécharger
-                          </Button>
-                        </a>
+                          </a>
+                        </Button>
                       </div>
                     )}
                   </div>

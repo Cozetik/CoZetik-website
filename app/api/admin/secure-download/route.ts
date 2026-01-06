@@ -15,45 +15,77 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // 1. Analyser l'URL
+    // 1. Parsing robuste de l'URL pour extraire version et public_id
     const parts = url.split("/upload/");
     if (parts.length < 2) return NextResponse.redirect(url);
 
     const beforeUpload = parts[0];
     const afterUpload = parts[1]; // Ex: v1767693979/cozetik/cv/mon-cv.pdf
 
-    // Récupérer le type (raw/image)
-    // Attention: parfois l'URL contient /v123/ directement après raw/upload/
-    const resourceType = beforeUpload.split("/").pop() || "raw";
+    // Pour les raw, on garde 'raw', sinon 'image' (par défaut pour les PDF auto)
+    const resourceType = beforeUpload.includes("/raw") ? "raw" : "image";
 
     const pathParts = afterUpload.split("/");
-
     let publicId = afterUpload;
     let version = undefined;
 
-    // 2. Extraire la version réelle
-    // C'est CRUCIAL car Cloudinary rejette la signature si la version ne matche pas
-    if (pathParts[0].match(/^v\d+$/)) {
-      version = pathParts[0].substring(1); // On garde juste le numéro (ex: 1767693979)
-      publicId = pathParts.slice(1).join("/"); // Le reste est le public_id
+    // Détection version (ex: v123456)
+    if (
+      pathParts[0].startsWith("v") &&
+      /^\d+$/.test(pathParts[0].substring(1))
+    ) {
+      version = pathParts[0].substring(1);
+      publicId = pathParts.slice(1).join("/");
     }
 
-    // Si on n'a pas trouvé de version, c'est peut-être une vieille URL ou format différent
-    // On laisse publicId tel quel dans ce cas.
+    console.log(
+      `🔍 Proxy Download: Type=${resourceType}, Ver=${version}, ID=${publicId}`
+    );
 
-    // 3. Générer l'URL signée avec la BONNE version
+    // 2. Générer une URL signée valide (Côté serveur)
     const signedUrl = cloudinary.url(publicId, {
       resource_type: resourceType,
       type: "upload",
-      sign_url: true,
+      sign_url: true, // Important: signe la requête
       secure: true,
-      version: version, // On force la version d'origine
+      version: version,
+      // Force le format pour éviter les erreurs de type (important pour les PDF en raw)
+      format: resourceType === "raw" ? undefined : "pdf",
     });
 
-    return NextResponse.redirect(signedUrl);
+    // 3. PROXY: Le serveur télécharge le fichier
+    // On utilise fetch depuis le serveur Node.js (pas de pb CORS ou 401 navigateur)
+    const response = await fetch(signedUrl);
+
+    if (!response.ok) {
+      console.error(
+        `❌ Erreur fetch Cloudinary (${response.status}):`,
+        signedUrl
+      );
+      return new NextResponse(
+        `Erreur lors du téléchargement: ${response.statusText}`,
+        { status: response.status }
+      );
+    }
+
+    // 4. Préparer les headers pour forcer le téléchargement chez le client
+    const headers = new Headers();
+    headers.set(
+      "Content-Type",
+      response.headers.get("Content-Type") || "application/pdf"
+    );
+
+    // On extrait le nom du fichier du public_id
+    const filename = publicId.split("/").pop() || "document.pdf";
+    headers.set("Content-Disposition", `attachment; filename="${filename}"`);
+
+    // 5. Renvoyer le flux de données directement au navigateur
+    return new NextResponse(response.body, {
+      status: 200,
+      headers,
+    });
   } catch (error) {
-    console.error("Erreur de signature URL:", error);
-    // En cas d'erreur, on redirige vers l'URL d'origine au cas où
-    return NextResponse.redirect(url);
+    console.error("❌ Erreur Proxy:", error);
+    return new NextResponse("Erreur serveur interne", { status: 500 });
   }
 }

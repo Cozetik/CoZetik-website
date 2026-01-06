@@ -1,5 +1,9 @@
 "use client";
 
+import type React from "react";
+
+import { ImageUpload } from "@/components/admin/image-upload";
+import { RichTextEditor } from "@/components/admin/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -18,15 +22,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-// AJOUT : Imports pour le Select
-import { ImageUpload } from "@/components/admin/image-upload";
-import { RichTextEditor } from "@/components/admin/rich-text-editor";
 import {
   Select,
   SelectContent,
@@ -34,13 +29,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { slugify } from "@/lib/slugify";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { ArrowLeft, CalendarIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import * as z from "zod";
 
 const blogPostSchema = z.object({
   title: z.string().min(1, "Le titre est requis").max(200),
@@ -55,7 +56,6 @@ const blogPostSchema = z.object({
   publishedAt: z.date().optional().nullable(),
 });
 
-// AJOUT : Interfaces
 interface Theme {
   id: string;
   name: string;
@@ -65,7 +65,6 @@ interface NewBlogPostFormProps {
   themes: Theme[];
 }
 
-// AJOUT : Réception des props
 export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +86,6 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
     },
   });
 
-  // Auto-générer le slug depuis le titre
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     form.setValue("title", title);
@@ -140,15 +138,17 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
   };
 
   return (
-    <>
-      <div className="mb-6">
-        <Button variant="ghost" asChild className="mb-4">
+    <div className="max-w-4xl">
+      <div className="mb-8">
+        <Button variant="ghost" asChild className="mb-4 -ml-3">
           <Link href="/admin/blog">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour au blog
+            Retour
           </Link>
         </Button>
-        <h1 className="text-3xl font-bold">Nouvel article</h1>
+        <h1 className="text-4xl font-bricolage font-semibold tracking-tight mb-2">
+          Nouvel article
+        </h1>
         <p className="text-muted-foreground">
           Rédigez un nouvel article pour votre blog
         </p>
@@ -156,17 +156,17 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Section: Contenu principal */}
-          <div className="space-y-4 p-6 border rounded-none bg-card">
-            <h2 className="text-xl font-semibold">Contenu principal</h2>
+          <div className="space-y-6 p-6 border rounded-lg bg-card">
+            <h2 className="text-xl font-bricolage font-semibold">
+              Contenu principal
+            </h2>
 
-            {/* ...existing code... (Title field) */}
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Titre *</FormLabel>
+                  <FormLabel>Titre</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Ex: 10 Conseils pour maîtriser l'IA"
@@ -179,13 +179,12 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               )}
             />
 
-            {/* ...existing code... (Slug field) */}
             <FormField
               control={form.control}
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slug (URL) *</FormLabel>
+                  <FormLabel>Slug (URL)</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="ex: 10-conseils-pour-maitriser-ia"
@@ -205,7 +204,6 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               )}
             />
 
-            {/* ...existing code... (Excerpt field) */}
             <FormField
               control={form.control}
               name="excerpt"
@@ -214,8 +212,8 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                   <FormLabel>Extrait</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Résumé court de l'article (pour la liste et le SEO)..."
-                      className="min-h-[80px]"
+                      placeholder="Résumé court de l'article..."
+                      className="min-h-[80px] resize-none"
                       {...field}
                     />
                   </FormControl>
@@ -225,7 +223,6 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               )}
             />
 
-            {/* AJOUT : Champ Select pour le thème */}
             <FormField
               control={form.control}
               name="themeId"
@@ -260,13 +257,12 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
               )}
             />
 
-            {/* ...existing code... (Content field and rest of the form) */}
             <FormField
               control={form.control}
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contenu *</FormLabel>
+                  <FormLabel>Contenu</FormLabel>
                   <FormControl>
                     <RichTextEditor
                       value={field.value}
@@ -279,9 +275,10 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
             />
           </div>
 
-          {/* Section: Médias */}
-          <div className="space-y-4 p-6 border rounded-none bg-card">
-            <h2 className="text-xl font-semibold">Image mise en avant</h2>
+          <div className="space-y-6 p-6 border rounded-lg bg-card">
+            <h2 className="text-xl font-bricolage font-semibold">
+              Image mise en avant
+            </h2>
 
             <FormField
               control={form.control}
@@ -305,9 +302,8 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
             />
           </div>
 
-          {/* Section: SEO */}
-          <div className="space-y-4 p-6 border rounded-none bg-card">
-            <h2 className="text-xl font-semibold">SEO</h2>
+          <div className="space-y-6 p-6 border rounded-lg bg-card">
+            <h2 className="text-xl font-bricolage font-semibold">SEO</h2>
 
             <FormField
               control={form.control}
@@ -317,12 +313,13 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                   <FormLabel>Meta Title</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Titre pour les moteurs de recherche (max 60 caractères)"
+                      placeholder="Titre pour les moteurs de recherche"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Laissez vide pour utiliser le titre de l&apos;article
+                    Laissez vide pour utiliser le titre de l&apos;article (max
+                    60 caractères)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -337,13 +334,14 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                   <FormLabel>Meta Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Description pour les moteurs de recherche (max 160 caractères)"
-                      className="min-h-[80px]"
+                      placeholder="Description pour les moteurs de recherche"
+                      className="min-h-[80px] resize-none"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Laissez vide pour utiliser l&apos;extrait
+                    Laissez vide pour utiliser l&apos;extrait (max 160
+                    caractères)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -351,9 +349,10 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
             />
           </div>
 
-          {/* Section: Publication */}
-          <div className="space-y-4 p-6 border rounded-none bg-card">
-            <h2 className="text-xl font-semibold">Publication</h2>
+          <div className="space-y-6 p-6 border rounded-lg bg-card">
+            <h2 className="text-xl font-bricolage font-semibold">
+              Publication
+            </h2>
 
             <FormField
               control={form.control}
@@ -442,8 +441,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
             )}
           </div>
 
-          {/* Boutons */}
-          <div className="flex gap-4 pt-4 border-t">
+          <div className="flex gap-3 pt-4">
             <Button
               type="button"
               variant="outline"
@@ -462,6 +460,6 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
           </div>
         </form>
       </Form>
-    </>
+    </div>
   );
 }

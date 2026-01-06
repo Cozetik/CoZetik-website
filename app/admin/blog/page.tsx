@@ -18,21 +18,15 @@ export default async function BlogPage() {
   }));
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-border/50">
-        <div className="space-y-1.5">
-          <h1 className="text-3xl font-semibold tracking-tight text-balance">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="space-y-1">
+          <h1 className="text-4xl font-bricolage font-semibold tracking-tight">
             Blog
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Gérez vos articles de blog
-          </p>
+          <p className="text-muted-foreground">Gérez vos articles de blog</p>
         </div>
-        <Button
-          asChild
-          size="default"
-          className="bg-primary hover:bg-primary/90 shadow-sm"
-        >
+        <Button asChild size="default" className="shadow-sm">
           <Link href="/admin/blog/new">
             <Plus className="mr-2 h-4 w-4" />
             Nouvel article
@@ -41,17 +35,17 @@ export default async function BlogPage() {
       </div>
 
       {posts.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 px-6 border border-border/50 rounded-lg bg-card/30 backdrop-blur-sm">
-          <div className="rounded-full bg-muted/50 p-4 mb-4">
-            <FileText className="h-8 w-8 text-muted-foreground" />
+        <div className="flex flex-col items-center justify-center py-20 px-6 rounded-lg border border-dashed">
+          <div className="rounded-full bg-muted p-3 mb-4">
+            <FileText className="h-6 w-6 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-semibold mb-1.5 text-balance">
+          <h3 className="text-lg font-bricolage font-semibold mb-1.5">
             Aucun article créé
           </h3>
-          <p className="text-sm text-muted-foreground mb-6 text-center max-w-sm text-balance">
+          <p className="text-sm text-muted-foreground mb-6 text-center max-w-sm">
             Commencez par créer votre premier article de blog
           </p>
-          <Button asChild size="default" className="shadow-sm">
+          <Button asChild size="sm">
             <Link href="/admin/blog/new">
               <Plus className="mr-2 h-4 w-4" />
               Créer un article

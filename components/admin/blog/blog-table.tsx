@@ -101,19 +101,29 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
   };
 
   return (
-    <div className="rounded-lg border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden shadow-sm">
+    <div className="rounded-lg border overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow className="hover:bg-transparent border-border/50">
-            <TableHead className="w-[80px] font-medium">Image</TableHead>
-            <TableHead className="font-medium">Titre</TableHead>
-            <TableHead className="w-[120px] font-medium">Statut</TableHead>
-            <TableHead className="w-[100px] font-medium">Publié</TableHead>
-            <TableHead className="w-[150px] font-medium">
+          <TableRow className="hover:bg-transparent border-b">
+            <TableHead className="w-[70px] font-medium text-xs uppercase tracking-wider">
+              Image
+            </TableHead>
+            <TableHead className="font-medium text-xs uppercase tracking-wider">
+              Titre
+            </TableHead>
+            <TableHead className="w-[110px] font-medium text-xs uppercase tracking-wider">
+              Statut
+            </TableHead>
+            <TableHead className="w-[90px] font-medium text-xs uppercase tracking-wider">
+              Publié
+            </TableHead>
+            <TableHead className="w-[130px] font-medium text-xs uppercase tracking-wider">
               Date publication
             </TableHead>
-            <TableHead className="w-[120px] font-medium">Créé le</TableHead>
-            <TableHead className="w-[120px] text-right font-medium">
+            <TableHead className="w-[110px] font-medium text-xs uppercase tracking-wider">
+              Créé le
+            </TableHead>
+            <TableHead className="w-[110px] text-right font-medium text-xs uppercase tracking-wider">
               Actions
             </TableHead>
           </TableRow>
@@ -122,11 +132,11 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
           {items.map((post) => (
             <TableRow
               key={post.id}
-              className="border-border/50 hover:bg-muted/30 transition-colors"
+              className="hover:bg-muted/50 transition-colors"
             >
-              <TableCell>
+              <TableCell className="py-3">
                 {post.imageUrl ? (
-                  <div className="relative w-[60px] h-[60px] rounded-md overflow-hidden border border-border/50 bg-muted/50">
+                  <div className="relative w-[50px] h-[50px] rounded-md overflow-hidden border">
                     <Image
                       src={post.imageUrl || "/placeholder.svg"}
                       alt={post.title}
@@ -135,23 +145,19 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
                     />
                   </div>
                 ) : (
-                  <div className="w-[60px] h-[60px] bg-muted/50 rounded-md flex items-center justify-center border border-border/50">
-                    <span className="text-xs text-muted-foreground font-medium">
-                      Img
-                    </span>
+                  <div className="w-[50px] h-[50px] bg-muted rounded-md flex items-center justify-center border">
+                    <span className="text-xs text-muted-foreground">—</span>
                   </div>
                 )}
               </TableCell>
-              <TableCell className="font-medium max-w-[300px] truncate">
-                {post.title}
-              </TableCell>
+              <TableCell className="font-medium">{post.title}</TableCell>
               <TableCell>
                 <Badge
                   variant={post.visible ? "default" : "secondary"}
                   className={
                     post.visible
-                      ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 border-emerald-500/20"
-                      : "bg-muted/80 text-muted-foreground hover:bg-muted border-border/50"
+                      ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100"
+                      : "bg-muted text-muted-foreground border hover:bg-muted"
                   }
                 >
                   {post.visible ? "Publié" : "Brouillon"}
@@ -161,7 +167,7 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
                 <Switch
                   checked={post.visible}
                   onCheckedChange={() => handleToggleVisibility(post.id)}
-                  className="data-[state=checked]:bg-emerald-500"
+                  className="data-[state=checked]:bg-emerald-600"
                 />
               </TableCell>
               <TableCell className="text-sm text-muted-foreground">
@@ -171,12 +177,12 @@ export default function BlogTable({ posts }: { posts: BlogPost[] }) {
                 {formatDate(post.createdAt)}
               </TableCell>
               <TableCell className="text-right">
-                <div className="flex justify-end gap-1.5">
+                <div className="flex justify-end gap-1">
                   <Button
                     variant="ghost"
                     size="icon"
                     asChild
-                    className="h-9 w-9 hover:bg-muted/80 transition-colors"
+                    className="h-8 w-8"
                   >
                     <Link href={`/admin/blog/${post.id}/edit`}>
                       <Pencil className="h-4 w-4" />

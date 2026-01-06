@@ -1,5 +1,7 @@
 "use client";
 
+import type React from "react";
+
 import { ImageUpload } from "@/components/admin/image-upload";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 import { Button } from "@/components/ui/button";
@@ -67,7 +69,6 @@ interface BlogPost {
   publishedAt: Date | string | null;
 }
 
-// Ajout de l'interface Theme
 interface Theme {
   id: string;
   name: string;
@@ -75,7 +76,7 @@ interface Theme {
 
 interface EditBlogPostFormProps {
   post: BlogPost;
-  themes: Theme[]; // Ajout de la prop themes
+  themes: Theme[];
 }
 
 export default function EditBlogPostForm({
@@ -102,17 +103,14 @@ export default function EditBlogPostForm({
     },
   });
 
-  // Gestion du changement de titre (sans regénérer le slug)
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     form.setValue("title", title);
-    // Le slug n'est plus régénéré automatiquement lors de l'édition
   };
 
   const onSubmit = async (values: z.infer<typeof blogPostSchema>) => {
     setIsLoading(true);
 
-    // Si publié et pas de date, mettre date actuelle
     const publishedAt =
       values.visible && !values.publishedAt ? new Date() : values.publishedAt;
 
@@ -128,7 +126,7 @@ export default function EditBlogPostForm({
           seoTitle: values.seoTitle || null,
           seoDescription: values.seoDescription || null,
           publishedAt: publishedAt ? publishedAt.toISOString() : null,
-          previousImageUrl, // Pour supprimer l'ancienne image si changée
+          previousImageUrl,
         }),
       });
 
@@ -153,15 +151,17 @@ export default function EditBlogPostForm({
   };
 
   return (
-    <>
-      <div className="mb-6">
-        <Button variant="ghost" asChild className="mb-4">
+    <div className="max-w-4xl">
+      <div className="mb-8">
+        <Button variant="ghost" asChild className="mb-4 -ml-3">
           <Link href="/admin/blog">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour au blog
+            Retour
           </Link>
         </Button>
-        <h1 className="text-3xl font-bold">Modifier l&apos;article</h1>
+        <h1 className="text-4xl font-bricolage font-semibold tracking-tight mb-2">
+          Modifier l&apos;article
+        </h1>
         <p className="text-muted-foreground">
           Modifiez les informations de votre article
         </p>
@@ -169,16 +169,17 @@ export default function EditBlogPostForm({
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Section: Contenu principal */}
-          <div className="space-y-4 p-6 border rounded-none bg-card">
-            <h2 className="text-xl font-semibold">Contenu principal</h2>
+          <div className="space-y-6 p-6 border rounded-lg bg-card">
+            <h2 className="text-xl font-bricolage font-semibold">
+              Contenu principal
+            </h2>
 
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Titre *</FormLabel>
+                  <FormLabel>Titre</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Ex: 10 Conseils pour maîtriser l'IA"
@@ -196,7 +197,7 @@ export default function EditBlogPostForm({
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slug (URL) *</FormLabel>
+                  <FormLabel>Slug (URL)</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="ex: 10-conseils-pour-maitriser-ia"
@@ -219,8 +220,8 @@ export default function EditBlogPostForm({
                   <FormLabel>Extrait</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Résumé court de l'article (pour la liste et le SEO)..."
-                      className="min-h-[80px]"
+                      placeholder="Résumé court de l'article..."
+                      className="min-h-[80px] resize-none"
                       {...field}
                     />
                   </FormControl>
@@ -230,7 +231,6 @@ export default function EditBlogPostForm({
               )}
             />
 
-            {/* Remplacement du placeholder par le vrai Select */}
             <FormField
               control={form.control}
               name="themeId"
@@ -270,7 +270,7 @@ export default function EditBlogPostForm({
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contenu *</FormLabel>
+                  <FormLabel>Contenu</FormLabel>
                   <FormControl>
                     <RichTextEditor
                       value={field.value}
@@ -283,9 +283,10 @@ export default function EditBlogPostForm({
             />
           </div>
 
-          {/* Section: Médias */}
-          <div className="space-y-4 p-6 border rounded-none bg-card">
-            <h2 className="text-xl font-semibold">Image mise en avant</h2>
+          <div className="space-y-6 p-6 border rounded-lg bg-card">
+            <h2 className="text-xl font-bricolage font-semibold">
+              Image mise en avant
+            </h2>
 
             <FormField
               control={form.control}
@@ -309,9 +310,8 @@ export default function EditBlogPostForm({
             />
           </div>
 
-          {/* Section: SEO */}
-          <div className="space-y-4 p-6 border rounded-none bg-card">
-            <h2 className="text-xl font-semibold">SEO</h2>
+          <div className="space-y-6 p-6 border rounded-lg bg-card">
+            <h2 className="text-xl font-bricolage font-semibold">SEO</h2>
 
             <FormField
               control={form.control}
@@ -321,12 +321,13 @@ export default function EditBlogPostForm({
                   <FormLabel>Meta Title</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Titre pour les moteurs de recherche (max 60 caractères)"
+                      placeholder="Titre pour les moteurs de recherche"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Laissez vide pour utiliser le titre de l&apos;article
+                    Laissez vide pour utiliser le titre de l&apos;article (max
+                    60 caractères)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -341,13 +342,14 @@ export default function EditBlogPostForm({
                   <FormLabel>Meta Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Description pour les moteurs de recherche (max 160 caractères)"
-                      className="min-h-[80px]"
+                      placeholder="Description pour les moteurs de recherche"
+                      className="min-h-[80px] resize-none"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Laissez vide pour utiliser l&apos;extrait
+                    Laissez vide pour utiliser l&apos;extrait (max 160
+                    caractères)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -355,9 +357,10 @@ export default function EditBlogPostForm({
             />
           </div>
 
-          {/* Section: Publication */}
-          <div className="space-y-4 p-6 border rounded-none bg-card">
-            <h2 className="text-xl font-semibold">Publication</h2>
+          <div className="space-y-6 p-6 border rounded-lg bg-card">
+            <h2 className="text-xl font-bricolage font-semibold">
+              Publication
+            </h2>
 
             <FormField
               control={form.control}
@@ -446,8 +449,7 @@ export default function EditBlogPostForm({
             )}
           </div>
 
-          {/* Boutons */}
-          <div className="flex gap-4 pt-4 border-t">
+          <div className="flex gap-3 pt-4">
             <Button
               type="button"
               variant="outline"
@@ -466,6 +468,6 @@ export default function EditBlogPostForm({
           </div>
         </form>
       </Form>
-    </>
+    </div>
   );
 }

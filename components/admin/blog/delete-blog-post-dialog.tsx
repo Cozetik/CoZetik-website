@@ -60,26 +60,26 @@ export function DeleteBlogPostDialog({
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9 hover:bg-destructive/10 hover:text-destructive transition-colors"
+          className="h-8 w-8 hover:bg-destructive/10 hover:text-destructive"
         >
           <Trash2 className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="border-border/50 bg-card/95 backdrop-blur-sm">
+      <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-balance">
-            Supprimer l&apos;article ?
+          <AlertDialogTitle className="font-bricolage text-xl">
+            Supprimer l'article ?
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-balance">
+          <AlertDialogDescription>
             Êtes-vous sûr de vouloir supprimer{" "}
-            <strong className="text-foreground">&quot;{postTitle}&quot;</strong>{" "}
+            <strong className="text-foreground font-medium">
+              "{postTitle}"
+            </strong>{" "}
             ? Cette action est irréversible.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting} className="border-border/50">
-            Annuler
-          </AlertDialogCancel>
+          <AlertDialogCancel disabled={isDeleting}>Annuler</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleting}
