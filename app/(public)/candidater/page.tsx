@@ -106,6 +106,8 @@ function CandidaterContent() {
     },
   });
 
+  const { reset, getValues } = form;
+
   useEffect(() => {
     async function fetchData() {
       setIsLoadingData(true);
@@ -131,8 +133,8 @@ function CandidaterContent() {
           );
           setFilteredFormations(filtered);
 
-          form.reset({
-            ...form.getValues(),
+          reset({
+            ...getValues(),
             categoryFormation: categoryIdFromUrl,
             formation:
               formationIdFromUrl &&
@@ -155,7 +157,7 @@ function CandidaterContent() {
     }
 
     fetchData();
-  }, [categoryIdFromUrl, formationIdFromUrl]);
+  }, [categoryIdFromUrl, formationIdFromUrl, reset, getValues]);
 
   const selectedCategory = form.watch("categoryFormation");
   useEffect(() => {
