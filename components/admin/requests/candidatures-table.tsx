@@ -13,10 +13,19 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
   Archive,
+  ArrowUpDown,
   BookOpen,
   Calendar,
   CheckCircle2,
@@ -297,7 +306,186 @@ export default function CandidaturesTable({
 
       {/* Vue Desktop */}
       <div className="hidden md:block rounded-xl border border-border/50 overflow-hidden bg-card">
-        {/* ...existing table code... */}
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/50 hover:bg-muted/50 border-b border-border/50">
+              <TableHead className="font-sans font-semibold text-foreground">
+                <div className="flex items-center gap-2">
+                  <User className="h-3.5 w-3.5 text-muted-foreground" />
+                  Candidat
+                  <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground" />
+                </div>
+              </TableHead>
+              <TableHead className="font-sans font-semibold text-foreground">
+                <div className="flex items-center gap-2">
+                  <Mail className="h-3.5 w-3.5 text-muted-foreground" />
+                  Contact
+                </div>
+              </TableHead>
+              <TableHead className="font-sans font-semibold text-foreground">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="h-3.5 w-3.5 text-muted-foreground" />
+                  Formation
+                </div>
+              </TableHead>
+              <TableHead className="w-[180px] font-sans font-semibold text-foreground">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                  Date
+                </div>
+              </TableHead>
+              <TableHead className="w-[120px] font-sans font-semibold text-foreground">
+                Statut
+              </TableHead>
+              <TableHead className="w-[180px] text-right font-sans font-semibold text-foreground">
+                Actions
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredItems.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={6}
+                  className="text-center text-muted-foreground py-12"
+                >
+                  <div className="flex flex-col items-center gap-2">
+                    <Inbox className="h-8 w-8 text-muted-foreground/50" />
+                    <p className="font-semibold">Aucune candidature trouvée</p>
+                    <p className="text-sm">
+                      Aucune candidature ne correspond à ce filtre
+                    </p>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredItems.map((candidature) => (
+                <TableRow
+                  key={candidature.id}
+                  className="hover:bg-muted/30 transition-colors border-b border-border/30 last:border-0"
+                >
+                  <TableCell className="py-4">
+                    <div className="font-sans font-semibold text-foreground">
+                      {candidature.civility} {candidature.firstName}{" "}
+                      {candidature.lastName}
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Mail className="h-3.5 w-3.5" />
+                        {candidature.email}
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Phone className="h-3.5 w-3.5" />
+                        {candidature.phone}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-4">
+                    <Badge
+                      variant="secondary"
+                      className="font-sans bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20 font-medium"
+                    >
+                      {candidature.formationName || candidature.formation}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="py-4 font-sans text-muted-foreground">
+                    {formatDate(candidature.createdAt)}
+                  </TableCell>
+                  <TableCell className="py-4">
+                    {getStatusBadge(candidature.status)}
+                  </TableCell>
+                  <TableCell className="py-4">
+                    <div className="flex items-center justify-end gap-1">
+                      <ViewCandidatureDialog candidature={candidature} />
+
+                      {candidature.status === "NEW" && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 hover:bg-muted"
+                          onClick={() =>
+                            handleChangeStatus(candidature.id, "TREATED")
+                          }
+                          title="Marquer comme traité"
+                          disabled={loadingStates[candidature.id]}
+                        >
+                          <CheckCircle2 className="h-4 w-4" />
+                        </Button>
+                      )}
+
+                      {candidature.status !== "ARCHIVED" && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 hover:bg-muted"
+                          onClick={() =>
+                            handleChangeStatus(candidature.id, "ARCHIVED")
+                          }
+                          title="Archiver"
+                          disabled={loadingStates[candidature.id]}
+                        >
+                          <Archive className="h-4 w-4" />
+                        </Button>
+                      )}
+
+                      <AlertDialog
+                        open={deleteId === candidature.id}
+                        onOpenChange={(open) =>
+                          setDeleteId(open ? candidature.id : null)
+                        }
+                      >
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 hover:bg-muted"
+                            title="Supprimer"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="font-sans">
+                          <AlertDialogHeader>
+                            <AlertDialogTitle className="font-bricolage text-2xl">
+                              Supprimer cette candidature ?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription className="text-gray-600">
+                              Cette action est irréversible. La candidature de{" "}
+                              <span className="font-semibold">
+                                {candidature.firstName} {candidature.lastName}
+                              </span>{" "}
+                              sera définitivement supprimée.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter className="flex-col xs:flex-row gap-2">
+                            <AlertDialogCancel
+                              disabled={isDeleting}
+                              className="border-gray-300 hover:bg-gray-50 m-0 text-xs xs:text-sm"
+                            >
+                              Annuler
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleDelete(candidature.id);
+                              }}
+                              disabled={isDeleting}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90 m-0 text-xs xs:text-sm"
+                            >
+                              {isDeleting ? "Suppression..." : "Supprimer"}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
       </div>
 
       {/* Vue Mobile */}
@@ -415,12 +603,12 @@ export default function CandidaturesTable({
                       <Trash2 className="h-3 w-3 xs:h-3.5 xs:w-3.5" />
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="font-sans">
+                  <AlertDialogContent className="font-sans max-w-[calc(100vw-2rem)] xs:max-w-md">
                     <AlertDialogHeader>
-                      <AlertDialogTitle className="font-bricolage text-2xl">
+                      <AlertDialogTitle className="font-bricolage text-sm xs:text-base sm:text-2xl">
                         Supprimer cette candidature ?
                       </AlertDialogTitle>
-                      <AlertDialogDescription className="text-gray-600">
+                      <AlertDialogDescription className="text-gray-600 text-[11px] xs:text-xs sm:text-sm">
                         Cette action est irréversible. La candidature de{" "}
                         <span className="font-semibold">
                           {candidature.firstName} {candidature.lastName}
@@ -428,10 +616,10 @@ export default function CandidaturesTable({
                         sera définitivement supprimée.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <AlertDialogFooter>
+                    <AlertDialogFooter className="flex-col xs:flex-row gap-2">
                       <AlertDialogCancel
                         disabled={isDeleting}
-                        className="border-gray-300 hover:bg-gray-50"
+                        className="border-gray-300 hover:bg-gray-50 m-0 text-xs xs:text-sm"
                       >
                         Annuler
                       </AlertDialogCancel>
@@ -441,7 +629,7 @@ export default function CandidaturesTable({
                           handleDelete(candidature.id);
                         }}
                         disabled={isDeleting}
-                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90 m-0 text-xs xs:text-sm"
                       >
                         {isDeleting ? "Suppression..." : "Supprimer"}
                       </AlertDialogAction>
