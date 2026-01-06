@@ -15,36 +15,41 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // 1. Analyser l'URL pour extraire les infos nécessaires
-    // Format attendu: https://res.cloudinary.com/.../raw/upload/v123.../dossier/fichier.pdf
+    // 1. Analyser l'URL
     const parts = url.split("/upload/");
-    if (parts.length < 2) return NextResponse.redirect(url); // Si format inconnu, on tente l'original
+    if (parts.length < 2) return NextResponse.redirect(url);
 
-    const beforeUpload = parts[0]; // Contient le resource_type à la fin (ex: .../raw)
-    const afterUpload = parts[1]; // Contient la version et le public_id
+    const beforeUpload = parts[0];
+    const afterUpload = parts[1]; // Ex: v1767693979/cozetik/cv/mon-cv.pdf
 
+    // Récupérer le type (raw/image)
+    // Attention: parfois l'URL contient /v123/ directement après raw/upload/
     const resourceType = beforeUpload.split("/").pop() || "raw";
 
-    // Nettoyer la version (v12345/) pour récupérer le vrai public_id
     const pathParts = afterUpload.split("/");
-    let publicId = afterUpload;
 
-    // Si le premier segment est une version (ex: v1767693351), on l'enlève
+    let publicId = afterUpload;
+    let version = undefined;
+
+    // 2. Extraire la version réelle
+    // C'est CRUCIAL car Cloudinary rejette la signature si la version ne matche pas
     if (pathParts[0].match(/^v\d+$/)) {
-      publicId = pathParts.slice(1).join("/");
+      version = pathParts[0].substring(1); // On garde juste le numéro (ex: 1767693979)
+      publicId = pathParts.slice(1).join("/"); // Le reste est le public_id
     }
 
-    // 2. Générer une URL signée
-    // sign_url: true ajoute une signature basée sur votre API_SECRET
-    // Cela permet de contourner la restriction "Authenticated" du compte
+    // Si on n'a pas trouvé de version, c'est peut-être une vieille URL ou format différent
+    // On laisse publicId tel quel dans ce cas.
+
+    // 3. Générer l'URL signée avec la BONNE version
     const signedUrl = cloudinary.url(publicId, {
       resource_type: resourceType,
       type: "upload",
       sign_url: true,
       secure: true,
+      version: version, // On force la version d'origine
     });
 
-    // 3. Rediriger l'utilisateur vers l'URL signée
     return NextResponse.redirect(signedUrl);
   } catch (error) {
     console.error("Erreur de signature URL:", error);

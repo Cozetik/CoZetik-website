@@ -1,7 +1,5 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,81 +10,85 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { Trash2 } from 'lucide-react'
-import { toast } from 'sonner'
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface DeleteBlogPostDialogProps {
-  postId: string
-  postTitle: string
+  postId: string;
+  postTitle: string;
 }
 
 export function DeleteBlogPostDialog({
   postId,
   postTitle,
 }: DeleteBlogPostDialogProps) {
-  const router = useRouter()
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
-    setIsDeleting(true)
-
+    setIsDeleting(true);
     try {
       const response = await fetch(`/api/blog/${postId}`, {
-        method: 'DELETE',
-      })
-
-      const data = await response.json()
+        method: "DELETE",
+      });
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la suppression')
+        const data = await response.json();
+        throw new Error(data.error || "Erreur lors de la suppression");
       }
 
-      toast.success('Article supprimé avec succès')
-      setIsOpen(false)
-      router.refresh()
+      toast.success("Article supprimé avec succès");
+      setOpen(false);
+      router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
+      toast.error(
+        error instanceof Error ? error.message : "Erreur lors de la suppression"
+      );
     } finally {
-      setIsDeleting(false)
+      setIsDeleting(false);
     }
-  }
+  };
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9 hover:bg-destructive/10 hover:text-destructive transition-colors"
+        >
           <Trash2 className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="border-border/50 bg-card/95 backdrop-blur-sm">
         <AlertDialogHeader>
-          <AlertDialogTitle>Supprimer cet article ?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Vous êtes sur le point de supprimer l&apos;article{' '}
-            <span className="font-semibold">&quot;{postTitle}&quot;</span>.
-            <br />
-            <br />
-            Cette action est irréversible et supprimera également toutes les
-            images associées.
+          <AlertDialogTitle className="text-balance">
+            Supprimer l'article ?
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-balance">
+            Êtes-vous sûr de vouloir supprimer{" "}
+            <strong className="text-foreground">"{postTitle}"</strong> ? Cette
+            action est irréversible.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>Annuler</AlertDialogCancel>
+          <AlertDialogCancel disabled={isDeleting} className="border-border/50">
+            Annuler
+          </AlertDialogCancel>
           <AlertDialogAction
-            onClick={(e) => {
-              e.preventDefault()
-              handleDelete()
-            }}
+            onClick={handleDelete}
             disabled={isDeleting}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
-            {isDeleting ? 'Suppression...' : 'Supprimer'}
+            {isDeleting ? "Suppression..." : "Supprimer"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }
