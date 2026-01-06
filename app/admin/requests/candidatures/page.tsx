@@ -1,5 +1,5 @@
 import CandidaturesTable from "@/components/admin/requests/candidatures-table";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import {
   AlertCircle,
@@ -85,29 +85,29 @@ export default async function CandidaturesPage() {
   };
 
   return (
-    <div className="space-y-8 font-sans">
+    <div className="space-y-2.5 xs:space-y-3 sm:space-y-6 lg:space-y-8 font-sans px-2.5 xs:px-3 sm:px-6 lg:px-8 py-2.5 xs:py-3 sm:py-6 max-w-[1920px] mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bricolage font-bold tracking-tight text-gray-900">
+        <h1 className="text-lg xs:text-xl sm:text-3xl lg:text-4xl font-bricolage font-bold tracking-tight text-gray-900">
           Candidatures
         </h1>
-        <p className="mt-2 text-gray-600">
+        <p className="mt-0.5 xs:mt-1 sm:mt-2 text-[11px] xs:text-xs sm:text-base text-gray-600">
           Gérez les candidatures reçues via le formulaire
         </p>
       </div>
 
       {hasError ? (
-        <Card className="rounded-2xl border-2 border-red-200 bg-red-50">
-          <CardContent className="p-6">
-            <div className="flex items-start gap-3">
-              <div className="rounded-full bg-red-100 p-2 mt-0.5">
-                <AlertCircle className="h-5 w-5 text-red-600" />
+        <Card className="rounded-lg xs:rounded-xl sm:rounded-2xl border-2 border-red-200 bg-red-50">
+          <CardContent className="p-2.5 xs:p-3 sm:p-6">
+            <div className="flex items-start gap-2 xs:gap-2.5 sm:gap-3">
+              <div className="rounded-full bg-red-100 p-1.5 xs:p-2 mt-0.5 shrink-0">
+                <AlertCircle className="h-3.5 w-3.5 xs:h-4 xs:w-4 sm:h-5 sm:w-5 text-red-600" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-base font-bricolage font-semibold text-red-900 mb-2">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-xs xs:text-sm sm:text-base font-bricolage font-semibold text-red-900 mb-1 xs:mb-1.5 sm:mb-2">
                   Erreur de chargement
                 </h3>
-                <p className="text-sm text-red-700 leading-relaxed">
+                <p className="text-[10px] xs:text-xs sm:text-sm text-red-700 leading-relaxed">
                   {errorMessage}
                 </p>
               </div>
@@ -118,66 +118,74 @@ export default async function CandidaturesPage() {
         <>
           {/* Stats Cards */}
           {candidatures.length > 0 && (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <Card className="rounded-2xl border-0 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 p-2.5 shadow-lg">
-                      <Users className="h-5 w-5 text-white" />
+            <div className="grid gap-1.5 xs:gap-2 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4">
+              <Card className="rounded-lg xs:rounded-xl sm:rounded-2xl border-0 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-sm">
+                <CardHeader className="pb-1 xs:pb-1.5 p-1.5 xs:p-2 sm:p-4 lg:p-6">
+                  <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-3 mb-1 xs:mb-1.5 sm:mb-3">
+                    <div className="rounded-md xs:rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 p-0.5 xs:p-1 sm:p-2 lg:p-2.5 shadow-lg shrink-0">
+                      <Users className="h-2.5 w-2.5 xs:h-3 xs:w-3 sm:h-5 sm:w-5 text-white" />
                     </div>
-                    <p className="text-sm font-bricolage text-gray-700 font-semibold">
-                      Total candidatures
-                    </p>
+                    <CardTitle className="text-[9px] xs:text-[10px] sm:text-sm font-bricolage text-gray-700 font-semibold truncate">
+                      Total
+                    </CardTitle>
                   </div>
-                  <p className="text-3xl font-bold font-bricolage text-gray-900">
+                </CardHeader>
+                <CardContent className="p-1.5 xs:p-2 sm:p-4 lg:p-6 pt-0">
+                  <p className="text-base xs:text-lg sm:text-2xl lg:text-3xl font-bold font-bricolage text-gray-900 tabular-nums">
                     {stats.total}
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="rounded-2xl border-0 bg-gradient-to-br from-amber-50 to-orange-50 shadow-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 p-2.5 shadow-lg">
-                      <FileText className="h-5 w-5 text-white" />
+              <Card className="rounded-lg xs:rounded-xl sm:rounded-2xl border-0 bg-gradient-to-br from-amber-50 to-orange-50 shadow-sm">
+                <CardHeader className="pb-1 xs:pb-1.5 p-1.5 xs:p-2 sm:p-4 lg:p-6">
+                  <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-3 mb-1 xs:mb-1.5 sm:mb-3">
+                    <div className="rounded-md xs:rounded-lg sm:rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 p-0.5 xs:p-1 sm:p-2 lg:p-2.5 shadow-lg shrink-0">
+                      <FileText className="h-2.5 w-2.5 xs:h-3 xs:w-3 sm:h-5 sm:w-5 text-white" />
                     </div>
-                    <p className="text-sm font-bricolage text-gray-700 font-semibold">
+                    <CardTitle className="text-[9px] xs:text-[10px] sm:text-sm font-bricolage text-gray-700 font-semibold truncate">
                       Nouvelles
-                    </p>
+                    </CardTitle>
                   </div>
-                  <p className="text-3xl font-bold font-bricolage text-gray-900">
+                </CardHeader>
+                <CardContent className="p-1.5 xs:p-2 sm:p-4 lg:p-6 pt-0">
+                  <p className="text-base xs:text-lg sm:text-2xl lg:text-3xl font-bold font-bricolage text-gray-900 tabular-nums">
                     {stats.new}
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="rounded-2xl border-0 bg-gradient-to-br from-green-50 to-emerald-50 shadow-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 p-2.5 shadow-lg">
-                      <CheckCircle2 className="h-5 w-5 text-white" />
+              <Card className="rounded-lg xs:rounded-xl sm:rounded-2xl border-0 bg-gradient-to-br from-green-50 to-emerald-50 shadow-sm">
+                <CardHeader className="pb-1 xs:pb-1.5 p-1.5 xs:p-2 sm:p-4 lg:p-6">
+                  <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-3 mb-1 xs:mb-1.5 sm:mb-3">
+                    <div className="rounded-md xs:rounded-lg sm:rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 p-0.5 xs:p-1 sm:p-2 lg:p-2.5 shadow-lg shrink-0">
+                      <CheckCircle2 className="h-2.5 w-2.5 xs:h-3 xs:w-3 sm:h-5 sm:w-5 text-white" />
                     </div>
-                    <p className="text-sm font-bricolage text-gray-700 font-semibold">
+                    <CardTitle className="text-[9px] xs:text-[10px] sm:text-sm font-bricolage text-gray-700 font-semibold truncate">
                       Traitées
-                    </p>
+                    </CardTitle>
                   </div>
-                  <p className="text-3xl font-bold font-bricolage text-gray-900">
+                </CardHeader>
+                <CardContent className="p-1.5 xs:p-2 sm:p-4 lg:p-6 pt-0">
+                  <p className="text-base xs:text-lg sm:text-2xl lg:text-3xl font-bold font-bricolage text-gray-900 tabular-nums">
                     {stats.treated}
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="rounded-2xl border-0 bg-gradient-to-br from-gray-50 to-slate-50 shadow-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="rounded-xl bg-gradient-to-br from-gray-500 to-slate-500 p-2.5 shadow-lg">
-                      <Archive className="h-5 w-5 text-white" />
+              <Card className="rounded-lg xs:rounded-xl sm:rounded-2xl border-0 bg-gradient-to-br from-gray-50 to-slate-50 shadow-sm">
+                <CardHeader className="pb-1 xs:pb-1.5 p-1.5 xs:p-2 sm:p-4 lg:p-6">
+                  <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-3 mb-1 xs:mb-1.5 sm:mb-3">
+                    <div className="rounded-md xs:rounded-lg sm:rounded-xl bg-gradient-to-br from-gray-500 to-slate-500 p-0.5 xs:p-1 sm:p-2 lg:p-2.5 shadow-lg shrink-0">
+                      <Archive className="h-2.5 w-2.5 xs:h-3 xs:w-3 sm:h-5 sm:w-5 text-white" />
                     </div>
-                    <p className="text-sm font-bricolage text-gray-700 font-semibold">
+                    <CardTitle className="text-[9px] xs:text-[10px] sm:text-sm font-bricolage text-gray-700 font-semibold truncate">
                       Archivées
-                    </p>
+                    </CardTitle>
                   </div>
-                  <p className="text-3xl font-bold font-bricolage text-gray-900">
+                </CardHeader>
+                <CardContent className="p-1.5 xs:p-2 sm:p-4 lg:p-6 pt-0">
+                  <p className="text-base xs:text-lg sm:text-2xl lg:text-3xl font-bold font-bricolage text-gray-900 tabular-nums">
                     {stats.archived}
                   </p>
                 </CardContent>
@@ -186,21 +194,21 @@ export default async function CandidaturesPage() {
           )}
 
           {/* Candidatures List */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-bricolage font-semibold text-gray-900">
+          <div className="space-y-1.5 xs:space-y-2 sm:space-y-4">
+            <h2 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-bricolage font-semibold text-gray-900 px-0.5">
               Toutes les candidatures
             </h2>
 
             {candidatures.length === 0 ? (
-              <Card className="rounded-2xl border-2 border-dashed border-gray-200">
-                <CardContent className="flex flex-col items-center justify-center py-16">
-                  <div className="rounded-full bg-gray-100 p-4 mb-4">
-                    <FileText className="h-8 w-8 text-gray-400" />
+              <Card className="rounded-lg xs:rounded-xl sm:rounded-2xl border-2 border-dashed border-gray-200">
+                <CardContent className="flex flex-col items-center justify-center py-6 xs:py-8 sm:py-12 lg:py-16">
+                  <div className="rounded-full bg-gray-100 p-2.5 xs:p-3 sm:p-4 mb-2.5 xs:mb-3 sm:mb-4">
+                    <FileText className="h-5 w-5 xs:h-6 xs:w-6 sm:h-8 sm:w-8 text-gray-400" />
                   </div>
-                  <p className="text-lg font-semibold text-gray-900 mb-2">
+                  <p className="text-sm xs:text-base sm:text-lg font-semibold text-gray-900 mb-1 xs:mb-1.5 sm:mb-2">
                     Aucune candidature reçue
                   </p>
-                  <p className="text-gray-600 text-center max-w-sm">
+                  <p className="text-[11px] xs:text-xs sm:text-base text-gray-600 text-center max-w-sm px-2">
                     Les candidatures apparaîtront ici
                   </p>
                 </CardContent>
