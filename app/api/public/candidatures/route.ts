@@ -16,51 +16,35 @@ async function uploadFileToCloudinary(
   folder: string = "cozetik/candidatures"
 ): Promise<string | null> {
   try {
-    if (!file || file.size === 0) {
-      return null;
-    }
+    if (!file || file.size === 0) return null;
 
-    // Vérifier que les credentials Cloudinary existent
     if (
       !process.env.CLOUDINARY_CLOUD_NAME ||
       !process.env.CLOUDINARY_API_KEY ||
       !process.env.CLOUDINARY_API_SECRET
     ) {
-      console.warn(
-        "Cloudinary credentials are not configured, skipping file upload"
-      );
+      console.warn("Cloudinary credentials missing");
       return null;
     }
 
-    // Validation taille (10MB)
-    const maxSize = 10 * 1024 * 1024;
-    if (file.size > maxSize) {
-      console.warn(
-        `File ${file.name} is too large (${file.size} bytes), skipping upload`
-      );
-      return null;
-    }
-
-    // Extraire l'extension du fichier original et créer un nom de fichier unique
+    // Extraction extension
     const fileExtension = file.name.split(".").pop()?.toLowerCase() || "";
+    const isImage = file.type.startsWith("image/");
+
+    // STRATÉGIE DE TYPE :
+    // 1. Image -> 'image'
+    // 2. Tout le reste (PDF, Doc, etc.) -> 'raw' (Beaucoup plus fiable pour le téléchargement)
+    const resourceType = isImage ? "image" : "raw";
+
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 8);
+    // Pour RAW, il est CRUCIAL que le public_id contienne l'extension
+    const publicId = isImage
+      ? `${timestamp}-${randomString}`
+      : `${timestamp}-${randomString}.${fileExtension}`;
 
-    // Créer un nom de fichier avec extension
-    const fileName = `${timestamp}-${randomString}.${fileExtension}`;
-
-    // Convertir le fichier en buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-
-    // MODIFICATION ICI : Simplification de la logique de type
-    // On laisse Cloudinary gérer 'auto' pour les PDF pour éviter les problèmes 'raw'
-    let resourceType: "image" | "raw" | "auto" = "auto";
-
-    // Si c'est explicitement une image, on le dit, sinon 'auto' gère très bien les PDF maintenant
-    if (file.type.startsWith("image/")) {
-      resourceType = "image";
-    }
 
     const result = await new Promise<{ secure_url: string; public_id: string }>(
       (resolve, reject) => {
@@ -68,37 +52,24 @@ async function uploadFileToCloudinary(
           {
             folder: folder,
             resource_type: resourceType,
-            // On utilise use_filename pour garder le nom avec extension
-            // Cela aide Cloudinary à servir le bon Content-Type
-            filename_override: fileName,
-            use_filename: true,
+            public_id: publicId, // On force le public_id manuellement
+            use_filename: false, // On ne se fie pas au nom de fichier original
             unique_filename: false,
             overwrite: false,
-            // public_id customisé sans extension forcée ici, on laisse filename_override faire le travail
-            public_id: `${timestamp}-${randomString}`,
           },
           (error, result) => {
             if (error) reject(error);
             else resolve(result as { secure_url: string; public_id: string });
           }
         );
-
         uploadStream.end(buffer);
       }
     );
 
-    console.log(`✅ Fichier uploadé: ${file.name} -> ${result.secure_url}`);
-
-    // ✅ Vérifier que l'URL contient bien l'extension
-    if (!result.secure_url.includes(`.${fileExtension}`)) {
-      console.warn(
-        `⚠️ L'URL ne contient pas l'extension attendue: ${result.secure_url}`
-      );
-    }
-
+    console.log(`✅ Upload OK (${resourceType}): ${result.secure_url}`);
     return result.secure_url;
   } catch (error) {
-    console.error(`❌ Erreur lors de l'upload du fichier ${file.name}:`, error);
+    console.error(`❌ Erreur upload ${file.name}:`, error);
     return null;
   }
 }
