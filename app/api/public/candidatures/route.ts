@@ -71,16 +71,23 @@ async function uploadFileToCloudinary(
     // Upload vers Cloudinary via Promise
     const result = await new Promise<{ secure_url: string; public_id: string }>(
       (resolve, reject) => {
+        // CORRECTION ICI : Pour les fichiers raw, il faut inclure l'extension dans le public_id
+        // car le paramètre 'format' est ignoré par Cloudinary pour ce type.
+        const publicId =
+          resourceType === "raw" && fileExtension
+            ? `${timestamp}-${randomString}.${fileExtension}`
+            : `${timestamp}-${randomString}`;
+
         const uploadStream = cloudinary.uploader.upload_stream(
           {
             folder: folder,
             resource_type: resourceType,
-            public_id: `${timestamp}-${randomString}`,
+            public_id: publicId,
             use_filename: false,
             unique_filename: false,
             overwrite: false,
-            // Pour les fichiers raw (PDF, DOCX, etc.), on doit spécifier le format
-            ...(resourceType === "raw" &&
+            // Le format ne doit être spécifié que si ce N'EST PAS du raw
+            ...(resourceType !== "raw" &&
               fileExtension && { format: fileExtension }),
           },
           (error, result) => {
