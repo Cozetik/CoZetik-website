@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface NavItem {
   name: string;
@@ -36,35 +36,20 @@ function isNavItemWithSub(
   return "subItems" in item;
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+  badges?: {
+    contacts: number;
+    candidatures: number;
+    inscriptions: number;
+  };
+}
+
+export default function Sidebar({ badges }: SidebarProps) {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([
     "Quiz",
     "Demandes",
   ]);
-  const [badges, setBadges] = useState({
-    contacts: 0,
-    candidatures: 0,
-    inscriptions: 0,
-  });
-
-  useEffect(() => {
-    const fetchBadges = async () => {
-      try {
-        const response = await fetch("/api/admin/badges");
-        if (response.ok) {
-          const data = await response.json();
-          setBadges(data);
-        }
-      } catch (error) {
-        console.error("Erreur lors de la récupération des badges:", error);
-      }
-    };
-
-    fetchBadges();
-    const interval = setInterval(fetchBadges, 30000);
-    return () => clearInterval(interval);
-  }, []);
 
   const navItems: (NavItem | NavItemWithSub)[] = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -93,6 +78,7 @@ export default function Sidebar() {
   ];
 
   const getBadgeForHref = (href: string): number => {
+    if (!badges) return 0;
     if (href === "/admin/requests/contact") return badges.contacts;
     if (href === "/admin/requests/candidatures") return badges.candidatures;
     if (href === "/admin/inscriptions") return badges.inscriptions;
