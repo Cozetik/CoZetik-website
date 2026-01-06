@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function FormationsPage() {
@@ -194,7 +195,7 @@ export default async function FormationsPage() {
                   className="block relative h-48 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 overflow-hidden"
                 >
                   {formation.imageUrl ? (
-                    <img
+                    <Image
                       src={formation.imageUrl}
                       alt={formation.title}
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"

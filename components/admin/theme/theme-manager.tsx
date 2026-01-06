@@ -255,9 +255,9 @@ export default function ThemeManager({ initialThemes }: ThemeManagerProps) {
                                 Supprimer ce thème ?
                               </AlertDialogTitle>
                               <AlertDialogDescription className="font-sans">
-                                Cette action est irréversible. Le thème "
-                                <strong>{theme.name}</strong>" sera supprimé
-                                définitivement
+                                Cette action est irréversible. Le thème &quot;
+                                <strong>{theme.name}</strong>&quot; sera
+                                supprimé définitivement
                                 {theme._count?.posts
                                   ? `, mais les ${theme._count.posts} article(s) associé(s) seront conservés`
                                   : ""}
