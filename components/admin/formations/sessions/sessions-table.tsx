@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -8,72 +8,78 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
-import DeleteSessionDialog from './delete-session-dialog'
+} from "@/components/ui/table";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
+import DeleteSessionDialog from "./delete-session-dialog";
 
 interface Session {
-  id: string
-  startDate: Date
-  endDate: Date
-  location: string | null
-  maxSeats: number | null
-  available: boolean
+  id: string;
+  startDate: Date;
+  endDate: Date;
+  location: string | null;
+  maxSeats: number | null;
+  available: boolean;
 }
 
 export default function SessionsTable({
   sessions,
   formationId,
 }: {
-  sessions: Session[]
-  formationId: string
+  sessions: Session[];
+  formationId: string;
 }) {
   return (
     <div className="border rounded-none">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Date de début</TableHead>
-            <TableHead>Date de fin</TableHead>
-            <TableHead className="w-[200px]">Lieu</TableHead>
-            <TableHead className="w-[120px]">Places max</TableHead>
-            <TableHead className="w-[120px]">Disponible</TableHead>
-            <TableHead className="w-[80px] text-right">Actions</TableHead>
+            <TableHead className="font-bricolage">Date de début</TableHead>
+            <TableHead className="font-bricolage">Date de fin</TableHead>
+            <TableHead className="w-[200px] font-bricolage">Lieu</TableHead>
+            <TableHead className="w-[120px] font-bricolage">
+              Places max
+            </TableHead>
+            <TableHead className="w-[120px] font-bricolage">
+              Disponible
+            </TableHead>
+            <TableHead className="w-[80px] text-right font-bricolage">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {sessions.map((session) => (
             <TableRow key={session.id}>
-              <TableCell className="font-medium">
-                {format(new Date(session.startDate), 'PPP', { locale: fr })}
+              <TableCell className="font-medium font-sans">
+                {format(new Date(session.startDate), "PPP", { locale: fr })}
               </TableCell>
-              <TableCell>
-                {format(new Date(session.endDate), 'PPP', { locale: fr })}
+              <TableCell className="font-sans">
+                {format(new Date(session.endDate), "PPP", { locale: fr })}
               </TableCell>
-              <TableCell className="text-muted-foreground">
-                {session.location || '-'}
+              <TableCell className="text-muted-foreground font-sans">
+                {session.location || "-"}
               </TableCell>
-              <TableCell className="text-muted-foreground">
-                {session.maxSeats ? `${session.maxSeats} places` : 'Illimité'}
+              <TableCell className="text-muted-foreground font-sans">
+                {session.maxSeats ? `${session.maxSeats} places` : "Illimité"}
               </TableCell>
-              <TableCell>
+              <TableCell className="font-sans">
                 <Badge
-                  variant={session.available ? 'default' : 'secondary'}
+                  variant={session.available ? "default" : "secondary"}
                   className={
                     session.available
-                      ? 'bg-green-500 hover:bg-green-600'
-                      : 'bg-red-500 hover:bg-red-600'
+                      ? "bg-green-500 hover:bg-green-600"
+                      : "bg-red-500 hover:bg-red-600"
                   }
                 >
-                  {session.available ? 'Disponible' : 'Indisponible'}
+                  {session.available ? "Disponible" : "Indisponible"}
                 </Badge>
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right font-sans">
                 <DeleteSessionDialog
                   formationId={formationId}
                   sessionId={session.id}
-                  sessionDate={format(new Date(session.startDate), 'PPP', {
+                  sessionDate={format(new Date(session.startDate), "PPP", {
                     locale: fr,
                   })}
                 />
@@ -83,5 +89,5 @@ export default function SessionsTable({
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

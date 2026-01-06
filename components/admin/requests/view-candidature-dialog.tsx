@@ -382,14 +382,7 @@ export function ViewCandidatureDialog({
                           </div>
                         </div>
                         <Button asChild variant="outline">
-                          <a
-                            // On encode l'URL pour éviter les problèmes avec les caractères spéciaux
-                            href={`/api/admin/secure-download?url=${encodeURIComponent(
-                              candidature.cvUrl || ""
-                            )}`}
-                            target="_blank"
-                            download
-                          >
+                          <a href={candidature.cvUrl} target="_blank" download>
                             <Download className="mr-2 h-4 w-4" />
                             Télécharger
                           </a>
@@ -411,9 +404,7 @@ export function ViewCandidatureDialog({
                         <Button asChild variant="outline">
                           <a
                             // On encode l'URL pour éviter les problèmes avec les caractères spéciaux
-                            href={`/api/admin/secure-download?url=${encodeURIComponent(
-                              candidature.coverLetterUrl || ""
-                            )}`}
+                            href={candidature.coverLetterUrl}
                             target="_blank" // Optionnel maintenant, le téléchargement se lancera
                             download // Attribut HTML5 pour suggérer le téléchargement
                           >
@@ -438,9 +429,7 @@ export function ViewCandidatureDialog({
                         <Button asChild variant="outline">
                           <a
                             // On encode l'URL pour éviter les problèmes avec les caractères spéciaux
-                            href={`/api/admin/secure-download?url=${encodeURIComponent(
-                              candidature.otherDocumentUrl || ""
-                            )}`}
+                            href={candidature.otherDocumentUrl}
                             target="_blank" // Optionnel maintenant, le téléchargement se lancera
                             download // Attribut HTML5 pour suggérer le téléchargement
                           >

@@ -1,12 +1,8 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
@@ -14,99 +10,104 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Pencil, Calendar, ListOrdered } from 'lucide-react'
-import DeleteFormationDialog from './delete-formation-dialog'
-import { toast } from 'sonner'
+} from "@/components/ui/table";
+import { Calendar, ListOrdered, Pencil } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import DeleteFormationDialog from "./delete-formation-dialog";
 
 interface Formation {
-  id: string
-  title: string
-  slug: string
-  imageUrl: string | null
-  price: number | null
-  duration: string | null
-  visible: boolean
-  order: number
+  id: string;
+  title: string;
+  slug: string;
+  imageUrl: string | null;
+  price: number | null;
+  duration: string | null;
+  visible: boolean;
+  order: number;
   category: {
-    id: string
-    name: string
-  }
+    id: string;
+    name: string;
+  };
   _count?: {
-    sessions: number
-    inscriptions: number
-    steps: number
-  }
+    sessions: number;
+    inscriptions: number;
+    steps: number;
+  };
 }
 
 export default function FormationsTable({
   formations,
 }: {
-  formations: Formation[]
+  formations: Formation[];
 }) {
-  const router = useRouter()
-  const [items, setItems] = useState(formations)
+  const router = useRouter();
+  const [items, setItems] = useState(formations);
 
   const formatPrice = (price: number | null) => {
-    if (!price) return 'Gratuit'
-    return new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'EUR',
+    if (!price) return "Gratuit";
+    return new Intl.NumberFormat("fr-FR", {
+      style: "currency",
+      currency: "EUR",
       minimumFractionDigits: 0,
-    }).format(price)
-  }
+    }).format(price);
+  };
 
   const handleToggleVisibility = async (id: string, currentValue: boolean) => {
     // Optimistic update - mettre à jour l'UI immédiatement
-    const newValue = !currentValue
+    const newValue = !currentValue;
     setItems(
       items.map((item) =>
         item.id === id ? { ...item, visible: newValue } : item
       )
-    )
+    );
 
     try {
       const response = await fetch(`/api/formations/${id}/toggle-visibility`, {
-        method: 'PATCH',
-      })
+        method: "PATCH",
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la mise à jour')
+        throw new Error(data.error || "Erreur lors de la mise à jour");
       }
 
       toast.success(
-        data.visible
-          ? 'Formation rendue visible'
-          : 'Formation masquée'
-      )
-      router.refresh()
+        data.visible ? "Formation rendue visible" : "Formation masquée"
+      );
+      router.refresh();
     } catch (error) {
       // Rollback en cas d'erreur
       setItems(
         items.map((item) =>
           item.id === id ? { ...item, visible: currentValue } : item
         )
-      )
-      toast.error(error instanceof Error ? error.message : 'Erreur inconnue')
+      );
+      toast.error(error instanceof Error ? error.message : "Erreur inconnue");
     }
-  }
-
+  };
 
   return (
     <div className="border rounded-none">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[80px]">Image</TableHead>
-            <TableHead>Titre</TableHead>
-            <TableHead className="w-[150px]">Catégorie</TableHead>
-            <TableHead className="w-[120px]">Prix</TableHead>
-            <TableHead className="w-[120px]">Durée</TableHead>
-            <TableHead className="w-[100px]">Visible</TableHead>
-            <TableHead className="w-[80px]">Ordre</TableHead>
-            <TableHead className="w-[150px] text-right">Actions</TableHead>
+            <TableHead className="w-[80px] font-bricolage">Image</TableHead>
+            <TableHead className="font-bricolage">Titre</TableHead>
+            <TableHead className="w-[150px] font-bricolage">
+              Catégorie
+            </TableHead>
+            <TableHead className="w-[120px] font-bricolage">Prix</TableHead>
+            <TableHead className="w-[120px] font-bricolage">Durée</TableHead>
+            <TableHead className="w-[100px] font-bricolage">Visible</TableHead>
+            <TableHead className="w-[80px] font-bricolage">Ordre</TableHead>
+            <TableHead className="w-[150px] text-right font-bricolage">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -127,7 +128,7 @@ export default function FormationsTable({
                   </div>
                 )}
               </TableCell>
-              <TableCell className="font-medium max-w-[300px]">
+              <TableCell className="font-medium max-w-[300px] font-sans">
                 {formation.title}
               </TableCell>
               <TableCell>
@@ -135,7 +136,7 @@ export default function FormationsTable({
               </TableCell>
               <TableCell>{formatPrice(formation.price)}</TableCell>
               <TableCell className="text-muted-foreground">
-                {formation.duration || '-'}
+                {formation.duration || "-"}
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
@@ -146,14 +147,14 @@ export default function FormationsTable({
                     }
                   />
                   <Badge
-                    variant={formation.visible ? 'default' : 'secondary'}
+                    variant={formation.visible ? "default" : "secondary"}
                     className={
                       formation.visible
-                        ? 'bg-green-500 hover:bg-green-600'
-                        : 'bg-gray-500 hover:bg-gray-600'
+                        ? "bg-green-500 hover:bg-green-600"
+                        : "bg-gray-500 hover:bg-gray-600"
                     }
                   >
-                    {formation.visible ? 'Visible' : 'Masqué'}
+                    {formation.visible ? "Visible" : "Masqué"}
                   </Badge>
                 </div>
               </TableCell>
@@ -198,5 +199,5 @@ export default function FormationsTable({
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

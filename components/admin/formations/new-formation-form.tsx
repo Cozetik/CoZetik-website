@@ -1,11 +1,8 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
+import { ImageUpload } from "@/components/admin/image-upload";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -14,41 +11,40 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Checkbox } from '@/components/ui/checkbox'
-import { ImageUpload } from '@/components/admin/image-upload'
-import { slugify } from '@/lib/slugify'
-import { toast } from 'sonner'
-import Link from 'next/link'
-import { ArrowLeft, Loader2 } from 'lucide-react'
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { slugify } from "@/lib/slugify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
 const formSchema = z.object({
   title: z
     .string()
-    .min(1, 'Le titre est requis')
-    .max(200, 'Le titre est trop long'),
-  categoryId: z.string().min(1, 'La catégorie est requise'),
+    .min(1, "Le titre est requis")
+    .max(200, "Le titre est trop long"),
+  categoryId: z.string().min(1, "La catégorie est requise"),
   description: z
     .string()
-    .min(10, 'Description trop courte (min 10 caractères)')
-    .max(1000, 'Description trop longue (max 1000 caractères)'),
+    .min(10, "Description trop courte (min 10 caractères)")
+    .max(1000, "Description trop longue (max 1000 caractères)"),
   program: z
     .string()
-    .min(20, 'Le programme doit être détaillé (min 20 caractères)'),
-  price: z
-    .number()
-    .positive('Le prix doit être positif')
-    .optional()
-    .nullable(),
+    .min(20, "Le programme doit être détaillé (min 20 caractères)"),
+  price: z.number().positive("Le prix doit être positif").optional().nullable(),
   duration: z.string().optional().nullable(),
   imageUrl: z.string().optional(),
   visible: z.boolean(),
@@ -63,68 +59,68 @@ const formSchema = z.object({
   rating: z.number().min(0).max(5).optional().nullable(),
   reviewsCount: z.number().int().min(0),
   studentsCount: z.number().int().min(0),
-})
+});
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema>;
 
 interface Category {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export default function NewFormationForm({
   categories,
 }: {
-  categories: Category[]
+  categories: Category[];
 }) {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      categoryId: '',
-      description: '',
-      program: '',
+      title: "",
+      categoryId: "",
+      description: "",
+      program: "",
       price: undefined,
-      duration: '',
-      imageUrl: '',
+      duration: "",
+      imageUrl: "",
       visible: true,
       order: 0,
-      level: '',
+      level: "",
       maxStudents: undefined,
-      prerequisites: '',
-      objectives: '',
+      prerequisites: "",
+      objectives: "",
       isCertified: false,
       isFlexible: true,
       rating: undefined,
       reviewsCount: 0,
       studentsCount: 0,
     },
-  })
+  });
 
   const onSubmit = async (values: FormValues) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     // Générer le slug depuis le titre
-    const slug = slugify(values.title)
+    const slug = slugify(values.title);
 
     if (!slug) {
-      toast.error('Le titre doit contenir au moins un caractère valide')
-      setIsLoading(false)
-      return
+      toast.error("Le titre doit contenir au moins un caractère valide");
+      setIsLoading(false);
+      return;
     }
 
     try {
       // Convertir objectives (string avec retours à la ligne) en array
       const objectivesArray = values.objectives
-        ? values.objectives.split('\n').filter(line => line.trim() !== '')
-        : []
+        ? values.objectives.split("\n").filter((line) => line.trim() !== "")
+        : [];
 
-      const response = await fetch('/api/formations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/formations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
           slug,
@@ -136,25 +132,25 @@ export default function NewFormationForm({
           objectives: objectivesArray,
           rating: values.rating || null,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la création')
+        throw new Error(data.error || "Erreur lors de la création");
       }
 
-      toast.success('Formation créée avec succès')
-      router.push('/admin/formations')
-      router.refresh()
+      toast.success("Formation créée avec succès");
+      router.push("/admin/formations");
+      router.refresh();
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Une erreur est survenue'
-      toast.error(message)
+        error instanceof Error ? error.message : "Une erreur est survenue";
+      toast.error(message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -165,10 +161,10 @@ export default function NewFormationForm({
             Retour aux formations
           </Link>
         </Button>
-        <h1 className="text-3xl font-bold tracking-tight">
+        <h1 className="text-3xl font-bold tracking-tight font-bricolage">
           Nouvelle formation
         </h1>
-        <p className="text-muted-foreground mt-1">
+        <p className="text-muted-foreground mt-1 font-sans">
           Créez une nouvelle formation pour votre plateforme
         </p>
       </div>
@@ -191,6 +187,7 @@ export default function NewFormationForm({
                         placeholder="Ex: Formation Intelligence Artificielle"
                         {...field}
                         disabled={isLoading}
+                        className="font-sans"
                       />
                     </FormControl>
                     <FormMessage />
@@ -240,9 +237,14 @@ export default function NewFormationForm({
                         type="number"
                         placeholder="Laisser vide pour gratuit"
                         {...field}
-                        value={field.value ?? ''}
-                        onChange={e => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
+                        value={field.value ?? ""}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value ? parseFloat(e.target.value) : null
+                          )
+                        }
                         disabled={isLoading}
+                        className="font-sans"
                       />
                     </FormControl>
                     <FormDescription>
@@ -263,8 +265,9 @@ export default function NewFormationForm({
                       <Input
                         placeholder="Ex: 3 mois, 40 heures"
                         {...field}
-                        value={field.value ?? ''}
+                        value={field.value ?? ""}
                         disabled={isLoading}
+                        className="font-sans"
                       />
                     </FormControl>
                     <FormMessage />
@@ -338,7 +341,7 @@ export default function NewFormationForm({
                     <ImageUpload
                       value={field.value}
                       onChange={field.onChange}
-                      onRemove={() => field.onChange('')}
+                      onRemove={() => field.onChange("")}
                       disabled={isLoading}
                     />
                   </FormControl>
@@ -364,8 +367,11 @@ export default function NewFormationForm({
                         type="number"
                         placeholder="0"
                         {...field}
-                        onChange={e => field.onChange(parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value) || 0)
+                        }
                         disabled={isLoading}
+                        className="font-sans"
                       />
                     </FormControl>
                     <FormDescription>
@@ -415,7 +421,7 @@ export default function NewFormationForm({
                     <FormLabel>Niveau requis</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      value={field.value || ''}
+                      value={field.value || ""}
                       disabled={isLoading}
                     >
                       <FormControl>
@@ -425,10 +431,14 @@ export default function NewFormationForm({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Débutant">Débutant</SelectItem>
-                        <SelectItem value="Intermédiaire">Intermédiaire</SelectItem>
+                        <SelectItem value="Intermédiaire">
+                          Intermédiaire
+                        </SelectItem>
                         <SelectItem value="Avancé">Avancé</SelectItem>
                         <SelectItem value="Expert">Expert</SelectItem>
-                        <SelectItem value="Tous niveaux">Tous niveaux</SelectItem>
+                        <SelectItem value="Tous niveaux">
+                          Tous niveaux
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -441,18 +451,29 @@ export default function NewFormationForm({
                 name="maxStudents"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nombre max d&apos;étudiants par session</FormLabel>
+                    <FormLabel>
+                      Nombre max d&apos;étudiants par session
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         placeholder="Ex: 24"
                         {...field}
-                        value={field.value ?? ''}
-                        onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
+                        value={field.value ?? ""}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value
+                              ? parseInt(e.target.value)
+                              : undefined
+                          )
+                        }
                         disabled={isLoading}
+                        className="font-sans"
                       />
                     </FormControl>
-                    <FormDescription>Laisser vide pour illimité</FormDescription>
+                    <FormDescription>
+                      Laisser vide pour illimité
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -470,7 +491,7 @@ export default function NewFormationForm({
                       placeholder="Ex: Aucun prérequis nécessaire"
                       className="min-h-[80px] resize-none"
                       {...field}
-                      value={field.value ?? ''}
+                      value={field.value ?? ""}
                       disabled={isLoading}
                     />
                   </FormControl>
@@ -490,7 +511,7 @@ export default function NewFormationForm({
                       placeholder="Un objectif par ligne&#10;Ex:&#10;Automatiser vos tâches répétitives&#10;Créer des workflows intelligents&#10;Gagner 10h par semaine"
                       className="min-h-[120px] resize-none"
                       {...field}
-                      value={field.value ?? ''}
+                      value={field.value ?? ""}
                       disabled={isLoading}
                     />
                   </FormControl>
@@ -571,9 +592,16 @@ export default function NewFormationForm({
                         max="5"
                         placeholder="Ex: 4.8"
                         {...field}
-                        value={field.value ?? ''}
-                        onChange={e => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
+                        value={field.value ?? ""}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value
+                              ? parseFloat(e.target.value)
+                              : undefined
+                          )
+                        }
                         disabled={isLoading}
+                        className="font-sans"
                       />
                     </FormControl>
                     <FormDescription>Sur 5</FormDescription>
@@ -593,8 +621,13 @@ export default function NewFormationForm({
                         type="number"
                         placeholder="Ex: 124"
                         {...field}
-                        onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value ? parseInt(e.target.value) : 0
+                          )
+                        }
                         disabled={isLoading}
+                        className="font-sans"
                       />
                     </FormControl>
                     <FormMessage />
@@ -613,8 +646,13 @@ export default function NewFormationForm({
                         type="number"
                         placeholder="Ex: 500"
                         {...field}
-                        onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value ? parseInt(e.target.value) : 0
+                          )
+                        }
                         disabled={isLoading}
+                        className="font-sans"
                       />
                     </FormControl>
                     <FormMessage />
@@ -629,24 +667,25 @@ export default function NewFormationForm({
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.push('/admin/formations')}
+              onClick={() => router.push("/admin/formations")}
               disabled={isLoading}
+              className="font-sans"
             >
               Annuler
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className="font-sans">
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Création...
                 </>
               ) : (
-                'Créer la formation'
+                "Créer la formation"
               )}
             </Button>
           </div>
         </form>
       </Form>
     </>
-  )
+  );
 }
