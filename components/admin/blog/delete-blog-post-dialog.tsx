@@ -68,7 +68,7 @@ export function DeleteBlogPostDialog({
       <AlertDialogContent className="border-border/50 bg-card/95 backdrop-blur-sm">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-balance">
-            Supprimer l'article ?
+            Supprimer l&apos;article ?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-balance">
             Êtes-vous sûr de vouloir supprimer{" "}
