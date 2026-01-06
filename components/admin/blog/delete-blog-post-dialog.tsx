@@ -68,12 +68,12 @@ export function DeleteBlogPostDialog({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="font-bricolage text-xl">
-            Supprimer l'article ?
+            Supprimer l&apos;article ?
           </AlertDialogTitle>
           <AlertDialogDescription>
             Êtes-vous sûr de vouloir supprimer{" "}
             <strong className="text-foreground font-medium">
-              "{postTitle}"
+              &quot;{postTitle}&quot;
             </strong>{" "}
             ? Cette action est irréversible.
           </AlertDialogDescription>
