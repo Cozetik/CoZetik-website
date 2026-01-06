@@ -72,8 +72,8 @@ export function DeleteBlogPostDialog({
           </AlertDialogTitle>
           <AlertDialogDescription className="text-balance">
             Êtes-vous sûr de vouloir supprimer{" "}
-            <strong className="text-foreground">"{postTitle}"</strong> ? Cette
-            action est irréversible.
+            <strong className="text-foreground">&quot;{postTitle}&quot;</strong>{" "}
+            ? Cette action est irréversible.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
