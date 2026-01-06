@@ -18,7 +18,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
   Calendar,
-  ExternalLink,
+  Download,
   Eye,
   FileText,
   GraduationCap,
@@ -381,16 +381,18 @@ export function ViewCandidatureDialog({
                             </p>
                           </div>
                         </div>
-                        <Button asChild variant="outline" size="sm">
-                          <a
-                            href={candidature.cvUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                        <a
+                          href={`/api/admin/secure-download?url=${encodeURIComponent(
+                            candidature.cvUrl || ""
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Button variant="outline" size="sm">
+                            <Download className="mr-2 h-4 w-4" />
                             Télécharger
-                          </a>
-                        </Button>
+                          </Button>
+                        </a>
                       </div>
                     )}
                     {candidature.coverLetterUrl && (
@@ -405,16 +407,18 @@ export function ViewCandidatureDialog({
                             </p>
                           </div>
                         </div>
-                        <Button asChild variant="outline" size="sm">
-                          <a
-                            href={candidature.coverLetterUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                        <a
+                          href={`/api/admin/secure-download?url=${encodeURIComponent(
+                            candidature.coverLetterUrl || ""
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Button variant="outline" size="sm">
+                            <Download className="mr-2 h-4 w-4" />
                             Télécharger
-                          </a>
-                        </Button>
+                          </Button>
+                        </a>
                       </div>
                     )}
                     {candidature.otherDocumentUrl && (
@@ -429,16 +433,18 @@ export function ViewCandidatureDialog({
                             </p>
                           </div>
                         </div>
-                        <Button asChild variant="outline" size="sm">
-                          <a
-                            href={candidature.otherDocumentUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                        <a
+                          href={`/api/admin/secure-download?url=${encodeURIComponent(
+                            candidature.otherDocumentUrl || ""
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Button variant="outline" size="sm">
+                            <Download className="mr-2 h-4 w-4" />
                             Télécharger
-                          </a>
-                        </Button>
+                          </Button>
+                        </a>
                       </div>
                     )}
                   </div>
