@@ -9,7 +9,7 @@ export default async function BlogPage() {
   const posts = await prisma.blogPost.findMany({
     orderBy: { createdAt: "desc" },
     include: {
-      theme: true, // Ajouter cette ligne
+      theme: true,
     },
   });
 
@@ -29,138 +29,139 @@ export default async function BlogPage() {
   };
 
   return (
-    <div className="space-y-8 font-sans">
+    <div className="space-y-2.5 xs:space-y-3 sm:space-y-6 lg:space-y-8 font-sans px-2.5 xs:px-3 sm:px-6 lg:px-8 py-2.5 xs:py-3 sm:py-6 max-w-[1920px] mx-auto">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-4xl font-bricolage font-bold tracking-tight text-gray-900">
+      <div className="flex flex-col gap-2 xs:gap-2.5 sm:gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-lg xs:text-xl sm:text-3xl lg:text-4xl font-bricolage font-bold tracking-tight text-gray-900">
             Blog
           </h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-0.5 xs:mt-1 sm:mt-2 text-[11px] xs:text-xs sm:text-base text-gray-600">
             Gérez et publiez vos articles de blog
           </p>
         </div>
-        <Link href="/admin/blog/new">
+        <Link href="/admin/blog/new" className="shrink-0">
           <Button
             size="lg"
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg font-semibold"
+            className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg font-semibold h-8 xs:h-9 sm:h-11 text-xs xs:text-sm"
           >
-            <Plus className="mr-2 h-5 w-5" />
-            Nouvel Article
+            <Plus className="mr-1 xs:mr-1.5 h-3.5 w-3.5 xs:h-4 xs:w-4 sm:h-5 sm:w-5" />
+            <span className="md:hidden">Créer</span>
+            <span className="hidden xs:inline sm:hidden">Nouvel</span>
+            <span className="hidden sm:inline">Nouvel Article</span>
           </Button>
         </Link>
       </div>
 
       {/* Stats Cards */}
-      {posts.length > 0 && (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <Card className="rounded-2xl border-0 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-sm">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 p-2.5 shadow-lg">
-                  <FileText className="h-5 w-5 text-white" />
-                </div>
-                <CardTitle className="text-sm font-bricolage text-gray-700">
-                  Total articles
-                </CardTitle>
+      <div className="grid grid-cols-2 gap-1.5 xs:gap-2 sm:gap-4 md:grid-cols-4 lg:gap-6">
+        <Card className="rounded-lg xs:rounded-xl border-0 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-sm">
+          <CardHeader className="pb-1 xs:pb-1.5 p-1.5 xs:p-2 sm:p-4 lg:p-6">
+            <div className="flex items-center gap-1 xs:gap-1.5">
+              <div className="rounded-md xs:rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 p-0.5 xs:p-1 sm:p-2 shadow-lg shrink-0">
+                <FileText className="h-2.5 w-2.5 xs:h-3 xs:w-3 sm:h-5 sm:w-5 text-white" />
               </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold font-bricolage text-gray-900">
-                {stats.total}
-              </p>
-            </CardContent>
-          </Card>
+              <CardTitle className="text-[9px] xs:text-[10px] sm:text-sm font-bricolage text-gray-700 truncate">
+                Total
+              </CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent className="p-1.5 xs:p-2 sm:p-4 lg:p-6 pt-0">
+            <p className="text-base xs:text-lg sm:text-2xl lg:text-3xl font-bold font-bricolage text-gray-900 tabular-nums">
+              {stats.total}
+            </p>
+          </CardContent>
+        </Card>
 
-          <Card className="rounded-2xl border-0 bg-gradient-to-br from-emerald-50 to-teal-50 shadow-sm">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 p-2.5 shadow-lg">
-                  <Eye className="h-5 w-5 text-white" />
-                </div>
-                <CardTitle className="text-sm font-bricolage text-gray-700">
-                  Visibles
-                </CardTitle>
+        <Card className="rounded-lg xs:rounded-xl border-0 bg-gradient-to-br from-emerald-50 to-teal-50 shadow-sm">
+          <CardHeader className="pb-1 xs:pb-1.5 p-1.5 xs:p-2 sm:p-4 lg:p-6">
+            <div className="flex items-center gap-1 xs:gap-1.5">
+              <div className="rounded-md xs:rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 p-0.5 xs:p-1 sm:p-2 shadow-lg shrink-0">
+                <Eye className="h-2.5 w-2.5 xs:h-3 xs:w-3 sm:h-5 sm:w-5 text-white" />
               </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold font-bricolage text-gray-900">
-                {stats.visible}
-              </p>
-            </CardContent>
-          </Card>
+              <CardTitle className="text-[9px] xs:text-[10px] sm:text-sm font-bricolage text-gray-700 truncate">
+                Visibles
+              </CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent className="p-1.5 xs:p-2 sm:p-4 lg:p-6 pt-0">
+            <p className="text-base xs:text-lg sm:text-2xl lg:text-3xl font-bold font-bricolage text-gray-900 tabular-nums">
+              {stats.visible}
+            </p>
+          </CardContent>
+        </Card>
 
-          <Card className="rounded-2xl border-0 bg-gradient-to-br from-orange-50 to-amber-50 shadow-sm">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 p-2.5 shadow-lg">
-                  <EyeOff className="h-5 w-5 text-white" />
-                </div>
-                <CardTitle className="text-sm font-bricolage text-gray-700">
-                  Masqués
-                </CardTitle>
+        <Card className="rounded-lg xs:rounded-xl border-0 bg-gradient-to-br from-orange-50 to-amber-50 shadow-sm">
+          <CardHeader className="pb-1 xs:pb-1.5 p-1.5 xs:p-2 sm:p-4 lg:p-6">
+            <div className="flex items-center gap-1 xs:gap-1.5">
+              <div className="rounded-md xs:rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 p-0.5 xs:p-1 sm:p-2 shadow-lg shrink-0">
+                <EyeOff className="h-2.5 w-2.5 xs:h-3 xs:w-3 sm:h-5 sm:w-5 text-white" />
               </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold font-bricolage text-gray-900">
-                {stats.hidden}
-              </p>
-            </CardContent>
-          </Card>
+              <CardTitle className="text-[9px] xs:text-[10px] sm:text-sm font-bricolage text-gray-700 truncate">
+                Masqués
+              </CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent className="p-1.5 xs:p-2 sm:p-4 lg:p-6 pt-0">
+            <p className="text-base xs:text-lg sm:text-2xl lg:text-3xl font-bold font-bricolage text-gray-900 tabular-nums">
+              {stats.hidden}
+            </p>
+          </CardContent>
+        </Card>
 
-          <Card className="rounded-2xl border-0 bg-gradient-to-br from-purple-50 to-violet-50 shadow-sm">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-gradient-to-br from-purple-500 to-violet-500 p-2.5 shadow-lg">
-                  <BookOpen className="h-5 w-5 text-white" />
-                </div>
-                <CardTitle className="text-sm font-bricolage text-gray-700">
-                  Publiés
-                </CardTitle>
+        <Card className="rounded-lg xs:rounded-xl border-0 bg-gradient-to-br from-purple-50 to-violet-50 shadow-sm">
+          <CardHeader className="pb-1 xs:pb-1.5 p-1.5 xs:p-2 sm:p-4 lg:p-6">
+            <div className="flex items-center gap-1 xs:gap-1.5">
+              <div className="rounded-md xs:rounded-lg bg-gradient-to-br from-purple-500 to-violet-500 p-0.5 xs:p-1 sm:p-2 shadow-lg shrink-0">
+                <BookOpen className="h-2.5 w-2.5 xs:h-3 xs:w-3 sm:h-5 sm:w-5 text-white" />
               </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold font-bricolage text-gray-900">
-                {stats.published}
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+              <CardTitle className="text-[9px] xs:text-[10px] sm:text-sm font-bricolage text-gray-700 truncate">
+                Publiés
+              </CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent className="p-1.5 xs:p-2 sm:p-4 lg:p-6 pt-0">
+            <p className="text-base xs:text-lg sm:text-2xl lg:text-3xl font-bold font-bricolage text-gray-900 tabular-nums">
+              {stats.published}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Blog Posts List */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-bricolage font-semibold text-gray-900">
+      <div className="space-y-1.5 xs:space-y-2 sm:space-y-4">
+        <h2 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-bricolage font-semibold text-gray-900 px-0.5">
           Tous les articles
         </h2>
 
         {posts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 px-6 rounded-2xl border-2 border-dashed border-muted-foreground/20 bg-gradient-to-b from-muted/30 to-muted/10">
-            <div className="rounded-full bg-gradient-to-br from-primary/20 to-primary/10 p-6 mb-6 shadow-lg">
-              <FileText className="h-10 w-10 text-primary" />
+          <div className="flex flex-col items-center justify-center py-6 xs:py-8 sm:py-16 lg:py-24 px-2.5 xs:px-3 sm:px-6 rounded-lg xs:rounded-xl border-2 border-dashed border-muted-foreground/20 bg-gradient-to-b from-muted/30 to-muted/10">
+            <div className="rounded-full bg-gradient-to-br from-primary/20 to-primary/10 p-2.5 xs:p-3 sm:p-5 lg:p-6 mb-2.5 xs:mb-3 sm:mb-6 shadow-lg">
+              <FileText className="h-5 w-5 xs:h-6 xs:w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-primary" />
             </div>
-            <h3 className="text-2xl font-bricolage font-bold mb-2">
+            <h3 className="text-sm xs:text-base sm:text-xl lg:text-2xl font-bricolage font-bold mb-1 xs:mb-1.5 text-center">
               Aucun article créé
             </h3>
-            <p className="text-base font-sans text-muted-foreground mb-8 text-center max-w-md leading-relaxed">
-              Commencez par créer votre premier article de blog pour partager
-              vos connaissances
+            <p className="text-[11px] xs:text-xs sm:text-base font-sans text-muted-foreground mb-3 xs:mb-4 sm:mb-8 text-center max-w-md leading-relaxed px-2">
+              Créez votre premier article
             </p>
             <Button
               asChild
               size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg font-sans font-semibold"
+              className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg font-sans font-semibold h-8 xs:h-9 sm:h-11 text-xs xs:text-sm"
             >
               <Link href="/admin/blog/new">
-                <Plus className="mr-2 h-5 w-5" />
-                Créer un article
+                <Plus className="mr-1 xs:mr-1.5 h-3.5 w-3.5 xs:h-4 xs:w-4 sm:h-5 sm:w-5" />
+                <span className="xs:hidden">Créer</span>
+                <span className="hidden xs:inline sm:hidden">Créer</span>
+                <span className="hidden sm:inline">
+                  Créer mon premier article
+                </span>
               </Link>
             </Button>
           </div>
         ) : (
-          <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
-            <BlogTable posts={serializedPosts} />
-          </div>
+          <BlogTable posts={serializedPosts} />
         )}
       </div>
     </div>

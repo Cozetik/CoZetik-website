@@ -72,6 +72,10 @@
   }
 }
 
+/* Custom breakpoints */
+@custom-media --xs (min-width: 375px);
+@custom-media --xxs (min-width: 320px);
+
 @layer utilities {
   /* Background grid pattern */
   .bg-grid-white\/10 {
