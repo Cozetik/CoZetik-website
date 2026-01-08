@@ -69,18 +69,10 @@ async def generate_blog_post(request: BlogRequest):
     Génère un article de blog complet avec rapport d'expertise.
     """
     try:
-        # Import lazy pour éviter de charger le module si non utilisé
-        import sys
-        import os
-        
-        # Ajouter le chemin vers blogBot
-        blogbot_path = os.path.join(os.path.dirname(__file__), "agents", "blogBot")
-        if blogbot_path not in sys.path:
-            sys.path.insert(0, blogbot_path)
-        
-        from main import generate_blog
-        
         print(f"📝 Génération demandée pour: {request.subject}")
+        
+        # Import du module blogBot
+        from app.agents.blogBot.main import generate_blog
         
         # Génération de l'article
         article_markdown, metadata = generate_blog(request.subject, with_metadata=True)
