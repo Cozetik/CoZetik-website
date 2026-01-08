@@ -33,7 +33,7 @@ export function ExpertiseArticle({ report, sources }: ExpertiseArticleProps) {
   return (
     <Card className="p-4 bg-white">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-lg">Rapport d'Expertise IA</h3>
+        <h3 className="font-semibold text-lg">Rapport d&apos;Expertise IA</h3>
         <div className={`px-3 py-1 rounded-full ${getScoreColor(avgScore)}`}>
           Score global: {(avgScore * 100).toFixed(0)}%
         </div>

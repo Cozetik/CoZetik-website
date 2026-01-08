@@ -56,7 +56,7 @@ export function AIArticleGenerator({ onGenerated }: AIGeneratorProps) {
       </div>
       <div className="space-y-3">
         <div>
-          <Label htmlFor="ai-subject">Sujet de l'article</Label>
+          <Label htmlFor="ai-subject">Sujet de l&apos;article</Label>
           <Input
             id="ai-subject"
             placeholder="Ex: L'importance de la cybersécurité pour les PME"
@@ -79,7 +79,7 @@ export function AIArticleGenerator({ onGenerated }: AIGeneratorProps) {
           ) : (
             <>
               <Sparkles className="mr-2 h-4 w-4" />
-              Générer avec l'IA
+              Générer avec l&apos;IA
             </>
           )}
         </Button>
