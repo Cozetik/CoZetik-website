@@ -1,15 +1,21 @@
 import os
 import numpy as np  # AJOUT
+from pathlib import Path
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext, load_index_from_storage
 from llama_index.llms.mistralai import MistralAI
 from llama_index.embeddings.mistralai import MistralAIEmbedding
 from llama_index.core import Settings
 from dotenv import load_dotenv
 
+# Charger le .env local si disponible (dev) ou utiliser les env vars système (Railway)
 load_dotenv()
 
+# Chemin de base du module blogBot
+BASE_DIR = Path(__file__).parent
 
-MISTRAL_API_KEY = os.getenv("TON_API_KEY_MISTRAL")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+if not MISTRAL_API_KEY:
+    raise ValueError("MISTRAL_API_KEY non trouvée dans les variables d'environnement")
 
 llm = MistralAI(model="mistral-large-latest", 
                 temperature=0.7, 
@@ -21,16 +27,19 @@ Settings.llm = llm
 Settings.embed_model = embed_model 
 
 def initialise_cozetik_brain():
-    if not os.path.exists("./storage"):
-        print("Indexing CoZetik docs...")
+    storage_path = BASE_DIR / "storage"
+    data_path = BASE_DIR / "data"
+    
+    if not storage_path.exists():
+        print(f"Indexing CoZetik docs from {data_path}...")
 
-        docs = SimpleDirectoryReader("./data").load_data()
+        docs = SimpleDirectoryReader(str(data_path)).load_data()
         index = VectorStoreIndex.from_documents(docs)
         #save index
-        index.storage_context.persist()
+        index.storage_context.persist(persist_dir=str(storage_path))
     else:
-        print("Loading indexing...")
-        storage_context = StorageContext.from_defaults(persist_dir="./storage")
+        print(f"Loading index from {storage_path}...")
+        storage_context = StorageContext.from_defaults(persist_dir=str(storage_path))
         index = load_index_from_storage(storage_context)
     
     return index
@@ -44,7 +53,8 @@ def calculate_cosine_similarity(vec1, vec2):
     return 1 - cosine(vec1, vec2)
 
 def load_prompt(filename):
-    with open(f"prompts/{filename}", "r", encoding="utf-8") as f:
+    prompt_path = BASE_DIR / "prompts" / filename
+    with open(prompt_path, "r", encoding="utf-8") as f:
         return f.read()
 
 def generate_blog(subject, with_metadata=True):
