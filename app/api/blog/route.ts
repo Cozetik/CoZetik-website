@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { revalidatePath } from 'next/cache';
 import * as z from "zod";
 
 const blogPostSchema = z.object({
@@ -14,6 +14,10 @@ const blogPostSchema = z.object({
   visible: z.boolean(),
   publishedAt: z.string().nullable().optional(), // ISO string
   themeId: z.string().nullable().optional(),
+  aiScore: z.number().nullable().optional(),
+  aiMetadata: z.unknown().nullable().optional(),
+  featuredProg: z.string().nullable().optional(),
+  isReviewRequired: z.boolean().nullable().optional(),
 });
 
 export async function GET() {
@@ -67,14 +71,18 @@ export async function POST(request: Request) {
           ? new Date(validatedData.publishedAt)
           : null,
         themeId: validatedData.themeId || null,
+        aiScore: body.aiScore,
+        aiMetadata: body.aiMetadata,
+        featuredProg: body.featuredProg,
+        isReviewRequired: body.isReviewRequired ?? true,
       },
       include: {
         theme: true,
       },
     });
 
-    revalidatePath('/admin/blog');
-    revalidatePath('/blog');
+    revalidatePath("/admin/blog");
+    revalidatePath("/blog");
 
     return NextResponse.json(post, { status: 201 });
   } catch (error) {

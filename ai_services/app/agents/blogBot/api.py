@@ -1,6 +1,7 @@
 import os
 import uvicorn
 import numpy as np
+import traceback  # AJOUT
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Dict, Optional
@@ -36,6 +37,8 @@ async def api_generate_blog(request: BlogRequest):
     Génère un article de blog complet + Rapport d'Expertise (Métriques NLP).
     """
     try:
+        print(f"📝 Génération demandée pour: {request.subject}")
+        
         # 1. Appel de la logique métier (Main)
         article_markdown, metadata = generate_blog(request.subject, with_metadata=True)
         
@@ -55,6 +58,8 @@ async def api_generate_blog(request: BlogRequest):
         )
         
     except Exception as e:
+        print(f"❌ ERREUR DÉTAILLÉE:")
+        print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
