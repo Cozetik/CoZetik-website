@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { ImageUpload } from "@/components/admin/image-upload";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 import { Button } from "@/components/ui/button";
@@ -46,12 +44,15 @@ import {
   Send,
   X,
 } from "lucide-react";
+import { marked } from "marked"; // AJOUT
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { AIArticleGenerator } from "./ai-article-generator";
+import { ExpertiseArticle } from "./expertise-article";
 
 const blogPostSchema = z.object({
   title: z.string().min(1, "Le titre est requis").max(200),
@@ -79,6 +80,9 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [manualSlug, setManualSlug] = useState(false);
+  const [aiMetadata, setAiMetadata] = useState<any>(null);
+  const [aiScore, setAiScore] = useState<number | null>(null);
+  const [formKey, setFormKey] = useState(0); // AJOUT : Pour forcer le re-render
 
   const form = useForm<z.infer<typeof blogPostSchema>>({
     resolver: zodResolver(blogPostSchema),
@@ -96,13 +100,117 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
     },
   });
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value;
-    form.setValue("title", title);
+  const handleAIGenerated = async (data: any) => {
+    try {
+      console.log("🎯 Début handleAIGenerated");
+      console.log("📝 Data reçue:", data);
 
-    if (!manualSlug) {
-      const slug = slugify(title);
-      form.setValue("slug", slug);
+      // Convertir le markdown en HTML
+      const htmlContent = await marked(data.markdown, {
+        breaks: true,
+        gfm: true,
+      });
+
+      // Extraire le titre (premier # du markdown)
+      const titleMatch = data.markdown.match(/^#\s+(.+)$/m);
+      console.log("🔍 titleMatch:", titleMatch);
+
+      if (titleMatch && titleMatch[1]) {
+        const extractedTitle = titleMatch[1]
+          .trim()
+          .replace(/\*\*(.+?)\*\*/g, "$1")
+          .replace(/\*(.+?)\*/g, "$1")
+          .replace(/`(.+?)`/g, "$1")
+          .replace(/\[(.+?)\]\(.+?\)/g, "$1")
+          .replace(/~~(.+?)~~/g, "$1")
+          .trim();
+
+        console.log("📌 Titre extrait:", extractedTitle);
+
+        // Générer le slug automatiquement
+        const slug = slugify(extractedTitle);
+        console.log("🔗 Slug généré:", slug);
+
+        // Auto-remplir seoTitle avec le titre extrait (limité à 60 caractères)
+        const seoTitle =
+          extractedTitle.length > 60
+            ? extractedTitle.substring(0, 57) + "..."
+            : extractedTitle;
+        console.log("🏷️ SEO Title:", seoTitle);
+
+        // Créer un extrait (premiers 150-200 caractères du texte sans markdown)
+        const textOnly = data.markdown
+          .replace(/^#+\s+.+$/gm, "")
+          .replace(/\*\*(.+?)\*\*/g, "$1")
+          .replace(/\*(.+?)\*/g, "$1")
+          .replace(/\[(.+?)\]\(.+?\)/g, "$1")
+          .replace(/```[\s\S]*?```/g, "")
+          .replace(/`(.+?)`/g, "$1")
+          .replace(/^\s*[-*+]\s+/gm, "")
+          .replace(/^\s*\d+\.\s+/gm, "")
+          .replace(/\n+/g, " ")
+          .trim();
+
+        const excerpt = textOnly.substring(0, 200).trim();
+        const lastSpaceExcerpt = excerpt.lastIndexOf(" ");
+        const cleanExcerpt =
+          lastSpaceExcerpt > 150
+            ? excerpt.substring(0, lastSpaceExcerpt) + "..."
+            : excerpt + "...";
+
+        console.log("📄 Extrait:", cleanExcerpt);
+
+        // Auto-remplir seoDescription (limité à 160 caractères)
+        const seoDesc = textOnly.substring(0, 160).trim();
+        const lastSpaceSeo = seoDesc.lastIndexOf(" ");
+        const cleanSeoDesc =
+          lastSpaceSeo > 140
+            ? seoDesc.substring(0, lastSpaceSeo) + "..."
+            : seoDesc + "...";
+
+        console.log("📝 SEO Description:", cleanSeoDesc);
+
+        // RESET le formulaire avec les nouvelles valeurs
+        form.reset({
+          title: extractedTitle,
+          slug: slug,
+          excerpt: cleanExcerpt,
+          content: htmlContent,
+          imageUrl: "",
+          themeId: null,
+          seoTitle: seoTitle,
+          seoDescription: cleanSeoDesc,
+          visible: false,
+          publishedAt: null,
+        });
+
+        // Forcer le re-render
+        setFormKey((prev) => prev + 1);
+        setManualSlug(false); // Reset du flag
+      }
+
+      // Calculer le score moyen
+      const report = data.expertise_report;
+      const avgScore =
+        Object.values(report).reduce(
+          (a: number, b) => (a as number) + (b as number),
+          0
+        ) / 5;
+
+      setAiScore(avgScore);
+      setAiMetadata({
+        expertise_report: report,
+        sources: data.sources,
+      });
+
+      console.log("🎉 Toutes les valeurs du form:", form.getValues());
+
+      toast.success("Article généré avec titre et extrait !", {
+        description: "Vous pouvez modifier les champs avant publication.",
+      });
+    } catch (error) {
+      console.error("❌ Erreur lors de la conversion Markdown:", error);
+      toast.error("Erreur lors du formatage du contenu");
     }
   };
 
@@ -118,6 +226,9 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
+          aiScore,
+          aiMetadata,
+          isReviewRequired: true,
           excerpt: values.excerpt || null,
           imageUrl: values.imageUrl || null,
           themeId: values.themeId || null,
@@ -175,9 +286,17 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
 
       <Form {...form}>
         <form
+          key={formKey} // AJOUT : Force le re-render quand formKey change
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4 sm:space-y-8 w-full max-w-full"
         >
+          <AIArticleGenerator onGenerated={handleAIGenerated} />
+          {aiMetadata && (
+            <ExpertiseArticle
+              report={aiMetadata.expertise_report}
+              sources={aiMetadata.sources}
+            />
+          )}
           {/* Section: Contenu principal */}
           <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full">
             <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-gray-200">
@@ -206,8 +325,14 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                     <Input
                       placeholder="Ex: 10 Conseils pour maîtriser l'IA"
                       className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-full text-sm sm:text-base"
-                      {...field}
-                      onChange={handleTitleChange}
+                      value={field.value || ""}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        if (!manualSlug) {
+                          const slug = slugify(e.target.value);
+                          form.setValue("slug", slug);
+                        }
+                      }}
                       disabled={isLoading}
                     />
                   </FormControl>
@@ -228,7 +353,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                     <Input
                       placeholder="ex: 10-conseils-pour-maitriser-ia"
                       className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-full text-sm sm:text-base font-mono"
-                      {...field}
+                      {...field} // ← REMPLACEZ value={field.value} par {...field}
                       onChange={(e) => {
                         setManualSlug(true);
                         field.onChange(e);
@@ -257,7 +382,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                     <Textarea
                       placeholder="Résumé court de l'article..."
                       className="min-h-[100px] border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-full text-sm sm:text-base"
-                      {...field}
+                      {...field} // ← REMPLACEZ value={field.value} par {...field}
                       disabled={isLoading}
                     />
                   </FormControl>
@@ -395,7 +520,8 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                     <Input
                       placeholder="Titre pour les moteurs de recherche"
                       className="border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all w-full text-sm sm:text-base"
-                      {...field}
+                      value={field.value || ""} // ← Force une string vide
+                      onChange={field.onChange}
                       disabled={isLoading}
                     />
                   </FormControl>
@@ -420,7 +546,7 @@ export default function NewBlogPostForm({ themes }: NewBlogPostFormProps) {
                     <Textarea
                       placeholder="Description pour les moteurs de recherche"
                       className="min-h-[100px] border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all w-full text-sm sm:text-base"
-                      {...field}
+                      {...field} // ← REMPLACEZ value={field.value} par {...field}
                       disabled={isLoading}
                     />
                   </FormControl>
