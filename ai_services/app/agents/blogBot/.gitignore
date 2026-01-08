@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# LlamaIndex / Vector Store
+storage/
+
+# Reports
+Rapport_Blog_*.pdf
+Cozetik_Report.pdf
+
+# IDEs
+.vscode/
+.idea/

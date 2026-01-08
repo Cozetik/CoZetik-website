@@ -1,0 +1,137 @@
+[
+  {
+    "test_name": "Profil B - Productivité Pure",
+    "expected_program": "IA & Productivité",
+    "actual_program": "IA & Productivité — ChatGPT Pro",
+    "program_match": 1.0,
+    "keyword_coverage": 0.6666666666666666,
+    "semantic_similarity": 0.2936576008796692,
+    "global_score": 0.7400810668865839,
+    "full_response": {
+      "profil_analysis": "Profil ultra-productif mais en surcharge mentale et physique. Vous êtes une personne dynamique, toujours en mouvement, avec une forte capacité à gérer plusieurs tâches en parallèle. Cependant, cette hyperactivité cache une fatigue profonde : vous vous sentez submergé(e) par le volume de travail, dispersé(e) et parfois épuisé(e) par le poids de toutes les pensées et responsabilités qui occupent votre esprit. Votre désir de légèreté et d'efficacité est fort, mais vous manquez d'outils concrets pour structurer votre temps et libérer votre espace mental. Vous avez besoin de retrouver un équilibre entre performance et bien-être, sans sacrifier votre productivité.",
+      "principal_program": {
+        "name": "IA & Productivité — ChatGPT Pro",
+        "reason": "Ce programme est fait pour vous car il va vous permettre de **gagner 1 à 2 heures par jour** en automatisant les tâches répétitives, en organisant votre charge mentale et en réduisant la dispersion. Grâce à des outils d'IA adaptés, vous allez pouvoir **structurer votre temps, prioriser vos actions et retrouver de la clarté** dans votre quotidien. Plus besoin de tout porter seul(e) : l'IA deviendra votre alliée pour vous libérer l'esprit et vous recentrer sur l'essentiel. C'est la solution ultime pour passer d'une sensation de surcharge à une **efficacité sereine et maîtrisée**."
+      },
+      "complementary_modules": [
+        {
+          "name": "Stress & conflits",
+          "reason": "Ce module vous aidera à gérer la pression mentale liée à votre charge de travail. En apprenant à identifier et à canaliser vos émotions, vous pourrez **prévenir l'épuisement** et maintenir un état d'esprit plus calme et résilient, même dans les périodes intenses."
+        },
+        {
+          "name": "Communication professionnelle & personnelle",
+          "reason": "Pour éviter la dispersion et les malentendus, ce module vous donnera des outils pour **clarifier vos échanges**, poser des limites saines et optimiser vos interactions. Moins de temps perdu en répétitions ou en quiproquos, et plus d'énergie pour ce qui compte vraiment."
+        }
+      ],
+      "motivation_message": "Imaginez un quotidien où chaque tâche est maîtrisée, où votre esprit est léger et où vous avancez avec confiance et fluidité. Ce parcours est votre tremplin vers cette liberté : **prêt(e) à transformer votre surcharge en super-pouvoir ?**"
+    }
+  },
+  {
+    "test_name": "Profil A - Communication",
+    "expected_program": "Prise de Parole",
+    "actual_program": "Prise de Parole — Charisme, Clarté & Confiance",
+    "program_match": 1.0,
+    "keyword_coverage": 0.6666666666666666,
+    "semantic_similarity": 0.5909562110900879,
+    "global_score": 0.8144057194391886,
+    "full_response": {
+      "profil_analysis": "Profil d'un communicateur en devenir, bloqué par un manque de confiance en soi et une peur du jugement. Vous avez clairement les connaissances et les idées, mais l'expression orale reste un défi : peur de ne pas être compris, stress face au regard des autres, et difficulté à structurer vos pensées sous pression. Votre désir profond est d'être écouté(e), respecté(e), et de voir votre parole avoir un impact. Vous aspirez à une aisance naturelle qui vous permettrait de briller sans effort apparent. Votre point de douleur ? Ce décalage entre ce que vous savez et ce que vous arrivez à transmettre, ce qui peut générer une frustration et un sentiment d'injustice.",
+      "principal_program": {
+        "name": "Prise de Parole — Charisme, Clarté & Confiance",
+        "reason": "Ce programme est fait pour vous, car il cible exactement vos blocages : la peur de parler, le manque de clarté et la gestion du stress face au regard des autres. Vous allez apprendre à structurer vos idées, à capter l'attention de votre audience, et à transformer votre nervosité en énergie positive. Imaginez-vous dans quelques semaines, capable de vous exprimer avec aisance, d'être écouté(e) sans effort, et de voir votre parole avoir l'impact qu'elle mérite. C'est bien plus qu'une formation : c'est une libération."
+      },
+      "complementary_modules": [
+        {
+          "name": "Communication non verbale & charisme naturel",
+          "reason": "Pour renforcer votre présence et votre impact visuel, ce module vous aidera à travailler votre posture, vos gestes et votre expression faciale. Cela complétera parfaitement la prise de parole en vous permettant de communiquer avec plus de confiance et d'assurance, même dans les situations les plus intimidantes."
+        },
+        {
+          "name": "Interactions & relations respectueuses",
+          "reason": "Ce module vous donnera des outils pour gérer les échanges difficiles et renforcer votre assertivité. Il est idéal pour vous aider à vous affirmer tout en maintenant des relations saines et respectueuses, ce qui est essentiel pour être écouté(e) et respecté(e) dans tous les contextes."
+        }
+      ],
+      "motivation_message": "Votre voix mérite d'être entendue, et votre message mérite d'avoir un impact. Avec ce parcours, vous allez transformer vos doutes en force et vos blocages en opportunités. Prêt(e) à briller ?"
+    }
+  },
+  {
+    "test_name": "Profil C - Intelligence Émotionnelle",
+    "expected_program": "Intelligence Émotionnelle",
+    "actual_program": "Intelligence Émotionnelle",
+    "program_match": 1.0,
+    "keyword_coverage": 0.8333333333333334,
+    "semantic_similarity": 0.7360430955886841,
+    "global_score": 0.8923441072305044,
+    "full_response": {
+      "profil_analysis": "Profil émotionnellement sensible et résilient, mais en tension intérieure. Vous donnez l'impression de tout maîtriser en apparence, mais le stress et la pression interne vous épuisent progressivement. Votre désir profond est de retrouver un équilibre intérieur, une stabilité émotionnelle et une paix durable. Vous ruminez, vous vous mettez la pression, et cela vous coûte énormément. Votre sensibilité est une force, mais elle a besoin d'être canalisée pour devenir une source de sérénité plutôt que d'épuisement. Vous aspirez à une vie où vous êtes solide émotionnellement, même face aux défis, et où vous pouvez enfin lâcher prise.",
+      "principal_program": {
+        "name": "Intelligence Émotionnelle",
+        "reason": "Ce programme est conçu pour vous aider à transformer votre sensibilité en une force stable et apaisante. Vous allez apprendre à gérer le stress, à comprendre vos émotions pour ne plus être submergé par elles, et à développer une résilience émotionnelle qui vous permettra de rester serein même dans les situations difficiles. En maîtrisant l'intelligence émotionnelle, vous retrouverez l'équilibre intérieur que vous désirez tant et pourrez enfin vivre en paix, sans cette pression constante qui vous pèse."
+      },
+      "complementary_modules": [
+        {
+          "name": "Stress & conflits",
+          "reason": "Ce module vous donnera des outils concrets pour désamorcer les situations stressantes et gérer les conflits avec calme et assertivité. Il complétera parfaitement le programme Intelligence Émotionnelle en vous aidant à appliquer ces compétences dans des contextes réels, pour une transformation durable."
+        },
+        {
+          "name": "Empathie & écoute active",
+          "reason": "Étant donné votre sensibilité et votre profondeur, ce module vous permettra de mieux comprendre les autres tout en préservant votre propre équilibre. Vous apprendrez à écouter sans vous laisser submerger, ce qui renforcera votre stabilité émotionnelle et améliorera vos relations."
+        }
+      ],
+      "motivation_message": "Votre sensibilité est un super-pouvoir, et avec les bons outils, elle deviendra votre force la plus stable. Prêt(e) à transformer cette tension intérieure en une paix inébranlable ?"
+    }
+  },
+  {
+    "test_name": "Profil H - Kizomba Bien-être",
+    "expected_program": "Kizomba",
+    "actual_program": "Kizomba Bien-Être & Connexion",
+    "program_match": 1.0,
+    "keyword_coverage": 0.8333333333333334,
+    "semantic_similarity": 0.559762179851532,
+    "global_score": 0.8482738782962164,
+    "full_response": {
+      "profil_analysis": "Profil marqué par une quête profonde de confiance en soi, tant sur le plan corporel que social. Vous ressentez un décalage entre qui vous êtes et comment vous vous percevez dans votre corps et vos interactions. Ce manque d'aisance physique et cette tension intérieure semblent vous limiter dans votre plein épanouissement. Vous aspirez à une transformation concrète, presque sensorielle, qui vous permettrait de vous sentir aligné(e), présent(e) et en harmonie avec votre environnement. Votre désir de stabilité émotionnelle et corporelle est fort, et vous cherchez une solution qui vous ancrera dans une version plus confiante et authentique de vous-même.",
+      "principal_program": {
+        "name": "Kizomba Bien-Être & Connexion",
+        "reason": "Ce programme est fait pour vous, car il combine mouvement, connexion corporelle et présence sociale dans un cadre bienveillant et transformateur. La Kizomba n'est pas qu'une danse : c'est une expérience qui libère les tensions physiques, renforce la confiance en soi et crée une connexion authentique avec les autres. En vous immergeant dans cette pratique, vous allez retrouver une aisance naturelle dans votre corps, réduire vos blocages sociaux et cultiver une présence qui inspirera la sérénité et l'assurance. C'est bien plus qu'une formation : c'est une renaissance corporelle et émotionnelle."
+      },
+      "complementary_modules": [
+        {
+          "name": "Communication non verbale & charisme naturel",
+          "reason": "Ce module complémentaire renforcera les bénéfices de la Kizomba en vous aidant à décoder et maîtriser votre langage corporel. Vous apprendrez à amplifier votre présence, à gérer votre posture et à exprimer votre charisme de manière naturelle, ce qui sera un atout majeur pour consolider votre nouvelle aisance sociale et corporelle."
+        },
+        {
+          "name": "Conscience émotionnelle",
+          "reason": "Pour approfondir votre transformation intérieure, ce module vous permettra de mieux comprendre vos émotions, vos tensions et vos blocages. En développant une conscience émotionnelle aiguisée, vous pourrez ancrer les changements physiques et sociaux initiés par la Kizomba, et créer une harmonie durable entre votre corps, vos émotions et votre esprit."
+        }
+      ],
+      "motivation_message": "Votre corps est prêt à danser, votre âme est prête à s'épanouir : laissez la Kizomba vous guider vers une version de vous-même où confiance, présence et liberté ne font qu'un. Chaque pas vous rapproche de cette version rayonnante et alignée que vous méritez."
+    }
+  },
+  {
+    "test_name": "Profil Mixte A+E (Carrière + Communication)",
+    "expected_program": "Prise de Parole",
+    "actual_program": "Prise de Parole — Charisme, Clarté & Confiance",
+    "program_match": 1.0,
+    "keyword_coverage": 0.8,
+    "semantic_similarity": 0.6331146955490112,
+    "global_score": 0.8582786738872528,
+    "full_response": {
+      "profil_analysis": "Profil d'un communicateur en devenir, bloqué par un manque de confiance en son expression orale et une peur du jugement. Vous avez une richesse intérieure (connaissances, idées, ambitions) mais vous peinez à la transmettre avec l'impact et la clarté que vous méritez. Votre désir profond est d'être visible, reconnu et choisi pour ce que vous êtes vraiment, pas seulement pour ce que vous savez. Vous aspirez à une carrière alignée avec votre personnalité, où vous pourrez briller sans crainte. Votre défi ? Passer de l'intelligence discrète à l'expression charismatique, en osant prendre la parole avec assurance et authenticité.",
+      "principal_program": {
+        "name": "Prise de Parole — Charisme, Clarté & Confiance",
+        "reason": "Ce programme est fait pour vous car il cible directement vos blocages : la peur de parler, le manque de visibilité et l'envie de vous positionner avec impact. Vous allez apprendre à structurer vos idées, gérer votre stress à l'oral, et développer un charisme naturel qui captera l'attention. Imaginez-vous enfin capable de partager vos connaissances avec aisance, de captiver votre audience, et de transformer vos idées en opportunités concrètes. C'est la clé pour passer de l'invisibilité à l'influence."
+      },
+      "complementary_modules": [
+        {
+          "name": "Communication professionnelle & personnelle (Assertivité, relations saines)",
+          "reason": "Ce module renforcera votre capacité à affirmer vos idées avec bienveillance et fermeté, tout en gérant les relations professionnelles de manière saine et respectueuse. Il complétera parfaitement votre travail sur la prise de parole en vous aidant à construire des relations solides et alignées avec vos ambitions."
+        },
+        {
+          "name": "CV & Marque Personnelle",
+          "reason": "Pour concrétiser votre désir d'être visible et choisi, ce module vous permettra de créer une stratégie de marque personnelle cohérente avec votre nouvelle aisance à la parole. Vous apprendrez à mettre en valeur vos compétences et votre personnalité de manière percutante, que ce soit sur votre CV ou sur des plateformes comme LinkedIn."
+        }
+      ],
+      "motivation_message": "Votre voix mérite d'être entendue, vos idées méritent d'être partagées, et votre carrière mérite de refléter qui vous êtes vraiment. Osez briser le silence et laissez votre charisme naturel transformer chaque échange en opportunité. Le monde a besoin de ce que vous avez à dire – alors parlez, et faites-vous une place qui vous ressemble !"
+    }
+  }
+]

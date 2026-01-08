@@ -1,0 +1,18 @@
+--METADATA--
+TYPE: Catalogue
+POLES: IA & Productivité, Soft Skills/Carrière, Bien-être
+--CONTENT--
+PÔLE 1 : IA & PRODUCTIVITÉ
+- IA & Productivité (Signature) : Gagnez 1-2h par jour avec ChatGPT Pro.
+- IA Créative : Contenus & Branding.
+- IA No-Code : Créez vos assistants sans coder.
+
+PÔLE 2 : SOFT SKILLS & CARRIÈRE
+- Prise de Parole (Signature) : Charisme et confiance.
+- Intelligence Émotionnelle (Signature) : Stabilité et leadership.
+- CV & Branding : Valoriser son parcours.
+[... inclure ici les 22 formations listées dans ton texte ...]
+
+PÔLE 3 : BIEN-ÊTRE & CONNEXION
+- Kizomba Bien-être (Signature) : Réconcilier le corps et les émotions.
+- Gestion du Stress : Diminuer la fatigue mentale.
