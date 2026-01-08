@@ -13,6 +13,23 @@ Documentation Swagger interactive : `http://localhost:8000/docs`.
 
 ---
 
+## 🏗 Mise à jour du Schéma Prisma
+Afin de stocker les preuves de performance de l'IA, les champs suivants doivent être ajoutés au modèle `BlogPost` dans votre `schema.prisma` :
+
+```prisma
+model BlogPost {
+  // ... vos champs actuels (id, title, etc.)
+  
+  // NOUVEAUX CHAMPS AI
+  aiScore          Float?    // Score de cohérence globale (ex: 0.94)
+  aiMetadata       Json?     // Contient l'objet expertise_report et les sources
+  featuredProg     String?   // Le programme signature recommandé par le bot
+  isReviewRequired Boolean   @default(true) // Statut de validation humaine
+}
+```
+
+---
+
 ## 🛠 Endpoints
 
 ### 1. Générer un article
