@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     // Utilise l'URL Railway centralisée
     const fastApiUrl = process.env.FASTAPI_URL || "http://localhost:8000";
-    const apiUrl = `${fastApiUrl}/api/blog/generate`;
+    const apiUrl = `${fastApiUrl}/api/v1/generate`;
 
     console.log(`📡 Appel à ${apiUrl}`);
 
