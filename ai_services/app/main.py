@@ -63,7 +63,7 @@ async def generate_recommendation(data: QuizInput):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/blog/generate", response_model=BlogResponse)
+@app.post("/api/v1/generate", response_model=BlogResponse)
 async def generate_blog_post(request: BlogRequest):
     """
     Génère un article de blog complet avec rapport d'expertise.
