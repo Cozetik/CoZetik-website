@@ -6,12 +6,14 @@ vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
 }))
 
-vi.mock('cloudinary', () => ({
-  v2: {
-    uploader: {
-      destroy: vi.fn().mockResolvedValue({ result: 'ok' }),
-    },
-  },
+vi.mock('uploadthing/server', () => ({
+  UTApi: vi.fn().mockImplementation(() => ({
+    uploadFiles: vi.fn().mockResolvedValue({
+      data: { url: 'https://utfs.io/f/test.jpg', key: 'test' },
+      error: null,
+    }),
+    deleteFiles: vi.fn().mockResolvedValue({ success: true }),
+  })),
 }))
 
 describe('Blog API', () => {
