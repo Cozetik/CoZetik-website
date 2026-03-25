@@ -54,13 +54,13 @@ import { FormationStepsField } from "./formation-steps-field";
 
 const packSchema = z.object({
   name: z.string().min(1, "Le nom du pack est requis"),
-  description: z.string().nullable().optional(),
+  description: z.string().optional().nullable(),
   price: z.number().min(0, "Le prix doit être positif ou zéro"),
-  originalPrice: z.number().nullable().optional(),
-  savings: z.string().nullable().optional(),
+  originalPrice: z.number().optional().nullable(),
+  savings: z.string().optional().nullable(),
   features: z.string().min(1, "Au moins une inclusion est requise"),
-  isPopular: z.boolean().default(false),
-  order: z.number().int().min(0).default(0),
+  isPopular: z.boolean(),
+  order: z.number().int().min(0),
 });
 
 const stepSchema = z.object({
@@ -404,6 +404,7 @@ export default function NewFormationForm({
                       placeholder="Description courte de la formation..."
                       className="min-h-[100px] border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none w-full text-sm sm:text-base"
                       {...field}
+                      value={field.value ?? ""}
                       disabled={isLoading}
                     />
                   </FormControl>
@@ -428,6 +429,7 @@ export default function NewFormationForm({
                       placeholder="Décrivez le programme complet de la formation..."
                       className="min-h-[200px] border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none w-full text-sm sm:text-base"
                       {...field}
+                      value={field.value ?? ""}
                       disabled={isLoading}
                     />
                   </FormControl>

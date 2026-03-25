@@ -32,12 +32,12 @@ import * as z from "zod";
 
 const packSchema = z.object({
   name: z.string().min(1, "Le nom est requis"),
-  description: z.string().optional(),
+  description: z.string().optional().nullable(),
   price: z.number({ message: "Le prix doit être un nombre" }).positive("Le prix doit être positif"),
   originalPrice: z.number().positive().optional().nullable(),
-  savings: z.string().optional(),
+  savings: z.string().optional().nullable(),
   features: z.string().min(1, "Au moins une inclusion est requise"),
-  isPopular: z.boolean().default(false),
+  isPopular: z.boolean(),
   order: z
     .number({ message: "L'ordre doit être un nombre" })
     .int("L'ordre doit être un nombre entier")
@@ -220,6 +220,7 @@ export default function AddPackDialog({
                           placeholder="Ex: Idéal pour démarrer"
                           className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                           {...field}
+                          value={field.value ?? ""}
                           disabled={isLoading}
                         />
                       </FormControl>
@@ -303,6 +304,7 @@ export default function AddPackDialog({
                           placeholder="Ex: Soit 400€ d'économies"
                           className="border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
                           {...field}
+                          value={field.value ?? ""}
                           disabled={isLoading}
                         />
                       </FormControl>

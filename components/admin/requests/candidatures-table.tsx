@@ -67,6 +67,8 @@ interface Candidature {
   acceptNewsletter: boolean;
   status: "NEW" | "TREATED" | "ARCHIVED";
   createdAt: string;
+  pack: string | null;
+  cpfAmount: number | null;
 }
 
 interface CandidaturesTableProps {

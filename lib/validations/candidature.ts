@@ -64,6 +64,7 @@ export const candidatureFormSchema = z.object({
       "Vous devez accepter le traitement de vos données"
     ),
   acceptNewsletter: z.boolean().optional(),
+  cpfAmount: z.number().nullable().optional(),
 });
 
 // Schéma pour l'API (transforme birthDate en Date)

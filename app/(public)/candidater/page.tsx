@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -112,6 +113,7 @@ function CandidaterContent() {
       motivation: "",
       acceptPrivacy: false,
       acceptNewsletter: false,
+      cpfAmount: null,
     },
   });
 
@@ -152,6 +154,7 @@ function CandidaterContent() {
                 : "",
             pack: packFromUrl || "",
             motivation: "",
+            cpfAmount: null,
           });
 
           if (formationIdFromUrl) {
@@ -175,7 +178,7 @@ function CandidaterContent() {
     }
 
     fetchData();
-  }, [categoryIdFromUrl, formationIdFromUrl, reset, getValues]);
+  }, [categoryIdFromUrl, formationIdFromUrl, packFromUrl, reset, getValues]);
 
   const selectedCategory = form.watch("categoryFormation");
   useEffect(() => {
@@ -831,6 +834,32 @@ function CandidaterContent() {
                           ))}
                         </SelectContent>
                       </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="cpfAmount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
+                        Montant de votre CPF (en €)
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Ex: 1500"
+                          className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
+                          {...field}
+                          value={field.value ?? ""}
+                          onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-xs text-gray-500">
+                        Indiquez le montant disponible sur votre compte CPF si vous souhaitez l&apos;utiliser pour financer votre formation.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

@@ -280,6 +280,7 @@ model Candidature {
   categoryFormation String
   birthDate         DateTime
   pack              String?
+  cpfAmount         Float?
 
   @@map("candidatures")
 }

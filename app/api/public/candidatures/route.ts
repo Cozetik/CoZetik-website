@@ -102,6 +102,7 @@ export async function POST(request: NextRequest) {
       cv: formData.get("cv") as File | null,
       coverLetter: formData.get("coverLetter") as File | null,
       otherDocument: formData.get("otherDocument") as File | null,
+      cpfAmount: formData.get("cpfAmount") ? parseFloat(formData.get("cpfAmount") as string) : null,
     };
 
     // Validation basique
@@ -190,6 +191,7 @@ export async function POST(request: NextRequest) {
         otherDocumentUrl: otherDocumentUrl,
         acceptPrivacy: data.acceptPrivacy,
         acceptNewsletter: data.acceptNewsletter,
+        cpfAmount: data.cpfAmount,
         status: "NEW",
       },
     });
@@ -235,6 +237,7 @@ export async function POST(request: NextRequest) {
           <p><strong>Niveau d'études:</strong> ${data.educationLevel}</p>
           <p><strong>Situation:</strong> ${data.currentSituation}</p>
           <p><strong>Pack choisi:</strong> ${data.pack || "Non spécifié"}</p>
+          <p><strong>Montant CPF:</strong> ${data.cpfAmount ? `${data.cpfAmount}€` : "Non spécifié"}</p>
           <p><strong>Motivation:</strong> ${data.motivation}</p>
           ${cvUrl ? `<p><strong>CV:</strong> <a href="${cvUrl}">Télécharger</a></p>` : ""}
           ${coverLetterUrl ? `<p><strong>Lettre de motivation:</strong> <a href="${coverLetterUrl}">Télécharger</a></p>` : ""}

@@ -55,6 +55,8 @@ interface Candidature {
   acceptNewsletter: boolean;
   status: "NEW" | "TREATED" | "ARCHIVED";
   createdAt: string;
+  cpfAmount: number | null;
+  pack: string | null;
 }
 
 interface ViewCandidatureDialogProps {
@@ -350,7 +352,7 @@ export function ViewCandidatureDialog({
                 </div>
 
                 {candidature.startDate && (
-                  <div className="sm:col-span-2">
+                  <div>
                     <label className="text-[9px] xs:text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 xs:mb-1.5 block">
                       Date de début souhaitée
                     </label>
@@ -358,6 +360,28 @@ export function ViewCandidatureDialog({
                       <Calendar className="h-3 w-3 xs:h-3.5 xs:w-3.5 sm:h-4 sm:w-4 text-gray-400" />
                       {candidature.startDate}
                     </p>
+                  </div>
+                )}
+
+                {candidature.cpfAmount !== null && (
+                  <div>
+                    <label className="text-[9px] xs:text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 xs:mb-1.5 block">
+                      Montant CPF
+                    </label>
+                    <p className="text-xs xs:text-sm sm:text-base font-semibold text-green-600">
+                      {candidature.cpfAmount} €
+                    </p>
+                  </div>
+                )}
+
+                {candidature.pack && (
+                  <div>
+                    <label className="text-[9px] xs:text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 xs:mb-1.5 block">
+                      Pack choisi
+                    </label>
+                    <Badge variant="outline" className="text-xs font-sans border-[#ADA6DB] text-[#ADA6DB]">
+                      {candidature.pack}
+                    </Badge>
                   </div>
                 )}
               </div>

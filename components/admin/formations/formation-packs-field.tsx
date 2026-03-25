@@ -127,7 +127,7 @@ export function FormationPacksField({ form }: FormationPacksFieldProps) {
                         <FormItem>
                           <FormLabel className="text-xs font-semibold text-gray-600 uppercase">Nom du pack</FormLabel>
                           <FormControl>
-                            <Input placeholder="Découverte, Premium..." {...field} className="focus:ring-blue-500/20" />
+                            <Input placeholder="Découverte, Premium..." {...field} value={field.value ?? ""} className="focus:ring-blue-500/20" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -217,6 +217,7 @@ export function FormationPacksField({ form }: FormationPacksFieldProps) {
                             placeholder="1 formation&#10;30h de formation..." 
                             className="min-h-[100px] font-mono text-sm resize-none"
                             {...field}
+                            value={field.value ?? ""}
                           />
                         </FormControl>
                         <FormMessage />
