@@ -43,8 +43,8 @@ export function Header() {
         "fixed top-0 z-50 w-full transition-all duration-300 ease-out",
         isHidden && "-translate-y-full",
         isAtTop
-          ? "border-b border-white/0 bg-transparent"
-          : "border-b border-white/10 bg-cozetik-black/95 backdrop-blur-md shadow-[0_2px_8px_rgba(0,0,0,0.1)]"
+          ? "bg-gradient-to-b from-black/40 via-black/20 to-transparent"
+          : "bg-cozetik-black/95 backdrop-blur-md shadow-[0_2px_8px_rgba(0,0,0,0.1)]"
       )}
     >
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-10">
@@ -81,9 +81,9 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "font-sans text-base font-normal text-cozetik-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cozetik-beige focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-none",
+                  "font-sans text-base font-normal text-cozetik-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cozetik-beige focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-none drop-shadow-sm",
                   item.hoverColor,
-                  isActive && `${activeColor} font-semibold`
+                  isActive && `${activeColor} font-semibold drop-shadow-md`
                 )}
               >
                 {item.label}

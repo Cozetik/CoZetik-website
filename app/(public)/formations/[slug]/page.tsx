@@ -3,6 +3,8 @@ import FormationFAQ from "@/components/formations/formation-faq";
 import FormationHeroEffortel from "@/components/formations/formation-hero-effortel";
 import FormationKeyInfos from "@/components/formations/formation-key-infos";
 import FormationObjectives from "@/components/formations/formation-objectives";
+import FormationPacks from "@/components/formations/formation-packs";
+import { CertificationBadges } from "@/components/formations/certification-badges";
 import { StructuredData } from "@/components/seo/structured-data";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
@@ -33,6 +35,11 @@ async function getFormation(slug: string) {
           },
         },
         faqs: {
+          orderBy: {
+            order: "asc",
+          },
+        },
+        packs: {
           orderBy: {
             order: "asc",
           },
@@ -182,10 +189,17 @@ export default async function FormationPage({ params }: FormationPageProps) {
 
         {/* 2. Infos Clés - Beige (Prix, Durée, Niveau, etc.) */}
         <FormationKeyInfos formation={formation} />
-
+        
         {/* 3. Objectifs - Beige */}
         {formation.objectives.length > 0 && (
-          <FormationObjectives objectives={formation.objectives} />
+          <>
+            <FormationObjectives objectives={formation.objectives} />
+            <div className="bg-cozetik-beige pb-12">
+              <div className="container mx-auto px-4 md:px-10 lg:px-20">
+                <CertificationBadges />
+              </div>
+            </div>
+          </>
         )}
 
         {/* 4. CTA Milieu - Vert */}
@@ -196,6 +210,15 @@ export default async function FormationPage({ params }: FormationPageProps) {
           categoryId={formation.category.id}
           formationId={formation.id}
         />
+
+        {/* 5. Packs - Blanc */}
+        {formation.packs.length > 0 && (
+          <FormationPacks
+            packs={formation.packs}
+            formationId={formation.id}
+            categoryId={formation.category.id}
+          />
+        )}
 
         {/* 6. FAQ - Blanc */}
         {formation.faqs.length > 0 && <FormationFAQ faqs={formation.faqs} />}

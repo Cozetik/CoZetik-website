@@ -52,11 +52,13 @@ export async function POST(request: NextRequest) {
       currentSituation: formData.get("currentSituation") as string,
       startDate: formData.get("startDate") as string,
       motivation: formData.get("motivation") as string,
+      pack: (formData.get("pack") as string) || "",
       acceptPrivacy: formData.get("acceptPrivacy") === "true",
       acceptNewsletter: formData.get("acceptNewsletter") === "true",
       cv: formData.get("cv") as File | null,
       coverLetter: formData.get("coverLetter") as File | null,
       otherDocument: formData.get("otherDocument") as File | null,
+      cpfAmount: formData.get("cpfAmount") ? parseFloat(formData.get("cpfAmount") as string) : null,
     };
 
     // Validation basique
@@ -131,11 +133,13 @@ export async function POST(request: NextRequest) {
         currentSituation: data.currentSituation,
         startDate: data.startDate || null,
         motivation: data.motivation,
+        pack: data.pack || null,
         cvUrl: cvUrl,
         coverLetterUrl: coverLetterUrl,
         otherDocumentUrl: otherDocumentUrl,
         acceptPrivacy: data.acceptPrivacy,
         acceptNewsletter: data.acceptNewsletter,
+        cpfAmount: data.cpfAmount,
         status: "NEW",
       },
     });
@@ -180,6 +184,8 @@ export async function POST(request: NextRequest) {
           <p><strong>Formation:</strong> ${data.formation}</p>
           <p><strong>Niveau d'études:</strong> ${data.educationLevel}</p>
           <p><strong>Situation:</strong> ${data.currentSituation}</p>
+          <p><strong>Pack choisi:</strong> ${data.pack || "Non spécifié"}</p>
+          <p><strong>Montant CPF:</strong> ${data.cpfAmount ? `${data.cpfAmount}€` : "Non spécifié"}</p>
           <p><strong>Motivation:</strong> ${data.motivation}</p>
           ${cvUrl ? `<p><strong>CV:</strong> <a href="${cvUrl}">Télécharger</a></p>` : ""}
           ${coverLetterUrl ? `<p><strong>Lettre de motivation:</strong> <a href="${coverLetterUrl}">Télécharger</a></p>` : ""}

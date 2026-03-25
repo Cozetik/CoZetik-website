@@ -16,7 +16,6 @@ interface Formation {
   title: string
   slug: string
   description: string
-  price: number | null
   duration: string | null
   imageUrl: string | null
   categoryId: string

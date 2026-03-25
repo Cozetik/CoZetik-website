@@ -14,6 +14,12 @@ export default async function EditFormationPage({
       where: { id },
       include: {
         category: true,
+        packs: {
+          orderBy: { order: "asc" },
+        },
+        steps: {
+          orderBy: { order: "asc" },
+        },
       },
     }),
     prisma.category.findMany({

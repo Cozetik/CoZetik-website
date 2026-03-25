@@ -3,13 +3,31 @@ import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
+const packSchema = z.object({
+  name: z.string().min(1, 'Le nom du pack est requis'),
+  description: z.string().optional().nullable(),
+  price: z.number().min(0, 'Le prix doit être positif ou zéro'),
+  originalPrice: z.number().positive().optional().nullable(),
+  savings: z.string().optional().nullable(),
+  features: z.array(z.string()).min(1, 'Au moins une inclusion est requise'),
+  isPopular: z.boolean().default(false),
+  order: z.number().int().min(0).default(0),
+})
+
+const stepSchema = z.object({
+  order: z.number().int().min(0),
+  title: z.string().min(1, 'Le titre est requis'),
+  description: z.string().min(1, 'La description est requise'),
+  duration: z.string().optional().nullable(),
+  keyPoints: z.array(z.string()).optional().default([]),
+})
+
 const formationSchema = z.object({
   title: z.string().min(1, 'Le titre est requis').max(200),
   slug: z.string().min(1, 'Le slug est requis'),
   categoryId: z.string().min(1, 'La catégorie est requise'),
   description: z.string().min(10, 'Description trop courte').max(1000),
   program: z.string().min(20, 'Le programme doit être détaillé'),
-  price: z.number().positive('Le prix doit être positif').optional().nullable(),
   duration: z.string().optional().nullable(),
   imageUrl: z.string().optional(),
   visible: z.boolean(),
@@ -24,6 +42,8 @@ const formationSchema = z.object({
   rating: z.number().min(0).max(5).optional().nullable(),
   reviewsCount: z.number().int().min(0).default(0),
   studentsCount: z.number().int().min(0).default(0),
+  packs: z.array(packSchema).optional().default([]),
+  steps: z.array(stepSchema).optional().default([]),
 })
 
 export async function GET() {
@@ -32,6 +52,9 @@ export async function GET() {
       orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
       include: {
         category: true,
+        packs: {
+          orderBy: { order: 'asc' },
+        },
         _count: {
           select: { sessions: true, inscriptions: true },
         },
@@ -79,31 +102,29 @@ export async function POST(request: Request) {
       )
     }
 
-    // Créer la formation
+    // Créer la formation avec ses packs et steps
+    const { packs, steps, ...formationData } = validatedData
+
     const formation = await prisma.formation.create({
       data: {
-        title: validatedData.title,
-        slug: validatedData.slug,
-        categoryId: validatedData.categoryId,
-        description: validatedData.description,
-        program: validatedData.program,
-        price: validatedData.price,
-        duration: validatedData.duration,
-        imageUrl: validatedData.imageUrl || null,
-        visible: validatedData.visible,
-        order: validatedData.order,
-        level: validatedData.level,
-        maxStudents: validatedData.maxStudents,
-        prerequisites: validatedData.prerequisites,
+        ...formationData,
         objectives: validatedData.objectives,
-        isCertified: validatedData.isCertified,
-        isFlexible: validatedData.isFlexible,
-        rating: validatedData.rating,
-        reviewsCount: validatedData.reviewsCount,
-        studentsCount: validatedData.studentsCount,
+        packs: {
+          create: packs.map((pack) => ({
+            ...pack,
+            features: pack.features,
+          })),
+        },
+        steps: {
+          create: steps.map((step) => ({
+            ...step,
+            keyPoints: step.keyPoints,
+          })),
+        },
       },
       include: {
-        category: true,
+        packs: true,
+        steps: true,
       },
     })
 

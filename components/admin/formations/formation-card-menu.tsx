@@ -15,6 +15,7 @@ import {
   HelpCircle,
   ListOrdered,
   MoreVertical,
+  Package,
   Settings,
 } from "lucide-react";
 import Link from "next/link";
@@ -26,6 +27,7 @@ interface FormationCardMenuProps {
   stepsCount: number;
   faqsCount: number;
   sessionsCount: number;
+  packsCount: number;
 }
 
 export default function FormationCardMenu({
@@ -34,6 +36,7 @@ export default function FormationCardMenu({
   stepsCount,
   faqsCount,
   sessionsCount,
+  packsCount,
 }: FormationCardMenuProps) {
   return (
     <DropdownMenu>
@@ -129,6 +132,24 @@ export default function FormationCardMenu({
               <span className="text-sm text-gray-700">Sessions</span>
               <span className="ml-auto text-xs font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
                 {sessionsCount}
+              </span>
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            asChild
+            className="focus:bg-blue-50 cursor-pointer rounded-lg"
+          >
+            <Link
+              href={`/admin/formations/${formationId}/packs`}
+              className="flex items-center px-2 py-2"
+            >
+              <div className="flex items-center justify-center w-7 h-7 rounded-md bg-blue-100 mr-2.5">
+                <Package className="h-3.5 w-3.5 text-blue-600" />
+              </div>
+              <span className="text-sm text-gray-700">Packs</span>
+              <span className="ml-auto text-xs font-medium text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">
+                {packsCount}
               </span>
             </Link>
           </DropdownMenuItem>
