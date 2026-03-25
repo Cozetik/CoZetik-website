@@ -1,4 +1,4 @@
-import type { NextAuthConfig } from "next-auth"
+import type { NextAuthConfig } from "next-auth";
 
 /**
  * Configuration légère pour NextAuth - compatible Edge Runtime
@@ -11,29 +11,28 @@ export const authConfig: NextAuthConfig = {
   providers: [], // Les providers sont définis dans auth.ts (côté serveur uniquement)
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user
-      const isAdminRoute = nextUrl.pathname.startsWith('/admin')
-      const isLoginPage = nextUrl.pathname === '/auth-admin'
-      const isAdminLogin = nextUrl.pathname === '/admin/login'
+      const isLoggedIn = !!auth?.user;
+      const isAdminRoute = nextUrl.pathname.startsWith("/admin");
+      const isLoginPage = nextUrl.pathname === "/auth-admin";
+      const isAdminLogin = nextUrl.pathname === "/admin/login";
 
-      // Rediriger /admin/login vers /auth-admin
       if (isAdminLogin) {
-        return Response.redirect(new URL('/auth-admin', nextUrl.origin))
+        return Response.redirect(new URL("/auth-admin", nextUrl.origin));
       }
 
       // Ne pas rediriger si on est déjà sur la page de login
       if (isLoginPage) {
-        return true
+        return true;
       }
 
       // Protéger toutes les routes /admin/*
       if (isAdminRoute && !isLoggedIn) {
-        const loginUrl = new URL('/auth-admin', nextUrl.origin)
-        loginUrl.searchParams.set('callbackUrl', nextUrl.pathname)
-        return Response.redirect(loginUrl)
+        const loginUrl = new URL("/auth-admin", nextUrl.origin);
+        loginUrl.searchParams.set("callbackUrl", nextUrl.pathname);
+        return Response.redirect(loginUrl);
       }
 
-      return true
+      return true;
     },
   },
   pages: {
@@ -42,4 +41,4 @@ export const authConfig: NextAuthConfig = {
   session: {
     strategy: "jwt",
   },
-}
+};
