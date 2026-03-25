@@ -17,7 +17,6 @@ export const mockFormation = {
   categoryId: 'cat-1',
   description: 'Description de la formation test qui est suffisamment longue',
   program: 'Programme détaillé de la formation avec beaucoup de contenu',
-  price: 299.99,
   duration: '3 jours',
   imageUrl: null,
   visible: true,

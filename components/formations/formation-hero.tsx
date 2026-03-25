@@ -10,7 +10,6 @@ interface FormationHeroProps {
   formation: {
     title: string
     description: string
-    price: number | null
     duration: string | null
     level: string | null
     maxStudents: number | null
@@ -93,15 +92,6 @@ export default function FormationHero({ formation }: FormationHeroProps) {
           >
             <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-8 space-y-6">
 
-              {/* Prix */}
-              {formation.price && (
-                <div>
-                  <p className="text-sm text-white/60 mb-1">Prix</p>
-                  <p className="font-display font-bold text-4xl text-cozetik-green">
-                    {formation.price}€ <span className="text-lg text-white/60">HT</span>
-                  </p>
-                </div>
-              )}
 
               {/* Durée */}
               {formation.duration && (

@@ -134,7 +134,6 @@ interface Formation {
   categoryId: string;
   description: string;
   program: string;
-  price: number | null;
   duration: string | null;
   imageUrl: string | null;
   visible: boolean;

@@ -11,7 +11,6 @@ interface FormationCardProps {
     title: string
     slug: string
     description: string
-    price: number | null
     duration: string | null
     imageUrl: string | null
     category: {
@@ -64,12 +63,6 @@ export function FormationCard({ formation }: FormationCardProps) {
             <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
               <span>{formation.duration}</span>
-            </div>
-          )}
-          {formation.price !== null && (
-            <div className="flex items-center gap-1">
-              <Euro className="h-4 w-4" />
-              <span>{formation.price.toFixed(2)} €</span>
             </div>
           )}
         </div>

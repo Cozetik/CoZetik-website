@@ -60,7 +60,6 @@ describe('Formations API', () => {
       categoryId: 'cat-1',
       description: 'Description de la nouvelle formation avec assez de caractères',
       program: 'Programme détaillé de la formation avec beaucoup de contenu pour passer la validation',
-      price: 199.99,
       duration: '2 jours',
       visible: true,
       order: 0,
@@ -83,19 +82,6 @@ describe('Formations API', () => {
       })
 
       expect(result.title).toBe('Nouvelle Formation')
-      expect(result.price).toBe(199.99)
-    })
-
-    it('validates price is a number not string', async () => {
-      // This test verifies that price should be number type
-      const formationWithStringPrice = {
-        ...validFormationData,
-        price: '199.99' as unknown as number, // Simulating wrong type
-      }
-
-      // In real API, Zod would reject this
-      expect(typeof formationWithStringPrice.price).toBe('string')
-      expect(typeof validFormationData.price).toBe('number')
     })
 
     it('validates order is a number', async () => {
@@ -130,16 +116,14 @@ describe('Formations API', () => {
       prismaMock.formation.update.mockResolvedValue({
         ...mockFormation,
         title: 'Titre Modifié',
-        price: 399.99,
       })
 
       const result = await prismaMock.formation.update({
         where: { id: 'form-1' },
-        data: { title: 'Titre Modifié', price: 399.99 },
+        data: { title: 'Titre Modifié' },
       })
 
       expect(result.title).toBe('Titre Modifié')
-      expect(result.price).toBe(399.99)
     })
 
     it('validates slug uniqueness excluding self', async () => {
