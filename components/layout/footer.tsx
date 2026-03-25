@@ -70,6 +70,14 @@ async function getFooterFormations() {
 export async function Footer() {
   const formations = await getFooterFormations();
 
+  const displayFormations =
+    formations.length > 0
+      ? formations.map((formation) => ({
+          href: `/formations/${formation.slug}`,
+          label: formation.title,
+        }))
+      : formationLinks;
+
   return (
     <footer className="bg-cozetik-black">
       <div className="container w-full px-4 py-12">
@@ -113,7 +121,7 @@ export async function Footer() {
                 FORMATIONS
               </h3>
               <ul>
-                {formationLinks.map((link) => (
+                {displayFormations.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}

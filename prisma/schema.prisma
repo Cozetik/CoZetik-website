@@ -279,8 +279,9 @@ model Candidature {
   updatedAt         DateTime      @updatedAt
   categoryFormation String
   birthDate         DateTime
-  pack              String?
-  cpfAmount         Float?
+  pack                 String?
+  cpfAmount            Float?
+  additionalFormations String[]      @default([])
 
   @@map("candidatures")
 }

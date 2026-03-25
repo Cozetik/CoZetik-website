@@ -58,12 +58,6 @@ const START_DATES = [
   { value: "a-definir", label: "À définir" },
 ];
 
-type Category = {
-  id: string;
-  name: string;
-  slug: string;
-};
-
 type Pack = {
   id: string;
   name: string;
@@ -79,13 +73,11 @@ type Formation = {
 
 function CandidaterContent() {
   const searchParams = useSearchParams();
-  const categoryIdFromUrl = searchParams.get("categoryId");
   const formationIdFromUrl = searchParams.get("formationId");
   const packFromUrl = searchParams.get("pack");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [formations, setFormations] = useState<Formation[]>([]);
   const [filteredFormations, setFilteredFormations] = useState<Formation[]>([]);
   const [availablePacks, setAvailablePacks] = useState<Pack[]>([]);
@@ -93,7 +85,7 @@ function CandidaterContent() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   const form = useForm<CandidatureFormData>({
-    resolver: zodResolver(candidatureFormSchema),
+    resolver: zodResolver(candidatureFormSchema) as any,
     defaultValues: {
       civility: "M",
       firstName: "",
@@ -104,7 +96,7 @@ function CandidaterContent() {
       address: "",
       postalCode: "",
       city: "",
-      categoryFormation: categoryIdFromUrl || "",
+      categoryFormation: "",
       formation: formationIdFromUrl || "",
       educationLevel: "",
       currentSituation: "",
@@ -114,6 +106,7 @@ function CandidaterContent() {
       acceptPrivacy: false,
       acceptNewsletter: false,
       cpfAmount: null,
+      additionalFormations: [],
     },
   });
 
@@ -123,46 +116,35 @@ function CandidaterContent() {
     async function fetchData() {
       setIsLoadingData(true);
       try {
-        const [categoriesRes, formationsRes] = await Promise.all([
-          fetch("/api/categories"),
-          fetch("/api/formations"),
-        ]);
+        const formationsRes = await fetch("/api/formations");
 
-        if (!categoriesRes.ok || !formationsRes.ok) {
+        if (!formationsRes.ok) {
           throw new Error("Erreur lors du chargement des données");
         }
-
-        const categoriesData = await categoriesRes.json();
         const formationsData = await formationsRes.json();
-
-        setCategories(categoriesData);
         setFormations(formationsData);
+        setFilteredFormations(formationsData);
 
-        if (categoryIdFromUrl) {
-          const filtered = formationsData.filter(
-            (f: Formation) => f.categoryId === categoryIdFromUrl
-          );
-          setFilteredFormations(filtered);
+        const currentValues = getValues();
+        const selectedFormationFromUrl =
+          formationIdFromUrl &&
+          formationsData.find((f: Formation) => f.id === formationIdFromUrl);
 
-          reset({
-            ...getValues(),
-            categoryFormation: categoryIdFromUrl,
-            formation:
-              formationIdFromUrl &&
-              filtered.find((f: Formation) => f.id === formationIdFromUrl)
-                ? formationIdFromUrl
-                : "",
-            pack: packFromUrl || "",
-            motivation: "",
-            cpfAmount: null,
-          });
+        reset({
+          ...currentValues,
+          categoryFormation: selectedFormationFromUrl
+            ? selectedFormationFromUrl.categoryId
+            : "",
+          formation: selectedFormationFromUrl
+            ? selectedFormationFromUrl.id
+            : "",
+          pack: packFromUrl || "",
+          motivation: "",
+          cpfAmount: null,
+        });
 
-          if (formationIdFromUrl) {
-            const selectedF = formationsData.find((f: Formation) => f.id === formationIdFromUrl);
-            if (selectedF) {
-              setAvailablePacks(selectedF.packs || []);
-            }
-          }
+        if (selectedFormationFromUrl) {
+          setAvailablePacks(selectedFormationFromUrl.packs || []);
         }
 
         setIsInitialized(true);
@@ -178,30 +160,7 @@ function CandidaterContent() {
     }
 
     fetchData();
-  }, [categoryIdFromUrl, formationIdFromUrl, packFromUrl, reset, getValues]);
-
-  const selectedCategory = form.watch("categoryFormation");
-  useEffect(() => {
-    if (!isInitialized) return;
-
-    if (selectedCategory) {
-      const filtered = formations.filter(
-        (f) => f.categoryId === selectedCategory
-      );
-      setFilteredFormations(filtered);
-
-      const currentFormation = form.getValues("formation");
-      if (
-        currentFormation &&
-        !filtered.find((f) => f.id === currentFormation)
-      ) {
-        form.setValue("formation", "");
-      }
-    } else {
-      setFilteredFormations([]);
-      form.setValue("formation", "");
-    }
-  }, [selectedCategory, formations, form, isInitialized]);
+  }, [formationIdFromUrl, packFromUrl, reset, getValues]);
 
   const selectedFormation = form.watch("formation");
   useEffect(() => {
@@ -211,13 +170,19 @@ function CandidaterContent() {
       const formation = formations.find((f) => f.id === selectedFormation);
       if (formation) {
         setAvailablePacks(formation.packs || []);
-        
+
+        // Met à jour automatiquement la catégorie en fonction de la formation choisie
+        form.setValue("categoryFormation", formation.categoryId);
+
         // Si le pack actuel n'est pas dans la liste des packs de la nouvelle formation, on reset
         // Sauf si on vient d'initialiser avec packFromUrl
         const currentPack = form.getValues("pack");
-        if (currentPack && !formation.packs?.find(p => p.name === currentPack)) {
-           // On ne reset que si on n'est pas dans la phase d'initialisation ou si le pack ne correspond vraiment pas
-           form.setValue("pack", "");
+        if (
+          currentPack &&
+          !formation.packs?.find((p) => p.name === currentPack)
+        ) {
+          // On ne reset que si on n'est pas dans la phase d'initialisation ou si le pack ne correspond vraiment pas
+          form.setValue("pack", "");
         }
       } else {
         setAvailablePacks([]);
@@ -226,21 +191,87 @@ function CandidaterContent() {
     } else {
       setAvailablePacks([]);
       form.setValue("pack", "");
+      form.setValue("categoryFormation", "");
     }
+
+    // À chaque changement de formation principale, on réinitialise les formations complémentaires
+    form.setValue("additionalFormations", []);
   }, [selectedFormation, formations, form, isInitialized]);
+
+  const selectedPackName = form.watch("pack");
+  const selectedFormationId = form.watch("formation");
+  const additionalFormations = form.watch("additionalFormations");
+
+  const normalizedPackName = (selectedPackName || "").toLowerCase();
+  const showAdditional1 =
+    normalizedPackName.includes("premium") ||
+    normalizedPackName.includes("expert");
+  const showAdditional2 = normalizedPackName.includes("expert");
+
+  function getAdditionalFormationOptions(index: number) {
+    const currentAdditional: string[] = (additionalFormations || []).filter(
+      (id: string) => id && id.trim() !== ""
+    );
+
+    const otherSelected = currentAdditional.filter((_, i) => i !== index);
+
+    return formations.filter((formation) => {
+      if (formation.id === selectedFormationId) return false;
+      if (otherSelected.includes(formation.id)) return false;
+      return true;
+    });
+  }
+
+  // Ajuster le nombre de formations complémentaires en fonction du pack
+  useEffect(() => {
+    const packName = (form.getValues("pack") || "").toLowerCase();
+    const current = (form.getValues("additionalFormations") || []).filter(
+      (id: string) => id && id.trim() !== ""
+    );
+
+    if (!packName.includes("premium") && !packName.includes("expert")) {
+      if (current.length > 0) {
+        form.setValue("additionalFormations", []);
+      }
+      return;
+    }
+
+    if (packName.includes("premium") && !packName.includes("expert")) {
+      if (current.length > 1) {
+        form.setValue("additionalFormations", current.slice(0, 1));
+      }
+    } else if (packName.includes("expert")) {
+      if (current.length > 2) {
+        form.setValue("additionalFormations", current.slice(0, 2));
+      }
+    }
+  }, [form, selectedPackName]);
 
   async function onSubmit(data: CandidatureFormData) {
     setIsSubmitting(true);
 
     try {
+      const sanitizedData: CandidatureFormData = {
+        ...data,
+        additionalFormations: Array.from(
+          new Set(
+            (data.additionalFormations || []).filter(
+              (id) => id && id.trim() !== ""
+            )
+          )
+        ),
+      };
+
       const formData = new FormData();
-      Object.entries(data).forEach(([key, value]) => {
+      Object.entries(sanitizedData).forEach(([key, value]) => {
         if (key === "birthDate" && typeof value === "string") {
           formData.append(key, new Date(value).toISOString());
         } else if (value instanceof File) {
           formData.append(key, value);
         } else if (typeof value === "boolean") {
           formData.append(key, value.toString());
+        } else if (Array.isArray(value)) {
+          value.forEach((v) => formData.append(key, v));
         } else if (value) {
           formData.append(key, value.toString());
         }
@@ -600,47 +631,6 @@ function CandidaterContent() {
 
                 <FormField
                   control={form.control}
-                  name="categoryFormation"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
-                        Catégorie de formation souhaitée *
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value || ""}
-                        disabled={isLoadingData}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
-                            <SelectValue
-                              placeholder={
-                                isLoadingData
-                                  ? "Chargement..."
-                                  : "Sélectionnez une catégorie"
-                              }
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {categories.map((category) => (
-                            <SelectItem
-                              key={category.id}
-                              value={category.id}
-                              className="font-sans"
-                            >
-                              {category.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
                   name="formation"
                   render={({ field }) => (
                     <FormItem>
@@ -651,9 +641,7 @@ function CandidaterContent() {
                         onValueChange={field.onChange}
                         value={field.value || ""}
                         disabled={
-                          isLoadingData ||
-                          !selectedCategory ||
-                          filteredFormations.length === 0
+                          isLoadingData || filteredFormations.length === 0
                         }
                       >
                         <FormControl>
@@ -662,11 +650,9 @@ function CandidaterContent() {
                               placeholder={
                                 isLoadingData
                                   ? "Chargement..."
-                                  : !selectedCategory
-                                    ? "Sélectionnez d'abord une catégorie"
-                                    : filteredFormations.length === 0
-                                      ? "Aucune formation disponible"
-                                      : "Sélectionnez une formation"
+                                  : filteredFormations.length === 0
+                                    ? "Aucune formation disponible"
+                                    : "Sélectionnez une formation"
                               }
                             />
                           </SelectTrigger>
@@ -687,6 +673,124 @@ function CandidaterContent() {
                     </FormItem>
                   )}
                 />
+
+                {showAdditional1 && (
+                  <FormField
+                    control={form.control}
+                    name="additionalFormations"
+                    render={() => {
+                      const options = getAdditionalFormationOptions(0);
+                      const value = (additionalFormations || [])[0] || "";
+
+                      return (
+                        <FormItem>
+                          <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
+                            Formation complémentaire 1
+                          </FormLabel>
+                          <Select
+                            onValueChange={(val) => {
+                              const current =
+                                form.getValues("additionalFormations") || [];
+                              const next = [...current];
+                              next[0] = val;
+                              form.setValue("additionalFormations", next);
+                            }}
+                            value={value}
+                            disabled={
+                              isLoadingData ||
+                              !selectedFormationId ||
+                              options.length === 0
+                            }
+                          >
+                            <FormControl>
+                              <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
+                                <SelectValue
+                                  placeholder={
+                                    !selectedFormationId
+                                      ? "Sélectionnez d'abord une formation principale"
+                                      : options.length === 0
+                                        ? "Aucune autre formation disponible dans cette catégorie"
+                                        : "Sélectionnez une formation complémentaire"
+                                  }
+                                />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {options.map((formation) => (
+                                <SelectItem
+                                  key={formation.id}
+                                  value={formation.id}
+                                  className="font-sans"
+                                >
+                                  {formation.title}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                )}
+
+                {showAdditional2 && (
+                  <FormField
+                    control={form.control}
+                    name="additionalFormations"
+                    render={() => {
+                      const options = getAdditionalFormationOptions(1);
+                      const value = (additionalFormations || [])[1] || "";
+
+                      return (
+                        <FormItem>
+                          <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
+                            Formation complémentaire 2
+                          </FormLabel>
+                          <Select
+                            onValueChange={(val) => {
+                              const current =
+                                form.getValues("additionalFormations") || [];
+                              const next = [...current];
+                              next[1] = val;
+                              form.setValue("additionalFormations", next);
+                            }}
+                            value={value}
+                            disabled={
+                              isLoadingData ||
+                              !selectedFormationId ||
+                              options.length === 0
+                            }
+                          >
+                            <FormControl>
+                              <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
+                                <SelectValue
+                                  placeholder={
+                                    !selectedFormationId
+                                      ? "Sélectionnez d'abord une formation principale"
+                                      : options.length === 0
+                                        ? "Aucune autre formation disponible dans cette catégorie"
+                                        : "Sélectionnez une deuxième formation complémentaire"
+                                  }
+                                />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {options.map((formation) => (
+                                <SelectItem
+                                  key={formation.id}
+                                  value={formation.id}
+                                  className="font-sans"
+                                >
+                                  {formation.title}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                )}
 
                 <FormField
                   control={form.control}
@@ -854,11 +958,17 @@ function CandidaterContent() {
                           className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                           {...field}
                           value={field.value ?? ""}
-                          onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value ? parseFloat(e.target.value) : null
+                            )
+                          }
                         />
                       </FormControl>
                       <FormDescription className="text-xs text-gray-500">
-                        Indiquez le montant disponible sur votre compte CPF si vous souhaitez l&apos;utiliser pour financer votre formation.
+                        Indiquez le montant disponible sur votre compte CPF si
+                        vous souhaitez l&apos;utiliser pour financer votre
+                        formation.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

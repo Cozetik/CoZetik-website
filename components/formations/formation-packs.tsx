@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Check, CheckCircle2 } from "lucide-react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
+import Link from "next/link";
 
 interface Pack {
   id: string;
@@ -33,13 +33,12 @@ export default function FormationPacks({
     <section className="py-24 bg-white" id="tarifs">
       <div className="container mx-auto px-4 md:px-20">
         <div className="text-center mb-16 space-y-4">
-          <h2
-            className="text-4xl md:text-5xl font-extrabold text-[#2C2C2C] font-bricolage"
-          >
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#2C2C2C] font-bricolage">
             Choisissez votre pack
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto font-sans">
-            Des formules adaptées à vos besoins pour un accompagnement sur-mesure
+            Des formules adaptées à vos besoins pour un accompagnement
+            sur-mesure
           </p>
         </div>
 
@@ -65,10 +64,12 @@ export default function FormationPacks({
                   {pack.name}
                 </h3>
                 {pack.description && (
-                  <p className={cn(
-                    "text-sm font-sans",
-                    pack.isPopular ? "text-gray-300" : "text-gray-500"
-                  )}>
+                  <p
+                    className={cn(
+                      "text-sm font-sans",
+                      pack.isPopular ? "text-gray-300" : "text-gray-500"
+                    )}
+                  >
                     {pack.description}
                   </p>
                 )}
@@ -79,21 +80,25 @@ export default function FormationPacks({
                   <span className="text-5xl font-extrabold font-bricolage">
                     {pack.price}€
                   </span>
-                  <span className={cn(
-                    "text-lg font-medium",
-                    pack.isPopular ? "text-gray-400" : "text-gray-500"
-                  )}>
+                  <span
+                    className={cn(
+                      "text-lg font-medium",
+                      pack.isPopular ? "text-gray-400" : "text-gray-500"
+                    )}
+                  >
                     TTC
                   </span>
                 </div>
-                
+
                 {(pack.originalPrice || pack.savings) && (
                   <div className="mt-2 flex items-center gap-3">
                     {pack.originalPrice && (
-                      <span className={cn(
-                        "text-lg line-through",
-                        pack.isPopular ? "text-gray-500" : "text-gray-400"
-                      )}>
+                      <span
+                        className={cn(
+                          "text-lg line-through",
+                          pack.isPopular ? "text-gray-500" : "text-gray-400"
+                        )}
+                      >
                         {pack.originalPrice}€
                       </span>
                     )}
@@ -107,19 +112,25 @@ export default function FormationPacks({
               </div>
 
               <div className="space-y-4 mb-10 flex-1">
-                <p className={cn(
-                  "text-xs font-bold uppercase tracking-widest",
-                  pack.isPopular ? "text-gray-400" : "text-gray-500"
-                )}>
+                <p
+                  className={cn(
+                    "text-xs font-bold uppercase tracking-widest",
+                    pack.isPopular ? "text-gray-400" : "text-gray-500"
+                  )}
+                >
                   Ce qui est inclut :
                 </p>
                 <ul className="space-y-4">
                   {pack.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <div className={cn(
-                        "rounded-full p-1 mt-1 shrink-0",
-                        pack.isPopular ? "bg-[#9A80B8] text-white" : "bg-gray-200 text-gray-600"
-                      )}>
+                      <div
+                        className={cn(
+                          "rounded-full p-1 mt-1 shrink-0",
+                          pack.isPopular
+                            ? "bg-[#9A80B8] text-white"
+                            : "bg-gray-200 text-gray-600"
+                        )}
+                      >
                         <Check className="h-3 w-3" />
                       </div>
                       <span className="text-sm font-medium leading-tight">
@@ -139,15 +150,15 @@ export default function FormationPacks({
                     : "bg-[#2C2C2C] text-white hover:bg-black"
                 )}
               >
-                <Link href={`/candidater?categoryId=${categoryId}&formationId=${formationId}&pack=${encodeURIComponent(pack.name)}`}>
+                <Link
+                  href={`/candidater?formationId=${formationId}&pack=${encodeURIComponent(pack.name)}`}
+                >
                   C&apos;est parti !
                 </Link>
               </Button>
             </div>
           ))}
         </div>
-        
-        
       </div>
     </section>
   );

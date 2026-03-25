@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-// Schéma pour le formulaire (garde birthDate comme string)
-export const candidatureFormSchema = z.object({
+// Schéma de base pour le formulaire (garde birthDate comme string)
+const baseCandidatureFormSchema = z.object({
   civility: z.enum(["M", "Mme", "Autre"], {
     message: "La civilité est requise",
   }),
@@ -64,16 +64,80 @@ export const candidatureFormSchema = z.object({
       "Vous devez accepter le traitement de vos données"
     ),
   acceptNewsletter: z.boolean().optional(),
-  cpfAmount: z.number().nullable().optional(),
+  cpfAmount: z.preprocess(
+    (val) => (val === "" ? null : val),
+    z.number().nullable().optional()
+  ),
+  additionalFormations: z.array(z.string()).default([]),
 });
 
+// Règles métiers supplémentaires (packs & formations complémentaires)
+function applyBusinessRules<T extends z.ZodTypeAny>(schema: T) {
+  return schema.superRefine((data: any, ctx) => {
+    const packName = (data.pack || "").toLowerCase();
+    const additionalFormations: string[] = (
+      data.additionalFormations || []
+    ).filter((id: string) => id && id.trim() !== "");
+
+    // Vérifier le nombre maximum de formations complémentaires selon le pack
+    if (packName.includes("premium") && !packName.includes("expert")) {
+      if (additionalFormations.length > 1) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["additionalFormations"],
+          message:
+            "Le pack Premium permet au maximum 1 formation complémentaire.",
+        });
+      }
+    } else if (packName.includes("expert")) {
+      if (additionalFormations.length > 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["additionalFormations"],
+          message:
+            "Le pack Expert permet au maximum 2 formations complémentaires.",
+        });
+      }
+    } else {
+      // Découverte ou autre pack : pas de formations complémentaires
+      if (additionalFormations.length > 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["additionalFormations"],
+          message:
+            "Les formations complémentaires ne sont disponibles que pour les packs Premium et Expert.",
+        });
+      }
+    }
+
+    // Empêcher les doublons entre formation principale et complémentaires
+    const allIds = [data.formation, ...additionalFormations];
+    const uniqueIds = new Set(allIds.filter((id) => !!id));
+    if (uniqueIds.size !== allIds.filter((id) => !!id).length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["additionalFormations"],
+        message:
+          "Chaque formation (principale ou complémentaire) doit être sélectionnée une seule fois.",
+      });
+    }
+  });
+}
+
+// Schéma pour le formulaire (garde birthDate comme string)
+export const candidatureFormSchema = applyBusinessRules(
+  baseCandidatureFormSchema
+);
+
 // Schéma pour l'API (transforme birthDate en Date)
-export const candidatureSchema = candidatureFormSchema.extend({
-  birthDate: z
-    .string()
-    .min(1, "La date de naissance est requise")
-    .transform((val) => new Date(val)),
-});
+export const candidatureSchema = applyBusinessRules(
+  baseCandidatureFormSchema.extend({
+    birthDate: z
+      .string()
+      .min(1, "La date de naissance est requise")
+      .transform((val) => new Date(val)),
+  })
+);
 
 export type CandidatureFormData = z.infer<typeof candidatureFormSchema>;
 export type CandidatureData = z.infer<typeof candidatureSchema>;
