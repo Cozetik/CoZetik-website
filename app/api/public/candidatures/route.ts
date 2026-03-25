@@ -1,3 +1,5 @@
+import { emailCandidatureAdmin } from "@/emails/email-candidature-admin";
+import { emailCandidatureUser } from "@/emails/email-candidature-user";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/resend";
 import { v2 as cloudinary } from "cloudinary";
@@ -102,7 +104,9 @@ export async function POST(request: NextRequest) {
       cv: formData.get("cv") as File | null,
       coverLetter: formData.get("coverLetter") as File | null,
       otherDocument: formData.get("otherDocument") as File | null,
-      cpfAmount: formData.get("cpfAmount") ? parseFloat(formData.get("cpfAmount") as string) : null,
+      cpfAmount: formData.get("cpfAmount")
+        ? parseFloat(formData.get("cpfAmount") as string)
+        : null,
       additionalFormations: formData.getAll("additionalFormations") as string[],
     };
 
@@ -169,6 +173,46 @@ export async function POST(request: NextRequest) {
       otherDocumentUrl,
     });
 
+    // Récupérer les titres des formations pour l'email
+    let mainFormationTitle = data.formation;
+    let additionalFormationTitles: string[] = [];
+
+    try {
+      const mainFormation = await prisma.formation.findUnique({
+        where: { id: data.formation },
+        select: { title: true },
+      });
+
+      if (mainFormation?.title) {
+        mainFormationTitle = mainFormation.title;
+      }
+
+      const additionalIds = (data.additionalFormations || []).filter(
+        (id) => id && id.trim() !== ""
+      );
+
+      if (additionalIds.length > 0) {
+        const additionalFormations = await prisma.formation.findMany({
+          where: { id: { in: additionalIds } },
+          select: { id: true, title: true },
+        });
+
+        const titleMap = new Map(
+          additionalFormations.map((f) => [f.id, f.title])
+        );
+
+        additionalFormationTitles = additionalIds.map(
+          (id) => titleMap.get(id) || id
+        );
+      }
+    } catch (titleError) {
+      console.error(
+        "Erreur lors de la récupération des titres de formation:",
+        titleError
+      );
+      // On continue avec les identifiants bruts si nécessaire
+    }
+
     const candidature = await prisma.candidature.create({
       data: {
         civility: data.civility,
@@ -200,18 +244,16 @@ export async function POST(request: NextRequest) {
 
     console.log("✅ Candidature enregistrée en DB:", candidature.id);
 
-    // Envoyer un email de confirmation à l'utilisateur
+    // Envoyer un email de confirmation à l'utilisateur (template par pack)
     try {
-      const emailResult = await sendEmail(
-        data.email,
-        "Confirmation de votre candidature - Cozetik",
-        `
-          <h1>Bonjour ${data.firstName} ${data.lastName},</h1>
-          <p>Nous avons bien reçu votre candidature pour la formation <strong>${data.formation}</strong>${data.additionalFormations && data.additionalFormations.length > 0 ? ` (ainsi que les formations complémentaires : ${data.additionalFormations.join(", ")})` : ""}.</p>
-          <p>Notre équipe pédagogique l'étudiera attentivement et vous contactera sous 48 heures.</p>
-          <p>Cordialement,<br>L'équipe Cozetik</p>
-        `
-      );
+      const { subject, html } = emailCandidatureUser({
+        firstName: data.firstName,
+        packName: data.pack,
+        formationTitle: mainFormationTitle,
+        additionalFormationTitles,
+      });
+
+      const emailResult = await sendEmail(data.email, subject, html);
       if (!emailResult.success) {
         console.warn("⚠️ Email utilisateur non envoyé:", emailResult.error);
       }
@@ -223,29 +265,31 @@ export async function POST(request: NextRequest) {
     // Envoyer un email à l'admin
     try {
       const adminEmail = process.env.ADMIN_EMAIL || "nicoleoproject@gmail.com";
+      const adminHtml = emailCandidatureAdmin({
+        civility: data.civility,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        birthDate: new Date(data.birthDate).toLocaleDateString("fr-FR"),
+        categoryName: data.categoryFormation,
+        formationTitle: mainFormationTitle,
+        educationLevel: data.educationLevel,
+        currentSituation: data.currentSituation,
+        startDate: data.startDate || null,
+        pack: data.pack || null,
+        cpfAmount: data.cpfAmount,
+        motivation: data.motivation,
+        additionalFormations: additionalFormationTitles,
+        cvUrl,
+        coverLetterUrl,
+        otherDocumentUrl,
+      });
+
       const emailResult = await sendEmail(
         adminEmail,
-        `Nouvelle candidature - ${data.formation}`,
-        `
-          <h2>Nouvelle candidature reçue</h2>
-          <p><strong>Nom:</strong> ${data.civility} ${data.firstName} ${data.lastName}</p>
-          <p><strong>Email:</strong> ${data.email}</p>
-          <p><strong>Téléphone:</strong> ${data.phone}</p>
-          <p><strong>Date de naissance:</strong> ${new Date(
-            data.birthDate
-          ).toLocaleDateString("fr-FR")}</p>
-          <p><strong>Catégorie:</strong> ${data.categoryFormation}</p>
-          <p><strong>Formation:</strong> ${data.formation}</p>
-          <p><strong>Niveau d'études:</strong> ${data.educationLevel}</p>
-          <p><strong>Situation:</strong> ${data.currentSituation}</p>
-          <p><strong>Pack choisi:</strong> ${data.pack || "Non spécifié"}</p>
-          <p><strong>Montant CPF:</strong> ${data.cpfAmount ? `${data.cpfAmount}€` : "Non spécifié"}</p>
-          <p><strong>Motivation:</strong> ${data.motivation}</p>
-          ${data.additionalFormations && data.additionalFormations.length > 0 ? `<p><strong>Formations complémentaires:</strong> ${data.additionalFormations.join(", ")}</p>` : ""}
-          ${cvUrl ? `<p><strong>CV:</strong> <a href="${cvUrl}">Télécharger</a></p>` : ""}
-          ${coverLetterUrl ? `<p><strong>Lettre de motivation:</strong> <a href="${coverLetterUrl}">Télécharger</a></p>` : ""}
-          ${otherDocumentUrl ? `<p><strong>Autre document:</strong> <a href="${otherDocumentUrl}">Télécharger</a></p>` : ""}
-        `
+        `Nouvelle candidature - ${mainFormationTitle}`,
+        adminHtml
       );
       if (!emailResult.success) {
         console.warn("⚠️ Email admin non envoyé:", emailResult.error);

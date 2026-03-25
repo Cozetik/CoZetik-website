@@ -9,12 +9,13 @@ Le domaine `cozetik.fr` est maintenant vérifié sur Resend. Pour envoyer des em
 1. **Ouvrez ou créez le fichier `.env.local`** à la racine du projet
 
 2. **Ajoutez ou modifiez cette ligne** :
+
    ```env
-   RESEND_FROM_EMAIL=contact@cozetik.fr
+   RESEND_FROM_EMAIL=nicolas.morby@gmail.com
    ```
-   
+
    Vous pouvez utiliser n'importe quelle adresse avec le domaine `cozetik.fr` :
-   - `contact@cozetik.fr`
+   - `nicolas.morby@gmail.com`
    - `noreply@cozetik.fr`
    - `info@cozetik.fr`
    - etc.
@@ -33,7 +34,7 @@ Si votre site est déployé sur Vercel :
 
 4. **Ajoutez ou modifiez** :
    - **Key** : `RESEND_FROM_EMAIL`
-   - **Value** : `contact@cozetik.fr`
+   - **Value** : `nicolas.morby@gmail.com`
    - **Environments** : Production, Preview, Development (cochez tous)
 
 5. **Redeployez votre application** pour que les changements soient pris en compte
@@ -43,11 +44,13 @@ Si votre site est déployé sur Vercel :
 Une fois configuré, vous devriez pouvoir envoyer des emails à n'importe quelle adresse depuis le back office.
 
 Les logs dans la console afficheront :
+
 ```
-📧 Depuis: contact@cozetik.fr
+📧 Depuis: nicolas.morby@gmail.com
 ```
 
 Au lieu de :
+
 ```
 📧 Depuis: onboarding@resend.dev
 ```
@@ -61,7 +64,7 @@ Assurez-vous aussi d'avoir ces variables configurées :
 RESEND_API_KEY=re_xxxxxxxxxxxxx
 
 # Adresse d'envoi (avec votre domaine vérifié)
-RESEND_FROM_EMAIL=contact@cozetik.fr
+RESEND_FROM_EMAIL=nicolas.morby@gmail.com
 
 # Adresse de réponse (optionnel)
 RESEND_REPLY_TO=nicoleoproject@gmail.com
@@ -69,4 +72,3 @@ RESEND_REPLY_TO=nicoleoproject@gmail.com
 # Email admin pour recevoir les notifications
 ADMIN_EMAIL=nicoleoproject@gmail.com
 ```
-
