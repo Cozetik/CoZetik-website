@@ -57,6 +57,7 @@ interface Candidature {
   createdAt: string;
   cpfAmount: number | null;
   pack: string | null;
+  additionalFormations?: string[] | null;
 }
 
 interface ViewCandidatureDialogProps {
@@ -72,12 +73,15 @@ export function ViewCandidatureDialog({
   const [emailMessage, setEmailMessage] = useState("");
   const [formationName, setFormationName] = useState<string>("");
   const [categoryName, setCategoryName] = useState<string>("");
+  const [additionalFormationNames, setAdditionalFormationNames] = useState<
+    string[]
+  >([]);
 
   // Récupérer les noms de la formation et de la catégorie
   useEffect(() => {
     async function fetchNames() {
       try {
-        // Récupérer la formation
+        // Récupérer la formation principale
         if (candidature.formation) {
           const formationRes = await fetch(
             `/api/formations/${candidature.formation}`
@@ -88,6 +92,38 @@ export function ViewCandidatureDialog({
           } else {
             setFormationName(candidature.formation);
           }
+        }
+        // Récupérer les formations complémentaires
+        if (
+          candidature.additionalFormations &&
+          candidature.additionalFormations.length > 0
+        ) {
+          const uniqueIds = Array.from(
+            new Set(
+              candidature.additionalFormations.filter(
+                (id) => id && id.trim() !== ""
+              )
+            )
+          );
+
+          const names = await Promise.all(
+            uniqueIds.map(async (id) => {
+              try {
+                const res = await fetch(`/api/formations/${id}`);
+                if (res.ok) {
+                  const formation = await res.json();
+                  return formation.title as string;
+                }
+                return id;
+              } catch {
+                return id;
+              }
+            })
+          );
+
+          setAdditionalFormationNames(names);
+        } else {
+          setAdditionalFormationNames([]);
         }
         // Récupérer la catégorie
         if (candidature.categoryFormation) {
@@ -111,7 +147,12 @@ export function ViewCandidatureDialog({
     if (isOpen) {
       fetchNames();
     }
-  }, [isOpen, candidature.formation, candidature.categoryFormation]);
+  }, [
+    isOpen,
+    candidature.formation,
+    candidature.categoryFormation,
+    candidature.additionalFormations,
+  ]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -271,6 +312,17 @@ export function ViewCandidatureDialog({
                   </a>
                 </div>
 
+                {additionalFormationNames.length > 0 && (
+                  <div className="sm:col-span-2">
+                    <label className="text-[9px] xs:text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 xs:mb-1.5 block">
+                      Formations complémentaires
+                    </label>
+                    <p className="text-xs xs:text-sm sm:text-base text-gray-900 break-words">
+                      {additionalFormationNames.join(", ")}
+                    </p>
+                  </div>
+                )}
+
                 <div>
                   <label className="text-[9px] xs:text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 xs:mb-1.5 block">
                     Téléphone
@@ -379,7 +431,10 @@ export function ViewCandidatureDialog({
                     <label className="text-[9px] xs:text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 xs:mb-1.5 block">
                       Pack choisi
                     </label>
-                    <Badge variant="outline" className="text-xs font-sans border-[#ADA6DB] text-[#ADA6DB]">
+                    <Badge
+                      variant="outline"
+                      className="text-xs font-sans border-[#ADA6DB] text-[#ADA6DB]"
+                    >
                       {candidature.pack}
                     </Badge>
                   </div>

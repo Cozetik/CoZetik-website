@@ -32,7 +32,7 @@ export default function FormationCTAMid({
           className="bg-cozetik-black font-sans hover:bg-[#363636] text-white font-bold text-xl px-12 py-6 rounded-none transition-all duration-300 hover:scale-105 w-full md:w-1/2"
         >
           <Link
-            href={`/candidater?categoryId=${categoryId}&formationId=${formationId}`}
+            href={`/candidater?formationId=${formationId}`}
             className="flex items-center"
           >
             COMMENCER MAINTENANT

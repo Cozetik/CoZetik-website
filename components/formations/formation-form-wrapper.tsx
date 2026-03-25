@@ -35,7 +35,7 @@ export default function FormationFormWrapper({
         {/* Bouton de redirection */}
         <div className="flex justify-center">
           <Link
-            href={`/candidater?categoryId=${categoryId}&formationId=${formationId}`}
+            href={`/candidater?formationId=${formationId}`}
             className="inline-flex items-center font-sans justify-center bg-cozetik-black px-12 py-5 text-lg uppercase text-white transition-all duration-300 hover:bg-cozetik-black/90 hover:scale-105 shadow-lg hover:shadow-xl"
           >
             Candidater maintenant

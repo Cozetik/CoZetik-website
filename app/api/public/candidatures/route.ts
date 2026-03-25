@@ -103,6 +103,7 @@ export async function POST(request: NextRequest) {
       coverLetter: formData.get("coverLetter") as File | null,
       otherDocument: formData.get("otherDocument") as File | null,
       cpfAmount: formData.get("cpfAmount") ? parseFloat(formData.get("cpfAmount") as string) : null,
+      additionalFormations: formData.getAll("additionalFormations") as string[],
     };
 
     // Validation basique
@@ -186,6 +187,7 @@ export async function POST(request: NextRequest) {
         startDate: data.startDate || null,
         motivation: data.motivation,
         pack: data.pack || null,
+        additionalFormations: data.additionalFormations || [],
         cvUrl: cvUrl,
         coverLetterUrl: coverLetterUrl,
         otherDocumentUrl: otherDocumentUrl,
@@ -205,7 +207,7 @@ export async function POST(request: NextRequest) {
         "Confirmation de votre candidature - Cozetik",
         `
           <h1>Bonjour ${data.firstName} ${data.lastName},</h1>
-          <p>Nous avons bien reçu votre candidature pour la formation <strong>${data.formation}</strong>.</p>
+          <p>Nous avons bien reçu votre candidature pour la formation <strong>${data.formation}</strong>${data.additionalFormations && data.additionalFormations.length > 0 ? ` (ainsi que les formations complémentaires : ${data.additionalFormations.join(", ")})` : ""}.</p>
           <p>Notre équipe pédagogique l'étudiera attentivement et vous contactera sous 48 heures.</p>
           <p>Cordialement,<br>L'équipe Cozetik</p>
         `
@@ -239,6 +241,7 @@ export async function POST(request: NextRequest) {
           <p><strong>Pack choisi:</strong> ${data.pack || "Non spécifié"}</p>
           <p><strong>Montant CPF:</strong> ${data.cpfAmount ? `${data.cpfAmount}€` : "Non spécifié"}</p>
           <p><strong>Motivation:</strong> ${data.motivation}</p>
+          ${data.additionalFormations && data.additionalFormations.length > 0 ? `<p><strong>Formations complémentaires:</strong> ${data.additionalFormations.join(", ")}</p>` : ""}
           ${cvUrl ? `<p><strong>CV:</strong> <a href="${cvUrl}">Télécharger</a></p>` : ""}
           ${coverLetterUrl ? `<p><strong>Lettre de motivation:</strong> <a href="${coverLetterUrl}">Télécharger</a></p>` : ""}
           ${otherDocumentUrl ? `<p><strong>Autre document:</strong> <a href="${otherDocumentUrl}">Télécharger</a></p>` : ""}
