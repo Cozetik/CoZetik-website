@@ -22,6 +22,7 @@ export const candidatureFormSchema = z.object({
   educationLevel: z.string().min(1, "Le niveau d'études est requis"),
   currentSituation: z.string().min(1, "La situation actuelle est requise"),
   startDate: z.string().optional(),
+  pack: z.string().optional(),
   motivation: z
     .string()
     .min(500, "Le texte de motivation doit contenir au moins 500 caractères"),

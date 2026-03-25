@@ -1,10 +1,9 @@
-import { Award, Calendar, CheckCircle, Clock, Euro, Users } from "lucide-react";
+import { Award, Calendar, CheckCircle, Clock, Users } from "lucide-react";
 
 interface FormationKeyInfosProps {
   formation: {
     duration: string | null;
     level: string | null;
-    price: number | null;
     isFlexible: boolean;
     maxStudents: number | null;
     isCertified: boolean;
@@ -25,12 +24,6 @@ export default function FormationKeyInfos({
       icon: Award,
       value: formation.level || "Tous niveaux",
       label: "Niveau requis",
-      show: true,
-    },
-    {
-      icon: Euro,
-      value: formation.price ? `${formation.price}€` : "Gratuit",
-      label: "Prix HT",
       show: true,
     },
     {

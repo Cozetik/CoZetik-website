@@ -10,8 +10,10 @@ import {
   Eye,
   EyeOff,
   GraduationCap,
+  Hash,
   HelpCircle,
   ListOrdered,
+  Package,
   Plus,
   TrendingUp,
   Users,
@@ -28,6 +30,7 @@ export default async function FormationsPage() {
           sessions: true,
           steps: true,
           faqs: true,
+          packs: true,
         },
       },
     },
@@ -198,6 +201,8 @@ export default async function FormationsPage() {
                     <Image
                       src={formation.imageUrl}
                       alt={formation.title}
+                      width={500}
+                      height={500}
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
@@ -263,6 +268,7 @@ export default async function FormationsPage() {
                       stepsCount={formation._count.steps}
                       faqsCount={formation._count.faqs}
                       sessionsCount={formation._count.sessions}
+                      packsCount={formation._count.packs}
                     />
                   </div>
                 </CardHeader>
@@ -279,17 +285,6 @@ export default async function FormationsPage() {
                       <div className="flex items-center gap-1 text-gray-600 bg-gray-50 rounded-full px-3 py-1">
                         <Clock className="h-3 w-3" />
                         <span>{formation.duration}</span>
-                      </div>
-                    )}
-                    {formation.price !== null && (
-                      <div className="flex items-center gap-1 text-green-600 bg-green-50 rounded-full px-3 py-1 font-medium">
-                        <Euro className="h-3 w-3" />
-                        <span>{formation.price}€</span>
-                      </div>
-                    )}
-                    {formation.price === null && (
-                      <div className="flex items-center gap-1 text-blue-600 bg-blue-50 rounded-full px-3 py-1 font-medium">
-                        <span>Gratuit</span>
                       </div>
                     )}
                   </div>
@@ -357,6 +352,23 @@ export default async function FormationsPage() {
                         </p>
                         <p className="text-lg font-bold font-bricolage text-green-700">
                           {formation._count.faqs}
+                        </p>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href={`/admin/formations/${formation.id}/packs`}
+                      className="flex items-center gap-2 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-3 hover:shadow-md transition-all group/stat"
+                    >
+                      <div className="rounded-lg bg-blue-500 p-2 group-hover/stat:scale-110 transition-transform">
+                        <Package className="h-4 w-4 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-blue-600 font-medium">
+                          Packs
+                        </p>
+                        <p className="text-lg font-bold font-bricolage text-blue-700">
+                          {formation._count.packs}
                         </p>
                       </div>
                     </Link>

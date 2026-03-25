@@ -63,23 +63,31 @@ type Category = {
   slug: string;
 };
 
+type Pack = {
+  id: string;
+  name: string;
+};
+
 type Formation = {
   id: string;
   title: string;
   slug: string;
   categoryId: string;
+  packs: Pack[];
 };
 
 function CandidaterContent() {
   const searchParams = useSearchParams();
   const categoryIdFromUrl = searchParams.get("categoryId");
   const formationIdFromUrl = searchParams.get("formationId");
+  const packFromUrl = searchParams.get("pack");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [formations, setFormations] = useState<Formation[]>([]);
   const [filteredFormations, setFilteredFormations] = useState<Formation[]>([]);
+  const [availablePacks, setAvailablePacks] = useState<Pack[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -100,6 +108,7 @@ function CandidaterContent() {
       educationLevel: "",
       currentSituation: "",
       startDate: "",
+      pack: packFromUrl || "",
       motivation: "",
       acceptPrivacy: false,
       acceptNewsletter: false,
@@ -141,7 +150,16 @@ function CandidaterContent() {
               filtered.find((f: Formation) => f.id === formationIdFromUrl)
                 ? formationIdFromUrl
                 : "",
+            pack: packFromUrl || "",
+            motivation: "",
           });
+
+          if (formationIdFromUrl) {
+            const selectedF = formationsData.find((f: Formation) => f.id === formationIdFromUrl);
+            if (selectedF) {
+              setAvailablePacks(selectedF.packs || []);
+            }
+          }
         }
 
         setIsInitialized(true);
@@ -181,6 +199,32 @@ function CandidaterContent() {
       form.setValue("formation", "");
     }
   }, [selectedCategory, formations, form, isInitialized]);
+
+  const selectedFormation = form.watch("formation");
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    if (selectedFormation) {
+      const formation = formations.find((f) => f.id === selectedFormation);
+      if (formation) {
+        setAvailablePacks(formation.packs || []);
+        
+        // Si le pack actuel n'est pas dans la liste des packs de la nouvelle formation, on reset
+        // Sauf si on vient d'initialiser avec packFromUrl
+        const currentPack = form.getValues("pack");
+        if (currentPack && !formation.packs?.find(p => p.name === currentPack)) {
+           // On ne reset que si on n'est pas dans la phase d'initialisation ou si le pack ne correspond vraiment pas
+           form.setValue("pack", "");
+        }
+      } else {
+        setAvailablePacks([]);
+        form.setValue("pack", "");
+      }
+    } else {
+      setAvailablePacks([]);
+      form.setValue("pack", "");
+    }
+  }, [selectedFormation, formations, form, isInitialized]);
 
   async function onSubmit(data: CandidatureFormData) {
     setIsSubmitting(true);
@@ -632,6 +676,55 @@ function CandidaterContent() {
                               className="font-sans"
                             >
                               {formation.title}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="pack"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
+                        Choisir mon pack *
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value || ""}
+                        disabled={
+                          isLoadingData ||
+                          !selectedFormation ||
+                          availablePacks.length === 0
+                        }
+                      >
+                        <FormControl>
+                          <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
+                            <SelectValue
+                              placeholder={
+                                isLoadingData
+                                  ? "Chargement..."
+                                  : !selectedFormation
+                                    ? "Sélectionnez d'abord une formation"
+                                    : availablePacks.length === 0
+                                      ? "Aucun pack disponible pour cette formation"
+                                      : "Sélectionnez un pack"
+                              }
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {availablePacks.map((pack) => (
+                            <SelectItem
+                              key={pack.id}
+                              value={pack.name}
+                              className="font-sans"
+                            >
+                              {pack.name}
                             </SelectItem>
                           ))}
                         </SelectContent>

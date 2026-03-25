@@ -29,7 +29,6 @@ import {
   BookOpen,
   CheckCircle2,
   Clock,
-  Euro,
   FileText,
   GraduationCap,
   Image as ImageIcon,
@@ -41,7 +40,7 @@ import {
   Tag,
   Target,
   TrendingUp,
-  Users,
+  Users
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -49,6 +48,27 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+
+import { FormationPacksField } from "./formation-packs-field";
+import { FormationStepsField } from "./formation-steps-field";
+
+const packSchema = z.object({
+  name: z.string().min(1, "Le nom du pack est requis"),
+  description: z.string().nullable().optional(),
+  price: z.number().min(0, "Le prix doit être positif ou zéro"),
+  originalPrice: z.number().nullable().optional(),
+  savings: z.string().nullable().optional(),
+  features: z.string().min(1, "Au moins une inclusion est requise"),
+  isPopular: z.boolean().default(false),
+  order: z.number().int().min(0).default(0),
+});
+
+const stepSchema = z.object({
+  title: z.string().min(1, "Le titre de l'étape est requis"),
+  description: z.string().min(1, "La description de l'étape est requise"),
+  order: z.number().int().min(1),
+  keyPoints: z.string().optional().nullable(),
+});
 
 const formSchema = z.object({
   title: z
@@ -63,7 +83,6 @@ const formSchema = z.object({
   program: z
     .string()
     .min(20, "Le programme doit être détaillé (min 20 caractères)"),
-  price: z.number().positive("Le prix doit être positif").optional().nullable(),
   duration: z.string().optional().nullable(),
   imageUrl: z.string().optional(),
   visible: z.boolean(),
@@ -78,6 +97,8 @@ const formSchema = z.object({
   rating: z.number().min(0).max(5).optional().nullable(),
   reviewsCount: z.number().int().min(0),
   studentsCount: z.number().int().min(0),
+  packs: z.array(packSchema).optional().default([]),
+  steps: z.array(stepSchema).optional().default([]),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -96,13 +117,12 @@ export default function NewFormationForm({
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as any,
     defaultValues: {
       title: "",
       categoryId: "",
       description: "",
       program: "",
-      price: undefined,
       duration: "",
       imageUrl: "",
       visible: true,
@@ -116,10 +136,50 @@ export default function NewFormationForm({
       rating: undefined,
       reviewsCount: 0,
       studentsCount: 0,
+      packs: [
+        {
+          name: "Formule Découverte",
+          description: "La base pour se lancer",
+          price: 1500,
+          originalPrice: 1500,
+          savings: "0",
+          features: "1 formation\n30h de formation\n3 rdvs individuels\n2 ateliers en groupe\n6h d’accès à nos masterclass thématiques",
+          isPopular: false,
+          order: 0,
+        },
+        {
+          name: "Formule Premium",
+          description: "L'expérience complète",
+          price: 2600,
+          originalPrice: 3000,
+          savings: "400€ d'économie",
+          features: "1 formations\n60h de formation\n6 rdvs individuels\n4 ateliers en groupe\n30h d’accès à nos masterclass thématiques\n2 rdvs de suivi post formation",
+          isPopular: true,
+          order: 1,
+        },
+        {
+          name: "Formule Expert",
+          description: "Accompagnement intensif",
+          price: 3500,
+          originalPrice: 4500,
+          savings: "1000€ d'économie",
+          features: "1 formations\n90h de formation\n9 rdvs individuels\n6 ateliers en groupe\n30h d’accès à nos masterclass thématiques\n4 rdvs de suivi post formation",
+          isPopular: false,
+          order: 2,
+        },
+      ],
+      steps: [
+        {
+          title: "Introduction et fondamentaux",
+          description: "Découverte des concepts clés et des bases théoriques.",
+          order: 1,
+          keyPoints: "Comprendre les enjeux\nIdentifier les outils\nPremiers pas pratiques",
+        }
+      ],
     },
   });
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = async (values: any) => {
     setIsLoading(true);
 
     // Générer le slug depuis le titre
@@ -134,8 +194,24 @@ export default function NewFormationForm({
     try {
       // Convertir objectives (string avec retours à la ligne) en array
       const objectivesArray = values.objectives
-        ? values.objectives.split("\n").filter((line) => line.trim() !== "")
+        ? (values.objectives as string).split("\n").filter((line: string) => line.trim() !== "")
         : [];
+
+      // Convertir features des packs en array
+      const processedPacks = (values.packs as any[])?.map((pack: any) => ({
+        ...pack,
+        features: pack.features
+          ? pack.features.split("\n").filter((f: string) => f.trim() !== "")
+          : []
+      })) || [];
+
+      // Convertir keyPoints des steps en array
+      const processedSteps = (values.steps as any[])?.map((step: any) => ({
+        ...step,
+        keyPoints: step.keyPoints
+          ? step.keyPoints.split("\n").filter((kp: string) => kp.trim() !== "")
+          : []
+      })) || [];
 
       const response = await fetch("/api/formations", {
         method: "POST",
@@ -143,13 +219,14 @@ export default function NewFormationForm({
         body: JSON.stringify({
           ...values,
           slug,
-          price: values.price || null,
           duration: values.duration || null,
           level: values.level || null,
           maxStudents: values.maxStudents || null,
           prerequisites: values.prerequisites || null,
           objectives: objectivesArray,
           rating: values.rating || null,
+          packs: processedPacks,
+          steps: processedSteps,
         }),
       });
 
@@ -274,39 +351,6 @@ export default function NewFormationForm({
               />
             </div>
 
-            <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 w-full">
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="text-gray-700 font-medium flex items-center gap-2 text-sm sm:text-base">
-                      <Euro className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400" />
-                      Prix (€)
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Laisser vide pour gratuit"
-                        className="border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-full text-sm sm:text-base"
-                        {...field}
-                        value={field.value ?? ""}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value ? parseFloat(e.target.value) : null
-                          )
-                        }
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormDescription className="text-xs text-gray-500">
-                      Laisser vide si la formation est gratuite
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               <FormField
                 control={form.control}
                 name="duration"
@@ -329,7 +373,6 @@ export default function NewFormationForm({
                   </FormItem>
                 )}
               />
-            </div>
           </div>
 
           {/* Section: Contenu */}
@@ -396,6 +439,11 @@ export default function NewFormationForm({
                 </FormItem>
               )}
             />
+
+            {/* Étapes du programme intégrées */}
+            <div className="pt-4 border-t border-gray-100">
+              <FormationStepsField form={form as any} />
+            </div>
           </div>
 
           {/* Section: Média */}
@@ -812,6 +860,11 @@ export default function NewFormationForm({
                 )}
               />
             </div>
+          </div>
+          
+          {/* Section: Packs de formation */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 w-full max-w-full">
+            <FormationPacksField form={form as any} />
           </div>
 
           {/* Boutons d'action */}

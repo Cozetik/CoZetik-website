@@ -1,36 +1,21 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  // directUrl = env("DIRECT_DATABASE_URL")  // Commenté car non nécessaire pour db:push
-}
-
-enum Role {
-  SUPER_ADMIN
-}
-
-enum RequestStatus {
-  NEW
-  TREATED
-  ARCHIVED
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String // hashed password
+  password  String
   role      Role     @default(SUPER_ADMIN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-// Category model for formation categories
 model Category {
   id          String      @id @default(cuid())
   name        String
@@ -39,55 +24,49 @@ model Category {
   imageUrl    String?
   visible     Boolean     @default(true)
   order       Int         @default(0)
-  formations  Formation[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  formations  Formation[]
 
   @@index([visible, order])
 }
 
-// Formation model
 model Formation {
-  id           String                 @id @default(cuid())
-  title        String
-  slug         String                 @unique
-  description  String
-  program      String                 @db.Text
-  price        Float?
-  duration     String?
-  imageUrl     String?
-  visible      Boolean                @default(true)
-  order        Int                    @default(0)
-  categoryId   String
-  category     Category               @relation(fields: [categoryId], references: [id])
-  sessions     FormationSession[]
-  inscriptions FormationInscription[]
-  createdAt    DateTime               @default(now())
-  updatedAt    DateTime               @updatedAt
-
-  // New fields for immersive page
-  level          String?   // "Débutant", "Intermédiaire", "Expert"
-  maxStudents    Int?      // Ex: 24
-  prerequisites  String?   // "Aucun prérequis" ou détails
-  objectives     String[]  // Array : ["Automatiser tâches", "Créer workflows"]
-  isCertified    Boolean   @default(false)
-  rating         Float?    @default(0) // 4.8
-  reviewsCount   Int       @default(0) // 124
-  studentsCount  Int       @default(0) // 500
-  isFlexible     Boolean   @default(true) // Rythme flexible ?
-
-  steps        FormationStep[]
-  faqs         FormationFAQ[]
+  id            String                 @id @default(cuid())
+  title         String
+  slug          String                 @unique
+  description   String
+  program       String
+  duration      String?
+  imageUrl      String?
+  visible       Boolean                @default(true)
+  order         Int                    @default(0)
+  categoryId    String
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  isCertified   Boolean                @default(false)
+  isFlexible    Boolean                @default(true)
+  level         String?
+  maxStudents   Int?
+  objectives    String[]
+  prerequisites String?
+  rating        Float?                 @default(0)
+  reviewsCount  Int                    @default(0)
+  studentsCount Int                    @default(0)
+  category      Category               @relation(fields: [categoryId], references: [id])
+  faqs          FormationFAQ[]
+  packs         FormationPack[]
+  sessions      FormationSession[]
+  steps         FormationStep[]
+  inscriptions  FormationInscription[]
 
   @@index([visible, order])
   @@index([categoryId, visible])
 }
 
-// FormationSession model for formation calendar
 model FormationSession {
   id          String    @id @default(cuid())
   formationId String
-  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
   startDate   DateTime
   endDate     DateTime
   location    String?
@@ -95,9 +74,9 @@ model FormationSession {
   available   Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
 }
 
-// Partner model for companies/partners
 model Partner {
   id          String   @id @default(cuid())
   name        String
@@ -112,26 +91,25 @@ model Partner {
   @@index([visible, order])
 }
 
-// BlogPost model for blog articles
 model BlogPost {
-  id             String    @id @default(cuid())
-  title          String
-  slug           String    @unique
-  content        String
-  excerpt        String?
-  imageUrl       String?
-  visible        Boolean   @default(false)
-  publishedAt    DateTime?
-  seoTitle       String?
-  seoDescription String?
-  aiScore          Float?
+  id               String    @id @default(cuid())
+  title            String
+  slug             String    @unique
+  content          String
+  excerpt          String?
+  imageUrl         String?
+  visible          Boolean   @default(false)
+  publishedAt      DateTime?
+  seoTitle         String?
+  seoDescription   String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  themeId          String?
   aiMetadata       Json?
+  aiScore          Float?
   featuredProg     String?
   isReviewRequired Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  themeId        String?
-  theme          Theme?    @relation(fields: [themeId], references: [id])
+  theme            Theme?    @relation(fields: [themeId], references: [id])
 
   @@index([visible, publishedAt])
   @@index([themeId, visible])
@@ -144,12 +122,11 @@ model Theme {
   posts BlogPost[]
 }
 
-// ContactRequest model for contact form submissions
 model ContactRequest {
   id        String        @id @default(cuid())
   name      String
   email     String
-  message   String        @db.Text
+  message   String
   status    RequestStatus @default(NEW)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
@@ -157,162 +134,174 @@ model ContactRequest {
   @@map("contact_requests")
 }
 
-// FormationInscription model for formation registrations
 model FormationInscription {
   id          String        @id @default(cuid())
   name        String
   email       String
   phone       String
-  message     String        @db.Text
+  message     String
   formationId String
   status      RequestStatus @default(NEW)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-
-  formation   Formation @relation(fields: [formationId], references: [id])
+  formation   Formation     @relation(fields: [formationId], references: [id])
 
   @@map("formation_inscriptions")
 }
 
-// FormationStep model for pedagogical steps carousel
 model FormationStep {
-  id          String @id @default(cuid())
+  id          String    @id @default(cuid())
   formationId String
+  order       Int
+  title       String
+  description String
+  duration    String?
+  keyPoints   String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
-
-  order       Int      // 1, 2, 3...
-  title       String   // "Fondamentaux de l'IA"
-  description String   // Description détaillée
-  duration    String?  // "2 heures"
-  keyPoints   String[] // ["Comprendre IA", "Cas d'usage", "Outils"]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   @@unique([formationId, order])
   @@index([formationId])
 }
 
-// FormationFAQ model for frequently asked questions
 model FormationFAQ {
-  id          String @id @default(cuid())
+  id          String    @id @default(cuid())
   formationId String
+  order       Int
+  question    String
+  answer      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
-
-  order    Int
-  question String   // FAQ question
-  answer   String   // FAQ answer
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   @@unique([formationId, order])
   @@index([formationId])
 }
 
-// Quiz Question model
+model FormationPack {
+  id            String    @id @default(cuid())
+  formationId   String
+  name          String
+  description   String?
+  price         Float
+  originalPrice Float?
+  savings       String?
+  features      String[]
+  isPopular     Boolean   @default(false)
+  order         Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  formation     Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+
+  @@unique([formationId, order])
+  @@index([formationId])
+}
+
 model QuizQuestion {
   id        String       @id @default(cuid())
-  order     Int          // 1, 2, 3...10
-  question  String       @db.Text // "Aujourd'hui, ton problème numéro 1, c'est…"
+  order     Int          @unique
+  question  String
   visible   Boolean      @default(true)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   options   QuizOption[]
 
-  @@unique([order])
   @@index([order, visible])
 }
 
-// Quiz Option model (A-H options for each question)
 model QuizOption {
   id         String       @id @default(cuid())
   questionId String
+  letter     String
+  text       String
+  order      Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
   question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-
-  letter    String // "A", "B", "C"...
-  text      String @db.Text // "Je sais des choses, mais..."
-  order     Int    // Position dans la liste
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   @@unique([questionId, letter])
   @@index([questionId])
 }
 
-// Quiz Profile model (A-H profiles)
 model QuizProfile {
-  id                       String   @id @default(cuid())
-  letter                   String   @unique // "A", "B", "C"...
-  name                     String   // "Le Communicateur Invisible"
-  emoji                    String   // "🟦"
-  color                    String   // "#3B82F6" (couleur hex)
-  blocageRacine            String   @db.Text // "l'exposition (regard, trac, sur-contrôle)"
-  desir                    String   @db.Text // "être écouté(e), respecté(e), crédible"
-  phraseMiroir             String   @db.Text // "Tu ne manques pas de talent..."
-  programmeSignature       String   // "FAIS-TOI ENTENDRE"
-  modulesComplementaires   String[] // ["Parler juste", "Habite ton corps"]
-  visible                  Boolean  @default(true)
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @updatedAt
+  id                     String   @id @default(cuid())
+  letter                 String   @unique
+  name                   String
+  emoji                  String
+  color                  String
+  blocageRacine          String
+  desir                  String
+  phraseMiroir           String
+  programmeSignature     String
+  modulesComplementaires String[]
+  visible                Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 
   @@index([letter])
 }
 
-// Quiz Response model (tracking responses - optional)
 model QuizResponse {
   id             String   @id @default(cuid())
-  email          String?  // Optionnel
-  answers        Json     // Stockage des réponses
-  profileLetter  String   // Profil identifié
-  recommendation Json     // Résultat IA
+  email          String?
+  answers        Json
+  profileLetter  String
+  recommendation Json
   createdAt      DateTime @default(now())
 
   @@index([createdAt])
   @@index([profileLetter])
 }
 
-// Candidature model for job applications
 model Candidature {
-  id               String        @id @default(cuid())
-  civility         String
-  firstName        String
-  lastName         String
-  birthDate        DateTime
-  email            String
-  phone            String
-  address          String?
-  postalCode       String?
-  city             String?
+  id                String        @id @default(cuid())
+  civility          String
+  firstName         String
+  lastName          String
+  email             String
+  phone             String
+  address           String?
+  postalCode        String?
+  city              String?
+  formation         String
+  educationLevel    String
+  currentSituation  String
+  startDate         String?
+  motivation        String
+  cvUrl             String?
+  coverLetterUrl    String?
+  otherDocumentUrl  String?
+  acceptPrivacy     Boolean       @default(false)
+  acceptNewsletter  Boolean       @default(false)
+  status            RequestStatus @default(NEW)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
   categoryFormation String
-  formation        String
-  educationLevel   String
-  currentSituation String
-  startDate        String?
-  motivation       String        @db.Text
-  cvUrl            String?
-  coverLetterUrl   String?
-  otherDocumentUrl String?
-  acceptPrivacy    Boolean       @default(false)
-  acceptNewsletter Boolean       @default(false)
-  status           RequestStatus @default(NEW)
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  birthDate         DateTime
+  pack              String?
 
-    @@map("candidatures")
+  @@map("candidatures")
 }
 
-// Value model for company values (homepage section "Nos Valeurs")
 model Value {
   id          String   @id @default(cuid())
-  order       Int      @default(0)
-  title       String   // "HUMAIN AU CŒUR DU RECRUTEMENT"
-  description String   @db.Text // Description détaillée
+  order       Int      @unique @default(0)
+  title       String
+  description String
   visible     Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@unique([order])
   @@index([visible, order])
+}
+
+enum Role {
+  SUPER_ADMIN
+}
+
+enum RequestStatus {
+  NEW
+  TREATED
+  ARCHIVED
 }
