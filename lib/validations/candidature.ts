@@ -25,7 +25,7 @@ const baseCandidatureFormSchema = z.object({
   pack: z.string().optional(),
   motivation: z
     .string()
-    .min(500, "Le texte de motivation doit contenir au moins 500 caractères"),
+    .min(200, "Le texte de motivation doit contenir au moins 200 caractères"),
   cv: z
     .any()
     .optional()

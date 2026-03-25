@@ -991,7 +991,7 @@ function CandidaterContent() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
-                        Parlez-nous de votre projet * (500 caractères minimum)
+                        Parlez-nous de votre projet * (200 caractères minimum)
                       </FormLabel>
                       <FormControl>
                         <Textarea

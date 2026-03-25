@@ -239,7 +239,11 @@ export function ViewCandidatureDialog({
           <Eye className="h-3 w-3 xs:h-3.5 xs:w-3.5 sm:h-4 sm:w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[calc(100vw-2rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-2xl lg:max-w-4xl max-h-[90vh] font-sans p-0 flex flex-col">
+      <DialogContent
+        data-lenis-prevent
+        data-lenis-prevent-wheel
+        className="max-w-[calc(100vw-2rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-2xl lg:max-w-4xl max-h-[90vh] font-sans p-0 flex flex-col"
+      >
         <DialogHeader className="px-2.5 xs:px-3 sm:px-6 pt-2.5 xs:pt-3 sm:pt-6 pb-2 xs:pb-2.5 sm:pb-4 border-b border-gray-200 shrink-0">
           <DialogTitle className="font-bricolage text-sm xs:text-base sm:text-xl lg:text-2xl">
             {candidature.civility} {candidature.firstName}{" "}
