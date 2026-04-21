@@ -2,74 +2,30 @@ import { emailCandidatureAdmin } from "@/emails/email-candidature-admin";
 import { emailCandidatureUser } from "@/emails/email-candidature-user";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/resend";
-import { v2 as cloudinary } from "cloudinary";
+import { UTApi } from "uploadthing/server";
 import { NextRequest, NextResponse } from "next/server";
 
-// Configuration Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+const utapi = new UTApi();
 
-// Fonction pour uploader un fichier vers Cloudinary
-async function uploadFileToCloudinary(
-  file: File,
-  folder: string = "cozetik/candidatures"
-): Promise<string | null> {
+// Fonction pour uploader un fichier vers Uploadthing
+async function uploadFileToUploadthing(file: File): Promise<string | null> {
   try {
     if (!file || file.size === 0) return null;
 
-    if (
-      !process.env.CLOUDINARY_CLOUD_NAME ||
-      !process.env.CLOUDINARY_API_KEY ||
-      !process.env.CLOUDINARY_API_SECRET
-    ) {
-      console.warn("Cloudinary credentials missing");
+    if (!process.env.UPLOADTHING_TOKEN) {
+      console.warn("UPLOADTHING_TOKEN missing");
       return null;
     }
 
-    // Extraction extension
-    const fileExtension = file.name.split(".").pop()?.toLowerCase() || "";
-    const isImage = file.type.startsWith("image/");
+    const response = await utapi.uploadFiles(file);
 
-    // STRATÉGIE DE TYPE :
-    // 1. Image -> 'image'
-    // 2. Tout le reste (PDF, Doc, etc.) -> 'raw' (Beaucoup plus fiable pour le téléchargement)
-    const resourceType = isImage ? "image" : "raw";
+    if (response.error) {
+      console.error(`❌ Erreur upload ${file.name}:`, response.error);
+      return null;
+    }
 
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(2, 8);
-    // Pour RAW, il est CRUCIAL que le public_id contienne l'extension
-    const publicId = isImage
-      ? `${timestamp}-${randomString}`
-      : `${timestamp}-${randomString}.${fileExtension}`;
-
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const result = await new Promise<{ secure_url: string; public_id: string }>(
-      (resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          {
-            folder: folder,
-            resource_type: resourceType,
-            public_id: publicId, // On force le public_id manuellement
-            use_filename: false, // On ne se fie pas au nom de fichier original
-            unique_filename: false,
-            overwrite: false,
-          },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result as { secure_url: string; public_id: string });
-          }
-        );
-        uploadStream.end(buffer);
-      }
-    );
-
-    console.log(`✅ Upload OK (${resourceType}): ${result.secure_url}`);
-    return result.secure_url;
+    console.log(`✅ Upload OK: ${response.data.url}`);
+    return response.data.url;
   } catch (error) {
     console.error(`❌ Erreur upload ${file.name}:`, error);
     return null;
@@ -92,7 +48,7 @@ export async function POST(request: NextRequest) {
       address: (formData.get("address") as string) || "",
       postalCode: (formData.get("postalCode") as string) || "",
       city: (formData.get("city") as string) || "",
-      categoryFormation: formData.get("categoryFormation") as string, // Ajouté
+      categoryFormation: formData.get("categoryFormation") as string,
       formation: formData.get("formation") as string,
       educationLevel: formData.get("educationLevel") as string,
       currentSituation: formData.get("currentSituation") as string,
@@ -117,7 +73,7 @@ export async function POST(request: NextRequest) {
       !data.email ||
       !data.phone ||
       !data.birthDate ||
-      !data.categoryFormation || // Ajouté
+      !data.categoryFormation ||
       !data.formation
     ) {
       return NextResponse.json(
@@ -128,7 +84,7 @@ export async function POST(request: NextRequest) {
 
     console.log("📝 Nouvelle candidature:", data.email);
 
-    // Upload des fichiers vers Cloudinary
+    // Upload des fichiers vers Uploadthing
     let cvUrl: string | null = null;
     let coverLetterUrl: string | null = null;
     let otherDocumentUrl: string | null = null;
@@ -137,29 +93,21 @@ export async function POST(request: NextRequest) {
     const uploadPromises = [];
     if (data.cv && data.cv instanceof File) {
       uploadPromises.push(
-        uploadFileToCloudinary(data.cv, "cozetik/candidatures/cv").then(
-          (url) => {
-            cvUrl = url;
-          }
-        )
+        uploadFileToUploadthing(data.cv).then((url) => {
+          cvUrl = url;
+        })
       );
     }
     if (data.coverLetter && data.coverLetter instanceof File) {
       uploadPromises.push(
-        uploadFileToCloudinary(
-          data.coverLetter,
-          "cozetik/candidatures/lettres"
-        ).then((url) => {
+        uploadFileToUploadthing(data.coverLetter).then((url) => {
           coverLetterUrl = url;
         })
       );
     }
     if (data.otherDocument && data.otherDocument instanceof File) {
       uploadPromises.push(
-        uploadFileToCloudinary(
-          data.otherDocument,
-          "cozetik/candidatures/documents"
-        ).then((url) => {
+        uploadFileToUploadthing(data.otherDocument).then((url) => {
           otherDocumentUrl = url;
         })
       );

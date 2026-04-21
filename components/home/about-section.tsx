@@ -101,7 +101,7 @@ export function AboutSection() {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <Image
-              src="https://res.cloudinary.com/dqmsyqdc4/image/upload/v1767109593/cozetik/image-landing-page.jpg"
+              src="https://utfs.io/f/EJdNPyvKndYIvg6lgNJCvBfRts8amEgk3MzDpYAnKyGceqP9"
               alt="Étudiants souriants suivant une formation Cozetik"
               width={1000}
               height={750}

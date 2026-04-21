@@ -22,7 +22,10 @@
       "Bash(npx prisma migrate:*)",
       "Bash(npx prisma:*)",
       "Bash(npx tsx:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(tree:*)",
+      "Bash(done)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

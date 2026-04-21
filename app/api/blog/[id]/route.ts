@@ -1,15 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { v2 as cloudinary } from "cloudinary";
+import { deleteImage } from "@/lib/blob";
 import { NextResponse } from "next/server";
 import { revalidatePath } from 'next/cache';
 import * as z from "zod";
-
-// Configuration Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 const blogPostSchema = z.object({
   title: z.string().min(1, "Le titre est requis").max(200),
@@ -24,17 +17,6 @@ const blogPostSchema = z.object({
   publishedAt: z.string().nullable().optional(), // ISO string
   previousImageUrl: z.string().nullable().optional(), // Pour suppression
 });
-
-// Extraire le public_id depuis une URL Cloudinary
-function extractCloudinaryPublicId(url: string): string | null {
-  try {
-    const regex = /\/(?:v\d+\/)?([^/]+\/[^/.]+)\.[^.]+$/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-  } catch {
-    return null;
-  }
-}
 
 // GET - Récupérer un article par ID
 export async function GET(
@@ -101,20 +83,15 @@ export async function PUT(
       }
     }
 
-    // Supprimer l'ancienne image de Cloudinary si nouvelle image uploadée (non bloquant)
+    // Supprimer l'ancienne image si nouvelle image uploadée (non bloquant)
     if (
       validatedData.previousImageUrl &&
       validatedData.imageUrl &&
       validatedData.previousImageUrl !== validatedData.imageUrl
     ) {
-      const publicId = extractCloudinaryPublicId(
-        validatedData.previousImageUrl
+      deleteImage(validatedData.previousImageUrl).catch(err =>
+        console.error('Background image deletion failed:', err)
       );
-      if (publicId) {
-        cloudinary.uploader.destroy(publicId).catch(err =>
-          console.error('Background image deletion failed:', err)
-        );
-      }
     }
 
     // Si passage de Brouillon → Publié sans date, mettre date actuelle
@@ -163,22 +140,22 @@ export async function PUT(
   }
 }
 
-// Extraire toutes les URLs d'images Cloudinary depuis le contenu HTML
-function extractCloudinaryImagesFromContent(htmlContent: string): string[] {
-  const cloudinaryUrls: string[] = [];
-  // Regex pour détecter les URLs Cloudinary dans les balises img src
+// Extraire toutes les URLs d'images depuis le contenu HTML
+function extractImagesFromContent(htmlContent: string): string[] {
+  const imageUrls: string[] = [];
+  // Regex pour détecter les URLs dans les balises img src
   const imgRegex = /<img[^>]+src=["']([^"']+)["']/gi;
   let match;
 
   while ((match = imgRegex.exec(htmlContent)) !== null) {
     const url = match[1];
-    // Vérifier si c'est une URL Cloudinary
-    if (url.includes("cloudinary.com")) {
-      cloudinaryUrls.push(url);
+    // Inclure les images Cloudinary (legacy) et Uploadthing
+    if (url.includes("cloudinary.com") || url.includes("utfs.io") || url.includes("uploadthing")) {
+      imageUrls.push(url);
     }
   }
 
-  return cloudinaryUrls;
+  return imageUrls;
 }
 
 // DELETE - Supprimer un article
@@ -201,25 +178,19 @@ export async function DELETE(
       );
     }
 
-    // Supprimer l'image principale de Cloudinary si elle existe (non bloquant)
+    // Supprimer l'image principale si elle existe (non bloquant)
     if (post.imageUrl) {
-      const publicId = extractCloudinaryPublicId(post.imageUrl);
-      if (publicId) {
-        cloudinary.uploader.destroy(publicId).catch(err =>
-          console.error('Background image deletion failed:', err)
-        );
-      }
+      deleteImage(post.imageUrl).catch(err =>
+        console.error('Background image deletion failed:', err)
+      );
     }
 
     // Extraire et supprimer les images inline du contenu (non bloquant)
-    const inlineImages = extractCloudinaryImagesFromContent(post.content);
+    const inlineImages = extractImagesFromContent(post.content);
     for (const imageUrl of inlineImages) {
-      const publicId = extractCloudinaryPublicId(imageUrl);
-      if (publicId) {
-        cloudinary.uploader.destroy(publicId).catch(err =>
-          console.error('Background inline image deletion failed:', err)
-        );
-      }
+      deleteImage(imageUrl).catch(err =>
+        console.error('Background inline image deletion failed:', err)
+      );
     }
 
     // Supprimer l'article de la DB

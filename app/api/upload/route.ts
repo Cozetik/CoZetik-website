@@ -1,12 +1,7 @@
-import { v2 as cloudinary } from 'cloudinary'
+import { UTApi } from 'uploadthing/server'
 import { NextResponse } from 'next/server'
 
-// Configuration Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+const utapi = new UTApi()
 
 export async function POST(request: Request) {
   try {
@@ -41,50 +36,32 @@ export async function POST(request: Request) {
       )
     }
 
-    // Vérifier que les credentials Cloudinary existent
-    if (
-      !process.env.CLOUDINARY_CLOUD_NAME ||
-      !process.env.CLOUDINARY_API_KEY ||
-      !process.env.CLOUDINARY_API_SECRET
-    ) {
-      console.error('Cloudinary credentials are not configured')
+    // Vérifier que le token Uploadthing existe
+    if (!process.env.UPLOADTHING_TOKEN) {
+      console.error('UPLOADTHING_TOKEN is not configured')
       return NextResponse.json(
         {
           error:
-            'Configuration serveur manquante. Veuillez configurer les credentials Cloudinary',
+            'Configuration serveur manquante. Veuillez configurer le token Uploadthing',
         },
         { status: 500 }
       )
     }
 
-    // Convertir le fichier en buffer
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+    // Upload vers Uploadthing
+    const response = await utapi.uploadFiles(file)
 
-    // Upload vers Cloudinary via Promise
-    const result = await new Promise<{ secure_url: string; public_id: string }>(
-      (resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          {
-            folder: 'cozetik', // Dossier dans Cloudinary
-            resource_type: 'image',
-            transformation: [
-              { quality: 'auto', fetch_format: 'auto' }, // Optimisation automatique
-            ],
-          },
-          (error, result) => {
-            if (error) reject(error)
-            else resolve(result as { secure_url: string; public_id: string })
-          }
-        )
-
-        uploadStream.end(buffer)
-      }
-    )
+    if (response.error) {
+      console.error('Uploadthing error:', response.error)
+      return NextResponse.json(
+        { error: "Erreur lors de l'upload. Veuillez réessayer." },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json({
-      url: result.secure_url,
-      publicId: result.public_id,
+      url: response.data.url,
+      key: response.data.key,
     })
   } catch (error) {
     console.error('Upload error:', error)
