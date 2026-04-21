@@ -56,7 +56,7 @@ export default function AProposPage() {
         {/* Rectangle violet en bas à gauche avec 50px d'écart */}
         <div className="absolute -bottom-[15px] left-4 z-10 h-auto min-h-[120px] w-[calc(100%-2rem)] bg-[#2c2c2c] flex flex-col items-start justify-center px-4 py-6 md:-bottom-[20px] md:left-8 md:w-[calc(100%-4rem)] md:px-6 md:py-8 lg:-bottom-[30px] lg:left-[50px] lg:h-[219px] lg:w-[1052px] lg:px-[70px]">
           <h1 className="text-5xl font-extrabold  tracking-wide text-white leading-none text-left font-bricolage sm:text-7xl md:text-7xl lg:text-7xl xl:text-[80px]">
-            Qui sommes nous ?
+            Qui sommes-nous ?
           </h1>
           <p className="text-sm text-white md:text-base lg:text-lg xl:text-xl mt-2 text-left font-sans">
             Votre Partenaire Stratégique pour les Talents d&apos;Avenir
@@ -130,8 +130,7 @@ export default function AProposPage() {
             {/* DROITE : Texte */}
             <div className="flex flex-col justify-center space-y-5 lg:col-span-3 max-w-[500px]">
               <h2 className="text-2xl font-medium text-black md:text-3xl lg:text-5xl leading-tight font-display">
-                Former pour un monde technologique, humain en constante
-                évolution
+                Former pour un monde technologique et humain en constante évolution
               </h2>
               <p className="text-base leading-relaxed text-gray-800 font-sans">
                 Cozétik est né de la convergence entre transformation numérique

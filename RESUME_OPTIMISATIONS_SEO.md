@@ -36,7 +36,7 @@ Optimisation SEO complète du site Cozetik.fr, un centre de formation profession
 - **Fichier** : `app/(public)/page.tsx`
 - **Contenu** :
   - Nom, URL, Logo
-  - Adresse complète (4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine)
+  - Adresse complète (41 rue Paul Berthelot, 33300 Bordeaux.)
   - ContactPoint (email, téléphone, zone géographique)
   - Description de l'organisation
 

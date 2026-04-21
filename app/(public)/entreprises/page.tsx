@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'Formations entreprise - Solutions de formation sur mesure',
@@ -324,7 +323,7 @@ export default function EntreprisesPage() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <p className="mb-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                📍 <strong>Adresse :</strong> 4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine
+                📍 <strong>Adresse :</strong> 41 rue Paul Berthelot, 33300 Bordeaux.
               </p>
               <p className="mb-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
                 📞 <strong>Téléphone :</strong> [numéro]

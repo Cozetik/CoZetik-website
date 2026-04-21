@@ -109,7 +109,7 @@ export function emailCandidatureUser({
                 <strong>Nicolas MORBY</strong><br />
                 Fondateur & Président<br />
                 COZÉTIK — CFA certifié Qualiopi<br />
-                4 rue Sarah Bernhardt — 92600 Asnières-sur-Seine<br />
+                41 rue Paul Berthelot, 33300 Bordeaux<br />
                 nicolas.morby@gmail.com · <a href="https://www.cozetik.fr" target="_blank" rel="noopener noreferrer">www.cozetik.fr</a>
               </p>
             </td>
@@ -220,7 +220,7 @@ export function emailCandidatureUser({
                 <strong>Nicolas MORBY</strong><br />
                 Fondateur & Président<br />
                 COZÉTIK — CFA certifié Qualiopi<br />
-                4 rue Sarah Bernhardt — 92600 Asnières-sur-Seine<br />
+                41 rue Paul Berthelot, 33300 Bordeaux<br />
                 nicolas.morby@gmail.com · <a href="https://www.cozetik.fr" target="_blank" rel="noopener noreferrer">www.cozetik.fr</a>
               </p>
             </td>

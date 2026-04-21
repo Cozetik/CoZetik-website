@@ -104,9 +104,9 @@ export default async function Home() {
       "Cozetik - Formations professionnelles certifiantes. Développez vos compétences avec des formations de qualité adaptées aux besoins du marché.",
     address: {
       "@type": "PostalAddress" as const,
-      streetAddress: "4 Rue Sarah Bernhardt",
-      addressLocality: "Asnières-sur-Seine",
-      postalCode: "92600",
+      streetAddress: "41 rue Paul Berthelot",
+      addressLocality: "Bordeaux",
+      postalCode: "33300",
       addressCountry: "FR",
     },
     contactPoint: {

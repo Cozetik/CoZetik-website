@@ -202,7 +202,7 @@ export async function Footer() {
               className="font-sans text-sm font-normal text-[#888888]"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
-              4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine
+              41 rue Paul Berthelot, 33300 Bordeaux.
             </p>
           </div>
         </div>

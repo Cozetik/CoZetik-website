@@ -118,9 +118,7 @@ Ce document liste toutes les recherches Google qui peuvent amener directement su
 - **centre formation professionnelle Asnières**
 
 ### Recherches d'adresse
-- **4 Rue Sarah Bernhardt formation**
-- **formation Sarah Bernhardt Asnières**
-- **centre formation Asnières métro ligne 13**
+- **41 rue Paul Berthelot, 33300 Bordeaux. formation**
 
 ---
 
