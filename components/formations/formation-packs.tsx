@@ -118,7 +118,7 @@ export default function FormationPacks({
                     pack.isPopular ? "text-gray-400" : "text-gray-500"
                   )}
                 >
-                  Ce qui est inclut :
+                  Ce qui est inclus :
                 </p>
                 <ul className="space-y-4">
                   {pack.features.map((feature, idx) => (

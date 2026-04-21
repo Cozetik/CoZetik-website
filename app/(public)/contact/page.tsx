@@ -396,9 +396,9 @@ export default function ContactPage() {
                       fontFamily: "var(--font-bricolage), sans-serif",
                     }}
                   >
-                    4 Rue Sarah Bernhardt
+                   41 rue Paul Berthelot, 33300 Bordeaux
                     <br />
-                    92600 Asnières-sur-Seine
+                    33300 Bordeaux
                   </p>
                 </div>
                 <div className="mb-4">
@@ -490,14 +490,14 @@ export default function ContactPage() {
                   style={{ height: "400px" }}
                 >
                   <iframe
-                    src="https://www.google.com/maps?q=4+Rue+Sarah+Bernhardt,+92600+Asnières-sur-Seine&output=embed&zoom=15"
+                    src="https://www.google.com/maps?q=41+rue+Paul+Berthelot,+33300+Bordeaux&output=embed&zoom=15"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Localisation Cozetik - 4 Rue Sarah Bernhardt, 92600 Asnières-sur-Seine"
+                    title="Localisation Cozetik - 41 rue Paul Berthelot, 33300 Bordeaux."
                   />
                 </div>
                 <p

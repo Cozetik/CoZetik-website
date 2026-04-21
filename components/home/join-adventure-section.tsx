@@ -7,7 +7,7 @@ const steps = [
   {
     number: '01',
     title: 'VOUS POSTULEZ',
-    description: 'Remplissez le formulaire en ligne avec votre information exact',
+    description: 'Remplissez le formulaire en ligne avec vos informations exactes',
   },
   {
     number: '02',
@@ -17,7 +17,7 @@ const steps = [
   {
     number: '03',
     title: 'PRÉPAREZ-VOUS',
-    description: 'Commencez votre formation enthousiasmé',
+    description: 'Commencez votre formation enthousiasmé(e)',
   },
 ]
 

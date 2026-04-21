@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +22,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Euro, FileText, Hash, ListChecks, Loader2, Plus, Star, TrendingDown } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -327,7 +327,7 @@ export default function AddPackDialog({
                     <FormItem>
                       <FormLabel className="text-gray-700 font-medium flex items-center gap-2">
                         <ListChecks className="h-4 w-4 text-gray-400" />
-                        Ce qui est inclut <span className="text-red-500">*</span>
+                        Ce qui est inclus <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Textarea
