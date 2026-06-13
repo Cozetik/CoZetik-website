@@ -126,6 +126,13 @@ export default async function Home() {
   return (
     <>
       <StructuredData data={organizationSchema} />
+      {/* Préchargement de l'image d'attente du hero (élément LCP) */}
+      <link
+        rel="preload"
+        as="image"
+        href="/hero-poster.jpg"
+        fetchPriority="high"
+      />
       <div className="flex flex-col">
         {/* Hero Section - Full viewport, starts at top (under navbar) */}
         <HeroSection />
