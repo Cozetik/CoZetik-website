@@ -4,7 +4,7 @@ import { LegalLayout } from "@/components/legal/legal-layout";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Accessibilité | Cozetik",
+  title: "Accessibilité",
   description:
     "Déclaration d'accessibilité du site cozetik.fr et engagement de Cozetik en faveur de l'accessibilité, y compris pour les personnes en situation de handicap.",
   alternates: { canonical: `${baseUrl}/accessibilite` },

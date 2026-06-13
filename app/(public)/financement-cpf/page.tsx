@@ -8,7 +8,7 @@ import { CpfFinanceButton } from "@/components/formations/certification-status";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Financer sa formation avec le CPF | Cozetik",
+  title: "Financer sa formation avec le CPF",
   description:
     "Cozetik est un organisme de formation certifié Qualiopi à Bordeaux. Financez nos formations certifiantes éligibles au CPF via Mon Compte Formation.",
   alternates: { canonical: `${baseUrl}/financement-cpf` },

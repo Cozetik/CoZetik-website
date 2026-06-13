@@ -329,7 +329,7 @@ export default function EntreprisesPage() {
                 📞 <strong>Téléphone :</strong> [numéro]
               </p>
               <p className="mb-2 text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                📧 <strong>Email :</strong> entreprises@cozetik.fr
+                📧 <strong>Email :</strong> nicolas.morby@cozetik.com
               </p>
             </div>
             <div>

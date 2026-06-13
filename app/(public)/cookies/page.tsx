@@ -4,7 +4,7 @@ import { LegalLayout } from "@/components/legal/legal-layout";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Gestion des cookies | Cozetik",
+  title: "Gestion des cookies",
   description:
     "Informations sur l'utilisation des cookies sur le site cozetik.fr et la gestion de votre consentement.",
   alternates: { canonical: `${baseUrl}/cookies` },

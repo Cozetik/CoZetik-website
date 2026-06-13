@@ -19,3 +19,15 @@ export const FORMATION_META_DESCRIPTION: Record<string, string> = {
 export function getFormationMetaDescription(slug: string): string | undefined {
   return FORMATION_META_DESCRIPTION[slug];
 }
+
+/**
+ * Titres SEO courts par formation (utilisés quand l'intitulé officiel est trop
+ * long pour un <title> propre). Le gabarit ajoute déjà « | Cozetik ».
+ */
+export const FORMATION_META_TITLE: Record<string, string> = {
+  "ia-productivite-tpe": "Formation IA & productivité pour TPE à Bordeaux",
+};
+
+export function getFormationMetaTitle(slug: string): string | undefined {
+  return FORMATION_META_TITLE[slug];
+}

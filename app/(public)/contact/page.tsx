@@ -439,21 +439,11 @@ export default function ContactPage() {
                     }}
                   >
                     <Link
-                      href="mailto:nicolas.morby@gmail.com"
+                      href="mailto:nicolas.morby@cozetik.com"
                       className="underline hover:text-[#9A80B8]"
                     >
-                      nicolas.morby@gmail.com
+                      nicolas.morby@cozetik.com
                     </Link>
-                    <br />
-                    <Link
-                      href="mailto:entreprises@cozetik.fr"
-                      className="underline hover:text-[#9A80B8]"
-                    >
-                      entreprises@cozetik.fr
-                    </Link>
-                    <span className="text-sm block mt-1">
-                      (pour les demandes professionnelles)
-                    </span>
                   </p>
                 </div>
                 <div>

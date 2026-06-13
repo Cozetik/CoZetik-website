@@ -1161,7 +1161,7 @@ function CandidaterContent() {
                   Conformément au RGPD, vous disposez d&apos;un droit
                   d&apos;accès, de rectification et de suppression de vos
                   données. Pour l&apos;exercer, contactez-nous à
-                  nicolas.morby@gmail.com
+                  nicolas.morby@cozetik.com
                 </p>
               </div>
 

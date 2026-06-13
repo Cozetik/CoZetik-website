@@ -6,7 +6,7 @@ import FormationObjectives from "@/components/formations/formation-objectives";
 import FormationPacks from "@/components/formations/formation-packs";
 import { CertificationBadges } from "@/components/formations/certification-badges";
 import { getCertification } from "@/lib/certifications";
-import { getFormationMetaDescription } from "@/lib/formation-seo";
+import { getFormationMetaDescription, getFormationMetaTitle } from "@/lib/formation-seo";
 import { StructuredData } from "@/components/seo/structured-data";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
@@ -64,14 +64,11 @@ export async function generateMetadata({
 
   if (!formation) {
     return {
-      title: "Formation non trouvée | Cozetik",
+      title: "Formation non trouvée",
     };
   }
 
-  const title =
-    formation.title.length > 60
-      ? formation.title.substring(0, 57) + "..."
-      : formation.title;
+  const title = getFormationMetaTitle(slug) ?? formation.title;
   const description =
     getFormationMetaDescription(slug) ??
     (formation.description && formation.description.length > 160
@@ -87,7 +84,7 @@ export async function generateMetadata({
       description,
       images: formation.imageUrl ? [formation.imageUrl] : ["/og-image.jpg"],
       url: `${process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr"}/formations/${formation.slug}`,
-      type: "article",
+      type: "website",
     },
     twitter: {
       card: "summary_large_image",

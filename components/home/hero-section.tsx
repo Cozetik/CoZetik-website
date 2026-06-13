@@ -102,13 +102,16 @@ export function HeroSection() {
         <div className="relative">
           {/* Main Title */}
           <TextReveal
-            as={"h1"}
+            as={"div"}
             text="COZÉTIK"
             delay={0.2}
             className="font-display text-[80px] sm:text-[125px] md:text-[150px] lg:text-[180px] xl:text-[200px] 2xl:text-[230px] font-normal leading-[100%] tracking-[0] text-cozetik-white mx-auto w-auto max-w-full px-4 break-words"
           />
-          {/* Subtitle */}
-          <p className="mt-4 font-sans hidden text-lg text-cozetik-white md:text-xl lg:text-2xl lg:block">
+          {/* Titre principal (H1) — promesse + mots-clés CPF/Bordeaux */}
+          <h1 className="mt-4 px-4 font-sans text-lg font-medium text-cozetik-white md:text-xl lg:text-2xl">
+            Formations certifiantes éligibles au CPF pour TPE et indépendants, à Bordeaux ou à distance
+          </h1>
+          <p className="mt-2 font-sans hidden text-base text-cozetik-white/85 lg:block">
             Montez en compétences et remettez votre activité en mouvement, à votre rythme.
           </p>
 

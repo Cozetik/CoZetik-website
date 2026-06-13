@@ -6,7 +6,7 @@ import { LegalLayout } from "@/components/legal/legal-layout";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Plan du site | Cozetik",
+  title: "Plan du site",
   description: "Plan du site cozetik.fr : retrouvez l'ensemble des pages.",
   alternates: { canonical: `${baseUrl}/sitemap` },
 };

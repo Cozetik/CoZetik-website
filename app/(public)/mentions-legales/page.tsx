@@ -4,7 +4,7 @@ import { LegalLayout } from "@/components/legal/legal-layout";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Mentions légales | Cozetik",
+  title: "Mentions légales",
   description:
     "Mentions légales du site cozetik.fr — éditeur, hébergeur et informations légales de l'organisme de formation Cozetik.",
   alternates: { canonical: `${baseUrl}/mentions-legales` },

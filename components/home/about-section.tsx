@@ -55,12 +55,12 @@ export function AboutSection() {
                 className="mt-6 max-w-[600px] relative z-10 font-sans text-base leading-[150%] text-cozetik-black md:text-lg"
                 style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
               >
-                Chez Cozetik, nous croyons que chaque parcours est unique.
-                C&apos;est pourquoi nos formations post-bac allient excellence
-                académique, accompagnement personnalisé et innovation
-                pédagogique. Du numérique au développement personnel, nous vous
-                donnons les clés pour réussir dans un monde professionnel en
-                constante évolution.
+                Cozetik est un organisme de formation certifié Qualiopi à
+                Bordeaux. Nous accompagnons les TPE, les indépendants et les
+                personnes en reconversion vers des compétences concrètes et
+                immédiatement utiles. Nos parcours certifiants sont éligibles au
+                CPF — du numérique à l&apos;entrepreneuriat, à distance ou en
+                présentiel.
               </p>
 
               {/* CTA - Texte avec soulignement au hover */}

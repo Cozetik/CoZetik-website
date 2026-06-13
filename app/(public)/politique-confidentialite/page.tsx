@@ -4,7 +4,7 @@ import { LegalLayout } from "@/components/legal/legal-layout";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Politique de confidentialité | Cozetik",
+  title: "Politique de confidentialité",
   description:
     "Comment Cozetik collecte, utilise et protège vos données personnelles, conformément au RGPD.",
   alternates: { canonical: `${baseUrl}/politique-confidentialite` },

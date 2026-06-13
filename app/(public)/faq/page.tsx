@@ -5,7 +5,7 @@ import { homeFaqItems } from "@/components/home/faq-data";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Foire aux questions | Cozetik",
+  title: "Foire aux questions",
   description:
     "Questions fréquentes sur les formations Cozetik : certifications, éligibilité CPF, modalités à distance ou en présentiel à Bordeaux.",
   alternates: { canonical: `${baseUrl}/faq` },

@@ -4,7 +4,7 @@ import { LegalLayout } from "@/components/legal/legal-layout";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Conditions générales de vente | Cozetik",
+  title: "Conditions générales de vente",
   description:
     "Conditions générales de vente des prestations de formation Cozetik : inscription, tarifs, financement CPF, rétractation et réclamations.",
   alternates: { canonical: `${baseUrl}/cgv` },
