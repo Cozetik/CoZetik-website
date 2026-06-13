@@ -15,14 +15,31 @@ import { TextReveal } from "../animations/text-reveal";
 export function HeroSection() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  // false par défaut → le rendu SSR/initial affiche l'image (pas de chargement
+  // vidéo avant de connaître la taille de l'écran). Sur mobile, la vidéo n'est
+  // jamais montée donc jamais téléchargée.
+  const [isDesktop, setIsDesktop] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Ensure video plays on mount
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const handleChange = () => setIsDesktop(mediaQuery.matches);
+
+    // Initialisation + écoute des changements de taille
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Ensure video plays on mount (no-op si la vidéo n'est pas montée → videoRef.current null)
     if (videoRef.current) {
       videoRef.current.play().catch(() => {});
     }
-  }, []);
+  }, [isDesktop]);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -51,20 +68,31 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      {/* Video Background Layer */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        poster="/hero-poster.jpg"
-        className="absolute inset-0 h-full w-full object-cover "
-      >
-        <source src="/hero.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      {/* Background Layer - Vidéo sur desktop (≥768px), image sur mobile.
+          La vidéo n'est montée que sur desktop pour ne JAMAIS télécharger
+          le .mp4 (~2 Mo) sur mobile. */}
+      {isDesktop ? (
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster="/hero-poster.jpg"
+          className="absolute inset-0 h-full w-full object-cover "
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <img
+          src="/hero-poster.jpg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
 
       {/* Overlay Layer - assombrissement pour le contraste du texte (WCAG) - pointer-events-none */}
       <div className="pointer-events-none absolute inset-0 bg-black/40" />

@@ -153,7 +153,7 @@ export default function FormationPacks({
                 <Link
                   href={`/candidater?formationId=${formationId}&pack=${encodeURIComponent(pack.name)}`}
                 >
-                  C&apos;est parti !
+                  Candidater
                 </Link>
               </Button>
             </div>

@@ -48,7 +48,7 @@ export function FinalCTASection() {
               className="group inline-flex items-center gap-3 rounded-none border-2 border-transparent bg-cozetik-black px-8 py-4 font-sans text-lg font-semibold text-cozetik-white shadow-none transition-all duration-300 ease-out hover:scale-105 hover:bg-[#363636] hover:shadow-[0_4px_12px_rgba(0,0,0,0.3)] active:scale-98 focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-cozetik-white md:w-auto lg:px-8"
               tabIndex={0}
             >
-              <span>Je candidate</span>
+              <span>Candidater</span>
               <ArrowRight
                 className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden="true"

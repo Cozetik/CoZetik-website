@@ -109,6 +109,14 @@ export default async function FormationPage({ params }: FormationPageProps) {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
   const formationUrl = `${baseUrl}/formations/${formation.slug}`;
 
+  // Offre : pack le moins cher (si des packs existent)
+  const cheapestPack =
+    formation.packs.length > 0
+      ? formation.packs.reduce((min, pack) =>
+          pack.price < min.price ? pack : min
+        )
+      : null;
+
   // Structured Data - Course Schema
   const courseSchema = {
     "@context": "https://schema.org" as const,
@@ -141,6 +149,25 @@ export default async function FormationPage({ params }: FormationPageProps) {
         name: formation.level,
       },
     }),
+    // Offre : pack le moins cher
+    ...(cheapestPack && {
+      offers: {
+        "@type": "Offer" as const,
+        price: cheapestPack.price,
+        priceCurrency: "EUR",
+        availability: "https://schema.org/InStock" as const,
+        url: formationUrl,
+      },
+    }),
+    // Note agrégée : uniquement si des avis existent
+    ...(formation.reviewsCount > 0 &&
+      formation.rating != null && {
+        aggregateRating: {
+          "@type": "AggregateRating" as const,
+          ratingValue: formation.rating,
+          reviewCount: formation.reviewsCount,
+        },
+      }),
   };
 
   // Structured Data - BreadcrumbList

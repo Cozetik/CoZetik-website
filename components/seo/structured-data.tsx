@@ -1,7 +1,9 @@
-import { Organization, BreadcrumbList, Article, Course } from './structured-data-types'
+import { Organization, BreadcrumbList, Article, Course, FAQPage } from './structured-data-types'
+
+type StructuredDataItem = Organization | BreadcrumbList | Article | Course | FAQPage
 
 interface StructuredDataProps {
-  data: Organization | BreadcrumbList | Article | Course | (Organization | BreadcrumbList | Article | Course)[]
+  data: StructuredDataItem | StructuredDataItem[]
 }
 
 export function StructuredData({ data }: StructuredDataProps) {

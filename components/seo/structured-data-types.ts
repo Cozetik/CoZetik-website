@@ -79,5 +79,30 @@ export interface Course {
   educationalCredentialAwarded?: string
   teaches?: string[]
   coursePrerequisites?: string
+  offers?: {
+    '@type': 'Offer'
+    price: number
+    priceCurrency: string
+    availability: string
+    url?: string
+  }
+  aggregateRating?: {
+    '@type': 'AggregateRating'
+    ratingValue: number
+    reviewCount: number
+  }
+}
+
+export interface FAQPage {
+  '@context': 'https://schema.org'
+  '@type': 'FAQPage'
+  mainEntity: Array<{
+    '@type': 'Question'
+    name: string
+    acceptedAnswer: {
+      '@type': 'Answer'
+      text: string
+    }
+  }>
 }
 

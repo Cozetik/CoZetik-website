@@ -1,9 +1,12 @@
 import { AboutSection } from "@/components/home/about-section";
 import { CategoriesSection } from "@/components/home/categories-section";
 import { FAQSection } from "@/components/home/faq-section";
+import { homeFaqItems } from "@/components/home/faq-data";
+import { FeaturedFormationsSection } from "@/components/home/featured-formations-section";
 import { FinalCTASection } from "@/components/home/final-cta-section";
 import { HeroSection } from "@/components/home/hero-section";
 import { JoinAdventureSection } from "@/components/home/join-adventure-section";
+import { ReassuranceBand } from "@/components/home/reassurance-band";
 import { ValuesSection } from "@/components/home/values-section";
 import { StructuredData } from "@/components/seo/structured-data";
 import { prisma } from "@/lib/prisma";
@@ -123,9 +126,23 @@ export default async function Home() {
     ],
   };
 
+  // FAQPage Schema (rich results Google) — généré depuis le contenu de la FAQ
+  const faqSchema = {
+    "@context": "https://schema.org" as const,
+    "@type": "FAQPage" as const,
+    mainEntity: homeFaqItems.map((item) => ({
+      "@type": "Question" as const,
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer" as const,
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <>
-      <StructuredData data={organizationSchema} />
+      <StructuredData data={[organizationSchema, faqSchema]} />
       {/* Préchargement de l'image d'attente du hero (élément LCP) */}
       <link
         rel="preload"
@@ -139,6 +156,9 @@ export default async function Home() {
 
         {/* About Section - Regular flow with top padding */}
         <AboutSection />
+
+        {/* Bande de réassurance (Qualiopi / CPF / 48h) avant la candidature */}
+        <ReassuranceBand />
 
         <section id="formations" className="relative z-0 bg-[#FDFDFD] px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
           <div className="container mx-auto max-w-[1440px]">
@@ -159,6 +179,9 @@ export default async function Home() {
             <CategoriesSection categories={categories} />
           </div>
         </section>
+
+        {/* Formations à la une */}
+        <FeaturedFormationsSection formations={formations} />
 
         {/* Section Vision/Philosophie - Contenu SEO optimisé */}
         <section className="relative bg-white px-4 py-16 md:px-6 md:py-20 lg:px-[120px] lg:py-24">

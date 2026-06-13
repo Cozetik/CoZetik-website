@@ -7,6 +7,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
+// Données Q/R (texte brut) — réexportées depuis un module neutre pour le JSON-LD.
+export { homeFaqItems } from "./faq-data"
+
 export function FAQSection() {
   return (
     <section className="relative bg-[#F5EDE4] px-4 py-16 md:px-6 md:py-20 lg:px-[120px] lg:py-24">
@@ -72,4 +75,3 @@ export function FAQSection() {
     </section>
   )
 }
-
