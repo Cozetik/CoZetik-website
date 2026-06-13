@@ -36,6 +36,7 @@ const aboutLinks = [
 ];
 
 const infoLinks = [
+  { href: "/financement-cpf", label: "Financement CPF" },
   { href: "/faq", label: "FAQ" },
   { href: "/candidater", label: "Candidater" },
   { href: "/contact", label: "Contact" },
@@ -103,8 +104,9 @@ export async function Footer() {
               className="font-sans text-xs leading-relaxed text-cozetik-white/70"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
-              Centre de formation d&apos;apprentis innovant, Cozetik forme les
-              talents de demain avec des parcours uniques.
+              Organisme de formation certifié Qualiopi, Cozetik accompagne les
+              TPE, indépendants et personnes en reconversion avec des parcours
+              certifiants éligibles au CPF.
             </p>
             {/* Réseaux sociaux - à ajouter plus tard */}
           </div>
@@ -194,14 +196,21 @@ export async function Footer() {
               className="font-sans text-sm font-normal text-[#A3A3A3]"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
-              © {new Date().getFullYear()} Cozetik - Centre de Formation
-              d&apos;Apprentis. Tous droits réservés.
+              © {new Date().getFullYear()} Cozetik — Organisme de formation.
+              Tous droits réservés.
             </p>
             <p
               className="font-sans text-sm font-normal text-[#A3A3A3]"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
               41 rue Paul Berthelot, 33300 Bordeaux.
+            </p>
+            <p
+              className="font-sans text-xs font-normal text-[#A3A3A3]"
+              style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
+            >
+              COZÉTIK · SIREN 982 574 675 · Déclaration d&apos;activité n°
+              75331600233.
             </p>
           </div>
         </div>

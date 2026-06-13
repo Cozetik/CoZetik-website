@@ -14,10 +14,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Cozetik – Formations certifiantes éligibles CPF à Bordeaux",
+    absolute: "Cozetik | Formations certifiantes éligibles CPF à Bordeaux",
   },
   description:
-    "Organisme de formation à Bordeaux : parcours certifiants en informatique, business, communication et bien-être. Éligibles CPF. Candidatez en ligne.",
+    "Organisme de formation Qualiopi à Bordeaux pour TPE et indépendants. Formations certifiantes éligibles CPF, à distance ou en présentiel.",
   keywords: [
     "formations professionnelles",
     "formations certifiantes",
@@ -117,7 +117,7 @@ export default async function Home() {
     contactPoint: {
       "@type": "ContactPoint" as const,
       contactType: "customer service",
-      email: "contact@cozetik.fr",
+      email: "nicolas.morby@cozetik.com",
       areaServed: "FR",
       availableLanguage: ["French"],
     },
@@ -197,11 +197,14 @@ export default async function Home() {
                 className="font-sans text-base leading-relaxed text-cozetik-black md:text-lg lg:text-xl"
                 style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
               >
-                Chez Cozetik, nous croyons que l&apos;excellence professionnelle
-                naît de l&apos;équilibre entre compétences techniques,
-                intelligence émotionnelle et bien-être. C&apos;est pourquoi nos
-                formations cultivent autant votre savoir-faire que votre
-                savoir-être.
+                Chez Cozetik, nous pensons que la réussite professionnelle
+                repose autant sur le savoir-faire que sur le savoir-être. Nos
+                formations associent compétences techniques, intelligence
+                émotionnelle et bien-être pour vous aider à avancer concrètement.
+                À Bordeaux comme à distance, nous accompagnons les TPE, les
+                indépendants et les personnes en reconversion. Notre métier&nbsp;:
+                vous aider à vous remettre en mouvement et à passer à
+                l&apos;action.
               </p>
             </div>
           </div>

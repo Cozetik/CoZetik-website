@@ -109,7 +109,7 @@ export function HeroSection() {
           />
           {/* Subtitle */}
           <p className="mt-4 font-sans hidden text-lg text-cozetik-white md:text-xl lg:text-2xl lg:block">
-            Des parcours certifiants qui transforment votre carrière
+            Montez en compétences et remettez votre activité en mouvement, à votre rythme.
           </p>
 
           {/* Autographe SVG Vert - Animated */}

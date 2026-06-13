@@ -2,9 +2,9 @@ import { prisma } from '@/lib/prisma'
 import FormationsClientPage from './FormationsClient'
 
 export const metadata = {
-  title: 'Nos formations professionnelles certifiantes',
+  title: 'Formations certifiantes pour TPE et indépendants à Bordeaux',
   description:
-    'Découvrez notre catalogue complet de formations professionnelles certifiantes. Parcours post-bac en informatique, business, communication, intelligence émotionnelle et bien-être. Formations adaptées à vos ambitions professionnelles.',
+    'Les formations Cozetik à Bordeaux : deux parcours certifiants éligibles CPF (réseaux sociaux, création d\'entreprise) et de nouveaux programmes à venir.',
   keywords: [
     'formations professionnelles',
     'formations certifiantes',

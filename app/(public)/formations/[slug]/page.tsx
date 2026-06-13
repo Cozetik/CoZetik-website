@@ -6,6 +6,7 @@ import FormationObjectives from "@/components/formations/formation-objectives";
 import FormationPacks from "@/components/formations/formation-packs";
 import { CertificationBadges } from "@/components/formations/certification-badges";
 import { getCertification } from "@/lib/certifications";
+import { getFormationMetaDescription } from "@/lib/formation-seo";
 import { StructuredData } from "@/components/seo/structured-data";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
@@ -72,10 +73,11 @@ export async function generateMetadata({
       ? formation.title.substring(0, 57) + "..."
       : formation.title;
   const description =
-    formation.description?.length > 160
+    getFormationMetaDescription(slug) ??
+    (formation.description && formation.description.length > 160
       ? formation.description.substring(0, 157) + "..."
       : formation.description ||
-        `Découvrez notre formation ${formation.title} et développez vos compétences professionnelles.`;
+        `Découvrez notre formation ${formation.title} et développez vos compétences professionnelles.`);
 
   return {
     title,

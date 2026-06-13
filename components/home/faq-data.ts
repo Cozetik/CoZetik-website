@@ -19,7 +19,7 @@ export const homeFaqItems = [
   {
     question: "Des formations adaptées à vos objectifs professionnels",
     answer:
-      "Que vous soyez en reconversion professionnelle, en recherche d'emploi ou en activité, nos formations en ligne et en présentiel s'adaptent à votre rythme. Nos experts reconnus vous accompagnent tout au long de votre parcours pour garantir votre réussite. Chaque formation délivre une certification professionnelle reconnue, valorisant votre profil sur le marché de l'emploi.",
+      "Que vous soyez en reconversion professionnelle, en recherche d'emploi ou en activité, nos formations en ligne et en présentiel s'adaptent à votre rythme. Nos experts reconnus vous accompagnent tout au long de votre parcours. Nos parcours certifiants délivrent une certification professionnelle enregistrée à France Compétences, valorisant votre profil sur le marché de l'emploi.",
   },
   {
     question: "Catalogue de formations professionnelles complet",
