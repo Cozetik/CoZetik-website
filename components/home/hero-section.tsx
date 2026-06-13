@@ -20,9 +20,7 @@ export function HeroSection() {
   useEffect(() => {
     // Ensure video plays on mount
     if (videoRef.current) {
-      videoRef.current.play().catch((err) => {
-        console.log("Autoplay prevented:", err);
-      });
+      videoRef.current.play().catch(() => {});
     }
   }, []);
 
@@ -61,17 +59,15 @@ export function HeroSection() {
         muted
         playsInline
         preload="metadata"
+        poster="/hero-poster.jpg"
         className="absolute inset-0 h-full w-full object-cover "
       >
-        <source
-          src="https://utfs.io/f/EJdNPyvKndYIJJPd9oeqdEy34T18gVhOAteHscuiYU7QWfmS"
-          type="video/mp4"
-        />
+        <source src="/hero.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
-      {/* Overlay Layer - 20% opacity for readability - pointer-events-none */}
-      <div className="pointer-events-none absolute inset-0 bg-black/[0.20]" />
+      {/* Overlay Layer - assombrissement pour le contraste du texte (WCAG) - pointer-events-none */}
+      <div className="pointer-events-none absolute inset-0 bg-black/40" />
 
       {/* Content Layer */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center">
@@ -169,9 +165,10 @@ export function HeroSection() {
       </div>
       <Link
         href="#formations"
+        aria-label="Aller à la section formations"
         className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 md:bottom-6"
       >
-        <ArrowDown className="h-8 w-8 text-cozetik-white/70 animate-bounce transition-all duration-800 hover:text-cozetik-white hover:scale-110 md:h-16 md:w-16" />
+        <ArrowDown aria-hidden="true" className="h-8 w-8 text-cozetik-white/70 animate-bounce transition-all duration-800 hover:text-cozetik-white hover:scale-110 md:h-16 md:w-16" />
       </Link>
     </section>
   );

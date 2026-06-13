@@ -10,9 +10,11 @@ import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cozetik - Formations professionnelles certifiantes",
+  title: {
+    absolute: "Cozetik – Formations certifiantes éligibles CPF à Bordeaux",
+  },
   description:
-    "Développez vos compétences avec Cozetik. Formations professionnelles certifiantes de qualité en informatique, business, communication, intelligence émotionnelle et bien-être. Parcours post-bac adaptés à vos ambitions avec des experts reconnus. Découvrez notre catalogue complet.",
+    "Organisme de formation à Bordeaux : parcours certifiants en informatique, business, communication et bien-être. Éligibles CPF. Candidatez en ligne.",
   keywords: [
     "formations professionnelles",
     "formations certifiantes",
@@ -112,7 +114,7 @@ export default async function Home() {
     contactPoint: {
       "@type": "ContactPoint" as const,
       contactType: "customer service",
-      email: "nicolas.morby@gmail.com",
+      email: "contact@cozetik.fr",
       areaServed: "FR",
       availableLanguage: ["French"],
     },
@@ -131,7 +133,7 @@ export default async function Home() {
         {/* About Section - Regular flow with top padding */}
         <AboutSection />
 
-        <section className="relative z-0 bg-[#FDFDFD] px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
+        <section id="formations" className="relative z-0 bg-[#FDFDFD] px-4 py-10 md:px-6 md:py-16 lg:px-[120px] lg:py-[100px]">
           <div className="container mx-auto max-w-[1440px]">
             <div className="mb-12 text-center">
               <h2

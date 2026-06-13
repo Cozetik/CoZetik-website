@@ -89,9 +89,8 @@ export async function Footer() {
                 src="/logo-footer.png"
                 alt="Logo Cozetik"
                 width={150}
-                height={60}
+                height={107}
                 className="h-auto w-[150px]"
-                priority
               />
             </Link>
             <p
@@ -192,14 +191,14 @@ export async function Footer() {
         <div className="mt-10 border-t border-cozetik-white/20 pt-6 lg:w-screen">
           <div className="flex flex-col items-center justify-center gap-2 text-center">
             <p
-              className="font-sans text-sm font-normal text-[#888888]"
+              className="font-sans text-sm font-normal text-[#A3A3A3]"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
               © {new Date().getFullYear()} Cozetik - Centre de Formation
               d&apos;Apprentis. Tous droits réservés.
             </p>
             <p
-              className="font-sans text-sm font-normal text-[#888888]"
+              className="font-sans text-sm font-normal text-[#A3A3A3]"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
               41 rue Paul Berthelot, 33300 Bordeaux.

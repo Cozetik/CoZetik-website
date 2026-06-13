@@ -22,20 +22,21 @@ export default function FormationCTAMid({
       <div className="container mx-auto px-4 md:px-10 lg:px-20 text-center">
         {/* Titre */}
         <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-10">
-          PRÊT À TRANSFORMER
-          <br className="hidden md:block" /> VOTRE PRODUCTIVITÉ ?
+          PRÊT À PASSER
+          <br className="hidden md:block" /> À L&apos;ACTION ?
         </h2>
 
         {/* Bouton CTA */}
         <Button
+          asChild
           size="lg"
           className="bg-cozetik-black font-sans hover:bg-[#363636] text-white font-bold text-xl px-12 py-6 rounded-none transition-all duration-300 hover:scale-105 w-full md:w-1/2"
         >
           <Link
             href={`/candidater?formationId=${formationId}`}
-            className="flex items-center"
+            className="flex items-center justify-center"
           >
-            COMMENCER MAINTENANT
+            CANDIDATER
             <ArrowRight className="ml-3 w-6 h-6" />
           </Link>
         </Button>

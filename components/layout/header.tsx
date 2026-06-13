@@ -61,7 +61,7 @@ export function Header() {
                 : "/logo-cozetik_Logo-transparent.png"
             }
             alt="Cozetik"
-            width={280}
+            width={112}
             height={80}
             className="h-full w-auto object-contain transition-opacity duration-300"
             priority
@@ -92,7 +92,7 @@ export function Header() {
           })}
           <Link
             href="/candidater"
-            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-gray-300 bg-gray-700/60 rounded-none transition-all duration-200 hover:bg-[#ADA6DB] hover:text-white border-2 border-transparent"
+            className="ml-2 px-6 py-2 font-sans text-base font-semibold text-cozetik-black bg-[#ADA6DB] rounded-none transition-all duration-200 hover:bg-[#9b93cf] border-2 border-transparent"
           >
             Candidater
           </Link>
