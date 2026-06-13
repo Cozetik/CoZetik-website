@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { CertificationPill } from "@/components/formations/certification-status";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 
 // Hook pour éviter les warnings SSR avec useLayoutEffect
@@ -110,6 +111,9 @@ function FormationCard({ formation }: { formation: Formation }) {
     <div className="group flex h-full flex-col bg-white border-2 border-[#262626] px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 transition-all duration-300 hover:bg-[#262626]">
       <div className="text-xs font-semibold uppercase tracking-[0.35em] text-[#ADA6DB] transition-colors duration-300 break-words">
         {formation.category?.name || "Formation"}
+      </div>
+      <div className="mt-3">
+        <CertificationPill slug={formation.slug} />
       </div>
       <h3 className="mt-4 font-bricolage text-xl sm:text-2xl md:text-3xl font-extrabold text-[#262626] transition-colors duration-300 group-hover:text-white break-words">
         {formation.title}

@@ -1,4 +1,5 @@
 import { Award, Calendar, CheckCircle, Clock, Users } from "lucide-react";
+import { isCertificationValidated } from "@/lib/certifications";
 
 interface FormationKeyInfosProps {
   formation: {
@@ -7,6 +8,7 @@ interface FormationKeyInfosProps {
     isFlexible: boolean;
     maxStudents: number | null;
     isCertified: boolean;
+    slug: string;
   };
 }
 
@@ -42,9 +44,9 @@ export default function FormationKeyInfos({
     },
     {
       icon: CheckCircle,
-      value: "Certifié",
-      label: "Diplôme",
-      show: formation.isCertified,
+      value: isCertificationValidated(formation.slug) ? "Éligible CPF" : "À venir",
+      label: "Certification",
+      show: true,
     },
   ].filter((info) => info.show);
 

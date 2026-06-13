@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Clock, Euro, ArrowRight } from 'lucide-react'
+import { CertificationPill } from '@/components/formations/certification-status'
 
 interface Formation {
   id: string
@@ -83,7 +84,8 @@ export function FeaturedFormationsSection({
                 </p>
 
                 {/* Meta Info */}
-                <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                  <CertificationPill slug={formation.slug} />
                   {formation.duration && (
                     <div className="flex items-center gap-1">
                       <Clock className="h-4 w-4" />

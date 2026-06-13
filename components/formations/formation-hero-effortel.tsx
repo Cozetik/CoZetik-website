@@ -2,6 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CertificationPill } from "./certification-status";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import gsap from "gsap";
@@ -26,6 +27,7 @@ interface FormationHeroEffortelProps {
   formationId: string;
   formation: {
     title: string;
+    slug: string;
     description: string;
     category: {
       name: string;
@@ -139,10 +141,13 @@ export default function FormationHeroEffortel({
             transition={{ duration: 0.6 }}
             className="lg:sticky lg:top-32"
           >
-            {/* Badge Catégorie */}
-            <Badge className="mb-6 font-sans bg-cozetik-green text-white font-semibold text-xs uppercase px-4 py-1.5 rounded-none">
-              {formation.category.name}
-            </Badge>
+            {/* Badge Catégorie + statut de certification */}
+            <div className="mb-6 flex flex-wrap items-center gap-3">
+              <Badge className="font-sans bg-cozetik-green text-white font-semibold text-xs uppercase px-4 py-1.5 rounded-none">
+                {formation.category.name}
+              </Badge>
+              <CertificationPill slug={formation.slug} />
+            </div>
 
             {/* Titre */}
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl text-white leading-tight mb-6">

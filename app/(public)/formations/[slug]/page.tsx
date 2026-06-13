@@ -5,6 +5,7 @@ import FormationKeyInfos from "@/components/formations/formation-key-infos";
 import FormationObjectives from "@/components/formations/formation-objectives";
 import FormationPacks from "@/components/formations/formation-packs";
 import { CertificationBadges } from "@/components/formations/certification-badges";
+import { getCertification } from "@/lib/certifications";
 import { StructuredData } from "@/components/seo/structured-data";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
@@ -109,6 +110,9 @@ export default async function FormationPage({ params }: FormationPageProps) {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
   const formationUrl = `${baseUrl}/formations/${formation.slug}`;
 
+  // Certification réellement enregistrée (France Compétences + CPF), ou null.
+  const cert = getCertification(formation.slug);
+
   // Offre : pack le moins cher (si des packs existent)
   const cheapestPack =
     formation.packs.length > 0
@@ -132,8 +136,8 @@ export default async function FormationPage({ params }: FormationPageProps) {
     url: formationUrl,
     image: formation.imageUrl ? formation.imageUrl : `${baseUrl}/og-image.jpg`,
     courseCode: formation.slug,
-    educationalCredentialAwarded: formation.isCertified
-      ? "Certificat professionnel"
+    educationalCredentialAwarded: cert
+      ? `Certification professionnelle ${cert.rsCode} — ${cert.officialTitle} (France Compétences)`
       : undefined,
     teaches: formation.objectives.length > 0 ? formation.objectives : undefined,
     coursePrerequisites: formation.prerequisites || "Aucun prérequis",
@@ -219,15 +223,15 @@ export default async function FormationPage({ params }: FormationPageProps) {
         
         {/* 3. Objectifs - Beige */}
         {formation.objectives.length > 0 && (
-          <>
-            <FormationObjectives objectives={formation.objectives} />
-            <div className="bg-cozetik-beige pb-12">
-              <div className="container mx-auto px-4 md:px-10 lg:px-20">
-                <CertificationBadges />
-              </div>
-            </div>
-          </>
+          <FormationObjectives objectives={formation.objectives} />
         )}
+
+        {/* 3b. Certification & financement - Beige (toujours affiché) */}
+        <div className="bg-cozetik-beige pb-12">
+          <div className="container mx-auto px-4 md:px-10 lg:px-20">
+            <CertificationBadges slug={formation.slug} />
+          </div>
+        </div>
 
         {/* 4. CTA Milieu - Vert */}
         <FormationCTAMid
