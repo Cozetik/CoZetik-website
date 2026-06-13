@@ -1,4 +1,5 @@
 import { Award, BadgeCheck, Clock } from "lucide-react";
+import Image from "next/image";
 
 const items = [
   {
@@ -26,6 +27,25 @@ export function ReassuranceBand() {
   return (
     <section className="relative z-0 bg-cozetik-beige px-4 py-10 md:px-6 md:py-12 lg:px-[120px]">
       <div className="container mx-auto max-w-[1200px]">
+        {/* Logos officiels — Qualiopi + Mon Compte Formation */}
+        <div className="mb-8 flex flex-wrap items-center justify-center gap-10 md:mb-10 md:gap-16">
+          <div className="relative h-14 w-44 md:h-16 md:w-52">
+            <Image
+              src="/qualiopi.png"
+              alt="Certification Qualiopi"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div className="relative h-16 w-28 md:h-20 md:w-32">
+            <Image
+              src="/CPF.png"
+              alt="Éligible Mon Compte Formation"
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 md:gap-8">
           {items.map(({ icon: Icon, title, description }) => (
             <div

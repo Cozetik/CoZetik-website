@@ -136,28 +136,21 @@ export function HeroSection() {
           </svg>
         </div>
 
-        {/* CTA Buttons */}
-        <div className="relative z-30 mt-6 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+        {/* CTA Buttons — 1 primaire (solide) + 1 secondaire (discret) */}
+        <div className="relative z-30 mt-8 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
           <Link
             href="/formations"
-            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
+            className="inline-flex items-center justify-center gap-2 bg-white px-8 py-4 font-sans text-lg font-semibold text-cozetik-black transition-all duration-300 hover:gap-3 hover:bg-cozetik-beige"
           >
             Découvrir nos formations
-            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
+            <ArrowRight className="h-5 w-5 transition-transform md:h-6 md:w-6" />
           </Link>
           <Link
             href="/quiz"
-            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
+            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-base font-semibold text-cozetik-white/90 transition-all duration-300 hover:border-cozetik-white hover:text-cozetik-white md:text-lg"
           >
             Trouvez votre formation idéale
-            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
-          </Link>
-          <Link
-            href="/candidater"
-            className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-lg font-semibold text-cozetik-white transition-all duration-300 hover:border-cozetik-white hover:gap-3 md:text-xl lg:text-2xl"
-          >
-            Candidater
-            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1 md:h-7 md:w-7" />
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

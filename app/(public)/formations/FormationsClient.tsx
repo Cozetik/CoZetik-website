@@ -121,15 +121,13 @@ function FormationCard({ formation }: { formation: Formation }) {
       <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#262626]/70 transition-colors duration-300 group-hover:text-white/80 break-words">
         {formation.description || ""}
       </p>
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-2 pt-6 sm:pt-8 mt-auto">
-        <div className="text-xs sm:text-sm uppercase tracking-wide text-[#262626]/60 transition-colors duration-300 group-hover:text-white/60">
-          En savoir plus
-        </div>
+      <div className="pt-6 sm:pt-8 mt-auto">
         <Link
           href={`/formations/${formation.slug}`}
-          className="flex items-center justify-center gap-2 bg-[#262626] px-4 py-3 text-sm sm:text-base font-semibold uppercase text-white transition-all duration-300 group-hover:bg-[#ADA6DB] group-hover:text-white whitespace-nowrap"
+          aria-label={`Découvrir la formation ${formation.title}`}
+          className="flex w-full items-center justify-center gap-2 bg-[#262626] px-4 py-3 text-sm sm:text-base font-semibold uppercase text-white transition-all duration-300 group-hover:bg-[#ADA6DB] group-hover:text-white whitespace-nowrap"
         >
-          Découvrir
+          Découvrir la formation
           <ArrowRight className="w-4 h-4 flex-shrink-0" />
         </Link>
       </div>
