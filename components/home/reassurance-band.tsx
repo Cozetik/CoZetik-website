@@ -51,7 +51,7 @@ export function ReassuranceBand() {
         </div>
 
         {/* Ligne de preuve sociale - mention générique, sans chiffre inventé */}
-        <p className="mt-8 text-center font-sans text-sm text-cozetik-black/60 md:text-base">
+        <p className="mt-8 text-center font-sans text-sm text-cozetik-black/80 md:text-base">
           Des formations conçues avec des experts du secteur et reconnues sur le
           marché de l&apos;emploi.
         </p>
