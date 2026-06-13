@@ -54,14 +54,12 @@ export function TextReveal({
           ".char",
           {
             y: 100,
-            opacity: 0,
             rotate: 90,
             scale: 0.5,
             transformOrigin: "50% 50%",
           },
           {
             y: 0,
-            opacity: 1,
             rotate: 0,
             scale: 1,
             duration: duration * 1.5,
@@ -127,8 +125,7 @@ export function TextReveal({
           key={index}
           className="char inline-block"
           style={{
-            opacity: 0,
-            willChange: isIntroDone.current ? "auto" : "transform, opacity",
+            willChange: isIntroDone.current ? "auto" : "transform",
           }}
         >
           {char}

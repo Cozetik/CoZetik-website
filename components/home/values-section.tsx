@@ -71,8 +71,8 @@ export function ValuesSection({ values: propValues }: ValuesSectionProps) {
           <Image
             src="/signature verte.png"
             alt="Signature verte"
-            width={300}
-            height={1000}
+            width={337}
+            height={1253}
             className="absolute bottom-0 -left-20 h-[1000px] w-auto"
           />
         </div>
@@ -94,8 +94,8 @@ export function ValuesSection({ values: propValues }: ValuesSectionProps) {
             <Image
               src="/signature verte.png"
               alt="Signature verte"
-              width={300}
-              height={400}
+              width={337}
+              height={1253}
               className="absolute bottom-0 -left-12 h-52 w-auto opacity-50 md:-left-16 md:h-[400px] lg:hidden"
             />
 
