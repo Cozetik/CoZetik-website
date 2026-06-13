@@ -26,7 +26,7 @@ export default function CookiesPage() {
         }
       </p>
 
-      <h2>Cookies de mesure d'audience</h2>
+      <h2>Cookies de mesure d&apos;audience</h2>
       <p>
         {
           "Si des outils de mesure d'audience venaient à être ajoutés, ils ne seraient déposés qu'après recueil de votre consentement, que vous pourriez retirer à tout moment."
