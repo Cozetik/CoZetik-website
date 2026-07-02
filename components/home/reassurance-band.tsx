@@ -1,21 +1,30 @@
-import { Award, BadgeCheck, Clock } from "lucide-react";
+import { Award, Clock, Wallet, Zap } from "lucide-react";
 import Image from "next/image";
 
 const items = [
   {
-    icon: Award,
-    title: "Certifié Qualiopi",
-    description: "Processus qualité certifié pour vos formations.",
+    icon: Wallet,
+    title: "Financé par vos droits CPF",
+    description:
+      "Mobilisez votre solde sur Mon Compte Formation, sans dossier bancaire.",
   },
   {
-    icon: BadgeCheck,
-    title: "Éligible CPF",
-    description: "Financez votre parcours via Mon Compte Formation.",
+    icon: Zap,
+    title: "Utile dès lundi",
+    description:
+      "Des méthodes concrètes à appliquer immédiatement dans votre activité.",
   },
   {
     icon: Clock,
-    title: "Réponse sous 48h",
-    description: "Un conseiller revient vers vous rapidement.",
+    title: "Pensé pour les pressés",
+    description:
+      "100 % e-learning, à votre rythme. Réponse sous 48 h.",
+  },
+  {
+    icon: Award,
+    title: "Reconnu par l'État",
+    description:
+      "Organisme certifié Qualiopi, certifications enregistrées à France Compétences.",
   },
 ];
 
@@ -46,7 +55,7 @@ export function ReassuranceBand() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 md:gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 md:gap-8">
           {items.map(({ icon: Icon, title, description }) => (
             <div
               key={title}

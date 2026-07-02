@@ -109,10 +109,10 @@ export function HeroSection() {
           />
           {/* Titre principal (H1) — promesse + mots-clés CPF/Bordeaux */}
           <h1 className="mt-4 px-4 font-sans text-lg font-medium text-cozetik-white md:text-xl lg:text-2xl">
-            Formations certifiantes éligibles au CPF pour TPE et indépendants, à Bordeaux ou à distance
+            Faites décoller votre TPE avec une formation certifiante, financée par votre CPF.
           </h1>
-          <p className="mt-2 font-sans hidden text-base text-cozetik-white/85 lg:block">
-            Montez en compétences et remettez votre activité en mouvement, à votre rythme.
+          <p className="mt-2 px-4 font-sans text-base text-cozetik-white/85 lg:text-lg">
+            Vos droits CPF financent la formation, dans la limite de votre solde. Des compétences directement utiles à votre activité, à Bordeaux ou à distance, à votre rythme.
           </p>
 
           {/* Autographe SVG Vert - Animated */}
@@ -139,10 +139,10 @@ export function HeroSection() {
         {/* CTA Buttons — 1 primaire (solide) + 1 secondaire (discret) */}
         <div className="relative z-30 mt-8 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
           <Link
-            href="/formations"
+            href="/eligibilite-cpf"
             className="inline-flex items-center justify-center gap-2 bg-white px-8 py-4 font-sans text-lg font-semibold text-cozetik-black transition-all duration-300 hover:gap-3 hover:bg-cozetik-beige"
           >
-            Découvrir nos formations
+            Tester mon éligibilité CPF
             <ArrowRight className="h-5 w-5 transition-transform md:h-6 md:w-6" />
           </Link>
           <Link
@@ -153,6 +153,11 @@ export function HeroSection() {
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
+
+        {/* Micro-copy de réassurance sous le CTA primaire */}
+        <p className="relative z-30 mt-4 px-4 font-sans text-xs text-cozetik-white/80 md:text-sm">
+          Éligible CPF (RS7004 &middot; RS7200) &middot; Organisme certifié Qualiopi &middot; Diagnostic gratuit en 2&nbsp;min
+        </p>
       </div>
 
       {/* Video Controls - Boutons séparés et carrés avec bordure verte */}

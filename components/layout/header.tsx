@@ -13,7 +13,8 @@ import { MobileNav } from "./mobile-nav";
 const navItems = [
   { href: "/", label: "Accueil", hoverColor: "hover:text-[#5E985E]" },
   { href: "/formations", label: "Formations", hoverColor: "hover:text-[#ADA6DB]" },
-  { href: "/a-propos", label: "À propos", hoverColor: "hover:text-[#5E985E]" },
+  { href: "/eligibilite-cpf", label: "Test CPF", hoverColor: "hover:text-[#5E985E]" },
+  { href: "/a-propos", label: "À propos", hoverColor: "hover:text-[#ADA6DB]" },
   { href: "/blog", label: "Blog", hoverColor: "hover:text-[#ADA6DB]" },
   { href: "/contact", label: "Contact", hoverColor: "hover:text-[#5E985E]" },
 ];

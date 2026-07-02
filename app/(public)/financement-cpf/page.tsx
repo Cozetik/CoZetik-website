@@ -38,7 +38,7 @@ const etapes = [
     n: "3",
     titre: "Validez votre inscription",
     texte:
-      "Mobilisez vos droits CPF en quelques clics. Si le solde ne couvre pas tout, un reste à charge peut être réglé en ligne.",
+      "Mobilisez vos droits CPF en quelques clics. Une participation forfaitaire légale de 150 € s'applique depuis le 2 avril 2026 (0 € pour les demandeurs d'emploi ou en cas d'abondement employeur) ; si votre solde ne couvre pas tout, le complément se règle en ligne.",
   },
   {
     n: "4",
@@ -69,6 +69,22 @@ export default function FinancementCpfPage() {
             <strong>Compte Personnel de Formation</strong> et finançables
             directement via Mon Compte Formation — sans avance de frais.
           </p>
+        </div>
+      </section>
+
+      {/* CTA diagnostic */}
+      <section className="px-4 pt-12 md:px-10 lg:px-20">
+        <div className="container mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 border-2 border-cozetik-green bg-white p-6 text-center sm:flex-row sm:text-left md:p-8">
+          <p className="font-sans text-base font-semibold text-cozetik-black md:text-lg">
+            Vous ne savez pas si votre CPF peut financer votre projet&nbsp;?
+          </p>
+          <Link
+            href="/eligibilite-cpf"
+            className="inline-flex shrink-0 items-center justify-center gap-2 bg-cozetik-green px-6 py-3 font-sans text-base font-semibold text-white transition-colors hover:bg-[#4A7A4A]"
+          >
+            Tester mon éligibilité en 2 min
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
       </section>
 

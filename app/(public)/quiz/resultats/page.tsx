@@ -102,14 +102,27 @@ export default function QuizResultatsPage() {
               {error || 'Une erreur est survenue'}
             </h2>
           </div>
-          <Button
-            onClick={() => router.push('/quiz')}
-            className="bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg px-10 py-6 rounded-none"
-            style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
-          >
-            <RefreshCw className="mr-2 h-5 w-5" />
-            Refaire le quiz
-          </Button>
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <Button
+              asChild
+              className="bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg px-10 py-6 rounded-none"
+              style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+            >
+              <Link href="/eligibilite-cpf">
+                <ArrowRight className="mr-2 h-5 w-5" />
+                Tester mon éligibilité CPF (2 min)
+              </Link>
+            </Button>
+            <Button
+              onClick={() => router.push('/quiz')}
+              variant="outline"
+              className="border-2 border-cozetik-black text-cozetik-black hover:bg-cozetik-black hover:text-white font-semibold text-lg px-10 py-6 rounded-none"
+              style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
+            >
+              <RefreshCw className="mr-2 h-5 w-5" />
+              Refaire le quiz
+            </Button>
+          </div>
         </div>
       </div>
     )

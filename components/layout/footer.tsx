@@ -36,6 +36,7 @@ const aboutLinks = [
 ];
 
 const infoLinks = [
+  { href: "/eligibilite-cpf", label: "Test d'éligibilité CPF" },
   { href: "/financement-cpf", label: "Financement CPF" },
   { href: "/faq", label: "FAQ" },
   { href: "/candidater", label: "Candidater" },
