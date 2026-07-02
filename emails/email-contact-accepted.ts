@@ -24,18 +24,18 @@ export const emailContactAccepted = (name: string) => `
               <h2 style="margin: 0 0 20px 0; color: #333333; font-size: 24px;">Bonjour ${name} ! 🎉</h2>
               
               <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                Excellente nouvelle ! Votre demande de contact a été acceptée par notre équipe.
+                Excellente nouvelle ! Ta demande de contact a été acceptée par notre équipe.
               </p>
               
               <div style="background-color: #d1fae5; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0; border-radius: 4px;">
                 <p style="margin: 0; color: #065f46; font-size: 14px; line-height: 1.6;">
                   <strong>📧 Prochaines étapes :</strong><br>
-                  Nous allons vous contacter dans les plus brefs délais pour discuter de votre demande en détail.
+                  Nous allons te contacter dans les plus brefs délais pour discuter de ta demande en détail.
                 </p>
               </div>
               
               <p style="margin: 20px 0 0 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                Nous avons hâte de vous accompagner dans votre projet !<br><br>
+                Nous avons hâte de t'accompagner dans ton projet !<br><br>
                 <strong style="color: #10b981;">L'équipe Cozetik</strong>
               </p>
             </td>

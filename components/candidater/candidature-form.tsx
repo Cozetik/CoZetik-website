@@ -298,8 +298,8 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
       toast.success("Candidature envoyée !", {
         description: (
           <span style={{ color: "#000000" }}>
-            Votre candidature a bien été enregistrée. Notre équipe pédagogique
-            l&apos;étudiera attentivement et vous contactera sous 48 heures.
+            Ta candidature a bien été enregistrée. Notre équipe pédagogique
+            l&apos;étudiera attentivement et te contactera sous 48 heures.
           </span>
         ),
         duration: 5000,
@@ -313,7 +313,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
       const errorMessage =
         error instanceof Error
           ? error.message
-          : "Une erreur est survenue lors de l'envoi de votre candidature";
+          : "Une erreur est survenue lors de l'envoi de ta candidature";
 
       toast.error("Erreur", {
         description: errorMessage,
@@ -338,9 +338,9 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
             className="text-lg text-gray-800 mb-8"
             style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
           >
-            Merci pour votre confiance. Votre candidature a bien été
+            Merci pour ta confiance. Ta candidature a bien été
             enregistrée. Notre équipe pédagogique l&apos;étudiera attentivement
-            et vous contactera sous 48 heures.
+            et te contactera sous 48 heures.
           </p>
           <Link
             href="/"
@@ -371,8 +371,8 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                 className="font-sans max-w-4xl text-base leading-relaxed text-white md:text-xl"
                 style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
               >
-                Complétez votre dossier en quelques minutes, nous revenons vers
-                vous rapidement
+                Complète ton dossier en quelques minutes, nous revenons vers
+                toi rapidement
               </p>
             </div>
           </div>
@@ -386,9 +386,9 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
             className="text-base text-gray-800 md:text-lg"
             style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
           >
-            Vous souhaitez rejoindre Cozetik ? Remplissez le formulaire
-            ci-dessous. Notre équipe pédagogique étudiera votre candidature et
-            vous contactera sous 48 heures pour échanger sur votre projet.
+            Tu souhaites rejoindre Cozetik ? Remplis le formulaire
+            ci-dessous. Notre équipe pédagogique étudiera ta candidature et
+            te contactera sous 48 heures pour échanger sur ton projet.
           </p>
         </div>
       </section>
@@ -457,7 +457,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                         </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Entrez votre prénom"
+                            placeholder="Entre ton prénom"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                             {...field}
                           />
@@ -477,7 +477,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                         </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Entrez votre nom"
+                            placeholder="Entre ton nom"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                             {...field}
                           />
@@ -523,7 +523,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="Entrez votre email"
+                            placeholder="Entre ton email"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                             {...field}
                           />
@@ -544,7 +544,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                         <FormControl>
                           <Input
                             type="tel"
-                            placeholder="Entrez votre numéro"
+                            placeholder="Entre ton numéro"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                             {...field}
                           />
@@ -565,7 +565,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Entrez votre adresse"
+                          placeholder="Entre ton adresse"
                           className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                           {...field}
                         />
@@ -586,7 +586,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                         </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Entrez votre code postal"
+                            placeholder="Entre ton code postal"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                             {...field}
                           />
@@ -606,7 +606,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                         </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Entrez votre ville"
+                            placeholder="Entre ta ville"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]"
                             {...field}
                           />
@@ -624,7 +624,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                   className="text-2xl font-bold text-black"
                   style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
                 >
-                  Votre projet de formation
+                  Ton projet de formation
                 </h2>
 
                 <FormField
@@ -650,7 +650,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                                   ? "Chargement..."
                                   : filteredFormations.length === 0
                                     ? "Aucune formation disponible"
-                                    : "Sélectionnez une formation"
+                                    : "Sélectionne une formation"
                               }
                             />
                           </SelectTrigger>
@@ -705,10 +705,10 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                                 <SelectValue
                                   placeholder={
                                     !selectedFormationId
-                                      ? "Sélectionnez d'abord une formation principale"
+                                      ? "Sélectionne d'abord une formation principale"
                                       : options.length === 0
                                         ? "Aucune autre formation disponible dans cette catégorie"
-                                        : "Sélectionnez une formation complémentaire"
+                                        : "Sélectionne une formation complémentaire"
                                   }
                                 />
                               </SelectTrigger>
@@ -764,10 +764,10 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                                 <SelectValue
                                   placeholder={
                                     !selectedFormationId
-                                      ? "Sélectionnez d'abord une formation principale"
+                                      ? "Sélectionne d'abord une formation principale"
                                       : options.length === 0
                                         ? "Aucune autre formation disponible dans cette catégorie"
-                                        : "Sélectionnez une deuxième formation complémentaire"
+                                        : "Sélectionne une deuxième formation complémentaire"
                                   }
                                 />
                               </SelectTrigger>
@@ -814,10 +814,10 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                                 isLoadingData
                                   ? "Chargement..."
                                   : !selectedFormation
-                                    ? "Sélectionnez d'abord une formation"
+                                    ? "Sélectionne d'abord une formation"
                                     : availablePacks.length === 0
                                       ? "Aucun pack disponible pour cette formation"
-                                      : "Sélectionnez un pack"
+                                      : "Sélectionne un pack"
                               }
                             />
                           </SelectTrigger>
@@ -853,7 +853,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                       >
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
-                            <SelectValue placeholder="Sélectionnez votre niveau" />
+                            <SelectValue placeholder="Sélectionne ton niveau" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -887,7 +887,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                       >
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
-                            <SelectValue placeholder="Sélectionnez votre situation" />
+                            <SelectValue placeholder="Sélectionne ta situation" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -921,7 +921,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                       >
                         <FormControl>
                           <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
-                            <SelectValue placeholder="Sélectionnez une date" />
+                            <SelectValue placeholder="Sélectionne une date" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -947,7 +947,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
-                        Montant de votre CPF (en €)
+                        Montant de ton CPF (en €)
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -964,8 +964,8 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                         />
                       </FormControl>
                       <FormDescription className="text-xs text-gray-500">
-                        Indiquez le montant disponible sur votre compte CPF si
-                        vous souhaitez l&apos;utiliser pour financer votre
+                        Indique le montant disponible sur ton compte CPF si
+                        tu souhaites l&apos;utiliser pour financer ta
                         formation.
                       </FormDescription>
                       <FormMessage />
@@ -980,7 +980,7 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                   className="text-2xl font-bold text-black"
                   style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
                 >
-                  Votre motivation
+                  Ta motivation
                 </h2>
 
                 <FormField
@@ -989,11 +989,11 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-sans text-base font-bold text-[#2C2C2C]">
-                        Parlez-nous de votre projet * (200 caractères minimum)
+                        Parle-nous de ton projet * (200 caractères minimum)
                       </FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Qu'est-ce qui vous motive à suivre cette formation ? Quels sont vos objectifs professionnels ?"
+                          placeholder="Qu'est-ce qui te motive à suivre cette formation ? Quels sont tes objectifs professionnels ?"
                           className="font-sans min-h-[200px] border-0 bg-[#EFEFEF] text-[#2C2C2C] resize-none"
                           {...field}
                         />
@@ -1156,9 +1156,9 @@ export function CandidatureForm({ formationId, pack }: { formationId: string; pa
                   className="text-xs text-gray-500"
                   style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
                 >
-                  Conformément au RGPD, vous disposez d&apos;un droit
-                  d&apos;accès, de rectification et de suppression de vos
-                  données. Pour l&apos;exercer, contactez-nous à
+                  Conformément au RGPD, tu disposes d&apos;un droit
+                  d&apos;accès, de rectification et de suppression de tes
+                  données. Pour l&apos;exercer, contacte-nous à
                   nicolas.morby@cozetik.com
                 </p>
               </div>

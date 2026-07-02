@@ -173,7 +173,7 @@ export default function FormationHeroScroll({
             >
               {/* Hint scroll */}
               <div className="text-center mb-6 lg:hidden">
-                <p className="text-white/60 text-sm">↓ Scrollez pour découvrir les étapes</p>
+                <p className="text-white/60 text-sm">↓ Scrolle pour découvrir les étapes</p>
               </div>
 
               {/* Carousel Container */}
@@ -244,7 +244,7 @@ export default function FormationHeroScroll({
         {/* Scroll Hint Desktop */}
         <div className="hidden lg:block text-center mt-16">
           <p className="text-white/60 text-sm animate-bounce">
-            ↓ Scrollez pour découvrir les étapes
+            ↓ Scrolle pour découvrir les étapes
           </p>
         </div>
 

@@ -10,7 +10,7 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 export const metadata: Metadata = {
   title: "Financer sa formation avec le CPF",
   description:
-    "Cozetik est un organisme de formation certifié Qualiopi à Bordeaux. Financez nos formations certifiantes éligibles au CPF via Mon Compte Formation.",
+    "Cozetik est un organisme de formation certifié Qualiopi à Bordeaux. Finance nos formations certifiantes éligibles au CPF via Mon Compte Formation.",
   alternates: { canonical: `${baseUrl}/financement-cpf` },
   openGraph: {
     title: "Financer sa formation avec le CPF | Cozetik",
@@ -24,27 +24,27 @@ export const metadata: Metadata = {
 const etapes = [
   {
     n: "1",
-    titre: "Connectez-vous à Mon Compte Formation",
+    titre: "Connecte-toi à Mon Compte Formation",
     texte:
-      "Rendez-vous sur moncompteformation.gouv.fr et identifiez-vous avec FranceConnect+. Vous voyez le montant de droits CPF disponible.",
+      "Va sur moncompteformation.gouv.fr et identifie-toi avec FranceConnect+. Tu vois le montant de droits CPF disponible.",
   },
   {
     n: "2",
-    titre: "Choisissez votre formation Cozetik",
+    titre: "Choisis ta formation Cozetik",
     texte:
-      "Cliquez sur « Financer avec mon CPF » ci-dessous pour ouvrir directement la formation sur Mon Compte Formation.",
+      "Clique sur « Financer avec mon CPF » ci-dessous pour ouvrir directement la formation sur Mon Compte Formation.",
   },
   {
     n: "3",
-    titre: "Validez votre inscription",
+    titre: "Valide ton inscription",
     texte:
-      "Mobilisez vos droits CPF en quelques clics. Une participation forfaitaire légale de 150 € s'applique depuis le 2 avril 2026 (0 € pour les demandeurs d'emploi ou en cas d'abondement employeur) ; si votre solde ne couvre pas tout, le complément se règle en ligne.",
+      "Mobilise tes droits CPF en quelques clics. Une participation forfaitaire légale de 150 € s'applique depuis le 2 avril 2026 (0 € pour les demandeurs d'emploi ou en cas d'abondement employeur) ; si ton solde ne couvre pas tout, le complément se règle en ligne.",
   },
   {
     n: "4",
-    titre: "Démarrez votre parcours",
+    titre: "Démarre ton parcours",
     texte:
-      "Nous vous accompagnons jusqu'au passage de la certification, à distance comme en présentiel.",
+      "Nous t'accompagnons jusqu'au passage de la certification, à distance comme en présentiel.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function FinancementCpfPage() {
             Organisme certifié Qualiopi
           </span>
           <h1 className="mt-6 font-display text-[clamp(2.25rem,3.5vw+1.1rem,3.75rem)] font-bold leading-tight text-white">
-            Financez votre formation avec votre CPF
+            Finance ta formation avec ton CPF
           </h1>
           <p className="mx-auto mt-6 max-w-2xl font-sans text-base text-white/80 md:text-lg">
             Cozetik est un organisme de formation certifié <strong>Qualiopi</strong>{" "}
@@ -76,7 +76,7 @@ export default function FinancementCpfPage() {
       <section className="px-4 pt-12 md:px-10 lg:px-20">
         <div className="container mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 border-2 border-cozetik-green bg-white p-6 text-center sm:flex-row sm:text-left md:p-8">
           <p className="font-sans text-base font-semibold text-cozetik-black md:text-lg">
-            Vous ne savez pas si votre CPF peut financer votre projet&nbsp;?
+            Tu ne sais pas si ton CPF peut financer ton projet&nbsp;?
           </p>
           <Link
             href="/eligibilite-cpf"

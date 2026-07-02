@@ -4,21 +4,21 @@ import Image from "next/image";
 const items = [
   {
     icon: Wallet,
-    title: "Financé par vos droits CPF",
+    title: "Financé par tes droits CPF",
     description:
-      "Mobilisez votre solde sur Mon Compte Formation, sans dossier bancaire.",
+      "Mobilise ton solde sur Mon Compte Formation, sans dossier bancaire.",
   },
   {
     icon: Zap,
     title: "Utile dès lundi",
     description:
-      "Des méthodes concrètes à appliquer immédiatement dans votre activité.",
+      "Des méthodes concrètes à appliquer immédiatement dans ton activité.",
   },
   {
     icon: Clock,
     title: "Pensé pour les pressés",
     description:
-      "100 % e-learning, à votre rythme. Réponse sous 48 h.",
+      "100 % e-learning, à ton rythme. Réponse sous 48 h.",
   },
   {
     icon: Award,

@@ -20,10 +20,10 @@ import {
 type Step = 0 | 1 | 2 | 3 | 4;
 
 const STEP_TITLES = [
-  "Votre projet",
-  "Votre situation",
-  "Votre échéance",
-  "Votre diagnostic est prêt",
+  "Ton projet",
+  "Ta situation",
+  "Ton échéance",
+  "Ton diagnostic est prêt",
 ];
 
 function OptionButton({
@@ -83,16 +83,16 @@ export function EligibiliteForm() {
     e.preventDefault();
     if (!projet || !statut || !echeance) return;
     if (name.trim().length < 2) {
-      setFormError("Merci d'indiquer votre nom.");
+      setFormError("Indique ton nom.");
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setFormError("Merci d'indiquer un email valide.");
+      setFormError("Indique un email valide.");
       return;
     }
     if (!consent) {
       setFormError(
-        "Merci d'accepter que Cozetik vous recontacte au sujet de votre projet."
+        "Merci d'accepter que Cozetik te recontacte au sujet de ton projet."
       );
       return;
     }
@@ -153,7 +153,7 @@ export function EligibiliteForm() {
             </h3>
             <p className="font-sans text-sm text-cozetik-black/70">
               Certification enregistrée à France Compétences · Certificateur{" "}
-              {cert.certifier} · 100&nbsp;% e-learning, à votre rythme.
+              {cert.certifier} · 100&nbsp;% e-learning, à ton rythme.
             </p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row">
               {result.cpfDirect && result.formationSlug ? (
@@ -169,7 +169,7 @@ export function EligibiliteForm() {
             </div>
             {certSecondaire && result.formationSecondaireSlug ? (
               <p className="font-sans text-sm text-cozetik-black/70">
-                Également adaptée à votre projet :{" "}
+                Également adaptée à ton projet :{" "}
                 <Link
                   href={`/formations/${result.formationSecondaireSlug}`}
                   className="font-semibold underline decoration-cozetik-green decoration-2 underline-offset-2"
@@ -187,7 +187,7 @@ export function EligibiliteForm() {
             <PhoneCall className="mr-2 inline h-4 w-4 text-cozetik-green" aria-hidden="true" />
             {captureFailed ? (
               <>
-                Vos coordonnées n&apos;ont pas pu être transmises — écrivez-nous
+                Tes coordonnées n&apos;ont pas pu être transmises — écris-nous
                 via la{" "}
                 <Link href="/contact" className="underline decoration-cozetik-green decoration-2">
                   page contact
@@ -197,8 +197,8 @@ export function EligibiliteForm() {
             ) : (
               <>
                 C&apos;est noté, <strong>{name.trim()}</strong> : un conseiller
-                Cozetik revient vers vous sous 48&nbsp;h ouvrées pour répondre à
-                vos questions et sécuriser votre dossier.
+                Cozetik revient vers toi sous 48&nbsp;h ouvrées pour répondre à
+                tes questions et sécuriser ton dossier.
               </>
             )}
           </p>
@@ -238,7 +238,7 @@ export function EligibiliteForm() {
       {step === 0 && (
         <fieldset className="flex flex-col gap-3">
           <legend className="step-enter mb-4 font-sans text-lg text-cozetik-black md:text-xl">
-            Quel est votre projet aujourd&apos;hui&nbsp;?
+            Quel est ton projet aujourd&apos;hui&nbsp;?
           </legend>
           {PROJET_OPTIONS.map((o, i) => (
             <OptionButton
@@ -258,7 +258,7 @@ export function EligibiliteForm() {
       {step === 1 && (
         <fieldset className="flex flex-col gap-3">
           <legend className="step-enter mb-4 font-sans text-lg text-cozetik-black md:text-xl">
-            Quelle est votre situation professionnelle&nbsp;?
+            Quelle est ta situation professionnelle&nbsp;?
           </legend>
           {STATUT_OPTIONS.map((o, i) => (
             <OptionButton
@@ -278,7 +278,7 @@ export function EligibiliteForm() {
       {step === 2 && (
         <fieldset className="flex flex-col gap-3">
           <legend className="step-enter mb-4 font-sans text-lg text-cozetik-black md:text-xl">
-            Quand souhaitez-vous démarrer&nbsp;?
+            Quand souhaites-tu démarrer&nbsp;?
           </legend>
           {ECHEANCE_OPTIONS.map((o, i) => (
             <OptionButton
@@ -298,11 +298,11 @@ export function EligibiliteForm() {
       {step === 3 && (
         <form onSubmit={handleSubmit} className="step-enter flex flex-col gap-5" noValidate>
           <p className="font-sans text-lg text-cozetik-black md:text-xl">
-            Où vous envoyons-nous votre diagnostic personnalisé&nbsp;?
+            Où t&apos;envoyons-nous ton diagnostic personnalisé&nbsp;?
           </p>
           <div className="flex flex-col gap-4 sm:flex-row">
             <label className="flex flex-1 flex-col gap-1.5 font-sans text-sm font-semibold text-cozetik-black">
-              Votre nom *
+              Ton nom *
               <input
                 ref={nameInputRef}
                 type="text"
@@ -316,7 +316,7 @@ export function EligibiliteForm() {
               />
             </label>
             <label className="flex flex-1 flex-col gap-1.5 font-sans text-sm font-semibold text-cozetik-black">
-              Votre email *
+              Ton email *
               <input
                 type="email"
                 name="email"
@@ -325,12 +325,12 @@ export function EligibiliteForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="border-2 border-cozetik-black/20 bg-white px-4 py-3 font-normal outline-none transition-[border-color,box-shadow] duration-150 focus:border-cozetik-green focus:ring-4 focus:ring-cozetik-green/15"
-                placeholder="vous@exemple.fr"
+                placeholder="prenom@exemple.fr"
               />
             </label>
           </div>
           <label className="flex flex-col gap-1.5 font-sans text-sm font-semibold text-cozetik-black">
-            Votre téléphone (facultatif — pour un rappel plus rapide)
+            Ton téléphone (facultatif — pour un rappel plus rapide)
             <input
               type="tel"
               name="phone"

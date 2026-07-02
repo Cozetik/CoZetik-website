@@ -99,7 +99,7 @@ export async function Footer() {
               className="font-sans text-sm text-cozetik-white/80"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
-              Formez-vous aux métiers de demain
+              Forme-toi aux métiers de demain
             </p>
             <p
               className="font-sans text-xs leading-relaxed text-cozetik-white/70"

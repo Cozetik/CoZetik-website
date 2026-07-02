@@ -24,7 +24,7 @@ export const emailContactUser = (name: string, message: string) => `
               <h2 style="margin: 0 0 20px 0; color: #333333; font-size: 24px;">Merci ${name} ! 🎉</h2>
               
               <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                Nous avons bien reçu votre demande de contact. Notre équipe va l'examiner et vous répondra dans les plus brefs délais.
+                Nous avons bien reçu ta demande de contact. Notre équipe va l'examiner et te répondra dans les plus brefs délais.
               </p>
               
               <div style="background-color: #f8f9fa; border-left: 4px solid #667eea; padding: 15px; margin: 20px 0; border-radius: 4px;">

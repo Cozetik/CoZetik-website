@@ -74,7 +74,7 @@ export async function generateMetadata({
     (formation.description && formation.description.length > 160
       ? formation.description.substring(0, 157) + "..."
       : formation.description ||
-        `Découvrez notre formation ${formation.title} et développez vos compétences professionnelles.`);
+        `Découvre notre formation ${formation.title} et développe tes compétences professionnelles.`);
 
   return {
     title,

@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Formations entreprise - Solutions de formation sur mesure',
   description:
-    'Développez les talents de vos équipes avec des formations professionnelles sur mesure. Cozetik propose des parcours adaptés à vos enjeux business : informatique, communication, intelligence émotionnelle, leadership. Devis personnalisé disponible.',
+    'Développe les talents de tes équipes avec des formations professionnelles sur mesure. Cozetik propose des parcours adaptés à tes enjeux business : informatique, communication, intelligence émotionnelle, leadership. Devis personnalisé disponible.',
   keywords: [
     'formation entreprise',
     'formation professionnelle entreprise',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Formations entreprise sur mesure | Cozetik',
     description:
-      'Formations professionnelles sur mesure pour vos équipes. Parcours adaptés à vos enjeux business avec devis personnalisé.',
+      'Formations professionnelles sur mesure pour tes équipes. Parcours adaptés à tes enjeux business avec devis personnalisé.',
     images: ['/og-image.jpg'],
     url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/entreprises`,
     type: 'website',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Formations entreprise sur mesure | Cozetik',
-    description: 'Formations professionnelles sur mesure pour développer les talents de vos équipes',
+    description: 'Formations professionnelles sur mesure pour développer les talents de tes équipes',
     images: ['/og-image.jpg'],
   },
   alternates: {
@@ -44,10 +44,10 @@ export default function EntreprisesPage() {
             <div className="absolute -right-16 top-2 h-64 w-64 rounded-none bg-[#ADA6DB] opacity-30 blur-3xl" />
             <div className="relative max-w-5xl translate-y-24 overflow-hidden bg-[#262626] px-8 py-14 md:px-16 md:py-20 lg:px-20 lg:py-24">
               <h1 className="mb-4 text-4xl font-extrabold text-white md:text-6xl lg:text-8xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Développez les talents de vos équipes
+                Développe les talents de tes équipes
               </h1>
               <p className="mt-4 text-lg text-white md:text-xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Des formations professionnelles sur mesure, adaptées à vos enjeux
+                Des formations professionnelles sur mesure, adaptées à tes enjeux
               </p>
             </div>
           </div>
@@ -58,10 +58,10 @@ export default function EntreprisesPage() {
       <section className="w-full bg-white py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px]">
           <h2 className="mb-6 text-3xl font-bold text-black md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-            Cozetik accompagne votre performance collective
+            Cozetik accompagne ta performance collective
           </h2>
           <p className="text-base leading-relaxed text-gray-800 md:text-lg" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-            Vos collaborateurs sont votre premier atout. Nous concevons avec vous des parcours de formation qui répondent précisément à vos besoins : montée en compétences techniques, développement du leadership, amélioration de la communication, bien-être au travail... Nos formateurs experts s&apos;adaptent à votre culture d&apos;entreprise pour créer des programmes qui génèrent un impact durable.
+            Tes collaborateurs sont ton premier atout. Nous concevons avec toi des parcours de formation qui répondent précisément à tes besoins : montée en compétences techniques, développement du leadership, amélioration de la communication, bien-être au travail... Nos formateurs experts s&apos;adaptent à ta culture d&apos;entreprise pour créer des programmes qui génèrent un impact durable.
           </p>
         </div>
       </section>
@@ -78,7 +78,7 @@ export default function EntreprisesPage() {
                 1. Formation intra-entreprise
               </h3>
               <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Des sessions dédiées à vos équipes dans vos locaux ou les nôtres
+                Des sessions dédiées à tes équipes dans tes locaux ou les nôtres
               </p>
             </div>
             <div className="bg-white p-6">
@@ -86,7 +86,7 @@ export default function EntreprisesPage() {
                 2. Parcours personnalisés
               </h3>
               <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Co-construction de programmes adaptés à vos objectifs stratégiques
+                Co-construction de programmes adaptés à tes objectifs stratégiques
               </p>
             </div>
             <div className="bg-white p-6">
@@ -94,7 +94,7 @@ export default function EntreprisesPage() {
                 3. Coaching individuel et collectif
               </h3>
               <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Accompagnement sur-mesure de vos managers et collaborateurs clés
+                Accompagnement sur-mesure de tes managers et collaborateurs clés
               </p>
             </div>
             <div className="bg-white p-6">
@@ -102,7 +102,7 @@ export default function EntreprisesPage() {
                 4. Formats flexibles
               </h3>
               <p className="text-base leading-relaxed text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Présentiel, distanciel ou hybride selon vos contraintes
+                Présentiel, distanciel ou hybride selon tes contraintes
               </p>
             </div>
           </div>
@@ -174,7 +174,7 @@ export default function EntreprisesPage() {
                   Diagnostic personnalisé
                 </h3>
                 <p className="text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Analyse de vos besoins en amont pour des formations ciblées
+                  Analyse de tes besoins en amont pour des formations ciblées
                 </p>
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function EntreprisesPage() {
                   Co-construction
                 </h3>
                 <p className="text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Vous êtes partie prenante de la conception des programmes
+                  Tu es partie prenante de la conception des programmes
                 </p>
               </div>
             </div>
@@ -207,7 +207,7 @@ export default function EntreprisesPage() {
                   Financement facilité
                 </h3>
                 <p className="text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Prise en charge OPCO possible, nous vous accompagnons dans les démarches
+                  Prise en charge OPCO possible, nous t&apos;accompagnons dans les démarches
                 </p>
               </div>
             </div>
@@ -229,7 +229,7 @@ export default function EntreprisesPage() {
                   Échange
                 </h3>
                 <p className="text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Nous discutons de vos besoins et objectifs
+                  Nous discutons de tes besoins et objectifs
                 </p>
               </div>
             </div>
@@ -240,7 +240,7 @@ export default function EntreprisesPage() {
                   Diagnostic
                 </h3>
                 <p className="text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Nous analysons votre contexte et vos enjeux
+                  Nous analysons ton contexte et tes enjeux
                 </p>
               </div>
             </div>
@@ -251,7 +251,7 @@ export default function EntreprisesPage() {
                   Proposition
                 </h3>
                 <p className="text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Nous vous soumettons un programme sur-mesure
+                  Nous te soumettons un programme sur-mesure
                 </p>
               </div>
             </div>
@@ -262,7 +262,7 @@ export default function EntreprisesPage() {
                   Formation
                 </h3>
                 <p className="text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                  Déploiement des sessions avec vos équipes
+                  Déploiement des sessions avec tes équipes
                 </p>
               </div>
             </div>
@@ -285,10 +285,10 @@ export default function EntreprisesPage() {
       <section className="w-full bg-[#ADA6DB] py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 max-w-[1200px] text-center">
           <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl lg:text-5xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-            Parlons de votre projet
+            Parlons de ton projet
           </h2>
           <p className="mb-8 text-lg text-white md:text-xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-            Que vous ayez un besoin précis ou souhaitiez explorer les possibilités, notre équipe est à votre écoute.
+            Que tu aies un besoin précis ou que tu souhaites explorer les possibilités, notre équipe est à ton écoute.
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
@@ -334,7 +334,7 @@ export default function EntreprisesPage() {
             </div>
             <div>
               <p className="text-base text-gray-800" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                📅 <Link href="#" className="underline hover:text-[#ADA6DB]">Ou prenez rendez-vous directement</Link>
+                📅 <Link href="#" className="underline hover:text-[#ADA6DB]">Ou prends rendez-vous directement</Link>
               </p>
             </div>
           </div>

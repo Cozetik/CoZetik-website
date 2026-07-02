@@ -34,7 +34,7 @@ export default function QuizResultatsPage() {
         const answersJson = localStorage.getItem('quiz_answers')
 
         if (!answersJson) {
-          setError('Aucune réponse trouvée. Veuillez refaire le quiz.')
+          setError('Aucune réponse trouvée. Refais le quiz.')
           setLoading(false)
           return
         }
@@ -58,7 +58,7 @@ export default function QuizResultatsPage() {
         setRecommendation(data)
       } catch (err) {
         console.error('Error fetching recommendation:', err)
-        setError('Une erreur est survenue. Veuillez réessayer.')
+        setError('Une erreur est survenue. Réessaie.')
       } finally {
         setLoading(false)
       }
@@ -137,10 +137,10 @@ export default function QuizResultatsPage() {
             <div className="absolute -right-20 top-0 h-64 w-64 rounded-none bg-cozetik-violet opacity-30 blur-3xl"></div>
             <div className="relative w-fit overflow-hidden bg-cozetik-black pl-[70px] pr-[150px] py-[100px] translate-y-40 md:translate-y-60">
               <h1 className="mb-6 text-5xl font-extrabold text-white md:text-6xl lg:text-8xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Votre parcours personnalisé
+                Ton parcours personnalisé
               </h1>
               <p className="font-sans max-w-4xl text-lg leading-relaxed text-white md:text-xl" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Basé sur votre profil et vos objectifs
+                Basé sur ton profil et tes objectifs
               </p>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function QuizResultatsPage() {
             </div>
             <div className="flex-1">
               <h2 className="text-3xl md:text-4xl font-bold text-cozetik-black mb-2" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-                Votre profil
+                Ton profil
               </h2>
             </div>
           </div>
@@ -244,7 +244,7 @@ export default function QuizResultatsPage() {
             Prêt à commencer ?
           </h2>
           <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}>
-            Lancez-vous dès maintenant dans votre parcours de formation personnalisé
+            Lance-toi dès maintenant dans ton parcours de formation personnalisé
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
             <Button

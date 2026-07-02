@@ -6,7 +6,7 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 export const metadata: Metadata = {
   title: "Candidater à une formation",
   description:
-    "Candidatez en ligne à une formation certifiante Cozetik, éligible au CPF. Notre équipe vous répond sous 48 heures.",
+    "Candidate en ligne à une formation certifiante Cozetik, éligible au CPF. Notre équipe te répond sous 48 heures.",
   alternates: { canonical: `${baseUrl}/candidater` },
 };
 
@@ -29,8 +29,8 @@ export default async function CandidaterPage({
             fontFamily: "var(--font-bricolage), sans-serif",
           }}
         >
-          L&apos;envoi du formulaire nécessite JavaScript. Pour candidater, vous
-          pouvez nous écrire directement à{" "}
+          L&apos;envoi du formulaire nécessite JavaScript. Pour candidater, tu
+          peux nous écrire directement à{" "}
           <a href="mailto:nicolas.morby@cozetik.com">nicolas.morby@cozetik.com</a>.
         </div>
       </noscript>

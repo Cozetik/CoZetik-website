@@ -32,7 +32,7 @@ interface QuizQuestionFromDB {
 // Schema dynamique pour valider chaque question
 const createQuestionSchema = (questionId: string) => {
   return z.object({
-    [questionId]: z.string().min(1, 'Veuillez sélectionner une réponse'),
+    [questionId]: z.string().min(1, 'Sélectionne une réponse'),
   })
 }
 

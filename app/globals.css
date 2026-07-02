@@ -74,6 +74,7 @@
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
+    font-family: var(--font-sans), sans-serif; /* Inter par défaut (sinon Times) */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "kern" 1, "liga" 1;

@@ -24,7 +24,7 @@ export const emailInscriptionAccepted = (name: string, formationTitle: string, s
               <h2 style="margin: 0 0 20px 0; color: #333333; font-size: 24px;">Félicitations ${name} ! 🎉</h2>
               
               <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                Excellente nouvelle ! Votre inscription à la formation a été acceptée. Nous sommes ravis de vous accueillir !
+                Excellente nouvelle ! Ton inscription à la formation a été acceptée. Nous sommes ravis de t'accueillir !
               </p>
               
               <!-- Formation Details -->
@@ -48,13 +48,13 @@ export const emailInscriptionAccepted = (name: string, formationTitle: string, s
               <div style="background-color: #d1fae5; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0; border-radius: 4px;">
                 <p style="margin: 0; color: #065f46; font-size: 14px; line-height: 1.6;">
                   <strong>📧 Prochaines étapes :</strong><br>
-                  Vous recevrez prochainement un email avec tous les détails pratiques (lieu, horaires, documents à prévoir).<br>
-                  Notre équipe est à votre disposition pour toute question.
+                  Tu recevras prochainement un email avec tous les détails pratiques (lieu, horaires, documents à prévoir).<br>
+                  Notre équipe est à ta disposition pour toute question.
                 </p>
               </div>
               
               <p style="margin: 20px 0 0 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                Nous avons hâte de vous accompagner dans votre parcours de formation !<br><br>
+                Nous avons hâte de t'accompagner dans ton parcours de formation !<br><br>
                 <strong style="color: #10b981;">L'équipe Cozetik</strong>
               </p>
             </td>

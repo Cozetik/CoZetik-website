@@ -100,8 +100,8 @@ export function FormationsList({ formations, categories }: FormationsListProps) 
           </div>
           <h3 className="mt-6 text-xl font-semibold">Aucune formation trouvée</h3>
           <p className="mt-2 max-w-md text-sm text-muted-foreground">
-            Aucune formation ne correspond à cette catégorie pour le moment. Essayez
-            de sélectionner une autre catégorie ou consultez toutes les formations.
+            Aucune formation ne correspond à cette catégorie pour le moment. Essaie
+            de sélectionner une autre catégorie ou consulte toutes les formations.
           </p>
         </div>
       )}

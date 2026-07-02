@@ -47,7 +47,7 @@ export function AboutSection() {
 
               {/* Subtitle */}
               <h3 className="mt-4 font-sans text-base font-extrabold uppercase tracking-[0] text-cozetik-black md:text-lg">
-                Passez à l&apos;étape suivante
+                Passe à l&apos;étape suivante
               </h3>
 
               {/* Paragraph - Nouveau wording */}

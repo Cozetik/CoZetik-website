@@ -6,7 +6,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "À propos de Cozetik - Qui sommes-nous ?",
   description:
-    "Découvrez Cozetik, votre partenaire stratégique pour les talents d'avenir. Centre de formation professionnelle alliant excellence technique, développement personnel et bien-être. Formations certifiantes en informatique, business, communication et intelligence émotionnelle.",
+    "Découvre Cozetik, ton partenaire stratégique pour les talents d'avenir. Centre de formation professionnelle alliant excellence technique, développement personnel et bien-être. Formations certifiantes en informatique, business, communication et intelligence émotionnelle.",
   keywords: [
     "cozetik",
     "centre formation",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "À propos de Cozetik - Qui sommes-nous ?",
     description:
-      "Votre Partenaire Stratégique pour les Talents d'Avenir. Formations professionnelles alliant excellence technique et développement personnel.",
+      "Ton Partenaire Stratégique pour les Talents d'Avenir. Formations professionnelles alliant excellence technique et développement personnel.",
     images: ["/og-image.jpg"],
     url: `${process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr"}/a-propos`,
     type: "website",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "À propos de Cozetik - Qui sommes-nous ?",
-    description: "Votre Partenaire Stratégique pour les Talents d'Avenir",
+    description: "Ton Partenaire Stratégique pour les Talents d'Avenir",
     images: ["/og-image.jpg"],
   },
   alternates: {
@@ -59,7 +59,7 @@ export default function AProposPage() {
             Qui sommes-nous ?
           </h1>
           <p className="text-sm text-white md:text-base lg:text-lg xl:text-xl mt-2 text-left font-sans">
-            Votre Partenaire Stratégique pour les Talents d&apos;Avenir
+            Ton Partenaire Stratégique pour les Talents d&apos;Avenir
           </p>
         </div>
       </section>
@@ -71,7 +71,7 @@ export default function AProposPage() {
           <div className="relative z-10 flex flex-col justify-center bg-[#F5EDE4] h-auto min-h-[450px] px-8 py-12 text-center md:px-12 md:py-16 md:text-center lg:h-full lg:min-h-[500px] lg:px-20 lg:py-20 lg:text-left">
             <div>
               <h2 className="mb-6 text-2xl font-bold text-black md:text-3xl lg:text-4xl leading-tight font-display">
-                Développer vos compétences Clés du monde numérique et humain
+                Développer tes compétences Clés du monde numérique et humain
               </h2>
               <p
                 className="mb-4 text-base leading-relaxed text-gray-800"

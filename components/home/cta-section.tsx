@@ -12,12 +12,12 @@ export function CTASection() {
             <div className="mx-auto max-w-3xl text-center">
               {/* Heading */}
               <h2 className="mb-6 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-                Prêt à développer vos compétences ?
+                Prêt(e) à développer tes compétences ?
               </h2>
 
               {/* Subheading */}
               <p className="mb-8 text-lg opacity-90 md:text-xl">
-                Contactez-nous dès aujourd&apos;hui pour discuter de vos besoins en formation et découvrir comment nous pouvons vous accompagner dans votre projet professionnel.
+                Contacte-nous dès aujourd&apos;hui pour discuter de tes besoins en formation et découvrir comment nous pouvons t&apos;accompagner dans ton projet professionnel.
               </p>
 
               {/* CTA Buttons */}

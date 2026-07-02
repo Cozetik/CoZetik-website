@@ -23,7 +23,7 @@ export function emailCandidatureUser({
       .map((title, index) => `${index + 1}. ${title}`)
       .join("\n");
 
-    const subject = "✅ Votre candidature Cozétik est bien reçue — Pack Expert";
+    const subject = "✅ Ta candidature Cozétik est bien reçue — Pack Expert";
 
     const html = `<!DOCTYPE html>
 <html>
@@ -47,7 +47,7 @@ export function emailCandidatureUser({
 
               <p>Merci d'avoir candidaté à Cozétik.</p>
 
-              <p>Nous avons bien reçu votre demande d'inscription aux formations suivantes :</p>
+              <p>Nous avons bien reçu ta demande d'inscription aux formations suivantes :</p>
 
               <p><strong>📚 Formations sélectionnées :</strong><br />
               ${formationsLines.replace(/\n/g, "<br />")}</p>
@@ -60,7 +60,7 @@ export function emailCandidatureUser({
               </p>
 
               <p>
-                Vous avez choisi notre parcours le plus complet. Le Pack Expert vous permet de couvrir trois axes clés de votre développement professionnel, avec un accompagnement sur-mesure tout au long de votre parcours. C'est un investissement fort dans vos compétences — et nous serons là à chaque étape.
+                Tu as choisi notre parcours le plus complet. Le Pack Expert te permet de couvrir trois axes clés de ton développement professionnel, avec un accompagnement sur-mesure tout au long de ton parcours. C'est un investissement fort dans tes compétences — et nous serons là à chaque étape.
               </p>
 
               <hr style="border:none;border-top:1px solid #e5e5e5;margin:24px 0;" />
@@ -69,23 +69,23 @@ export function emailCandidatureUser({
 
               <p>
                 <strong>1. Entretien de positionnement approfondi</strong><br />
-                Notre équipe vous contactera dans les 48 heures pour un entretien de 30 à 45 minutes. Nous construirons ensemble le calendrier idéal de vos 3 formations, en tenant compte de votre rythme et de vos objectifs professionnels.
+                Notre équipe te contactera dans les 48 heures pour un entretien de 30 à 45 minutes. Nous construirons ensemble le calendrier idéal de tes 3 formations, en tenant compte de ton rythme et de tes objectifs professionnels.
               </p>
 
               <p>
-                <strong>2. Audit de votre solde CPF</strong><br />
-                Avant notre appel, vérifiez votre solde sur <a href="https://www.moncompteformation.gouv.fr" target="_blank" rel="noopener noreferrer">www.moncompteformation.gouv.fr</a> (connexion via France Connect). Pour un pack 3 formations, nous analysons avec vous les possibilités d'abondement (employeur, Conseil régional, France Travail) si votre solde ne suffit pas à couvrir l'ensemble.
+                <strong>2. Audit de ton solde CPF</strong><br />
+                Avant notre appel, vérifie ton solde sur <a href="https://www.moncompteformation.gouv.fr" target="_blank" rel="noopener noreferrer">www.moncompteformation.gouv.fr</a> (connexion via France Connect). Pour un pack 3 formations, nous analysons avec toi les possibilités d'abondement (employeur, Conseil régional, France Travail) si ton solde ne suffit pas à couvrir l'ensemble.
               </p>
 
               <p>
                 <strong>3. Plan d'inscription personnalisé</strong><br />
-                Chaque formation est inscrite séparément sur Mon Compte Formation. Nous vous remettons un plan de formation personnalisé avec les dates prévisionnelles de chaque parcours et un suivi dédié tout au long de l'année.
+                Chaque formation est inscrite séparément sur Mon Compte Formation. Nous te remettons un plan de formation personnalisé avec les dates prévisionnelles de chaque parcours et un suivi dédié tout au long de l'année.
               </p>
 
               <hr style="border:none;border-top:1px solid #e5e5e5;margin:24px 0;" />
 
               <p><strong>NOS 5 FORMATIONS DISPONIBLES à la carte :</strong><br />
-                • Intelligence Artificielle : boostez votre productivité avec l'IA<br />
+                • Intelligence Artificielle : booste ta productivité avec l'IA<br />
                 • Conduire un projet de création d'entreprise (RS7004 — certifiant CPF)<br />
                 • Conduire un projet de création de micro-entreprise<br />
                 • Créer et gérer le site internet de sa TPE à l'aide d'un CMS<br />
@@ -93,15 +93,15 @@ export function emailCandidatureUser({
               </p>
 
               <p>
-                Découvrez toutes nos formations sur <a href="https://www.cozetik.fr/formations" target="_blank" rel="noopener noreferrer">www.cozetik.fr/formations</a>
+                Découvre toutes nos formations sur <a href="https://www.cozetik.fr/formations" target="_blank" rel="noopener noreferrer">www.cozetik.fr/formations</a>
               </p>
 
               <p>
-                Cozétik est un CFA certifié Qualiopi. Nos parcours sont disponibles en format mixte : e-learning à votre rythme + classes virtuelles en direct avec votre formateur.
+                Cozétik est un CFA certifié Qualiopi. Nos parcours sont disponibles en format mixte : e-learning à ton rythme + classes virtuelles en direct avec ton formateur.
               </p>
 
               <p>
-                Des questions ? Répondez directement à cet email ou contactez-nous sur <a href="https://www.cozetik.fr/contact" target="_blank" rel="noopener noreferrer">www.cozetik.fr/contact</a>
+                Des questions ? Réponds directement à cet email ou contacte-nous sur <a href="https://www.cozetik.fr/contact" target="_blank" rel="noopener noreferrer">www.cozetik.fr/contact</a>
               </p>
 
               <p style="margin-top:24px;">
@@ -132,8 +132,8 @@ export function emailCandidatureUser({
   // Pack Découverte ou Premium (par défaut on bascule sur Découverte)
   const isPremium = pack.includes("premium");
   const subject = isPremium
-    ? "✅ Votre candidature Cozétik est bien reçue — Pack Premium"
-    : "✅ Votre candidature Cozétik est bien reçue — Pack Découverte";
+    ? "✅ Ta candidature Cozétik est bien reçue — Pack Premium"
+    : "✅ Ta candidature Cozétik est bien reçue — Pack Découverte";
 
   const packLine = isPremium
     ? "💶 Pack Premium — 2 formations (détails communiqués lors de l'entretien)"
@@ -169,7 +169,7 @@ export function emailCandidatureUser({
 
               <p>Merci d'avoir candidaté à Cozétik.</p>
 
-              <p>Nous avons bien reçu votre demande d'inscription à la formation suivante :</p>
+              <p>Nous avons bien reçu ta demande d'inscription à la formation suivante :</p>
 
               <p>
                 <strong>📚 Formation sélectionnée :</strong><br />
@@ -190,29 +190,29 @@ export function emailCandidatureUser({
 
               <p>
                 <strong>1. Entretien de positionnement</strong><br />
-                Notre équipe vous contactera dans les 48 heures pour organiser un entretien téléphonique de 20 à 30 minutes. Cet échange nous permettra de valider l'adéquation de votre projet avec la formation choisie et de vous présenter les modalités de financement CPF.
+                Notre équipe te contactera dans les 48 heures pour organiser un entretien téléphonique de 20 à 30 minutes. Cet échange nous permettra de valider l'adéquation de ton projet avec la formation choisie et de te présenter les modalités de financement CPF.
               </p>
 
               <p>
-                <strong>2. Vérification de vos droits CPF</strong><br />
-                Avant l'entretien, nous vous invitons à vérifier votre solde CPF sur <a href="https://www.moncompteformation.gouv.fr" target="_blank" rel="noopener noreferrer">www.moncompteformation.gouv.fr</a> (connexion via France Connect). Si votre solde est insuffisant, des solutions de financement complémentaires existent — nous en discuterons ensemble.
+                <strong>2. Vérification de tes droits CPF</strong><br />
+                Avant l'entretien, nous t'invitons à vérifier ton solde CPF sur <a href="https://www.moncompteformation.gouv.fr" target="_blank" rel="noopener noreferrer">www.moncompteformation.gouv.fr</a> (connexion via France Connect). Si ton solde est insuffisant, des solutions de financement complémentaires existent — nous en discuterons ensemble.
               </p>
 
               <p>
                 <strong>3. Inscription officielle</strong><br />
-                Si l'entretien est concluant, nous vous enverrons le lien d'inscription sur Mon Compte Formation. À compter de votre inscription, un délai de rétractation de 11 jours ouvrés s'applique automatiquement. La formation débutera à l'issue de ce délai.
+                Si l'entretien est concluant, nous t'enverrons le lien d'inscription sur Mon Compte Formation. À compter de ton inscription, un délai de rétractation de 11 jours ouvrés s'applique automatiquement. La formation débutera à l'issue de ce délai.
               </p>
 
               <hr style="border:none;border-top:1px solid #e5e5e5;margin:24px 0;" />
 
-              <p><strong>Votre formation en quelques mots</strong></p>
+              <p><strong>Ta formation en quelques mots</strong></p>
 
               <p>
-                Cozétik est un CFA (Centre de Formation d'Apprentis) certifié Qualiopi, basé à Asnières-sur-Seine. Nos formations sont disponibles en format mixte : modules e-learning accessibles à votre rythme + classes virtuelles en direct avec votre formateur.
+                Cozétik est un CFA (Centre de Formation d'Apprentis) certifié Qualiopi, basé à Asnières-sur-Seine. Nos formations sont disponibles en format mixte : modules e-learning accessibles à ton rythme + classes virtuelles en direct avec ton formateur.
               </p>
 
               <p>
-                Des questions ? Répondez directement à cet email ou contactez-nous sur <a href="https://www.cozetik.fr/contact" target="_blank" rel="noopener noreferrer">www.cozetik.fr/contact</a>
+                Des questions ? Réponds directement à cet email ou contacte-nous sur <a href="https://www.cozetik.fr/contact" target="_blank" rel="noopener noreferrer">www.cozetik.fr/contact</a>
               </p>
 
               <p style="margin-top:24px;">

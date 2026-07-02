@@ -34,10 +34,10 @@ export default function FormationPacks({
       <div className="container mx-auto px-4 md:px-20">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-extrabold text-[#2C2C2C] font-bricolage">
-            Choisissez votre pack
+            Choisis ton pack
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto font-sans">
-            Des formules adaptées à vos besoins pour un accompagnement
+            Des formules adaptées à tes besoins pour un accompagnement
             sur-mesure
           </p>
         </div>

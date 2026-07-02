@@ -98,7 +98,7 @@ export async function generateMetadata({
   const description =
     post.seoDescription ||
     post.excerpt ||
-    `Découvrez notre article : ${post.title}`;
+    `Découvre notre article : ${post.title}`;
   const truncatedDescription =
     description.length > 160
       ? description.substring(0, 157) + "..."
@@ -371,7 +371,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 Articles similaires
               </h2>
               <p className="mt-2 text-muted-foreground font-sans">
-                Découvrez d&apos;autres articles qui pourraient vous intéresser
+                Découvre d&apos;autres articles qui pourraient t&apos;intéresser
               </p>
             </div>
 
@@ -408,8 +408,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 Intéressé par nos formations ?
               </h2>
               <p className="mb-8 text-muted-foreground">
-                Découvrez notre catalogue complet et trouvez la formation qui
-                correspond à vos objectifs professionnels.
+                Découvre notre catalogue complet et trouve la formation qui
+                correspond à tes objectifs professionnels.
               </p>
               <div className="flex flex-col font-sans gap-4 sm:flex-row sm:justify-center">
                 <Button

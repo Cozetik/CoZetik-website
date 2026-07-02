@@ -91,45 +91,45 @@ export function computeDiagnostic(answers: DiagnosticAnswers): DiagnosticResult 
     case "demandeur-emploi":
       return {
         cpfDirect: true,
-        verdict: "Bonne nouvelle : votre CPF peut financer votre formation, sans participation forfaitaire.",
+        verdict: "Bonne nouvelle : ton CPF peut financer ta formation, sans participation forfaitaire.",
         financement:
-          "En tant que demandeur d'emploi, vous êtes exonéré(e) de la participation forfaitaire légale : vos droits CPF financent la formation dans la limite de votre solde, visible sur moncompteformation.gouv.fr.",
+          "En tant que demandeur d'emploi, tu es exonéré(e) de la participation forfaitaire légale : tes droits CPF financent la formation dans la limite de ton solde, visible sur moncompteformation.gouv.fr.",
         formationSlug: principal,
         formationSecondaireSlug: secondaire,
       };
     case "salarie":
       return {
         cpfDirect: true,
-        verdict: "Votre CPF peut financer votre formation.",
+        verdict: "Ton CPF peut financer ta formation.",
         financement:
-          `Vos droits CPF (alimentés chaque année travaillée) financent la formation dans la limite de votre solde. Une participation forfaitaire légale de ${PARTICIPATION_FORFAITAIRE} par dossier s'applique depuis le ${PARTICIPATION_DEPUIS} — elle tombe à 0 € si votre employeur abonde votre formation.`,
+          `Tes droits CPF (alimentés chaque année travaillée) financent la formation dans la limite de ton solde. Une participation forfaitaire légale de ${PARTICIPATION_FORFAITAIRE} par dossier s'applique depuis le ${PARTICIPATION_DEPUIS} — elle tombe à 0 € si ton employeur abonde ta formation.`,
         formationSlug: principal,
         formationSecondaireSlug: secondaire,
       };
     case "independant":
       return {
         cpfDirect: true,
-        verdict: "Votre CPF peut financer votre formation.",
+        verdict: "Ton CPF peut financer ta formation.",
         financement:
-          `Les indépendants à jour de leur contribution à la formation professionnelle (CFP) cumulent des droits CPF depuis 2018. Vos droits financent la formation dans la limite de votre solde, avec une participation forfaitaire légale de ${PARTICIPATION_FORFAITAIRE} par dossier (en vigueur depuis le ${PARTICIPATION_DEPUIS}).`,
+          `Les indépendants à jour de leur contribution à la formation professionnelle (CFP) cumulent des droits CPF depuis 2018. Tes droits financent la formation dans la limite de ton solde, avec une participation forfaitaire légale de ${PARTICIPATION_FORFAITAIRE} par dossier (en vigueur depuis le ${PARTICIPATION_DEPUIS}).`,
         formationSlug: principal,
         formationSecondaireSlug: secondaire,
       };
     case "fonctionnaire":
       return {
         cpfDirect: false,
-        verdict: "Votre situation mérite un point personnalisé.",
+        verdict: "Ta situation mérite un point personnalisé.",
         financement:
-          "Le CPF des agents publics fonctionne en heures et suit un circuit de financement différent de Mon Compte Formation. D'autres dispositifs peuvent s'appliquer : nous vous rappelons pour étudier la solution adaptée.",
+          "Le CPF des agents publics fonctionne en heures et suit un circuit de financement différent de Mon Compte Formation. D'autres dispositifs peuvent s'appliquer : nous te rappelons pour étudier la solution adaptée.",
         formationSlug: principal,
         formationSecondaireSlug: secondaire,
       };
     default:
       return {
         cpfDirect: false,
-        verdict: "Votre situation mérite un point personnalisé.",
+        verdict: "Ta situation mérite un point personnalisé.",
         financement:
-          "Selon votre situation, vos droits CPF ou d'autres dispositifs de financement peuvent s'appliquer. Nous vous rappelons pour faire le point, sans engagement.",
+          "Selon ta situation, tes droits CPF ou d'autres dispositifs de financement peuvent s'appliquer. Nous te rappelons pour faire le point, sans engagement.",
         formationSlug: principal,
         formationSecondaireSlug: secondaire,
       };

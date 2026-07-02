@@ -24,7 +24,7 @@ export const emailInscriptionUser = (name: string, formationTitle: string, sessi
               <h2 style="margin: 0 0 20px 0; color: #333333; font-size: 24px;">Félicitations ${name} ! 🎉</h2>
               
               <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                Votre inscription à la formation a bien été enregistrée. Nous sommes ravis de vous accueillir !
+                Ton inscription à la formation a bien été enregistrée. Nous sommes ravis de t'accueillir !
               </p>
               
               <!-- Formation Details -->
@@ -46,7 +46,7 @@ export const emailInscriptionUser = (name: string, formationTitle: string, sessi
               <div style="background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 4px;">
                 <p style="margin: 0; color: #0c5460; font-size: 14px; line-height: 1.6;">
                   <strong>📧 Prochaines étapes :</strong><br>
-                  Vous recevrez prochainement un email avec tous les détails pratiques (lieu, horaires, documents à prévoir).
+                  Tu recevras prochainement un email avec tous les détails pratiques (lieu, horaires, documents à prévoir).
                 </p>
               </div>
               

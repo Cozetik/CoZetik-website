@@ -109,10 +109,10 @@ export function HeroSection() {
           />
           {/* Titre principal (H1) — promesse + mots-clés CPF/Bordeaux */}
           <h1 className="mt-4 px-4 font-sans text-lg font-medium text-cozetik-white md:text-xl lg:text-2xl">
-            Faites décoller votre TPE avec une formation certifiante, financée par votre CPF.
+            Fais décoller ta TPE avec une formation certifiante, financée par ton CPF.
           </h1>
           <p className="mt-2 px-4 font-sans text-base text-cozetik-white/85 lg:text-lg">
-            Vos droits CPF financent la formation, dans la limite de votre solde. Des compétences directement utiles à votre activité, à Bordeaux ou à distance, à votre rythme.
+            Tes droits CPF financent la formation, dans la limite de ton solde. Des compétences directement utiles à ton activité, à Bordeaux ou à distance, à ton rythme.
           </p>
 
           {/* Autographe SVG Vert - Animated */}
@@ -149,7 +149,7 @@ export function HeroSection() {
             href="/quiz"
             className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 font-sans text-base font-semibold text-cozetik-white/90 transition-all duration-300 hover:border-cozetik-white hover:text-cozetik-white md:text-lg"
           >
-            Trouvez votre formation idéale
+            Trouve ta formation idéale
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

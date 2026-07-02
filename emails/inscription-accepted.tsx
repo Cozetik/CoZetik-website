@@ -15,7 +15,7 @@ export const InscriptionAccepted = ({
   sessionDate,
 }: InscriptionAcceptedProps) => {
   return (
-    <CozetikLayout previewText={`Félicitations ${name}, votre inscription a été confirmée`}>
+    <CozetikLayout previewText={`Félicitations ${name}, ton inscription a été confirmée`}>
       {/* Titre principal */}
       <Text style={titleStyle} className="title">Inscription confirmée</Text>
 
@@ -27,7 +27,7 @@ export const InscriptionAccepted = ({
 
       {/* Message principal */}
       <Text style={paragraphStyle} className="text">
-        Votre inscription a été validée avec succès. Nous sommes ravis de vous accueillir.
+        Ton inscription a été validée avec succès. Nous sommes ravis de t'accueillir.
       </Text>
 
       {/* Table Formation Info */}
@@ -62,10 +62,10 @@ export const InscriptionAccepted = ({
       <Text style={sectionTitleStyle} className="text">Prochaines étapes :</Text>
 
       <Text style={listItemStyle} className="text">
-        • Vous recevrez un email détaillé dans les prochaines 48h
+        • Tu recevras un email détaillé dans les prochaines 48h
       </Text>
       <Text style={listItemStyle} className="text">
-        • Accès immédiat à votre espace personnel de formation
+        • Accès immédiat à ton espace personnel de formation
       </Text>
       <Text style={listItemStyle} className="text">
         • Support disponible 7j/7 pour toute question

@@ -73,10 +73,10 @@ export async function POST(request: NextRequest) {
     try {
       await sendEmail(
         data.email,
-        "Votre diagnostic CPF — Cozetik",
+        "Ton diagnostic CPF — Cozetik",
         emailContactUser(
           data.name,
-          `${result.verdict}\n\n${result.financement}\n\nUn conseiller Cozetik revient vers vous sous 48 h ouvrées pour la suite.`
+          `${result.verdict}\n\n${result.financement}\n\nUn conseiller Cozetik revient vers toi sous 48 h ouvrées pour la suite.`
         )
       );
     } catch (e) {

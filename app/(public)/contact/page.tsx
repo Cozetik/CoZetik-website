@@ -77,7 +77,7 @@ export default function ContactPage() {
       } catch (parseError) {
         console.error("Error parsing response:", parseError);
         throw new Error(
-          "Une erreur est survenue lors de l'envoi de votre demande"
+          "Une erreur est survenue lors de l'envoi de ta demande"
         );
       }
 
@@ -93,7 +93,7 @@ export default function ContactPage() {
       toast.success("Message envoyé avec succès !", {
         description: (
           <span style={{ color: "#000000" }}>
-            Votre demande a bien été reçue. Nous vous répondrons dans les plus
+            Ta demande a bien été reçue. Nous te répondrons dans les plus
             brefs délais.
           </span>
         ),
@@ -106,7 +106,7 @@ export default function ContactPage() {
       const errorMessage =
         error instanceof Error
           ? error.message
-          : "Une erreur est survenue lors de l'envoi de votre demande";
+          : "Une erreur est survenue lors de l'envoi de ta demande";
 
       toast.error("Erreur", {
         description: errorMessage,
@@ -149,14 +149,14 @@ export default function ContactPage() {
               <h1
                 className={`${leagueSpartan.className} relative z-10 mb-6 text-4xl font-extrabold text-white md:text-6xl lg:text-8xl`}
               >
-                Contactez-nous
+                Contacte-nous
               </h1>
 
               <p
                 className="font-sans max-w-4xl text-base md:text-xl leading-relaxed text-white"
                 style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
               >
-                Une question ? Besoin d&apos;informations ? Notre équipe vous
+                Une question ? Besoin d&apos;informations ? Notre équipe te
                 répond rapidement
               </p>
             </div>
@@ -187,7 +187,7 @@ export default function ContactPage() {
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Entrez votre nom"
+                              placeholder="Entre ton nom"
                               className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                               {...field}
                             />
@@ -206,7 +206,7 @@ export default function ContactPage() {
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Entrez votre prénom"
+                              placeholder="Entre ton prénom"
                               className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                               {...field}
                             />
@@ -229,7 +229,7 @@ export default function ContactPage() {
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="Entrez votre email"
+                            placeholder="Entre ton email"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                             {...field}
                           />
@@ -251,7 +251,7 @@ export default function ContactPage() {
                         <FormControl>
                           <Input
                             type="tel"
-                            placeholder="Entrez votre numéro de téléphone"
+                            placeholder="Entre ton numéro de téléphone"
                             className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8]"
                             {...field}
                           />
@@ -268,7 +268,7 @@ export default function ContactPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
-                          Objet de votre demande *
+                          Objet de ta demande *
                         </FormLabel>
                         <FormControl>
                           <Select
@@ -276,7 +276,7 @@ export default function ContactPage() {
                             value={field.value}
                           >
                             <SelectTrigger className="font-sans h-12 border-0 bg-[#EFEFEF] text-[#2C2C2C]">
-                              <SelectValue placeholder="Sélectionnez un objet" />
+                              <SelectValue placeholder="Sélectionne un objet" />
                             </SelectTrigger>
                             <SelectContent className="font-sans">
                               <SelectItem value="info-formation">
@@ -310,11 +310,11 @@ export default function ContactPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="font-sans text-base font-bold text-[#2C2C2C] pl-5">
-                          Votre message *
+                          Ton message *
                         </FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Décrivez votre demande..."
+                            placeholder="Décris ta demande..."
                             className="font-sans min-h-[150px] border-0 bg-[#EFEFEF] text-[#2C2C2C] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#9A80B8] resize-none"
                             {...field}
                           />
@@ -339,7 +339,7 @@ export default function ContactPage() {
                         </FormControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel className="font-sans text-sm text-gray-600 cursor-pointer">
-                            En soumettant ce formulaire, vous acceptez la
+                            En soumettant ce formulaire, tu acceptes la
                             politique de confidentialité de Cozetik
                           </FormLabel>
                         </div>

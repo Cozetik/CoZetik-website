@@ -10,14 +10,14 @@ import {
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr";
 
 export const metadata: Metadata = {
-  title: "Testez votre éligibilité CPF en 2 minutes",
+  title: "Teste ton éligibilité CPF en 2 minutes",
   description:
-    "Répondez à 3 questions et découvrez si votre CPF peut financer une formation certifiante Cozetik (création d'entreprise, réseaux sociaux). Diagnostic gratuit, organisme certifié Qualiopi.",
+    "Réponds à 3 questions et découvre si ton CPF peut financer une formation certifiante Cozetik (création d'entreprise, réseaux sociaux). Diagnostic gratuit, organisme certifié Qualiopi.",
   alternates: { canonical: `${baseUrl}/eligibilite-cpf` },
   openGraph: {
-    title: "Testez votre éligibilité CPF en 2 minutes | Cozetik",
+    title: "Teste ton éligibilité CPF en 2 minutes | Cozetik",
     description:
-      "3 questions pour savoir si votre CPF finance votre formation certifiante. Diagnostic gratuit et sans engagement.",
+      "3 questions pour savoir si ton CPF finance ta formation certifiante. Diagnostic gratuit et sans engagement.",
     url: `${baseUrl}/eligibilite-cpf`,
     images: ["/og-image.jpg"],
   },
@@ -49,12 +49,12 @@ export default function EligibiliteCpfPage() {
             Diagnostic gratuit · 2 minutes
           </span>
           <h1 className="mt-6 font-display text-[clamp(2.25rem,3.5vw+1.1rem,3.75rem)] font-bold leading-tight text-white">
-            Votre CPF peut-il financer votre formation&nbsp;?
+            Ton CPF peut-il financer ta formation&nbsp;?
           </h1>
           <p className="mx-auto mt-6 max-w-2xl font-sans text-base text-white/80 md:text-lg">
-            Répondez à 3 questions : nous vous disons si vos droits CPF peuvent
+            Réponds à 3 questions : nous te disons si tes droits CPF peuvent
             financer une formation certifiante Cozetik, et laquelle correspond à
-            votre projet.
+            ton projet.
           </p>
         </div>
       </section>
@@ -85,12 +85,12 @@ export default function EligibiliteCpfPage() {
               </div>
             </div>
             <p className="font-sans text-sm leading-relaxed text-cozetik-black/75">
-              Le CPF finance votre formation dans la limite de vos droits
+              Le CPF finance ta formation dans la limite de tes droits
               disponibles. Une participation forfaitaire légale de{" "}
               {PARTICIPATION_FORFAITAIRE} par dossier s&apos;applique depuis le{" "}
               {PARTICIPATION_DEPUIS} (décret n°&nbsp;2024-394 modifié) — sauf
               pour les demandeurs d&apos;emploi et en cas d&apos;abondement de
-              votre employeur.
+              ton employeur.
             </p>
           </aside>
         </div>

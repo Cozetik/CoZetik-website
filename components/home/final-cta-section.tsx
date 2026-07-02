@@ -22,7 +22,7 @@ export function FinalCTASection() {
               className="mb-3 font-display text-4xl font-extrabold leading-[110%] text-cozetik-white md:text-5xl lg:text-[60px]"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
-              Prêt à transformer votre avenir ?
+              Prêt(e) à transformer ton avenir ?
             </h2>
 
             {/* Subtitle */}
@@ -30,7 +30,7 @@ export function FinalCTASection() {
               className="font-sans text-base text-cozetik-white md:text-lg"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
-              Rejoignez Cozetik et passez à l&apos;étape suivante de votre
+              Rejoins Cozetik et passe à l&apos;étape suivante de ta
               carrière
             </p>
           </div>

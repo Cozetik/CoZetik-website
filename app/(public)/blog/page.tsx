@@ -10,7 +10,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Blog Cozetik - Actualités et conseils formations professionnelles",
   description:
-    "Découvrez nos articles sur les formations professionnelles, les tendances du marché de l'emploi, les conseils pour développer vos compétences et réussir votre carrière. Articles d'experts régulièrement mis à jour.",
+    "Découvre nos articles sur les formations professionnelles, les tendances du marché de l'emploi, les conseils pour développer tes compétences et réussir ta carrière. Articles d'experts régulièrement mis à jour.",
   keywords: [
     "blog formation",
     "actualités formation professionnelle",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Blog Cozetik - Actualités et conseils formations",
     description:
-      "Actualités, conseils et tendances du monde de la formation professionnelle. Articles d'experts pour rester informé et développer vos compétences.",
+      "Actualités, conseils et tendances du monde de la formation professionnelle. Articles d'experts pour rester informé et développer tes compétences.",
     images: ["/og-image.jpg"],
     url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://cozetik.fr'}/blog`,
     type: "website",
@@ -97,7 +97,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           <div className="mx-auto max-w-5xl ">
             {/* Title */}
             <h1 className="anim-header text-4xl font-bold tracking-tight text-center text-cozetik-white font-bricolage uppercase md:text-7xl">
-              Explorez des contenus inspirants{" "}
+              Explore des contenus inspirants{" "}
             </h1>
 
             {/* 2. Remplacement de l'Image par AnimatedLine */}
@@ -108,7 +108,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             {/* Description */}
             <p className="anim-header text-lg text-cozetik-white font-sans md:text-xl">
               Actualités, conseils et tendances du monde de la formation
-              professionnelle. Restez informé avec nos articles d&apos;experts.
+              professionnelle. Reste informé avec nos articles d&apos;experts.
             </p>
           </div>
         </div>
@@ -156,7 +156,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
               </h2>
               <p className="mt-3 max-w-md text-muted-foreground">
                 {activeThemeSlug
-                  ? "Il n'y a pas encore d'articles pour ce thème. Essayez d'en sélectionner un autre."
+                  ? "Il n'y a pas encore d'articles pour ce thème. Essaie d'en sélectionner un autre."
                   : "Nous préparons actuellement de nouveaux articles passionnants."}
               </p>
               {activeThemeSlug && (

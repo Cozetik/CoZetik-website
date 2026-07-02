@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cozetik - Formations professionnelles certifiantes",
     description:
-      "Formations de qualité pour booster votre carrière. Formez-vous avec les meilleurs experts du secteur. Parcours certifiants adaptés à vos ambitions.",
+      "Formations de qualité pour booster ta carrière. Forme-toi avec les meilleurs experts du secteur. Parcours certifiants adaptés à tes ambitions.",
     images: ["/og-image.jpg"],
     url: process.env.NEXT_PUBLIC_APP_URL || "https://cozetik.fr",
   },
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Cozetik - Formations professionnelles certifiantes",
     description:
-      "Formations de qualité pour booster votre carrière. Parcours certifiants avec experts reconnus.",
+      "Formations de qualité pour booster ta carrière. Parcours certifiants avec experts reconnus.",
     images: ["/og-image.jpg"],
   },
   alternates: {
@@ -106,7 +106,7 @@ export default async function Home() {
     url: baseUrl,
     logo: `${baseUrl}/logo-cozetik_Logo-transparent.png`,
     description:
-      "Cozetik - Formations professionnelles certifiantes. Développez vos compétences avec des formations de qualité adaptées aux besoins du marché.",
+      "Cozetik - Formations professionnelles certifiantes. Développe tes compétences avec des formations de qualité adaptées aux besoins du marché.",
     address: {
       "@type": "PostalAddress" as const,
       streetAddress: "41 rue Paul Berthelot",
@@ -173,7 +173,7 @@ export default async function Home() {
                 className="font-sans text-lg text-cozetik-black/80 md:text-xl"
                 style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
               >
-                {categories.length} parcours pour révéler votre potentiel
+                {categories.length} parcours pour révéler ton potentiel
               </p>
             </div>
             <CategoriesSection categories={categories} />
@@ -200,10 +200,10 @@ export default async function Home() {
                 Chez Cozetik, nous pensons que la réussite professionnelle
                 repose autant sur le savoir-faire que sur le savoir-être. Nos
                 formations associent compétences techniques, intelligence
-                émotionnelle et bien-être pour vous aider à avancer concrètement.
+                émotionnelle et bien-être pour t&apos;aider à avancer concrètement.
                 À Bordeaux comme à distance, nous accompagnons les TPE, les
                 indépendants et les personnes en reconversion. Notre métier&nbsp;:
-                vous aider à vous remettre en mouvement et à passer à
+                t&apos;aider à te remettre en mouvement et à passer à
                 l&apos;action.
               </p>
             </div>

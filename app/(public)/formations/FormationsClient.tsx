@@ -56,7 +56,7 @@ function Hero() {
               className="mt-4 font-sans text-lg text-white md:text-xl"
               style={{ fontFamily: "var(--font-bricolage), sans-serif" }}
             >
-              Des parcours post-bac adaptés à vos ambitions professionnelles
+              Des parcours post-bac adaptés à tes ambitions professionnelles
             </p>
           </div>
         </div>

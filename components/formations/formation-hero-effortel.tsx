@@ -213,7 +213,7 @@ export default function FormationHeroEffortel({
 
             {/* Scroll Hint */}
             <p className="text-white/40 text-sm mt-8 hidden font-sans lg:block">
-              ↓ Scrollez pour découvrir le parcours
+              ↓ Scrolle pour découvrir le parcours
             </p>
           </motion.div>
 

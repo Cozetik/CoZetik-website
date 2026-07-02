@@ -6,25 +6,25 @@ const features = [
     icon: Award,
     title: 'Formations certifiantes',
     description:
-      'Obtenez des certifications reconnues par les professionnels du secteur et valorisez votre parcours.',
+      'Obtiens des certifications reconnues par les professionnels du secteur et valorise ton parcours.',
   },
   {
     icon: Users,
     title: 'Formateurs experts',
     description:
-      'Apprenez auprès de professionnels expérimentés et passionnés par leur domaine d\'expertise.',
+      'Apprends auprès de professionnels expérimentés et passionnés par leur domaine d\'expertise.',
   },
   {
     icon: TrendingUp,
     title: 'Accompagnement personnalisé',
     description:
-      'Bénéficiez d\'un suivi individuel pour maximiser vos chances de réussite et atteindre vos objectifs.',
+      'Bénéficie d\'un suivi individuel pour maximiser tes chances de réussite et atteindre tes objectifs.',
   },
   {
     icon: HeadphonesIcon,
     title: 'Support réactif',
     description:
-      'Notre équipe est à votre écoute pour répondre à toutes vos questions tout au long de votre formation.',
+      'Notre équipe est à ton écoute pour répondre à toutes tes questions tout au long de ta formation.',
   },
 ]
 
@@ -38,7 +38,7 @@ export function WhyCozetikSection() {
             Pourquoi choisir Cozetik ?
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Nous nous engageons à vous offrir la meilleure expérience de formation possible
+            Nous nous engageons à t&apos;offrir la meilleure expérience de formation possible
           </p>
         </div>
 
@@ -114,7 +114,7 @@ export function WhyCozetikSection() {
                     <li className="flex items-start gap-3">
                       <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
                       <span className="text-muted-foreground">
-                        Sessions adaptées à votre emploi du temps
+                        Sessions adaptées à ton emploi du temps
                       </span>
                     </li>
                     <li className="flex items-start gap-3">

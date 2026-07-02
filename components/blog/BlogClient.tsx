@@ -42,7 +42,7 @@ export default function BlogClient({
             <div className="mx-auto max-w-5xl ">
               {/* Title */}
               <h1 className="anim-header text-4xl font-bold tracking-tight text-center text-cozetik-white font-bricolage uppercase md:text-7xl">
-                Explorez des contenus inspirants{" "}
+                Explore des contenus inspirants{" "}
               </h1>
 
               <div className="anim-header mb-4">
@@ -52,7 +52,7 @@ export default function BlogClient({
               {/* Description */}
               <p className="anim-header text-lg text-cozetik-white font-sans md:text-xl">
                 Actualités, conseils et tendances du monde de la formation
-                professionnelle. Restez informé avec nos articles
+                professionnelle. Reste informé(e) avec nos articles
                 d&apos;experts.
               </p>
             </div>
@@ -101,7 +101,7 @@ export default function BlogClient({
                 </h2>
                 <p className="mt-3 max-w-md text-muted-foreground">
                   {activeThemeSlug
-                    ? "Il n'y a pas encore d'articles pour ce thème. Essayez d'en sélectionner un autre."
+                    ? "Il n'y a pas encore d'articles pour ce thème. Essaie d'en sélectionner un autre."
                     : "Nous préparons actuellement de nouveaux articles passionnants."}
                 </p>
                 {activeThemeSlug && (
@@ -122,11 +122,11 @@ export default function BlogClient({
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl text-center">
               <h2 className="mb-4 text-2xl font-sans font-semibold sm:text-3xl">
-                Restez informé
+                Reste informé(e)
               </h2>
               <p className="mb-8 text-muted-foreground font-sans">
-                Ne manquez aucun de nos articles ! Suivez-nous sur les réseaux
-                sociaux ou contactez-nous pour en savoir plus sur nos
+                Ne manque aucun de nos articles ! Retrouve-nous sur les réseaux
+                sociaux ou contacte-nous pour en savoir plus sur nos
                 formations.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">

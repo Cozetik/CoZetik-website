@@ -68,7 +68,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
         result = text ? JSON.parse(text) : {};
       } catch (parseError) {
         console.error('Error parsing response:', parseError);
-        throw new Error('Une erreur est survenue lors de l\'envoi de votre demande');
+        throw new Error('Une erreur est survenue lors de l\'envoi de ta demande');
       }
 
       if (!response.ok) {
@@ -87,22 +87,22 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
       }
 
       setIsSuccess(true)
-      toast.success('Inscription envoyée ! Nous vous contacterons rapidement.')
+      toast.success('Inscription envoyée ! Nous te contacterons rapidement.')
       form.reset()
     } catch (error) {
       console.error('Error submitting inscription:', error)
       
       // Distinguer erreurs réseau des erreurs serveur
       if (error instanceof TypeError && error.message.includes('fetch')) {
-        toast.error('Erreur lors de l\'envoi. Réessayez.', {
-          description: 'Problème de connexion. Vérifiez votre connexion internet.',
+        toast.error('Erreur lors de l\'envoi. Réessaie.', {
+          description: 'Problème de connexion. Vérifie ta connexion internet.',
         })
       } else {
         const errorMessage = error instanceof Error 
           ? error.message 
-          : 'Une erreur est survenue lors de l\'envoi de votre demande';
-        
-        toast.error('Erreur lors de l\'envoi. Réessayez.', {
+          : 'Une erreur est survenue lors de l\'envoi de ta demande';
+
+        toast.error('Erreur lors de l\'envoi. Réessaie.', {
           description: errorMessage,
         })
       }
@@ -125,8 +125,8 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
           </div>
           <h3 className="mb-2 text-xl font-semibold">Demande envoyée !</h3>
           <p className="mb-6 text-sm text-muted-foreground">
-            Merci pour votre intérêt. Nous vous contacterons très prochainement pour
-            finaliser votre inscription.
+            Merci pour ton intérêt. Nous te contacterons très prochainement pour
+            finaliser ton inscription.
           </p>
           <Button onClick={() => setIsSuccess(false)} variant="outline">
             Envoyer une autre demande
@@ -140,7 +140,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
     <Card className="border-none shadow-lg">
       <CardHeader className="text-center">
         <CardDescription className="text-lg text-muted-foreground">
-          Remplissez ce formulaire et nous vous recontacterons rapidement
+          Remplis ce formulaire et nous te recontacterons rapidement
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -204,7 +204,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
                   <FormLabel>Message / Motivation *</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Parlez-nous de votre projet et de vos motivations pour cette formation..."
+                      placeholder="Parle-nous de ton projet et de tes motivations pour cette formation..."
                       className="min-h-[120px] resize-none"
                       {...field}
                     />
@@ -243,7 +243,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
               </Button>
 
               <p className="text-center text-sm text-muted-foreground">
-                En soumettant ce formulaire, vous acceptez d&apos;être contacté par notre
+                En soumettant ce formulaire, tu acceptes d&apos;être contacté(e) par notre
                 équipe.
               </p>
             </div>

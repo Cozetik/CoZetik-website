@@ -6,18 +6,18 @@ import { ArrowUpRight } from 'lucide-react'
 const steps = [
   {
     number: '01',
-    title: 'VOUS POSTULEZ',
-    description: 'Remplissez le formulaire en ligne avec vos informations exactes',
+    title: 'TU POSTULES',
+    description: 'Remplis le formulaire en ligne avec tes informations exactes',
   },
   {
     number: '02',
-    title: 'ON VOUS CONTACTE',
-    description: 'Votre référent pédagogique vous contacte',
+    title: 'ON TE CONTACTE',
+    description: 'Ton référent pédagogique te contacte',
   },
   {
     number: '03',
-    title: 'PRÉPAREZ-VOUS',
-    description: 'Commencez votre formation enthousiasmé(e)',
+    title: 'PRÉPARE-TOI',
+    description: 'Commence ta formation enthousiasmé(e)',
   },
 ]
 

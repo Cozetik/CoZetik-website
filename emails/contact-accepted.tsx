@@ -9,7 +9,7 @@ interface ContactAcceptedProps {
 
 export const ContactAccepted = ({ name = 'Utilisateur' }: ContactAcceptedProps) => {
   return (
-    <CozetikLayout previewText={`Bonjour ${name}, votre demande a été acceptée`}>
+    <CozetikLayout previewText={`Bonjour ${name}, ta demande a été acceptée`}>
       {/* Badge Success */}
       <Section style={badgeSectionStyle}>
         <div style={badgeStyle}>
@@ -33,7 +33,7 @@ export const ContactAccepted = ({ name = 'Utilisateur' }: ContactAcceptedProps) 
 
       {/* Message principal */}
       <Text style={paragraphStyle} className="text">
-        Nous sommes ravis de vous informer que votre demande de contact a été <strong>acceptée avec succès</strong> par notre équipe.
+        Nous sommes ravis de t'informer que ta demande de contact a été <strong>acceptée avec succès</strong> par notre équipe.
       </Text>
 
       {/* Card Prochaines étapes */}
@@ -43,13 +43,13 @@ export const ContactAccepted = ({ name = 'Utilisateur' }: ContactAcceptedProps) 
         </Text>
         <div style={listStyle}>
           <Text style={listItemStyle} className="text">
-            <span style={bulletStyle}>•</span> Nous vous recontacterons sous 48 heures
+            <span style={bulletStyle}>•</span> Nous te recontacterons sous 48 heures
           </Text>
           <Text style={listItemStyle} className="text">
-            <span style={bulletStyle}>•</span> Un conseiller dédié vous sera assigné
+            <span style={bulletStyle}>•</span> Un conseiller dédié te sera assigné
           </Text>
           <Text style={listItemStyle} className="text">
-            <span style={bulletStyle}>•</span> Préparez vos questions pour notre échange
+            <span style={bulletStyle}>•</span> Prépare tes questions pour notre échange
           </Text>
         </div>
       </Section>

@@ -88,10 +88,10 @@ export default function FormationCarousel({ steps, darkMode = false }: Formation
         /* Header - Uniquement si pas en darkMode (car déjà dans le Hero) */
         <div className="text-center mb-12 md:mb-16">
           <h2 className="font-display font-bold text-4xl md:text-5xl text-cozetik-black mb-4">
-            VOTRE PARCOURS D&apos;APPRENTISSAGE
+            TON PARCOURS D&apos;APPRENTISSAGE
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Suivez les étapes progressivement pour maîtriser tous les concepts
+            Suis les étapes progressivement pour maîtriser tous les concepts
           </p>
         </div>
       )}
