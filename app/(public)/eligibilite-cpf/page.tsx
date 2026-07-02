@@ -48,7 +48,7 @@ export default function EligibiliteCpfPage() {
             <BadgeCheck className="h-4 w-4 text-cozetik-green" aria-hidden="true" />
             Diagnostic gratuit · 2 minutes
           </span>
-          <h1 className="mt-6 font-display text-4xl font-bold text-white md:text-6xl">
+          <h1 className="mt-6 font-display text-[clamp(2.25rem,3.5vw+1.1rem,3.75rem)] font-bold leading-tight text-white">
             Votre CPF peut-il financer votre formation&nbsp;?
           </h1>
           <p className="mx-auto mt-6 max-w-2xl font-sans text-base text-white/80 md:text-lg">

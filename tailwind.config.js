@@ -19,14 +19,17 @@ module.exports = {
         none: "0",
       },
       colors: {
+        // Palette en OKLCH (conversions exactes des hex historiques —
+        // #FDFDFD / #262626 / #F2E7D8 / #C792DF / #ADA6DB / #5E985E / #4A7A4A).
+        // <alpha-value> permet les modificateurs d'opacité Tailwind (ex. /10).
         cozetik: {
-          white: "#FDFDFD",
-          black: "#262626",
-          beige: "#F2E7D8",
-          violet: "#C792DF",
-          "violet-signature": "#ADA6DB",
-          green: "#5E985E",
-          "green-dark": "#4A7A4A",
+          white: "oklch(99.40% 0 0 / <alpha-value>)",
+          black: "oklch(26.86% 0 0 / <alpha-value>)",
+          beige: "oklch(93.26% 0.0233 75.85 / <alpha-value>)",
+          violet: "oklch(73.79% 0.1219 314.91 / <alpha-value>)",
+          "violet-signature": "oklch(74.96% 0.0758 290.5 / <alpha-value>)",
+          green: "oklch(62.45% 0.105 144.19 / <alpha-value>)",
+          "green-dark": "oklch(53.2% 0.0904 144.18 / <alpha-value>)",
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

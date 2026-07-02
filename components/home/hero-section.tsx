@@ -105,7 +105,7 @@ export function HeroSection() {
             as={"div"}
             text="COZÉTIK"
             delay={0.2}
-            className="font-display text-[80px] sm:text-[125px] md:text-[150px] lg:text-[180px] xl:text-[200px] 2xl:text-[230px] font-normal leading-[100%] tracking-[0] text-cozetik-white mx-auto w-auto max-w-full px-4 break-words"
+            className="font-display text-[clamp(80px,13.5vw+22px,230px)] font-normal leading-[100%] tracking-[0] text-cozetik-white mx-auto w-auto max-w-full px-4 break-words"
           />
           {/* Titre principal (H1) — promesse + mots-clés CPF/Bordeaux */}
           <h1 className="mt-4 px-4 font-sans text-lg font-medium text-cozetik-white md:text-xl lg:text-2xl">

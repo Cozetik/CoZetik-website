@@ -66,6 +66,11 @@
     scroll-behavior: smooth;
     overflow-x: hidden;
   }
+  /* Consolidation typo : l'ex-variable League Spartan pointe sur Inter.
+     Les styles inline `var(--font-bricolage)` existants restent valides. */
+  body {
+    --font-bricolage: var(--font-sans);
+  }
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
@@ -80,7 +85,7 @@
     text-wrap: pretty;
   }
   :focus-visible {
-    outline: 2px solid #5E985E;
+    outline: 2px solid oklch(62.45% 0.105 144.19); /* vert Cozetik */
     outline-offset: 2px;
   }
 }

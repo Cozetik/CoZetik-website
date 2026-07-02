@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton, League_Spartan, Inter } from "next/font/google";
+import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/smooth-scroll";
 
@@ -10,15 +10,12 @@ const anton = Anton({
   display: "swap",
 });
 
-const leagueSpartan = League_Spartan({
-  weight: ["400", "500", "600", "700", "800"],
-  subsets: ["latin"],
-  variable: "--font-bricolage",
-  display: "swap",
-});
-
+// Consolidation typographique (07/2026) : 2 familles seulement —
+// Anton = display/brand, Inter = tout le reste. L'ancienne variable
+// --font-bricolage (League Spartan) est mappée sur Inter dans globals.css
+// pour ne pas toucher les ~74 fichiers qui la référencent.
 const inter = Inter({
-  weight: ["400", "600", "800"],
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -95,7 +92,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${anton.variable} ${leagueSpartan.variable}`}
+        className={`${inter.variable} ${anton.variable}`}
       >
         <SmoothScroll>{children}</SmoothScroll>
       </body>
