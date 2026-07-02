@@ -226,7 +226,7 @@ export function InscriptionForm({ formationId, formationTitle }: InscriptionForm
               <Button
                 type="submit"
                 size="lg"
-                className="w-full gap-2 bg-cozetik-green hover:bg-[#4A7A4A] text-white rounded-none py-6"
+                className="w-full gap-2 bg-cozetik-green hover:bg-cozetik-green-dark text-white rounded-none py-6"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (

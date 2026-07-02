@@ -76,7 +76,7 @@ export default function FormationHero({ formation }: FormationHeroProps) {
             <Button
               size="lg"
               onClick={scrollToForm}
-              className="bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg px-10 py-6 rounded-none transition-all duration-300 hover:scale-105 w-full md:w-auto"
+              className="bg-cozetik-green hover:bg-cozetik-green-dark text-white font-semibold text-lg px-10 py-6 rounded-none transition-all duration-300 hover:scale-105 w-full md:w-auto"
             >
               Commencer maintenant
               <ArrowRight className="ml-2 w-5 h-5" />

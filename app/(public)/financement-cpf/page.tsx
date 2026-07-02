@@ -80,7 +80,7 @@ export default function FinancementCpfPage() {
           </p>
           <Link
             href="/eligibilite-cpf"
-            className="inline-flex shrink-0 items-center justify-center gap-2 bg-cozetik-green px-6 py-3 font-sans text-base font-semibold text-white transition-colors hover:bg-[#4A7A4A]"
+            className="inline-flex shrink-0 items-center justify-center gap-2 bg-cozetik-green px-6 py-3 font-sans text-base font-semibold text-white transition-colors hover:bg-cozetik-green-dark"
           >
             Tester mon éligibilité en 2 min
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -182,7 +182,7 @@ export default function FinancementCpfPage() {
           </p>
           <Link
             href="/candidater"
-            className="inline-flex items-center justify-center gap-2 bg-cozetik-green px-8 py-4 font-sans text-lg font-semibold text-white transition-all hover:bg-[#4A7A4A]"
+            className="inline-flex items-center justify-center gap-2 bg-cozetik-green px-8 py-4 font-sans text-lg font-semibold text-white transition-all hover:bg-cozetik-green-dark"
           >
             Être accompagné dans ma démarche
             <ArrowRight className="h-5 w-5" aria-hidden="true" />

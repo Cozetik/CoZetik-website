@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -23,6 +26,7 @@ module.exports = {
           violet: "#C792DF",
           "violet-signature": "#ADA6DB",
           green: "#5E985E",
+          "green-dark": "#4A7A4A",
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

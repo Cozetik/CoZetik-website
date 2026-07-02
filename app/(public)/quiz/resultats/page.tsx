@@ -105,7 +105,7 @@ export default function QuizResultatsPage() {
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Button
               asChild
-              className="bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg px-10 py-6 rounded-none"
+              className="bg-cozetik-green hover:bg-cozetik-green-dark text-white font-semibold text-lg px-10 py-6 rounded-none"
               style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
             >
               <Link href="/eligibilite-cpf">
@@ -185,7 +185,7 @@ export default function QuizResultatsPage() {
           <div className="flex justify-center">
             <Button
               asChild
-              className="bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg px-12 py-7 rounded-none transition-all duration-300 hover:scale-105"
+              className="bg-cozetik-green hover:bg-cozetik-green-dark text-white font-semibold text-lg px-12 py-7 rounded-none transition-all duration-300 hover:scale-105"
               style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
             >
               <Link href="/candidater">
@@ -249,7 +249,7 @@ export default function QuizResultatsPage() {
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
             <Button
               asChild
-              className="bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg px-12 py-7 rounded-none transition-all duration-300 hover:scale-105 w-full md:w-auto"
+              className="bg-cozetik-green hover:bg-cozetik-green-dark text-white font-semibold text-lg px-12 py-7 rounded-none transition-all duration-300 hover:scale-105 w-full md:w-auto"
               style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
             >
               <Link href="/candidater">

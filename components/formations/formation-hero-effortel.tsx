@@ -163,7 +163,7 @@ export default function FormationHeroEffortel({
             <Button
               asChild
               size="lg"
-              className="w-full md:w-auto bg-cozetik-green hover:bg-[#4A7A4A] text-white font-semibold text-lg font-sans px-10 py-6 rounded-none transition-all duration-300 hover:scale-105 mb-12"
+              className="w-full md:w-auto bg-cozetik-green hover:bg-cozetik-green-dark text-white font-semibold text-lg font-sans px-10 py-6 rounded-none transition-all duration-300 hover:scale-105 mb-12"
             >
               <Link
                 className="flex items-center justify-center"

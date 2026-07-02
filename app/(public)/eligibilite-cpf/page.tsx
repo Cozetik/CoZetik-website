@@ -84,7 +84,7 @@ export default function EligibiliteCpfPage() {
                 />
               </div>
             </div>
-            <p className="font-sans text-xs leading-relaxed text-cozetik-black/60">
+            <p className="font-sans text-sm leading-relaxed text-cozetik-black/75">
               Le CPF finance votre formation dans la limite de vos droits
               disponibles. Une participation forfaitaire légale de{" "}
               {PARTICIPATION_FORFAITAIRE} par dossier s&apos;applique depuis le{" "}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, BadgeCheck, CheckCircle, Loader2, PhoneCall } from "lucide-react";
 import { VALIDATED_BY_SLUG } from "@/lib/certifications";
@@ -30,17 +30,20 @@ function OptionButton({
   selected,
   label,
   onClick,
+  delayMs = 0,
 }: {
   selected: boolean;
   label: string;
   onClick: () => void;
+  delayMs?: number;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`w-full border-2 px-5 py-4 text-left font-sans text-base font-medium transition-colors duration-200 md:text-lg ${
+      style={{ animationDelay: `${delayMs}ms` }}
+      className={`step-enter w-full border-2 px-5 py-4 text-left font-sans text-base font-medium transition-colors duration-200 active:translate-y-px md:text-lg ${
         selected
           ? "border-cozetik-green bg-cozetik-green/10 text-cozetik-black"
           : "border-cozetik-black/15 bg-white text-cozetik-black hover:border-cozetik-green"
@@ -64,6 +67,12 @@ export function EligibiliteForm() {
   const [formError, setFormError] = useState<string | null>(null);
   const [captureFailed, setCaptureFailed] = useState(false);
   const [result, setResult] = useState<DiagnosticResult | null>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus direct du premier champ à l'arrivée sur l'étape coordonnées.
+  useEffect(() => {
+    if (step === 3) nameInputRef.current?.focus();
+  }, [step]);
 
   const goTo = (s: Step) => {
     setFormError(null);
@@ -119,7 +128,7 @@ export function EligibiliteForm() {
       : null;
 
     return (
-      <div className="flex flex-col gap-8">
+      <div className="step-enter flex flex-col gap-8" aria-live="polite">
         <div className="flex flex-col gap-4 border-2 border-cozetik-green bg-white p-6 md:p-10">
           <span className="inline-flex w-fit items-center gap-2 bg-cozetik-green px-4 py-1.5 font-sans text-xs font-semibold uppercase tracking-wide text-white">
             <CheckCircle className="h-4 w-4" aria-hidden="true" />
@@ -130,10 +139,6 @@ export function EligibiliteForm() {
           </h2>
           <p className="font-sans text-base text-cozetik-black/80 md:text-lg">
             {result.financement}
-          </p>
-          <p className="font-sans text-sm text-cozetik-black/60">
-            Le financement mobilise vos droits disponibles, dans la limite de
-            votre solde visible sur moncompteformation.gouv.fr.
           </p>
         </div>
 
@@ -208,16 +213,23 @@ export function EligibiliteForm() {
       {/* Progression */}
       <div>
         <div className="flex items-baseline justify-between">
-          <p className="font-sans text-sm font-semibold uppercase tracking-wide text-cozetik-black/60">
+          <p className="font-sans text-sm font-semibold uppercase tracking-wide text-cozetik-black/70 tabular-nums">
             Étape {step + 1} sur 4
           </p>
           <p className="font-display text-lg font-bold text-cozetik-black md:text-xl">
             {STEP_TITLES[step]}
           </p>
         </div>
-        <div className="mt-3 h-1.5 w-full bg-cozetik-black/10" role="presentation">
+        <div
+          className="mt-3 h-1.5 w-full bg-cozetik-black/10"
+          role="progressbar"
+          aria-valuenow={step + 1}
+          aria-valuemin={1}
+          aria-valuemax={4}
+          aria-label={`Étape ${step + 1} sur 4 — ${STEP_TITLES[step]}`}
+        >
           <div
-            className="h-full bg-cozetik-green transition-all duration-300"
+            className="h-full bg-cozetik-green transition-[width] duration-300"
             style={{ width: `${((step + 1) / 4) * 100}%` }}
           />
         </div>
@@ -225,14 +237,15 @@ export function EligibiliteForm() {
 
       {step === 0 && (
         <fieldset className="flex flex-col gap-3">
-          <legend className="mb-4 font-sans text-lg text-cozetik-black md:text-xl">
+          <legend className="step-enter mb-4 font-sans text-lg text-cozetik-black md:text-xl">
             Quel est votre projet aujourd&apos;hui&nbsp;?
           </legend>
-          {PROJET_OPTIONS.map((o) => (
+          {PROJET_OPTIONS.map((o, i) => (
             <OptionButton
               key={o.value}
               label={o.label}
               selected={projet === o.value}
+              delayMs={i * 50}
               onClick={() => {
                 setProjet(o.value);
                 goTo(1);
@@ -244,14 +257,15 @@ export function EligibiliteForm() {
 
       {step === 1 && (
         <fieldset className="flex flex-col gap-3">
-          <legend className="mb-4 font-sans text-lg text-cozetik-black md:text-xl">
+          <legend className="step-enter mb-4 font-sans text-lg text-cozetik-black md:text-xl">
             Quelle est votre situation professionnelle&nbsp;?
           </legend>
-          {STATUT_OPTIONS.map((o) => (
+          {STATUT_OPTIONS.map((o, i) => (
             <OptionButton
               key={o.value}
               label={o.label}
               selected={statut === o.value}
+              delayMs={i * 50}
               onClick={() => {
                 setStatut(o.value);
                 goTo(2);
@@ -263,14 +277,15 @@ export function EligibiliteForm() {
 
       {step === 2 && (
         <fieldset className="flex flex-col gap-3">
-          <legend className="mb-4 font-sans text-lg text-cozetik-black md:text-xl">
+          <legend className="step-enter mb-4 font-sans text-lg text-cozetik-black md:text-xl">
             Quand souhaitez-vous démarrer&nbsp;?
           </legend>
-          {ECHEANCE_OPTIONS.map((o) => (
+          {ECHEANCE_OPTIONS.map((o, i) => (
             <OptionButton
               key={o.value}
               label={o.label}
               selected={echeance === o.value}
+              delayMs={i * 50}
               onClick={() => {
                 setEcheance(o.value);
                 goTo(3);
@@ -281,7 +296,7 @@ export function EligibiliteForm() {
       )}
 
       {step === 3 && (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
+        <form onSubmit={handleSubmit} className="step-enter flex flex-col gap-5" noValidate>
           <p className="font-sans text-lg text-cozetik-black md:text-xl">
             Où vous envoyons-nous votre diagnostic personnalisé&nbsp;?
           </p>
@@ -289,13 +304,14 @@ export function EligibiliteForm() {
             <label className="flex flex-1 flex-col gap-1.5 font-sans text-sm font-semibold text-cozetik-black">
               Votre nom *
               <input
+                ref={nameInputRef}
                 type="text"
                 name="name"
                 autoComplete="name"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="border-2 border-cozetik-black/20 bg-white px-4 py-3 font-normal outline-none transition-colors focus:border-cozetik-green"
+                className="border-2 border-cozetik-black/20 bg-white px-4 py-3 font-normal outline-none transition-[border-color,box-shadow] duration-150 focus:border-cozetik-green focus:ring-4 focus:ring-cozetik-green/15"
                 placeholder="Prénom Nom"
               />
             </label>
@@ -308,7 +324,7 @@ export function EligibiliteForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-2 border-cozetik-black/20 bg-white px-4 py-3 font-normal outline-none transition-colors focus:border-cozetik-green"
+                className="border-2 border-cozetik-black/20 bg-white px-4 py-3 font-normal outline-none transition-[border-color,box-shadow] duration-150 focus:border-cozetik-green focus:ring-4 focus:ring-cozetik-green/15"
                 placeholder="vous@exemple.fr"
               />
             </label>
@@ -363,7 +379,7 @@ export function EligibiliteForm() {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex flex-1 items-center justify-center gap-2 bg-cozetik-green px-8 py-4 font-sans text-lg font-semibold text-white transition-colors hover:bg-[#4A7A4A] disabled:opacity-60"
+              className="inline-flex flex-1 items-center justify-center gap-2 bg-cozetik-green px-8 py-4 font-sans text-lg font-semibold text-white transition-colors hover:bg-cozetik-green-dark active:translate-y-px disabled:cursor-wait disabled:bg-cozetik-green/70"
             >
               {submitting ? (
                 <>
@@ -378,7 +394,7 @@ export function EligibiliteForm() {
               )}
             </button>
           </div>
-          <p className="font-sans text-xs text-cozetik-black/50">
+          <p className="font-sans text-xs text-cozetik-black/70">
             Diagnostic gratuit et sans engagement · Réponse d&apos;un conseiller
             sous 48&nbsp;h ouvrées.
           </p>
@@ -389,7 +405,7 @@ export function EligibiliteForm() {
         <button
           type="button"
           onClick={() => goTo((step - 1) as Step)}
-          className="inline-flex w-fit items-center gap-2 font-sans text-sm font-semibold text-cozetik-black/60 transition-colors hover:text-cozetik-black"
+          className="inline-flex w-fit items-center gap-2 font-sans text-sm font-semibold text-cozetik-black/70 transition-colors hover:text-cozetik-black"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Question précédente
