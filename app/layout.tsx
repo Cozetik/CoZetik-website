@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { AnalyticsConsent } from "@/components/analytics/analytics-consent";
 
 const anton = Anton({
   weight: "400",
@@ -95,6 +96,7 @@ export default function RootLayout({
         className={`${inter.variable} ${anton.variable}`}
       >
         <SmoothScroll>{children}</SmoothScroll>
+        <AnalyticsConsent />
       </body>
     </html>
   );
